@@ -1,0 +1,779 @@
+<!-- ATI · Module II · Heating — full interactive section -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#cbc6b8;--surf:#edebe2;--surf-2:#e3e0d6;--surf-3:#d7d3c7;
+    --line:#b8b2a2;--line-2:#cbc6b8;--line-brass:rgba(168,109,16,.3);
+    --ink:#29271f;--ink-2:#6a6557;--ink-3:#918c7d;
+    --brass:#a86d10;--brass-2:#c2841c;--brass-deep:#7f520a;--brass-soft:#e7ddc8;
+    --slate:#3c5870;--slate-2:#4d6982;--slate-soft:#d3dadf;--slate-deep:#2c4153;
+    --pass:#3d7d50;--pass-soft:#d9e6dc;--fail:#b85436;--fail-soft:#edddd4;
+    --r:16px;--display:'Bricolage Grotesque',sans-serif;--body:'Hanken Grotesk',sans-serif;--mono:'JetBrains Mono',monospace;
+    --sh-1:0 1px 2px rgba(41,39,31,.06),0 2px 5px rgba(41,39,31,.05);--sh-2:0 2px 8px rgba(41,39,31,.07),0 16px 44px rgba(41,39,31,.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.55;background-image:radial-gradient(120% 80% at 88% -8%,rgba(168,109,16,.05),transparent 52%),radial-gradient(90% 60% at -8% 108%,rgba(60,88,112,.06),transparent 52%)}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  .mono{font-family:var(--mono)}
+  ::selection{background:var(--brass);color:#fff}
+  ::-webkit-scrollbar{width:11px;height:11px}::-webkit-scrollbar-thumb{background:#b3ad9d;border-radius:11px;border:3px solid var(--bg)}
+
+  .top{position:sticky;top:0;z-index:30;background:rgba(203,198,184,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  .top .row{max-width:1150px;margin:0 auto;padding:13px 24px;display:flex;align-items:center;gap:14px}
+  .mark{width:36px;height:36px;border-radius:10px;flex:none;display:grid;place-items:center;background:linear-gradient(150deg,var(--brass-2),var(--brass-deep));box-shadow:0 3px 12px rgba(168,109,16,.3),inset 0 1px 0 rgba(255,255,255,.35)}
+  .mark svg{width:20px;height:20px;color:#fff}
+  .top .tt{font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:-.01em;line-height:1.1}.top .tt b{color:var(--brass-deep)}
+  .top .sub{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);display:block;margin-top:2px}
+  .top .prog{margin-left:auto;display:flex;align-items:center;gap:12px}
+  .top .prog .bar{width:150px;height:7px;background:var(--surf-3);border-radius:7px;overflow:hidden;border:1px solid var(--line)}
+  .top .prog .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--brass-deep),var(--brass));border-radius:7px;transition:width .5s cubic-bezier(.2,.7,.2,1)}
+  .top .prog .pc{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--brass-deep);min-width:34px;text-align:right}
+
+  .wrap{max-width:1150px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:250px 1fr;gap:32px;align-items:start}
+  .rail{position:sticky;top:88px;margin-top:28px;max-height:calc(100vh - 110px);overflow-y:auto;padding-right:4px}
+  .rail .h{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);padding:0 8px 10px}
+  .step{display:flex;align-items:center;gap:11px;padding:9px 10px;border-radius:10px;width:100%;text-align:left;transition:.13s;color:var(--ink-2);font-size:12.5px;font-weight:500;position:relative}
+  .step:hover{background:var(--surf-2)}
+  .step.active{background:var(--surf);box-shadow:var(--sh-1);color:var(--ink)}
+  .step.active::before{content:"";position:absolute;left:-8px;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--brass)}
+  .step .dot{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);flex:none;display:grid;place-items:center;font-family:var(--mono);font-size:10px;color:var(--ink-3);background:var(--bg);transition:.2s}
+  .step.done .dot{background:var(--brass);border-color:var(--brass);color:#fff}.step.done .dot svg{width:11px;height:11px}
+  .step .lbl{flex:1;line-height:1.2}
+  .step .kind{font-family:var(--mono);font-size:8.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);display:block;margin-top:1px}
+  .step.locked{opacity:.42;pointer-events:none}
+
+  .view{min-width:0;margin-top:28px;animation:rise .38s cubic-bezier(.2,.7,.2,1);padding-bottom:40px}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--brass-deep);font-weight:600}
+  h1{font-family:var(--display);font-weight:800;font-size:31px;letter-spacing:-.02em;line-height:1.08;margin:8px 0 0}
+  h2{font-family:var(--display);font-weight:700;font-size:21px;letter-spacing:-.01em;margin:32px 0 10px}
+  h3{font-family:var(--display);font-weight:700;font-size:16px;margin:24px 0 8px}
+  p{font-size:15.5px;color:#33312a;margin-bottom:14px;line-height:1.74}
+  p b,li b{color:var(--ink);font-weight:700}
+  .lead{font-size:16.5px;color:var(--ink-2);margin-top:12px;max-width:64ch}
+  ul.clean{list-style:none;margin:2px 0 16px}
+  ul.clean li{font-size:14.5px;color:#33312a;padding-left:22px;position:relative;margin-bottom:9px;line-height:1.6}
+  ul.clean li::before{content:"";position:absolute;left:2px;top:8px;width:7px;height:7px;border-radius:2px;background:var(--brass);transform:rotate(45deg)}
+  ul.num{margin:0 0 16px 20px}ul.num li{font-size:14.5px;color:#33312a;margin-bottom:7px;line-height:1.6}
+
+  .field{background:var(--slate-deep);color:#e9edf0;border-radius:13px;padding:18px 20px;margin:22px 0;display:flex;gap:14px}
+  .field.brass{background:linear-gradient(135deg,#3a3526,#2c2818)}
+  .field .ic{flex:none;color:var(--brass-2)}.field .ic svg{width:20px;height:20px}
+  .field .t{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-2);margin-bottom:5px}
+  .field p{color:#c4cdd4;font-size:14px;margin:0 0 8px;line-height:1.65}.field p:last-child{margin-bottom:0}.field p b{color:#fff}
+
+  .story{background:var(--surf);border:1px solid var(--line);border-left:4px solid var(--brass);border-radius:0 13px 13px 0;padding:16px 19px;margin:22px 0;box-shadow:var(--sh-1)}
+  .story .st{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-deep);display:flex;align-items:center;gap:8px;margin-bottom:7px}
+  .story .st svg{width:14px;height:14px}
+  .story p{font-size:14.5px;color:#403d33;font-style:italic;margin:0;line-height:1.7}
+  .story p b{font-style:normal}
+
+  .loop{display:flex;align-items:stretch;background:var(--surf);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin:18px 0 8px;box-shadow:var(--sh-1)}
+  .loop .seg{flex:1;padding:13px 10px;text-align:center;border-right:1px solid var(--line-2)}.loop .seg:last-child{border-right:none}
+  .loop .seg .n{font-family:var(--mono);font-size:9px;color:var(--ink-3);letter-spacing:.1em}
+  .loop .seg .w{font-family:var(--display);font-weight:700;font-size:12.5px;margin-top:3px}
+  .loop .seg.on{background:var(--brass-soft)}.loop .seg.on .w{color:var(--brass-deep)}
+
+  .dgm{background:#bdb8a8;border:1px solid var(--line);border-radius:var(--r);padding:8px;margin:20px 0;box-shadow:var(--sh-1);position:relative;overflow:hidden}
+  .dgm::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(44,65,83,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(44,65,83,.1) 1px,transparent 1px);background-size:26px 26px;pointer-events:none}
+  .dgm svg{display:block;width:100%;height:auto;position:relative}
+  .dgm .cap{position:relative;text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:.04em;color:var(--slate-deep);padding:4px 6px 8px}
+
+  .defect{background:var(--surf);border:1px solid var(--line);border-radius:13px;padding:16px 18px;box-shadow:var(--sh-1);margin:12px 0}
+  .defect .dh{display:flex;align-items:center;gap:11px;margin-bottom:8px}
+  .defect .dh .n{width:26px;height:26px;border-radius:8px;background:var(--fail-soft);color:var(--fail);display:grid;place-items:center;flex:none;font-family:var(--mono);font-weight:600;font-size:12px}
+  .defect .dh .nm{font-family:var(--display);font-weight:700;font-size:15px}
+  .defect p{font-size:14px;margin-bottom:9px}
+  .defect .meta{display:grid;grid-template-columns:auto 1fr;gap:5px 12px;font-size:13px;align-items:start}
+  .defect .meta .lab{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);padding-top:3px;white-space:nowrap}
+  .defect .meta .val{color:#33312a;line-height:1.5}
+  .defect .rep{font-family:var(--mono);font-size:11px;background:var(--slate-soft);border-radius:8px;padding:8px 11px;color:var(--slate-deep);line-height:1.5;margin-top:8px}.defect .rep b{color:var(--slate-deep)}
+
+  .pills{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 6px}
+  .pill{font-family:var(--mono);font-size:11.5px;background:var(--surf);border:1px solid var(--line);color:var(--ink-2);padding:6px 12px;border-radius:20px}.pill b{color:var(--brass-deep)}
+  .tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px;background:var(--surf);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .tbl th{background:var(--slate-deep);color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;text-align:left;padding:9px 12px;font-weight:600}
+  .tbl td{padding:9px 12px;border-top:1px solid var(--line-2);color:#33312a}
+  .tbl td:first-child{font-family:var(--mono);font-weight:600;color:var(--brass-deep);white-space:nowrap}
+
+  /* ---- quiz (multi-question) ---- */
+  .quiz{background:var(--surf);border:1.5px solid var(--line-brass);border-radius:var(--r);padding:24px;margin:30px 0 0;box-shadow:var(--sh-1)}
+  .quiz .qh{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-deep);display:flex;align-items:center;gap:8px;margin-bottom:4px}.quiz .qh svg{width:15px;height:15px}
+  .quiz .qt{font-family:var(--display);font-weight:700;font-size:18px}.quiz .qsub{font-size:13.5px;color:var(--ink-2);margin:4px 0 4px}
+  .qblock{border-top:1px solid var(--line-2);padding-top:18px;margin-top:18px}.qblock:first-of-type{border-top:none;padding-top:14px}
+  .qnum{font-family:var(--mono);font-size:11px;color:var(--brass-deep);font-weight:600;margin-bottom:6px}
+  .q{font-family:var(--display);font-weight:600;font-size:15.5px;margin-bottom:13px;line-height:1.4}
+  .opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:11px 14px;border:1.5px solid var(--line);border-radius:10px;margin-bottom:8px;transition:.13s;font-size:14px;font-weight:500;background:var(--surf-2)}
+  .opt:hover:not(.lk){border-color:var(--brass);background:var(--surf)}
+  .opt .k{font-family:var(--mono);font-weight:600;width:23px;height:23px;border-radius:6px;background:var(--surf-3);display:grid;place-items:center;font-size:11px;flex:none;color:var(--ink-2)}
+  .opt.correct{border-color:var(--pass);background:var(--pass-soft)}.opt.correct .k{background:var(--pass);color:#fff}
+  .opt.wrong{border-color:var(--fail);background:var(--fail-soft)}.opt.wrong .k{background:var(--fail);color:#fff}
+  .opt .mk{margin-left:auto}.opt .mk svg{width:16px;height:16px}.opt.lk{cursor:default}
+  .exp{font-size:13px;color:var(--ink-2);line-height:1.62;padding:11px 13px;background:var(--surf-2);border-left:3px solid var(--brass);border-radius:0 9px 9px 0;margin-top:4px}.exp b{color:var(--ink)}
+  .qscore{margin-top:20px;padding-top:18px;border-top:1px solid var(--line-2);font-family:var(--mono);font-size:13px;color:var(--ink-2);display:flex;align-items:center;gap:10px}.qscore svg{width:18px;height:18px;flex:none}.qscore b{font-size:15px}
+
+  .foot{display:flex;align-items:center;gap:12px;margin:30px 0 10px;padding-top:22px;border-top:1px solid var(--line)}.foot .sp{flex:1}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:14px;padding:12px 18px;border-radius:11px;transition:.15s;font-family:var(--body)}.btn svg{width:16px;height:16px}
+  .btn.brass{background:linear-gradient(150deg,var(--brass-2),var(--brass));color:#fff;box-shadow:0 5px 14px rgba(168,109,16,.28)}.btn.brass:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(168,109,16,.36)}
+  .btn.brass:disabled{opacity:.5;filter:grayscale(.3);cursor:not-allowed;transform:none;box-shadow:none}
+  .btn.ghost{background:var(--surf);border:1px solid var(--line);color:var(--ink-2)}.btn.ghost:hover{color:var(--ink);border-color:var(--ink-3)}
+  .btn.slate{background:var(--slate);color:#fff}.btn.slate:hover{background:var(--slate-deep)}
+
+  /* ---- WIDGETS ---- */
+  .wlabel{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:var(--brass);padding:4px 9px;border-radius:20px;display:inline-block;margin-bottom:6px}
+  .wtitle{font-family:var(--display);font-weight:700;font-size:16px;margin-bottom:3px}
+  .wsub{font-size:13.5px;color:var(--ink-2);margin-bottom:14px}
+  .widget{background:var(--surf-2);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;margin:24px 0;box-shadow:var(--sh-1)}
+
+  .sd-wrap{display:grid;grid-template-columns:1fr 260px;gap:16px}@media(max-width:760px){.sd-wrap{grid-template-columns:1fr}}
+  .sd-stage{background:#bdb8a8;border:1px solid var(--line);border-radius:13px;padding:8px;position:relative;overflow:hidden}
+  .sd-stage::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(44,65,83,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(44,65,83,.09) 1px,transparent 1px);background-size:24px 24px;pointer-events:none}
+  .sd-stage svg{display:block;width:100%;height:auto;position:relative}
+  .hot{cursor:pointer}.hot circle.zone{fill:transparent;stroke:transparent}
+  .hot.found circle.zone{fill:rgba(61,125,80,.16);stroke:var(--pass);stroke-width:2.5;stroke-dasharray:4 3}
+  .sd-side{display:flex;flex-direction:column;gap:11px}
+  .sd-count{background:var(--slate-deep);color:#fff;border-radius:12px;padding:13px 15px;text-align:center}
+  .sd-count .big{font-family:var(--mono);font-weight:600;font-size:28px;line-height:1}.sd-count .lbl{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-2);margin-top:5px}
+  .sd-found{display:flex;flex-direction:column;gap:7px;max-height:280px;overflow-y:auto}
+  .fcard{background:var(--surf);border:1px solid var(--line);border-left:3px solid var(--pass);border-radius:9px;padding:9px 11px;animation:pop .3s}@keyframes pop{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:none}}
+  .fcard .fn{font-family:var(--display);font-weight:700;font-size:13px;color:var(--pass)}.fcard .fd{font-size:12px;color:var(--ink-2);margin-top:2px;line-height:1.45}
+  .sd-empty{font-size:12.5px;color:var(--ink-3);font-style:italic;text-align:center;padding:18px 8px}
+  .sd-done{background:var(--pass-soft);border:1px solid var(--pass);border-radius:11px;padding:12px;text-align:center;font-size:13px;color:var(--pass);font-weight:600}
+
+  .gfi-stage{background:var(--slate-deep);border-radius:13px;padding:20px;position:relative;overflow:hidden;height:220px}
+  .lane{position:absolute;left:120px;right:120px;height:3px;background:rgba(255,255,255,.18);border-radius:3px}.lane.hot{top:66px}.lane.neu{top:146px}
+  .lane .lab{position:absolute;top:-19px;left:0;font-family:var(--mono);font-size:10px;color:#9fb0bd}
+  .dot{position:absolute;width:9px;height:9px;border-radius:50%;top:-3px}
+  .dot.h{background:var(--brass-2);animation:flowR 2.4s linear infinite}.dot.n{background:#7fa8c4;animation:flowL 2.4s linear infinite}
+  @keyframes flowR{from{left:0}to{left:100%}}@keyframes flowL{from{left:100%}to{left:0}}
+  .gbox{position:absolute;left:28px;top:66px;width:68px;height:80px;border:2px solid #9fb0bd;border-radius:8px;display:grid;place-items:center;text-align:center}
+  .gbox .gt{font-family:var(--mono);font-size:10px;color:#fff}.gbox .gs{font-family:var(--mono);font-size:8px;color:#7fa8c4;margin-top:3px}
+  .load{position:absolute;right:28px;top:66px;width:68px;height:80px;border:2px solid #9fb0bd;border-radius:8px;display:grid;place-items:center}.load .lt{font-family:var(--mono);font-size:10px;color:#fff}
+  .leak{position:absolute;left:50%;top:69px;width:2px;height:88px;background:repeating-linear-gradient(180deg,var(--fail),var(--fail) 5px,transparent 5px,transparent 10px);opacity:0;transition:.3s}.leak.on{opacity:1}
+  .person{position:absolute;left:calc(50% - 13px);top:160px;font-size:22px;opacity:0;transition:.3s}.person.on{opacity:1}
+  .trip{position:absolute;inset:0;background:rgba(184,84,54,.92);display:grid;place-items:center;opacity:0;pointer-events:none;transition:.3s}.trip.on{opacity:1}
+  .trip .tw{text-align:center;color:#fff}.trip .tw .b{font-family:var(--display);font-weight:800;font-size:25px}.trip .tw .s{font-family:var(--mono);font-size:11px;letter-spacing:.1em;margin-top:6px;opacity:.9}
+  .gfi-status{display:flex;align-items:center;gap:10px;margin-top:14px;font-size:14px;font-weight:600}.gfi-status .pip{width:11px;height:11px;border-radius:50%;background:var(--pass)}.gfi-status.fault .pip{background:var(--fail)}
+  .gfi-controls{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}.gfi-read{font-family:var(--mono);font-size:12px;color:var(--ink-2);margin-top:10px}.gfi-read b{color:var(--brass-deep)}
+
+  .match{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:600px){.match{grid-template-columns:1fr}}
+  .mcol{display:flex;flex-direction:column;gap:9px}.mcol .ch{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);text-align:center;margin-bottom:2px}
+  .chip{padding:13px;border:1.5px solid var(--line);border-radius:11px;background:var(--surf);font-family:var(--mono);font-weight:600;font-size:14px;text-align:center;transition:.13s;color:var(--ink)}
+  .chip:hover:not(.locked){border-color:var(--brass)}.chip.sel{border-color:var(--brass);background:var(--brass-soft);color:var(--brass-deep)}
+  .chip.locked{border-color:var(--pass);background:var(--pass-soft);color:var(--pass);cursor:default;opacity:.85}
+  .chip.miss{border-color:var(--fail);background:var(--fail-soft);animation:shake .3s}@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+  .w-done{margin-top:14px;background:var(--pass-soft);border:1px solid var(--pass);border-radius:11px;padding:12px;text-align:center;font-size:13px;color:var(--pass);font-weight:600}
+
+  .est{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:600px){.est{grid-template-columns:1fr}}
+  .est label{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:6px}
+  .est select{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--surf);font-family:var(--mono);font-size:14px;color:var(--ink);font-weight:600}
+  .est-out{grid-column:1/-1;margin-top:4px;border-radius:12px;padding:15px 17px;border:1px solid var(--line);background:var(--surf);transition:.2s}
+  .est-out.ok{border-color:var(--pass);background:var(--pass-soft)}.est-out.bad{border-color:var(--fail);background:var(--fail-soft)}
+  .est-out .ev{font-family:var(--display);font-weight:800;font-size:19px}.est-out .ed{font-size:13px;color:var(--ink-2);margin-top:5px;line-height:1.5}
+  .est-out.ok .ev{color:var(--pass)}.est-out.bad .ev{color:var(--fail)}
+
+  .sort{display:grid;gap:14px}
+  .sort-items{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;min-height:20px}
+  .sitem{padding:10px 14px;border:1.5px solid var(--line);border-radius:10px;background:var(--surf);font-size:13.5px;font-weight:500;transition:.13s}.sitem:hover:not(.placed){border-color:var(--brass)}.sitem.sel{border-color:var(--brass);background:var(--brass-soft);color:var(--brass-deep)}.sitem.placed{display:none}
+  .bins{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:600px){.bins{grid-template-columns:1fr}}
+  .bin{border:1.5px dashed var(--line);border-radius:12px;padding:14px;min-height:90px;background:var(--surf)}
+  .bin.activeb{border-color:var(--brass);background:var(--brass-soft)}
+  .bin .bt{font-family:var(--display);font-weight:700;font-size:14px;text-align:center;margin-bottom:10px}
+  .bin .drop{font-size:11px;color:var(--ink-3);text-align:center;font-style:italic}
+  .binitem{padding:8px 11px;border-radius:8px;font-size:13px;font-weight:500;margin-bottom:6px;display:flex;align-items:center;gap:7px}.binitem svg{width:13px;height:13px;flex:none}
+  .binitem.right{background:var(--pass-soft);color:var(--pass)}.binitem.wrong{background:var(--fail-soft);color:var(--fail)}
+
+  .era{display:flex;flex-direction:column;gap:0;position:relative;margin:6px 0 4px;padding-left:8px}
+  .era .line{position:absolute;left:14px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .erow{display:flex;align-items:flex-start;gap:14px;padding:9px 0;position:relative;cursor:pointer}
+  .erow .ed{width:12px;height:12px;border-radius:50%;background:var(--surf-3);border:2px solid var(--line);flex:none;margin-top:3px;z-index:1;transition:.15s}
+  .erow:hover .ed,.erow.open .ed{background:var(--brass);border-color:var(--brass)}
+  .erow .et{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--brass-deep);width:130px;flex:none}
+  .erow .en{font-size:14px;color:#33312a;font-weight:600}
+  .erow .ex{font-size:13px;color:var(--ink-2);line-height:1.5;margin-top:4px;display:none}.erow.open .ex{display:block}
+
+  .panelcard{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-2);padding:34px;text-align:center}
+  .panelcard .ic{width:56px;height:56px;border-radius:14px;background:var(--brass-soft);color:var(--brass-deep);display:grid;place-items:center;margin:0 auto 16px}.panelcard .ic svg{width:27px;height:27px}
+  .panelcard h2{margin:0 0 8px}.panelcard p{max-width:48ch;margin:0 auto 22px}
+  .ring{width:150px;height:150px;margin:0 auto 18px;position:relative}.ring .rv{position:absolute;inset:0;display:grid;place-items:center}.ring .rv .n{font-family:var(--mono);font-weight:600;font-size:38px;line-height:1}.ring .rv .p{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-top:4px}
+  .verdict{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;display:inline-block;padding:5px 13px;border-radius:20px;margin-bottom:16px}.verdict.pass{background:var(--pass-soft);color:var(--pass)}.verdict.fail{background:var(--fail-soft);color:var(--fail)}
+
+  .scen{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-2);margin-bottom:16px}
+  .scen .sh{background:linear-gradient(120deg,#3c5870,#2c4153);color:#fff;padding:16px 20px}.scen .sh .t{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-2)}.scen .sh .n{font-family:var(--display);font-weight:700;font-size:17px;margin-top:3px}
+  .scen .body{padding:20px 22px}.scen .situation{font-size:15.5px;color:#33312a;line-height:1.7;margin-bottom:6px}.scen .ask{font-family:var(--display);font-weight:600;font-size:15px;margin:16px 0 14px;color:var(--ink)}
+  .scount{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-bottom:10px}
+
+  .gloss{display:grid;gap:10px}.term{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:13px 16px;box-shadow:var(--sh-1)}
+  .term .tw{font-family:var(--display);font-weight:700;font-size:14.5px;color:var(--brass-deep)}.term .td{font-size:13.5px;color:var(--ink-2);margin-top:3px;line-height:1.55}
+  .srcframe{width:100%;height:78vh;border:1px solid var(--line);border-radius:var(--r);background:var(--surf);box-shadow:var(--sh-1)}
+  .srcnote{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:14px 17px;font-size:13.5px;color:var(--ink-2);margin:14px 0;line-height:1.6}.srcnote a{color:var(--brass-deep);font-weight:600}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--slate-deep);color:#fff;padding:12px 18px;border-radius:11px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;box-shadow:var(--sh-2);z-index:100;opacity:0;transition:.3s}.toast.show{transform:translateX(-50%) translateY(0);opacity:1}.toast svg{width:16px;height:16px;color:var(--brass-2)}
+  @media(max-width:880px){.wrap{grid-template-columns:1fr}.rail{display:none}.top .prog .bar{width:90px}}
+  em{font-style:italic;color:inherit}
+</style>
+
+<div class="top"><div class="row">
+  <div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg></div>
+  <div><div class="tt">ATI · Module II — <b>Electrical Systems</b></div><span class="sub">Property &amp; Building Inspection · interactive</span></div>
+  <div class="prog"><div class="bar"><i id="pbar"></i></div><span class="pc" id="ppc">0%</span></div>
+</div></div>
+<div class="wrap"><aside class="rail"><div class="h">Section contents</div><div id="rail"></div></aside><main class="view" id="view"></main></div>
+<div class="toast" id="toast"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span id="tmsg"></span></div>
+
+<script>
+const ic={check:'<path d="M20 6 9 17l-5-5"/>',x:'<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',arrow:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',back:'<path d="M19 12H5"/><path d="m12 19-7-7 7-7"/>',brain:'<path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44A2.5 2.5 0 0 1 4 17.5a2.5 2.5 0 0 1-.5-4.9 2.5 2.5 0 0 1 0-4.2A2.5 2.5 0 0 1 5 3.5 2.5 2.5 0 0 1 9.5 2z"/>',flag:'<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>',alert:'<path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="9"/>',bolt:'<path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/>',book:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',open:'<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/>',award:'<circle cx="12" cy="8" r="6"/><path d="M15.5 12.9 17 22l-5-3-5 3 1.5-9.1"/>',retake:'<path d="M3 12a9 9 0 1 0 9-9 9 9 0 0 0-6.4 2.6L3 8"/><path d="M3 3v5h5"/>',coffee:'<path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/><line x1="6" y1="2" x2="6" y2="5"/><line x1="10" y1="2" x2="10" y2="5"/><line x1="14" y1="2" x2="14" y2="5"/>'};
+const sv=(p,w=2)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+function conds(title,items){return `<h3>${title}</h3><ul class="clean">${items.map(([n,d])=>`<li><b>${n}</b> — ${d}</li>`).join('')}</ul>`;}
+function story(title,text){return `<div class="story"><div class="st">${sv(ic.coffee)} ${title}</div><p>${text}</p></div>`;}
+
+/* ================= WIDGET LIBRARY ================= */
+const SPOT={}, MATCH={}, SORT={}, ERA={};
+const WID={
+  spot(el,k){const c=SPOT[k];let found=new Set();
+    el.innerHTML=`<span class="wlabel">Spot the defect</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div>
+     <div class="sd-wrap"><div class="sd-stage"><svg viewBox="${c.vb}" class="hot">${c.svg}<g class="hsg"></g></svg></div>
+     <div class="sd-side"><div class="sd-count"><div class="big"><span class="sdn">0</span>/${c.defects.length}</div><div class="lbl">defects found</div></div><div class="sd-found"><div class="sd-empty">Click a defect to log it…</div></div></div></div>`;
+    const g=el.querySelector('.hsg'),cnt=el.querySelector('.sdn'),fw=el.querySelector('.sd-found');
+    c.defects.forEach((d,i)=>{const gg=document.createElementNS('http://www.w3.org/2000/svg','g');gg.setAttribute('class','hot');gg.innerHTML=`<circle class="zone" cx="${d.x}" cy="${d.y}" r="${d.r}"/>`;gg.style.cursor='pointer';
+      gg.addEventListener('click',()=>{if(found.has(i))return;found.add(i);gg.classList.add('found');cnt.textContent=found.size;if(fw.querySelector('.sd-empty'))fw.innerHTML='';
+        const card=document.createElement('div');card.className='fcard';card.innerHTML=`<div class="fn">${found.size}. ${d.n}</div><div class="fd">${d.d}</div>`;fw.appendChild(card);
+        if(found.size===c.defects.length){const dn=document.createElement('div');dn.className='sd-done';dn.textContent='All found — that\'s the scan. Nicely done.';fw.appendChild(dn);}});
+      g.appendChild(gg);});},
+  gfi(el){el.innerHTML=`<span class="wlabel">Animated diagram</span><div class="wtitle">Watch the GFI work</div><div class="wsub">Current flows out the hot and back on the neutral — equal. Introduce a leak and see what happens.</div>
+    <div class="gfi-stage"><div class="gbox"><div><div class="gt">GFI</div><div class="gs">in vs out</div></div></div><div class="load"><div class="lt">LOAD</div></div><div class="lane hot"><span class="lab">hot — out</span></div><div class="lane neu"><span class="lab">neutral — back</span></div><div class="leak"></div><div class="person">🧍</div><div class="trip"><div class="tw"><div class="b">⚡ GFI TRIPPED</div><div class="s">imbalance &gt; 5 mA — cut in milliseconds</div></div></div></div>
+    <div class="gfi-status"><span class="pip"></span><span class="gtxt">Balanced — out equals back. Holding.</span></div>
+    <div class="gfi-read">Hot out: <b>15.000 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b>0 mA</b></div>
+    <div class="gfi-controls"><button class="btn brass gflt">Introduce a ground fault</button><button class="btn ghost grst">Reset</button></div>`;
+    const stage=el.querySelector('.gfi-stage'),st=el.querySelector('.gfi-status'),txt=el.querySelector('.gtxt'),read=el.querySelector('.gfi-read'),trip=el.querySelector('.trip'),fbtn=el.querySelector('.gflt');let f=false,to;
+    function dots(){stage.querySelectorAll('.dot').forEach(d=>d.remove());for(let i=0;i<5;i++){const d=document.createElement('span');d.className='dot h';d.style.animationDelay=(-i*0.48)+'s';stage.querySelector('.lane.hot').appendChild(d);}const nc=f?2:5;for(let i=0;i<nc;i++){const d=document.createElement('span');d.className='dot n';d.style.animationDelay=(-i*0.48)+'s';stage.querySelector('.lane.neu').appendChild(d);}}
+    function reset(){f=false;clearTimeout(to);el.querySelector('.leak').classList.remove('on');el.querySelector('.person').classList.remove('on');trip.classList.remove('on');st.classList.remove('fault');txt.textContent='Balanced — out equals back. Holding.';read.innerHTML='Hot out: <b>15.000 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b>0 mA</b>';fbtn.textContent='Introduce a ground fault';dots();}
+    fbtn.onclick=()=>{f=!f;if(f){el.querySelector('.leak').classList.add('on');el.querySelector('.person').classList.add('on');st.classList.add('fault');txt.textContent='Imbalance — current is leaking to ground.';read.innerHTML='Hot out: <b>15.006 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b style="color:var(--fail)">6 mA</b>';fbtn.textContent='Clear the fault';dots();to=setTimeout(()=>trip.classList.add('on'),650);}else reset();};
+    el.querySelector('.grst').onclick=reset;dots();},
+  match(el,k){const c=MATCH[k];const sh=a=>a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v[1]);let sel=null,locked=0;
+    el.innerHTML=`<span class="wlabel">Match drill</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="match"><div class="mcol"><div class="ch">${c.left}</div><div class=" L"></div></div><div class="mcol"><div class="ch">${c.right}</div><div class="R"></div></div></div><div class="md"></div>`;
+    const L=el.querySelector('.L'),R=el.querySelector('.R'),done=el.querySelector('.md');
+    c.pairs.forEach(p=>{const b=document.createElement('button');b.className='chip';b.textContent=p[0];b.dataset.a=p[0];b.dataset.s='L';L.appendChild(b);});
+    sh(c.pairs.map(p=>p[1])).forEach(v=>{const b=document.createElement('button');b.className='chip';b.textContent=v;b.dataset.b=v;b.dataset.s='R';R.appendChild(b);});
+    el.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{if(b.classList.contains('locked'))return;
+      if(!sel){sel=b;b.classList.add('sel');return;}if(sel===b){b.classList.remove('sel');sel=null;return;}if(sel.dataset.s===b.dataset.s){sel.classList.remove('sel');sel=b;b.classList.add('sel');return;}
+      const left=sel.dataset.s==='L'?sel:b,right=sel.dataset.s==='R'?sel:b,ok=c.pairs.find(p=>p[0]===left.dataset.a)[1]===right.dataset.b;
+      if(ok){[left,right].forEach(x=>{x.classList.remove('sel');x.classList.add('locked');});locked++;if(locked===c.pairs.length)done.innerHTML=`<div class="w-done">${c.done}</div>`;}
+      else{[left,right].forEach(x=>{x.classList.add('miss');setTimeout(()=>x.classList.remove('miss','sel'),350);});}sel=null;});},
+  sort(el,k){const c=SORT[k];let sel=null,placed=0;
+    el.innerHTML=`<span class="wlabel">Sort it</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="sort"><div class="sort-items">${c.items.map((it,i)=>`<button class="sitem" data-i="${i}">${it.t}</button>`).join('')}</div><div class="bins">${c.bins.map((b,bi)=>`<div class="bin" data-bin="${bi}"><div class="bt">${b}</div><div class="drop">tap an item, then tap here</div></div>`).join('')}</div></div><div class="md"></div>`;
+    const items=el.querySelectorAll('.sitem'),bins=el.querySelectorAll('.bin'),done=el.querySelector('.md');
+    items.forEach(it=>it.onclick=()=>{if(it.classList.contains('placed'))return;el.querySelectorAll('.sitem').forEach(x=>x.classList.remove('sel'));sel=it;it.classList.add('sel');});
+    bins.forEach(bin=>bin.onclick=()=>{if(!sel)return;const i=+sel.dataset.i,bi=+bin.dataset.bin,ok=c.items[i].bin===bi;
+      const row=document.createElement('div');row.className='binitem '+(ok?'right':'wrong');row.innerHTML=(ok?sv(ic.check,2.6):sv(ic.x,2.6))+' '+c.items[i].t;bin.querySelector('.drop').remove?bin.querySelector('.drop')&&(bin.querySelector('.drop').style.display='none'):0;bin.appendChild(row);
+      sel.classList.add('placed');sel=null;placed++;if(placed===c.items.length)done.innerHTML=`<div class="w-done">${c.done}</div>`;});},
+  est(el){el.innerHTML=`<span class="wlabel">Field tool</span><div class="wtitle">Service-size estimator</div><div class="wsub">Set what you'd read on site; it calls the size and flags an unsafe mismatch — your on-site logic.</div>
+    <div class="est"><div><label>Service-entrance conductor (copper)</label><select class="sew"><option value="6">#6 AWG</option><option value="4">#4 AWG</option><option value="2" selected>2/0 AWG</option><option value="0">4/0 AWG</option></select></div><div><label>Main breaker rating</label><select class="mbk"><option value="60">60 A</option><option value="100">100 A</option><option value="200" selected>200 A</option><option value="400">400 A</option></select></div><div class="est-out"></div></div>`;
+    const WA={'6':60,'4':100,'2':200,'0':400},WL={'6':'#6 AWG','4':'#4 AWG','2':'2/0 AWG','0':'4/0 AWG'},sew=el.querySelector('.sew'),mbk=el.querySelector('.mbk'),out=el.querySelector('.est-out');
+    function go(){const w=sew.value,b=+mbk.value,sup=WA[w];if(b>sup){out.className='est-out bad';out.innerHTML=`<div class="ev">⚠ Overfused — unsafe</div><div class="ed">A ${b} A main on ${WL[w]} copper (good for ~${sup} A) won't shut off before the conductor overheats. Report: overcurrent device oversized for the service-entrance conductor.</div>`;}else{const ap=Math.min(b,sup);out.className='est-out ok';out.innerHTML=`<div class="ev">${ap} A service</div><div class="ed">${WL[w]} copper supports ~${sup} A and the main is ${b} A — conductor protected. Report the service size as ${ap} A${b<sup?' (limited by the main breaker)':''}.</div>`;}}
+    sew.onchange=go;mbk.onchange=go;go();},
+  era(el,k){const c=ERA[k];el.innerHTML=`<span class="wlabel">Explore</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="era"><div class="line"></div>${c.rows.map((r,i)=>`<div class="erow" data-i="${i}"><span class="ed"></span><span class="et">${r.d}</span><div><div class="en">${r.n}</div><div class="ex">${r.x}</div></div></div>`).join('')}</div>`;
+    el.querySelectorAll('.erow').forEach(r=>r.onclick=()=>r.classList.toggle('open'));}
+};
+function wireWidgets(root){root.querySelectorAll('.wmount').forEach(el=>{const w=el.dataset.w,k=el.dataset.k;if(WID[w])WID[w](el,k);});}
+function W(w,k){return `<div class="widget wmount" data-w="${w}" data-k="${k||''}"></div>`;}
+
+/* ================= ENGINE ================= */
+const KEY='ati_heating_ix_v1';
+let S={done:{},quiz:{},assessBest:0,cur:0};
+async function load(){try{const r=await window.storage.get(KEY,false);if(r&&r.value)S=JSON.parse(r.value);}catch(e){}S.done=S.done||{};S.quiz=S.quiz||{};}
+async function save(){try{await window.storage.set(KEY,JSON.stringify(S),false);}catch(e){}}
+const stepDone=i=>!!S.done[STEPS[i].id];
+const pct=()=>Math.round(Object.keys(S.done).length/STEPS.length*100);
+const unlocked=i=>i===0?true:stepDone(i-1);
+const view=document.getElementById('view');
+function updTop(){const p=pct();document.getElementById('pbar').style.width=p+'%';document.getElementById('ppc').textContent=p+'%';}
+function rail(){document.getElementById('rail').innerHTML=STEPS.map((s,i)=>{const d=stepDone(i),u=unlocked(i),a=i===S.cur;return `<button class="step ${d?'done':''} ${a?'active':''} ${u?'':'locked'}" ${u?`onclick="goStep(${i})"`:''}><span class="dot">${d?sv(ic.check,3):(i+1)}</span><span class="lbl">${s.label}<span class="kind">${s.kind}</span></span></button>`;}).join('');}
+function goStep(i){if(!unlocked(i))return;S.cur=i;save();render();window.scrollTo({top:0,behavior:'smooth'});}
+function markDoneAndNext(){S.done[STEPS[S.cur].id]=true;save();updTop();rail();if(S.cur<STEPS.length-1)goStep(S.cur+1);else render();}
+function render(){updTop();rail();const s=STEPS[S.cur];({lesson:renderLesson,scenario:renderScenarios,assess:renderAssess,glossary:renderGlossary,source:renderSource}[s.type])(s);}
+function navFoot(label,gated){const last=S.cur===STEPS.length-1;return `<div class="foot">${S.cur>0?`<button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button>`:''}<div class="sp"></div><button class="btn brass" id="nextBtn" ${gated?'disabled':''} onclick="markDoneAndNext()">${label||(last?'Finish section':'Mark complete & continue')} ${sv(ic.arrow)}</button></div>`;}
+
+function renderLesson(s){
+  let h=(typeof s.body==='function'?s.body():s.body);
+  if(s.quiz&&s.quiz.length){
+    h+=`<div class="quiz"><div class="qh">${sv(ic.brain)} Check your understanding</div><div class="qt">${s.label}</div><div class="qsub">${s.quiz.length} questions covering the lesson — answer each to see the reasoning.</div><div class="qbody">${
+      s.quiz.map((q,qi)=>`<div class="qblock"><div class="qnum">Question ${qi+1} of ${s.quiz.length}</div><div class="q">${q.q}</div><div class="opts" data-qi="${qi}">${q.o.map((o,k)=>`<button class="opt" onclick="qAns(${qi},${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="qexp" data-qi="${qi}"></div></div>`).join('')
+    }</div><div class="qscore" style="display:none"></div></div>`;
+  }
+  const gated=!!(s.quiz&&s.quiz.length&&!S.quiz[s.id]);
+  view.innerHTML=h+navFoot(null,gated);
+  wireWidgets(view);
+  window._ql={answered:{},total:s.quiz?s.quiz.length:0};
+}
+function qAns(qi,k){const s=STEPS[S.cur],q=s.quiz[qi];if(window._ql.answered[qi]!==undefined)return;window._ql.answered[qi]=k;
+  const opts=view.querySelector('.opts[data-qi="'+qi+'"]');opts.querySelectorAll('.opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===q.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});
+  view.querySelector('.qexp[data-qi="'+qi+'"]').innerHTML=`<div class="exp"><b>${k===q.a?'Correct.':'Review:'}</b> ${q.e}</div>`;
+  if(Object.keys(window._ql.answered).length===window._ql.total){
+    const right=s.quiz.filter((q,i)=>window._ql.answered[i]===q.a).length,sc=view.querySelector('.qscore');sc.style.display='flex';
+    sc.innerHTML=`${sv(ic.check,2.4)}<span>You scored <b style="color:${right>=Math.ceil(s.quiz.length*0.8)?'var(--pass)':'var(--fail)'}">${right}/${s.quiz.length}</b> on this lesson.</span>`;
+    sc.querySelector('svg').style.color=right>=Math.ceil(s.quiz.length*0.8)?'var(--pass)':'var(--fail)';
+    S.quiz[s.id]=true;save();const b=document.getElementById('nextBtn');if(b)b.disabled=false;}
+}
+
+let SC={i:0,answered:false};
+function renderScenarios(){SC={i:0,answered:false};paintScen();}
+function paintScen(){const sc=SCEN[SC.i];view.innerHTML=`<span class="eyebrow">Apply it · Inspector's Call</span><h1>Make the call</h1><p class="lead">The decisions you'll actually make standing in front of the system. Read it, choose, see the reasoning.</p><div class="scount mono">Scenario ${SC.i+1} of ${SCEN.length}</div><div class="scen"><div class="sh"><div class="t">${sc.t}</div><div class="n">${sc.n}</div></div><div class="body"><div class="situation">${sc.s}</div><div class="ask">${sc.ask}</div><div class="scopts">${sc.o.map((o,k)=>`<button class="opt" onclick="scAns(${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="scexp"></div></div></div><div class="foot"><button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button><div class="sp"></div><div class="scnext"></div></div>`;}
+function scAns(k){if(SC.answered)return;SC.answered=true;const sc=SCEN[SC.i];view.querySelectorAll('.scopts .opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===sc.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});view.querySelector('.scexp').innerHTML=`<div class="exp"><b>${k===sc.a?'Right call.':'Here\'s the call:'}</b> ${sc.e}</div>`;const last=SC.i===SCEN.length-1;view.querySelector('.scnext').innerHTML=`<button class="btn brass" onclick="${last?'markDoneAndNext()':'scNext()'}">${last?'Mark complete & continue':'Next scenario'} ${sv(ic.arrow)}</button>`;}
+function scNext(){SC.i++;SC.answered=false;paintScen();window.scrollTo({top:0,behavior:'smooth'});}
+
+let AS=null;
+function renderAssess(){if(!AS||AS.done)AS={i:0,answers:[],done:false};view.innerHTML=`<span class="eyebrow">Assessment</span><h1>Mastery check — Heating</h1><p class="lead">${ASSESS.length} application questions across the whole chapter. 80% to pass; reasoning shown on every answer.</p><div class="panelcard" style="text-align:left;padding:0;overflow:hidden"><div style="background:linear-gradient(120deg,#3c5870,#2c4153);color:#fff;padding:18px 22px;display:flex;justify-content:space-between;align-items:center"><div><div style="font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-2)">Heating Systems</div><div style="font-family:var(--display);font-weight:700;font-size:17px;margin-top:3px">${ASSESS.length} questions · 80% to pass</div></div><div style="color:var(--brass-2)">${sv(ic.award)}</div></div><div style="padding:26px 22px;text-align:center">${S.assessBest?`<div class="mono" style="font-size:13px;color:var(--ink-2);margin-bottom:16px">Best score: <b style="color:${S.assessBest>=80?'var(--pass)':'var(--fail)'}">${S.assessBest}%</b></div>`:''}<button class="btn brass" style="margin:0 auto" onclick="asStart()">${S.assessBest?'Retake assessment':'Begin assessment'} ${sv(ic.arrow)}</button></div></div>`;}
+function asStart(){AS={i:0,answers:[],done:false};asPaint();window.scrollTo({top:0,behavior:'smooth'});}
+function asPaint(){const q=ASSESS[AS.i];view.innerHTML=`<span class="eyebrow">Assessment · Heating</span><h1 style="font-size:24px">Question ${AS.i+1} <span style="color:var(--ink-3)">/ ${ASSESS.length}</span></h1><div style="margin:14px 0 0"><div style="width:100%;height:6px;background:var(--surf-3);border-radius:6px;overflow:hidden;border:1px solid var(--line)"><i style="display:block;height:100%;width:${AS.i/ASSESS.length*100}%;background:var(--brass)"></i></div></div><div class="quiz" style="border-color:var(--line);margin-top:22px"><div class="q">${q.q}</div><div class="opts">${q.o.map((o,k)=>`<button class="opt" onclick="asAns(${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="asexp"></div></div><div class="foot"><div class="sp"></div><div class="asnext"></div></div>`;}
+function asAns(k){if(AS.answers[AS.i]!==undefined)return;AS.answers[AS.i]=k;const q=ASSESS[AS.i];view.querySelectorAll('.opts .opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===q.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});view.querySelector('.asexp').innerHTML=`<div class="exp"><b>${k===q.a?'Correct.':'Review:'}</b> ${q.e}</div>`;const last=AS.i===ASSESS.length-1;view.querySelector('.asnext').innerHTML=`<button class="btn brass" onclick="${last?'asFinish()':'asNext()'}">${last?'See results':'Next'} ${sv(ic.arrow)}</button>`;}
+function asNext(){AS.i++;asPaint();window.scrollTo({top:0,behavior:'smooth'});}
+function asFinish(){const correct=AS.answers.filter((a,i)=>a===ASSESS[i].a).length,p=Math.round(correct/ASSESS.length*100),pass=p>=80;S.assessBest=Math.max(S.assessBest||0,p);AS.done=true;if(pass)S.done['assess']=true;save();updTop();rail();const circ=2*Math.PI*62;
+  view.innerHTML=`<span class="eyebrow">Assessment · Result</span><h1 style="margin-bottom:18px">${pass?'Section mastered':'Not quite there'}</h1><div class="panelcard"><div class="ring"><svg width="150" height="150" viewBox="0 0 150 150" style="transform:rotate(-90deg)"><circle cx="75" cy="75" r="62" fill="none" stroke="var(--surf-3)" stroke-width="11"/><circle cx="75" cy="75" r="62" fill="none" stroke="${pass?'var(--pass)':'var(--fail)'}" stroke-width="11" stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${circ}"><animate attributeName="stroke-dashoffset" from="${circ}" to="${circ-circ*p/100}" dur=".8s" fill="freeze" calcMode="spline" keySplines=".2 .7 .2 1"/></circle></svg><div class="rv"><div><div class="n" style="color:${pass?'var(--pass)':'var(--fail)'}">${p}%</div><div class="p">${correct}/${ASSESS.length} correct</div></div></div></div><span class="verdict ${pass?'pass':'fail'}">${pass?'Passed':'Below 80%'}</span><p>${pass?'You\'ve cleared Electrical with real depth. The same five-step loop carries into Cooling, Heating, Insulation, and Plumbing.':'You need 80% to pass. Revisit the lessons and explanations, then retake — your best score counts.'}</p><div style="display:flex;gap:12px;justify-content:center"><button class="btn ghost" onclick="asStart()">${sv(ic.retake)} Retake</button>${pass?`<button class="btn brass" onclick="goStep(${STEPS.length-1})">Continue ${sv(ic.arrow)}</button>`:`<button class="btn brass" onclick="goStep(1)">Review lessons ${sv(ic.arrow)}</button>`}</div></div><div style="height:30px"></div>`;}
+
+function renderGlossary(){view.innerHTML=`<span class="eyebrow">Reference</span><h1>Heating glossary</h1><p class="lead">Every key term in one place — quick reference for a real inspection.</p><div class="gloss" style="margin-top:20px">${GLOSSARY.map(([w,d])=>`<div class="term"><div class="tw">${w}</div><div class="td">${d}</div></div>`).join('')}</div>${navFoot('Continue')}`;}
+function renderSource(){view.innerHTML=`<span class="eyebrow">Deep reading · optional</span><h1>The full source chapter</h1><p class="lead">Everything required is taught in the lessons — the complete original chapter is here for the deepest dive.</p><div class="srcnote">${sv(ic.book,2)} <b>Chapters 8–11 — Heating (Gas, Oil, Boilers, Distribution)</b> · <i>Principles of Home Inspection: Systems and Standards</i>. If the viewer is blank, the PDF needs to sit alongside this file — <a href="ati-heating-chapter.pdf" target="_blank">open it in a new tab</a>.</div><iframe class="srcframe" src="ati-heating-chapter.pdf"></iframe><div style="margin-top:14px"><a class="btn slate" href="ati-heating-chapter.pdf" target="_blank">${sv(ic.open)} Open full chapter (PDF)</a></div><div class="foot"><button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button><div class="sp"></div><button class="btn brass" onclick="finishAll()">${sv(ic.check)} Complete section</button></div>`;}
+function finishAll(){S.done['source']=true;save();updTop();rail();toast('Heating section complete');}
+let tT;function toast(m){const t=document.getElementById('toast');document.getElementById('tmsg').textContent=m;t.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('show'),2400);}
+
+/* ================= DATA: scenarios / assessment / glossary ================= */
+const SCEN=[
+ {t:'At the gas furnace',n:'The flame that moves',s:'The burners are lit and burning blue. As you watch, the house blower kicks on — and the flame visibly distorts and changes shape the moment the fan starts.',ask:'Your call?',o:['Normal — fans cause some flame movement','Possible cracked heat exchanger — write it up and recommend further investigation','A dirty filter, nothing more','Re-light the pilot'],a:1,e:'A flame that shifts when the blower starts suggests fan air is reaching the combustion side through a breach — a possible cracked heat exchanger. Flag it and recommend specialist evaluation.'},
+ {t:'At the draft hood',n:'Hot air coming the wrong way',s:'With the gas water heater and furnace running, you hold your hand near the draft hood and feel hot, moist air pushing down into the room — and you notice rust staining around the hood.',ask:'What does this indicate?',o:['Good draft','Backdrafting/spillage — combustion gases entering the room (a CO hazard)','Low gas pressure','A waterlogged expansion tank'],a:1,e:'You should feel cool room air drawn IN. Hot wet air pushing down, plus rust from condensation, means ongoing spillage — a flag-now carbon-monoxide hazard.'},
+ {t:'In the oil room',n:'Too close, and stained',s:'An above-ground oil tank sits about three feet from the burner, and there is dark staining on the floor beneath the tank fittings.',ask:'Your call?',o:['Fine — tanks can go anywhere','Two findings: tank within the 5-ft burner clearance, and staining suggesting a leak — note both','Only the stain matters','Recommend burying the tank'],a:1,e:'The tank violates the 5-ft clearance from a burner, and floor staining points to a leak at the fittings. Report both and recommend correction/evaluation.'},
+ {t:'At the boiler',n:'Relief with nowhere to go',s:'The boiler\'s pressure-relief valve is present, but its outlet is open at about chest height with no discharge pipe running down toward the floor.',ask:'Your call?',o:['Acceptable — the valve is present','Flag now — a release would discharge scalding water/steam at chest height; the discharge must be piped down near the floor','Test the valve by lifting the lever','Ignore it; boilers rarely relieve'],a:1,e:'Like a water-heater TPR, the boiler relief discharge must be piped down near the floor. Open at height it can scald — a flag-now safety item.'},
+ {t:'At the boiler gauge',n:'Climbing and weeping',s:'The boiler runs and the pressure gauge climbs well past 30 psi as it heats; the relief valve is weeping. The expansion tank feels heavy/full when you tap it.',ask:'Most likely cause?',o:['Normal heating behavior','A waterlogged expansion tank — it can no longer absorb expansion, so pressure spikes','A cracked heat exchanger','A stuck thermostat'],a:1,e:'A waterlogged expansion tank loses its air cushion, so heating spikes the pressure and makes the relief valve weep — a very common hydronic fault.'},
+ {t:'At the heat pump',n:'Barely warm',s:'On a mild day, the heat pump is running and the air at the registers feels only mildly warm — noticeably cooler than a gas furnace would deliver. The backup-heat indicator is off.',ask:'Your call?',o:['The unit is broken — write it up','Normal — heat-pump supply air is cooler than furnace air; confirm it\'s above room temp and move on','The reversing valve has failed','Recommend immediate replacement'],a:1,e:'Cooler-than-furnace supply air is normal for a heat pump. With air above room temperature and backup not stuck on, this is expected — explain it rather than flag it.'},
+ {t:'In the basement',n:'Wrapped in gray',s:'The old heating ducts and the furnace plenum are wrapped in a crumbling gray-white insulation with cloth-like tape at the joints.',ask:'Best response?',o:['Pull a sample to confirm','Note possible asbestos, do not disturb it, and recommend evaluation by a specialist','Remove and bag it for the client','Paint over it to seal it'],a:1,e:'Old duct/plenum insulation may contain asbestos. The hazard is in disturbing it — report its presence and refer it; never probe or remove it.'},
+ {t:'At the furnace cabinet',n:'Packed and scorched',s:'The filter is packed solid with dust, and there are scorch marks on the heat exchanger near the burners.',ask:'How do you handle this?',o:['Just note the filter; scorching is normal','Note the dirty filter AND that restricted airflow appears to be overheating the exchanger — recommend evaluation','Ignore both','Replace the gas valve'],a:1,e:'A clogged filter starves airflow and overheats the exchanger (the scorching). Report the filter as maintenance and the overheating/scorching for evaluation — restricted airflow shortens exchanger life.'},
+];
+const ASSESS=[
+ {q:'A furnace and a boiler differ mainly in that:',o:['One burns gas, the other oil','A furnace heats air moved by a blower; a boiler heats water moved by a circulator','A furnace is always electric','There is no difference'],a:1,e:'Furnace = forced air; boiler = hydronic (water to radiators/baseboard via a circulator).'},
+ {q:'Carbon monoxide in heating systems comes from:',o:['Electric resistance heat','All combustion appliances (gas, oil, wood)','The circulator pump','The expansion tank'],a:1,e:'Any burning of fuel produces CO; venting and the heat exchanger keep it out of the breathing air.'},
+ {q:'The thermocouple in a standing-pilot furnace:',o:['Ignites the burners','Senses the pilot and holds the gas valve open; shuts gas if the pilot fails','Moves air','Regulates draft'],a:1,e:'It proves flame — pilot out, gas off. A basic safety interlock.'},
+ {q:'The heat exchanger\'s essential job is to:',o:['Pump water','Transfer heat to the house air while keeping combustion gases separate','Filter return air','Ignite the fuel'],a:1,e:'It transfers heat while separating dirty exhaust from clean house air.'},
+ {q:'A cracked heat exchanger is usually:',o:['Patched with sealant','Cause to replace the furnace, because it can leak CO into the house air','Repaired by a new filter','Ignored if the flame is blue'],a:1,e:'Exchangers aren\'t patched; a crack is a life-safety hazard and typically means replacement.'},
+ {q:'In the flame-distortion test, a possible crack is indicated when:',o:['The flame is steady throughout','The flame pattern changes as the blower starts','The pilot is blue','The thermostat clicks'],a:1,e:'Fan air reaching the flame through a breach distorts it when the blower kicks on.'},
+ {q:'A conventional gas vent connector must:',o:['Slope down to the appliance','Rise continuously toward the chimney','Be perfectly level','End in the attic'],a:1,e:'It must rise (about ¼ in/ft) so hot gases flow up and out.'},
+ {q:'Testing at the draft hood with the burner on, a GOOD result is:',o:['Hot wet air pushing down','Cool room air being drawn in','No movement','The flame extinguishing'],a:1,e:'Cool air drawn in = venting properly; hot exhaust pushing down = spillage/backdraft.'},
+ {q:'A high-efficiency condensing furnace typically vents through:',o:['A masonry chimney','Plastic (PVC) pipe, with a condensate drain to check','No vent','The return ducts'],a:1,e:'Condensing furnaces use induced-draft, plastic sidewall venting, and a condensate drain.'},
+ {q:'The LIMIT setting of the fan/limit switch:',o:['Starts the blower','Shuts the burner off if the furnace overheats','Opens the gas valve','Filters the air'],a:1,e:'The limit is the overheat safety cutout, usually triggered by restricted airflow.'},
+ {q:'A clogged air filter:',o:['Improves efficiency','Restricts airflow, overheating the exchanger and straining the blower','Cools the burners','Does nothing'],a:1,e:'Restricted airflow overheats the heat exchanger (scorching/cracking) and overworks the blower.'},
+ {q:'In a gun-type oil burner, the nozzle:',o:['Ignites the oil','Atomizes oil into a fine mist for combustion','Regulates draft','Stores fuel'],a:1,e:'The nozzle sprays oil as a sized, patterned mist; the ignition transformer\'s spark lights it.'},
+ {q:'A barometric damper:',o:['Filters air','Regulates draft in an oil flue','Pumps water','Stores oil'],a:1,e:'The counter-weighted flap admits or restricts room air to keep oil-flue draft stable.'},
+ {q:'An oil tank should not be located within:',o:['1 ft of a window','5 ft of any burner','10 ft of the chimney','20 ft of the house'],a:1,e:'A 5-ft clearance from any burner is the oil-tank fire-safety rule.'},
+ {q:'A leak from a buried oil tank is especially serious because it is:',o:['Cosmetic only','An environmental hazard with cleanup liability, often unseen','Easy to fix from inside','Not the buyer\'s concern'],a:1,e:'Underground tank leaks are environmental/financial liabilities, and the tank is usually hidden.'},
+ {q:'The boiler pressure-relief valve relieves at about:',o:['12 psi','30 psi','60 psi','150 psi'],a:1,e:'It caps pressure near 30 psi to prevent a steam explosion; its discharge must pipe down near the floor.'},
+ {q:'A waterlogged expansion tank causes:',o:['Low gas pressure','Pressure spikes on heating and a weeping relief valve','Soot at the burner','A cracked liner'],a:1,e:'Losing its air cushion, it can\'t absorb expansion, so pressure spikes and the relief valve weeps.'},
+ {q:'In heating mode, a heat pump uses a reversing valve to:',o:['Burn gas more cleanly','Move heat from outdoor air into the house','Vent exhaust','Pump water'],a:1,e:'The reversing valve flips the refrigerant cycle so the unit extracts heat from outside air.'},
+];
+const GLOSSARY=[
+ ['Furnace','Forced-air heater: heats air and a blower pushes it through ducts to registers.'],
+ ['Boiler','Hydronic heater: heats water (or makes steam) sent to radiators/baseboard by a circulator.'],
+ ['Forced air','Heat delivered as warm air through ducts and registers, moved by a blower.'],
+ ['Hydronic','Heat delivered as hot water circulated to radiators or baseboard.'],
+ ['Combustion air','Air a burner needs to burn cleanly; a starved appliance soots and backdrafts.'],
+ ['Gas valve','Admits gas to the burners when the thermostat calls for heat.'],
+ ['Pilot','Small standing flame that ignites the burners on older furnaces.'],
+ ['Thermocouple','Senses the pilot flame and holds the gas valve open; shuts gas off if the pilot fails.'],
+ ['Electronic ignition','Lights the burner on demand (intermittent pilot or hot-surface igniter) instead of a standing pilot.'],
+ ['Heat exchanger','Metal barrier that transfers heat to the house air while keeping combustion gases separate.'],
+ ['Cracked heat exchanger','A breach that can leak combustion gases/CO into the house air — a life-safety hazard, usually meaning replacement.'],
+ ['Flame-distortion test','Watching the burner flame as the blower starts; a shift suggests a possible cracked exchanger.'],
+ ['Soot','Black residue of incomplete combustion that fouls the exchanger and signals a burner/air problem.'],
+ ['Draft hood','Open collar above a conventional appliance that lets it vent freely and dilutes exhaust.'],
+ ['Vent connector','Pipe carrying exhaust from the appliance to the chimney; must rise and keep clearance from combustibles.'],
+ ['Backdraft / spillage','Combustion gases coming down out of the draft hood into the room instead of venting — a CO hazard.'],
+ ['Condensing furnace','High-efficiency furnace with induced draft and plastic venting; flue gas condenses, needing a condensate drain.'],
+ ['Blower','House fan that pushes heated air across the exchanger and out to the ducts.'],
+ ['Air filter','Cleans return air ahead of the blower; clogged, it restricts airflow and overheats the exchanger.'],
+ ['Fan/limit switch','Combined control: starts/stops the blower and shuts the burner off on overheat (the limit).'],
+ ['Thermostat','Calls for heat, starting the heating sequence.'],
+ ['Gun burner','Modern oil burner that atomizes oil through a nozzle and ignites it with a transformer spark.'],
+ ['Nozzle','Sprays oil as a fine, sized mist into the combustion chamber.'],
+ ['Ignition transformer','Produces the high-voltage spark that lights the atomized oil.'],
+ ['Barometric damper','Counter-weighted flap that regulates draft in an oil flue.'],
+ ['Oil tank','Stores fuel oil; must be ≥5 ft from any burner and protected from damage; watch for leaks.'],
+ ['Circulator','Pump that moves heated water around the hydronic supply-and-return loop.'],
+ ['Pressure-relief valve','Boiler safety relieving at ~30 psi to prevent a steam explosion; discharge piped near the floor.'],
+ ['Aquastat','High-temperature limit that shuts the burner down before boiler water overheats.'],
+ ['Expansion tank','Air cushion that absorbs water expansion; waterlogged, it lets pressure spike and the relief valve weep.'],
+ ['Zone valve','Directs hot water to the zone whose thermostat is calling for heat.'],
+ ['Radiator / baseboard','Hydronic emitters that release heat to the rooms; trapped air makes them run cold and needs bleeding.'],
+ ['Heat pump','A reversible AC that moves heat from outdoor air into the house in winter; cooler supply air is normal.'],
+ ['Reversing valve','Flips the heat-pump refrigerant cycle between heating and cooling.'],
+ ['Supplemental heat','Backup (usually electric) that aids a heat pump on the coldest days as its capacity drops.'],
+ ['Flue liner','Clay, firebrick, metal, or asbestos lining in a chimney; cracked/missing, it exposes masonry and framing.'],
+ ['Hearth extension','Non-combustible floor area in front of a fireplace that catches sparks and embers.'],
+ ['Creosote','Tarry combustible residue from burning wood that builds in flues and fuels chimney fires.'],
+ ['Thimble','Non-combustible pass-through where a connector goes through a wall or ceiling.'],
+];
+
+/* ================= WIDGET CONTENT REGISTRIES ================= */
+const _gs='fill="none" stroke="#3c5870" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"';
+const _mono=(x,y,s,t,c='#2c4153',a='middle')=>`<text x="${x}" y="${y}" text-anchor="${a}" font-family="JetBrains Mono" font-size="${s}" fill="${c}">${t}</text>`;
+
+SPOT.heatexchanger={title:'Open the furnace cabinet',sub:'Five conditions on this gas furnace and its heat exchanger — click each one.',vb:'0 0 480 360',
+ svg:`<g ${_gs}>
+   <rect x="120" y="30" width="240" height="300" rx="8"/>${_mono(240,22,9,'FURNACE CABINET')}
+   <path d="M150 70 C 170 110, 200 110, 220 70 C 240 110, 270 110, 290 70 C 310 110, 330 110, 330 70" />${_mono(240,60,8,'heat exchanger','#2c4153')}
+   <line x1="150" y1="130" x2="330" y2="130"/>${_mono(240,148,8,'burners below','#918c7d')}
+   <g stroke="#b85436"><path d="M196 86 l3 -8 l3 16 l3 -16 l2 8"/></g>${_mono(210,74,7,'crack','#b85436','start')}
+   <ellipse cx="290" cy="92" rx="14" ry="6" fill="#5a544a" opacity="0.5"/>${_mono(316,92,7,'soot','#b85436','start')}
+   <path d="M150 150 q 20 -16 40 0 q 20 16 40 0 q 20 -16 40 0 q 20 16 40 0" stroke="#c2841c"/>${_mono(150,168,7,'burner flames','#918c7d','start')}
+   <ellipse cx="240" cy="118" rx="40" ry="8" fill="#9c6b3a" opacity="0.4"/>${_mono(150,118,7,'scorch','#b85436','start')}
+   <rect x="150" y="250" width="80" height="60" rx="3"/>${_mono(190,284,8,'BLOWER')}
+   <line x1="290" y1="30" x2="290" y2="10"/><circle cx="290" cy="6" r="5"/>${_mono(330,16,7,'flue','#2c4153')}
+   <rect x="250" y="250" width="80" height="40" rx="3" stroke-dasharray="4 3"/>${_mono(290,274,7,'filter slot','#918c7d')}
+ </g>`,
+ defects:[
+  {x:201,y:84,r:18,n:'Crack in the heat exchanger',d:'The single most serious furnace defect. A crack lets combustion gases — including carbon monoxide — mix into the heated house air. Life-safety hazard; the furnace usually must be replaced.'},
+  {x:290,y:92,r:16,n:'Soot on the heat exchanger',d:'Soot signals incomplete combustion. It fouls the exchanger and points to a burner/air problem that needs correction.'},
+  {x:240,y:118,r:24,n:'Scorching / overheating',d:'Scorch marks indicate the exchanger is running too hot — often restricted airflow (dirty filter, blocked returns) or a blower problem.'},
+  {x:170,y:155,r:22,n:'Flame disturbance at the burners',d:'Watch the flame as the blower starts: if the pattern shifts when the fan kicks on, it strongly suggests a cracked exchanger. Write it up and recommend further investigation.'},
+  {x:290,y:270,r:22,n:'Dirty / missing air filter',d:'A clogged or missing filter restricts airflow, overheats the exchanger, and shortens furnace life — and a missing filter lets debris foul the blower and coil.'},
+ ]};
+
+SPOT.flue={title:'Trace the vent connector',sub:'Five venting problems between this furnace and the chimney — click them all.',vb:'0 0 520 320',
+ svg:`<g ${_gs}>
+   <rect x="40" y="170" width="90" height="120" rx="6"/>${_mono(85,300,8,'appliance')}
+   <rect x="60" y="150" width="50" height="24" rx="3"/>${_mono(85,140,7,'draft hood','#918c7d')}
+   <line x1="110" y1="160" x2="200" y2="160"/>
+   <path d="M200 160 C 240 160, 240 200, 290 200" stroke="#3c5870"/>${_mono(250,220,7,'slopes DOWN','#b85436')}
+   <path d="M290 200 L 360 200" />
+   <path d="M360 200 L 380 196 M360 200 L 380 204" stroke="#b85436"/>${_mono(380,186,7,'joint open','#b85436','start')}
+   <path d="M400 200 H 470" /><line x1="470" y1="40" x2="470" y2="300" stroke="#8a8475" stroke-width="6"/>${_mono(470,316,8,'chimney')}
+   <path d="M240 175 l3 -7 l3 14 l3 -14 l2 7" stroke="#b85436"/>${_mono(250,164,7,'rust hole','#b85436','start')}
+   <line x1="300" y1="120" x2="420" y2="120" stroke="#9c6b3a" stroke-width="5"/>${_mono(360,110,7,'joist (combustible)','#918c7d')}
+   <line x1="340" y1="200" x2="340" y2="125" stroke-dasharray="3 3" stroke="#b85436"/>${_mono(340,238,7,'too close','#b85436')}
+ </g>`,
+ defects:[
+  {x:250,y:188,r:24,n:'Vent connector slopes downward',d:'The connector must rise continuously toward the chimney (about ¼ in per foot). A downward slope traps exhaust and promotes backdraft.'},
+  {x:372,y:200,r:18,n:'Disconnected / open joint',d:'A separated vent joint dumps combustion gases into the room. Sections should be fastened and the connector continuous to the chimney.'},
+  {x:247,y:172,r:16,n:'Corrosion / rust holes',d:'Rusted-through connector leaks exhaust. Rust near the draft hood also signals condensation from ongoing spillage.'},
+  {x:340,y:165,r:20,n:'Single-wall connector too close to combustibles',d:'Single-wall connector needs clearance to wood framing (about 6 in for gas). Too close is a fire hazard.'},
+  {x:85,y:158,r:20,n:'Backdraft / spillage at the draft hood',d:'Test with the burner running: you should feel cool room air drawn IN at the hood. Hot, wet exhaust coming DOWN means spillage — a CO hazard. (Brief spillage only at startup can be normal.)'},
+ ]};
+
+SPOT.boiler={title:'Walk up to the boiler',sub:'Five hydronic-system problems here — click each one.',vb:'0 0 500 340',
+ svg:`<g ${_gs}>
+   <rect x="150" y="120" width="140" height="170" rx="8"/>${_mono(220,305,8,'BOILER')}
+   <line x1="220" y1="120" x2="220" y2="90"/><circle cx="220" cy="84" r="6"/>${_mono(220,72,7,'flue')}
+   <circle cx="320" cy="150" r="14"/>${_mono(320,178,7,'gauge','#918c7d')}${_mono(320,150,7,'45','#b85436')}
+   <rect x="300" y="110" width="16" height="20" rx="2"/><line x1="316" y1="120" x2="350" y2="120"/>${_mono(360,118,7,'relief valve','#2c4153','start')}
+   <line x1="350" y1="120" x2="350" y2="132"/>${_mono(388,140,7,'no discharge tube','#b85436','start')}
+   <circle cx="180" cy="250" r="14" fill="none"/>${_mono(180,278,7,'circulator','#918c7d')}<ellipse cx="180" cy="264" rx="16" ry="6" fill="#9c6b3a" opacity="0.45"/>
+   <rect x="120" y="60" width="50" height="34" rx="4"/>${_mono(145,50,7,'expansion tank','#2c4153')}<line x1="145" y1="94" x2="145" y2="120"/>
+   <ellipse cx="220" cy="296" rx="50" ry="12" fill="#9c6b3a" opacity="0.4"/>${_mono(110,296,7,'leak / corrosion','#b85436','end')}
+ </g>`,
+ defects:[
+  {x:350,y:128,r:20,n:'Relief valve with no discharge pipe',d:'The boiler pressure-relief valve (set to relieve at 30 psi) prevents a steam explosion. Its discharge must be piped down near the floor — open at height, a release scalds.'},
+  {x:320,y:150,r:18,n:'Pressure/temperature gauge out of range',d:'A cold system normally sits near 12 psi; running pressure climbs but should stay under 30. A reading that is far off (or pinned) points to a fill, expansion-tank, or relief problem.'},
+  {x:145,y:78,r:22,n:'Waterlogged / failed expansion tank',d:'The expansion tank gives water room to expand. Waterlogged or failed, pressure spikes and the relief valve weeps — one of the most common hydronic faults.'},
+  {x:180,y:258,r:20,n:'Leaking circulator pump',d:'The circulator moves heated water through the loop. Corrosion or seepage at the pump means a failing seal — note it and recommend evaluation.'},
+  {x:200,y:296,r:30,n:'Corrosion / leak at the base',d:'Staining and corrosion at the boiler base signal a leak in the vessel or fittings. Persistent make-up water accelerates internal corrosion.'},
+ ]};
+
+SPOT.oilburner={title:'Inspect the oil system',sub:'Five oil-side problems here — click each one.',vb:'0 0 520 320',
+ svg:`<g ${_gs}>
+   <ellipse cx="120" cy="180" rx="70" ry="50"/>${_mono(120,180,8,'OIL TANK')}
+   <line x1="90" y1="232" x2="90" y2="270"/><line x1="150" y1="232" x2="150" y2="270"/>${_mono(120,286,7,'tank legs','#918c7d')}
+   <line x1="100" y1="135" x2="100" y2="100"/>${_mono(78,92,7,'fill','#2c4153','end')}<line x1="140" y1="135" x2="140" y2="100"/>${_mono(160,92,7,'vent','#2c4153','start')}
+   <ellipse cx="120" cy="262" rx="30" ry="8" fill="#7d4f24" opacity="0.5"/>${_mono(120,300,7,'oil stain / leak','#b85436')}
+   <line x1="190" y1="200" x2="300" y2="200"/>${_mono(245,214,7,'oil line','#918c7d')}
+   <rect x="300" y="170" width="90" height="70" rx="6"/>${_mono(345,255,8,'BURNER')}
+   <ellipse cx="360" cy="205" rx="10" ry="5" fill="#5a544a" opacity="0.55"/>${_mono(360,232,7,'soot','#b85436')}
+   <line x1="390" y1="190" x2="450" y2="190" stroke="#8a8475" stroke-width="5"/>${_mono(450,180,7,'flue','#918c7d','start')}
+   <line x1="430" y1="200" x2="430" y2="220"/><circle cx="430" cy="226" r="3"/>${_mono(470,210,7,'no barometric damper','#b85436','start')}
+   <line x1="200" y1="200" x2="200" y2="170" stroke-dasharray="3 3"/>${_mono(200,160,7,'tank <5 ft','#b85436')}
+ </g>`,
+ defects:[
+  {x:120,y:262,r:26,n:'Oil leak / staining at the tank',d:'Stains under a tank, or odor right after a fill, point to leaks at the tank, fill, or vent pipe. A buried-tank leak is an environmental hazard, not just a functional one.'},
+  {x:200,y:185,r:20,n:'Tank within 5 ft of the burner',d:'An oil tank should not sit within 5 feet of any burner — a fire-safety clearance.'},
+  {x:360,y:205,r:18,n:'Soot at the burner',d:'Soot means incomplete combustion — a fouled nozzle, wrong air setting, or poor draft. It cuts efficiency and fouls the heat exchanger.'},
+  {x:430,y:215,r:20,n:'Missing / faulty barometric damper',d:'The barometric damper regulates draft on an oil flue. Missing, stuck, or wrong-set, draft is uncontrolled — affecting combustion and spillage.'},
+  {x:120,y:100,r:18,n:'Fill / vent pipe problems',d:'Damaged, leaking, or improperly terminated fill and vent pipes are a common oil-tank finding. Check both where they exit the building.'},
+ ]};
+
+MATCH.heatsys={title:'Heating system ↔ how it delivers heat',sub:'Tap a system, then how it moves heat into the house. Correct pairs lock green.',left:'System',right:'How it delivers heat',
+ pairs:[['Forced-air furnace','Warm air through ducts & registers (blower)'],['Hydronic boiler','Hot water to radiators/baseboard (circulator)'],['Steam boiler','Steam to radiators; sight glass on the boiler'],['Heat pump','Refrigerant + reversing valve; electric backup'],['Electric baseboard','Resistance heat at the room; no flue']],done:'That is the heating-systems map — delivery method tells you what to inspect.'};
+
+MATCH.controls={title:'Control ↔ what it does',sub:'The controls and safeties you will name in the field. Tap to pair.',left:'Control',right:'Job',
+ pairs:[['Thermostat','Calls for heat'],['Gas valve','Admits gas to the burner'],['Thermocouple','Proves the pilot is lit; shuts gas if not'],['Fan/limit switch','Starts the blower; shuts the burner on overheat'],['Barometric damper','Regulates draft on an oil flue']],done:'Matched — every one of these is a named component you can point to and explain.'};
+
+SORT.heattriage={title:'Flag now, or note and monitor?',sub:'Sort each heating finding by urgency. Tap an item, then a bin.',bins:['FLAG NOW — safety','NOTE — monitor / maintenance'],
+ items:[{t:'Cracked heat exchanger (flame shifts on blower)',bin:0},{t:'Backdrafting flue / exhaust spilling at the hood',bin:0},{t:'Smell of gas or fuel oil',bin:0},{t:'Boiler relief valve missing or no discharge pipe',bin:0},{t:'Dirty air filter',bin:1},{t:'Slightly noisy but working blower',bin:1},{t:'Older furnace, operating normally',bin:1}],
+ done:'Right — cracks, spillage, fuel leaks, and missing relief protection can hurt people; wear items get noted to monitor.'};
+
+/* ================= STEPS ================= */
+const STEPS=[
+/* ===== ORIENTATION ===== */
+{id:'intro',kind:'Start here',label:'How heat is made and moved',type:'lesson',
+ body:()=>`<span class="eyebrow">Heating · Orientation</span><h1>Make heat, move heat, and don't poison anyone doing it.</h1>
+ <p class="lead">Heating is the largest system in this module — four source chapters in one — but it reduces to two questions at every appliance: <b>how is the heat made</b>, and <b>how is it moved into the rooms</b>? Answer those and add the inspector's non-negotiable third job — <b>make sure combustion gases go outside, not into the house</b> — and you can read any system you walk up to.</p>
+ <h2>How heat is made</h2>
+ <p>Two ways. <b>Combustion</b> — burning gas, oil, or wood — which produces heat <em>and</em> exhaust gases that must be vented. Or <b>electric resistance / heat pump</b> — no flame, no flue, no carbon monoxide. The moment you see a flame or a flue, combustion safety is in play.</p>
+ <h2>How heat is moved</h2>
+ <p>Three families, and naming the family tells you what to inspect:</p>
+ <ul class="num"><li><b>Forced air</b> — a furnace heats air; a blower pushes it through ducts to registers. (Gas, oil, electric, or a heat pump.)</li><li><b>Hydronic</b> — a boiler heats water; a circulator pumps it to radiators or baseboard. (Steam is the older cousin.)</li><li><b>Direct / in-room</b> — electric baseboard, wood stoves, fireplaces, and space heaters that heat the space without ducts or pipes.</li></ul>
+ <div class="loop"><div class="seg on"><div class="n">01</div><div class="w">Component</div></div><div class="seg"><div class="n">02</div><div class="w">Function</div></div><div class="seg"><div class="n">03</div><div class="w">Common defect</div></div><div class="seg"><div class="n">04</div><div class="w">Implication</div></div><div class="seg"><div class="n">05</div><div class="w">How you report</div></div></div>
+ <div class="field"><div class="ic">${sv(ic.alert)}</div><div><div class="t">The one that can kill — carbon monoxide</div><p>Every combustion appliance produces <b>carbon monoxide</b>. It's colorless and odorless, and the whole job of the heat exchanger, the flue, and the venting is to keep it separate from the air people breathe. A cracked heat exchanger or a backdrafting flue is therefore a <b>life-safety</b> finding, not a comfort one. This is the thread running through every gas, oil, and solid-fuel lesson here.</p></div></div>
+ <p>We'll work through gas forced-air first (the most common), then oil, then boilers, then distribution and the in-room systems. The complete source chapters are embedded at the end — everything you need is taught right here.</p>`,
+ quiz:[
+  {q:'The two fundamental ways heat is made in a home are:',o:['Gas and oil','Combustion (gas/oil/wood) and electric (resistance/heat pump)','Forced air and hydronic','Furnaces and boilers'],a:1,e:'Heat is either burned (combustion, which makes exhaust) or made electrically (no flame, no flue).'},
+  {q:'A furnace and a boiler differ primarily in that:',o:['A furnace burns gas, a boiler burns oil','A furnace heats air moved by a blower; a boiler heats water moved by a circulator','A furnace is electric, a boiler is not','There is no real difference'],a:1,e:'Furnace = forced air (blower, ducts); boiler = hydronic (circulator, water to radiators/baseboard).'},
+  {q:'Carbon monoxide is a central concern in heating because it is:',o:['Flammable and loud','Colorless, odorless, and produced by all combustion appliances','Only a problem with oil heat','Produced only by cracked pipes'],a:1,e:'All combustion makes CO; the heat exchanger and venting exist to keep it out of the breathing air.'},
+  {q:'Which system family has no flue and no carbon-monoxide concern?',o:['Gas forced-air furnace','Oil-fired boiler','Electric resistance / heat pump','Wood stove'],a:2,e:'Electric resistance and heat pumps have no combustion, so no flue or CO.'},
+  {q:'Naming the heat-delivery family is useful because it:',o:['Sets the fuel price','Tells you what components to inspect','Determines the thermostat brand','Is required by code'],a:1,e:'Forced-air, hydronic, or in-room each point you to a different set of components and defects.'},
+ ]},
+
+/* ===== L1 GAS COMBUSTION & BURNERS ===== */
+{id:'l1',kind:'Lesson 1',label:'Gas Furnace: Combustion & Burners',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 1 · Ch.8 Gas</span><h1>Lighting the fire, safely</h1>
+ <p class="lead">A gas forced-air furnace starts with a controlled flame. Three things have to line up — fuel, ignition, and air — and each has a component and a failure mode you'll learn to read.</p>
+ <h2>The burner assembly</h2>
+ <p>When the thermostat calls for heat, the <b>gas valve</b> opens and admits gas to the <b>burners</b>, where it mixes with air and ignites. Older furnaces light from a standing <b>pilot</b>; a <b>thermocouple</b> sits in the pilot flame and generates a tiny voltage that holds the gas valve open — if the pilot goes out, the thermocouple cools, the voltage drops, and the gas shuts off. Newer furnaces use <b>electronic ignition</b> (intermittent pilot or hot-surface igniter), which saves the gas a standing pilot wastes.</p>
+ <h2>Reading the flame</h2>
+ <p>A healthy gas flame is mostly <b>blue and steady</b>. Lazy yellow flames, or flames that lift off the burner, signal a combustion problem — wrong air mix, dirt, or a draft issue. You'll use the flame again in the next lesson as a <b>diagnostic</b>: how it behaves when the blower starts can reveal a cracked heat exchanger.</p>
+ <h2>Combustion air</h2>
+ <p>Fire needs air. A furnace in a tight closet or a space crowded with stored goods can be <b>starved of combustion air</b>, which causes incomplete burning, soot, and — the dangerous part — a tendency to <b>backdraft</b>. Note furnaces installed in confined spaces without adequate combustion-air provisions.</p>
+ ${story('Inspector in the house',`You open a furnace closet and find it packed with paint cans, a vacuum, and stacked boxes right against the cabinet. The furnace runs — but it's breathing the same crowded air it needs for combustion, and the stored solvents are a fire risk beside a flame. You don't have to prove it's starved; you note that the appliance lacks clear combustion-air space and recommend the closet be kept clear and evaluated.`)}`,
+ quiz:[
+  {q:'When the thermostat calls for heat, the component that admits gas to the burners is the:',o:['Thermocouple','Gas valve','Blower','Limit switch'],a:1,e:'The gas valve opens to feed the burners; the thermostat is just the trigger.'},
+  {q:'The thermocouple\'s job is to:',o:['Ignite the burners','Sense that the pilot is lit and hold the gas valve open (shutting gas if the pilot fails)','Move air through the ducts','Regulate draft'],a:1,e:'The thermocouple proves flame: pilot out → it cools → gas shuts off. A basic safety interlock.'},
+  {q:'A healthy gas burner flame is generally:',o:['Lazy and yellow','Mostly blue and steady','Orange and flickering','Invisible'],a:1,e:'Blue and steady indicates good combustion; yellow/lazy or lifting flames signal a problem.'},
+  {q:'A furnace starved of combustion air tends to:',o:['Run more efficiently','Burn incompletely, soot, and backdraft','Heat the water faster','Trip the circulator'],a:1,e:'Inadequate combustion air causes incomplete burning, soot, and a dangerous tendency to backdraft.'},
+  {q:'Newer furnaces replace the standing pilot with:',o:['A larger gas valve','Electronic ignition (intermittent pilot or hot-surface igniter)','A second thermocouple','A barometric damper'],a:1,e:'Electronic ignition lights on demand instead of burning gas continuously at a pilot.'},
+ ]},
+
+/* ===== L2 HEAT EXCHANGER & CRACKS ===== */
+{id:'l2',kind:'Lesson 2',label:'The Heat Exchanger & Cracks',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 2 · Ch.8 Gas — the critical item</span><h1>The wall between the fire and your air</h1>
+ <p class="lead">This is the most important lesson in the chapter. The heat exchanger is the metal barrier that lets the furnace heat your house air <em>without</em> letting combustion gases mix into it. When that barrier fails, carbon monoxide can enter the home.</p>
+ <h2>What it does</h2>
+ <p>Combustion happens <b>inside</b> the heat exchanger; the burners fire into it and the exhaust travels through it to the flue. House air blows <b>across the outside</b> of it, picking up heat, and goes to the ducts. The two air streams — dirty exhaust and clean house air — must never meet. The heat exchanger is the only thing keeping them apart.</p>
+ <h2>The crack — life safety</h2>
+ <p>Metal that heats and cools for years eventually <b>cracks</b>. A cracked or holed heat exchanger lets products of combustion — including carbon monoxide — leak into the heated air delivered to the rooms. The implications are stark: a <b>life-safety hazard</b>, and a furnace that <b>usually must be replaced</b> (you don't patch a heat exchanger).</p>
+ <div class="field"><div class="ic">${sv(ic.alert)}</div><div><div class="t">The flame-distortion test</div><p>Cracks are often hidden. So you use the flame: with the burners lit, <b>watch the flame as the blower kicks on</b>. If the flame pattern shifts — distorts, changes color, or is blown — when the house fan starts, that air pressure is reaching the combustion side through a breach, strongly suggesting a crack. Write it up as a <b>possible cracked heat exchanger</b> and recommend further investigation. (A little flame movement from fan vibration is normal; and cracks above the flame won't move the flame but are still defects — which is why you also recommend a specialist's evaluation.)</p></div></div>
+ <h2>The other two conditions</h2>
+ <p><b>Soot</b> on the exchanger means incomplete combustion fouling the metal. <b>Rust</b> and corrosion thin the metal and lead to holes — often driven by condensation from spillage or by a chronically over-cooled return. Both shorten its life and point toward eventual failure.</p>
+ ${W('spot','heatexchanger')}`,
+ quiz:[
+  {q:'The heat exchanger\'s essential function is to:',o:['Pump water through the system','Separate combustion gases from the house air while transferring heat','Ignite the burners','Filter the return air'],a:1,e:'It transfers heat from the fire to the house air while keeping the two air streams apart.'},
+  {q:'A cracked heat exchanger is so serious because it can:',o:['Lower efficiency only','Allow carbon monoxide into the heated house air — a life-safety hazard','Make the blower noisy','Raise the gas bill slightly'],a:1,e:'A breach lets combustion products including CO into the air delivered to the rooms.'},
+  {q:'A cracked heat exchanger is typically:',o:['Patched with high-temp sealant','Cause to replace the furnace','Repaired by replacing the gas valve','Ignored if the flame looks fine'],a:1,e:'Heat exchangers aren\'t patched; a cracked one usually means furnace replacement.'},
+  {q:'In the flame-distortion test, a sign of a possible crack is:',o:['The flame is steady before and after the blower starts','The flame pattern changes when the blower kicks on','The pilot is blue','The thermostat clicks'],a:1,e:'If fan air reaches the flame through a breach, the flame shifts when the blower starts — flag it.'},
+  {q:'A limitation of the flame test is that:',o:['It only works on oil furnaces','Cracks above the flame level may not move the flame but are still defects','It requires removing the heat exchanger','It detects only soot'],a:1,e:'Some cracks won\'t disturb the flame, so you still recommend a specialist\'s evaluation.'},
+ ]},
+
+/* ===== L3 VENTING, FLUE & BACKDRAFT ===== */
+{id:'l3',kind:'Lesson 3',label:'Venting, Flue & Backdraft',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 3 · Ch.8 Gas — venting</span><h1>Getting the exhaust outside</h1>
+ <p class="lead">Combustion gases have to leave the building. On a conventional gas appliance they rise on their own (hot air rises) up a vent connector to the chimney. When that path fails, exhaust spills back into the house — the backdraft hazard.</p>
+ <h2>Draft hood and vent connector</h2>
+ <p>Above a conventional furnace or water heater sits a <b>draft hood</b> — an open collar that lets the appliance vent freely and draws in a little room air to dilute the exhaust. From there the <b>vent connector</b> carries gases to the chimney. It must <b>rise continuously</b> toward the chimney (about ¼ inch per foot), be properly sized, and keep clearance from combustibles — single-wall connector wants about 6 inches from wood on a gas appliance.</p>
+ <h2>Backdraft and spillage — the test</h2>
+ <p><b>Backdrafting</b> is ongoing spillage: exhaust coming <em>down</em> out of the draft hood into the room instead of going up the flue. With the burner running, hold a hand (or use a smoke source) near the draft hood: you should feel <b>cool room air drawn in</b>. If you feel <b>hot, wet exhaust pushing down</b>, spillage is happening. Brief spillage just at start-up can be normal; <b>ongoing</b> spillage is the problem.</p>
+ <p>A quieter clue is <b>condensation and rust around the draft hood</b> — water is a product of combustion, and exhaust spilling and cooling in the room leaves moisture and corrosion behind. Treat backdrafting as a <b>flag-now</b>, CO-risk finding.</p>
+ ${W('spot','flue')}
+ <h2>High-efficiency and condensing furnaces</h2>
+ <p>Modern <b>high-efficiency (condensing)</b> furnaces work differently: an <b>induced-draft</b> fan pushes the exhaust, they extract so much heat that the flue gas <b>condenses</b>, and they vent through <b>plastic (PVC) pipe</b> out a sidewall rather than up a chimney — plus a <b>condensate drain</b>. New things to check: the condensate line (clogs and leaks), the plastic vent's slope and termination, and the induced-draft motor. Same principle, different hardware — the exhaust still has to get out.</p>`,
+ quiz:[
+  {q:'The vent connector on a conventional gas appliance should:',o:['Slope downward toward the appliance','Rise continuously toward the chimney','Run perfectly level','Terminate in the attic'],a:1,e:'It must rise (about ¼ in/ft) so hot gases flow up and out; a downward slope traps exhaust.'},
+  {q:'Backdrafting (ongoing spillage) means:',o:['The blower is too strong','Exhaust is coming down out of the draft hood into the room','The pilot is out','The filter is dirty'],a:1,e:'Combustion gases spilling into the room instead of venting up — a carbon-monoxide hazard.'},
+  {q:'When you test at the draft hood with the burner running, a GOOD result is:',o:['Hot wet air pushing down onto your hand','Cool room air being drawn in','No air movement at all','The flame going out'],a:1,e:'Cool room air drawn in means the appliance is venting; hot exhaust pushing down means spillage.'},
+  {q:'Rust and condensation around a draft hood suggest:',o:['Normal operation','Spilling exhaust depositing moisture (a sign of backdraft)','A cracked circulator','Low water pressure'],a:1,e:'Water is a combustion product; spillage cooling in the room leaves moisture and rust.'},
+  {q:'A high-efficiency condensing furnace typically vents through:',o:['A masonry chimney only','Plastic (PVC) pipe with a condensate drain','No vent at all','The return ducts'],a:1,e:'Condensing furnaces use an induced-draft fan and plastic sidewall venting, plus a condensate drain to check.'},
+ ]},
+
+/* ===== L4 BLOWER, FILTER & CONTROLS ===== */
+{id:'l4',kind:'Lesson 4',label:'Blower, Filter & Controls',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 4 · Ch.8 Gas — air side</span><h1>Moving the heat and keeping it safe</h1>
+ <p class="lead">The combustion side makes the heat; the air side moves it and watches over the furnace. Three controls keep the whole thing safe and comfortable.</p>
+ <h2>Blower and filter</h2>
+ <p>The <b>blower</b> (the house fan) pushes heated air across the heat exchanger and out to the ducts. Ahead of it sits the <b>air filter</b>, and the filter matters more than it looks: a <b>clogged filter starves airflow</b>, which lets the heat exchanger run hot (back to Lesson 2's scorching and cracking) and overworks the blower. A dirty or missing filter is the most common — and most consequential — maintenance finding on the air side.</p>
+ <h2>The three fan/limit controls</h2>
+ <p>A combined <b>fan/limit switch</b> does two jobs with three settings. The <b>fan-on</b> setting starts the blower once the exchanger is warm (so you don't blow cold air). The <b>fan-off</b> setting stops it after the burner shuts down (wringing out the last heat). The <b>limit</b> setting is the safety: if the furnace overheats — usually from restricted airflow — it <b>shuts the burner off</b> before the exchanger is damaged. The <b>thermostat</b> sits upstream of all of it, calling for heat in the first place.</p>
+ ${W('match','controls')}
+ <h2>What you check</h2>
+ <p>Confirm the blower runs and the filter is present and reasonably clean; listen for bearing noise; verify the furnace cycles on the thermostat and shuts down normally. A blower that won't start, a limit that short-cycles the burner, or a filter packed solid all get written up — the first two as operational defects, the filter as maintenance.</p>`,
+ quiz:[
+  {q:'A clogged air filter is consequential because it:',o:['Improves efficiency','Restricts airflow, overheating the heat exchanger and overworking the blower','Cools the burners','Has no real effect'],a:1,e:'Restricted airflow overheats the exchanger (scorching/cracking) and strains the blower.'},
+  {q:'The LIMIT setting of the fan/limit switch:',o:['Starts the blower when the exchanger is warm','Shuts the burner off if the furnace overheats','Opens the gas valve','Regulates draft'],a:1,e:'The limit is the safety cutout — it stops the burner on overheat before the exchanger is damaged.'},
+  {q:'The fan-ON setting exists so that:',o:['The blower runs constantly','The blower waits until the exchanger is warm before pushing air','The burner never shuts off','The filter cleans itself'],a:1,e:'It delays the blower until there\'s heat to deliver, so you don\'t get a blast of cold air.'},
+  {q:'The blower (house fan) moves air:',o:['Through the combustion chamber','Across the outside of the heat exchanger and out to the ducts','Up the flue','Into the gas valve'],a:1,e:'House air passes across the exchanger\'s exterior, picks up heat, and goes to the ducts.'},
+  {q:'The component that first calls for heat is the:',o:['Limit switch','Thermostat','Blower','Thermocouple'],a:1,e:'The thermostat triggers the sequence; the gas valve, ignition, and blower follow.'},
+ ]},
+
+/* ===== L5 OIL BURNERS ===== */
+{id:'l5',kind:'Lesson 5',label:'Oil Burners',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 5 · Ch.9 Oil</span><h1>Burning a liquid instead of a gas</h1>
+ <p class="lead">Oil heat works on the same make-heat / move-heat / vent-it logic as gas — the heat exchanger, blower, and venting concepts carry straight over. What's different is the burner, because you have to atomize and ignite a liquid fuel.</p>
+ <h2>The gun burner</h2>
+ <p>A modern oil burner is a <b>gun burner</b>: a pump pushes oil through a fine <b>nozzle</b> that sprays it as a fine mist into the <b>combustion chamber</b>, while a fan supplies air and an <b>ignition transformer</b> throws a high-voltage spark across electrodes to light it. The nozzle's spray pattern and size are matched to the appliance — a worn or wrong nozzle is a common cause of poor combustion and soot.</p>
+ <h2>The barometric damper</h2>
+ <p>Oil flues use a <b>barometric damper</b> — a hinged, counter-weighted flap in the vent connector that swings to <b>regulate draft</b>, admitting room air when chimney draft is strong and closing down when it's weak. It keeps combustion stable. Missing, stuck, or wrongly set, draft goes uncontrolled — hurting combustion and inviting spillage. (This is the oil counterpart to the gas draft hood.)</p>
+ <h2>Soot and smoke — the oil tell</h2>
+ <p>Oil's signature problem is <b>soot</b>. A fouled nozzle, wrong air setting, or poor draft produces soot and smoke that coat the chamber and heat exchanger, cutting efficiency and accelerating wear. Heavy sooting, smoke odor, or staining around the burner are findings to write up and refer for service. There's also typically an <b>oil filter</b> on the supply line to keep the nozzle clean.</p>
+ ${story('Inspector in the house',`An oil furnace runs, but the basement carries a faint smoky smell and there's dark staining around the burner door. You're not going to tune the burner — but soot and a smoke odor tell you combustion isn't clean. You note it plainly: "Evidence of sooting / incomplete combustion at the oil burner; recommend service by a heating contractor," and move on. The annual oil-service habit exists for exactly this reason.`)}`,
+ quiz:[
+  {q:'In a gun-type oil burner, the nozzle\'s job is to:',o:['Ignite the oil','Atomize the oil into a fine mist for combustion','Regulate draft','Pump water'],a:1,e:'The nozzle sprays oil as a fine mist sized and patterned for the appliance; spark from the transformer lights it.'},
+  {q:'The ignition transformer in an oil burner:',o:['Heats the oil tank','Produces a high-voltage spark to light the oil mist','Filters the oil','Vents the exhaust'],a:1,e:'It throws a spark across electrodes to ignite the atomized oil.'},
+  {q:'A barometric damper:',o:['Filters combustion air','Regulates draft in the oil flue by swinging open or closed','Stores oil','Replaces the heat exchanger'],a:1,e:'The counter-weighted flap admits or restricts room air to keep draft stable — the oil counterpart to a gas draft hood.'},
+  {q:'The signature combustion problem on oil systems is:',o:['Low water pressure','Soot and smoke from incomplete combustion','A cracked circulator','A waterlogged expansion tank'],a:1,e:'Soot/smoke from a fouled nozzle, wrong air, or poor draft coats the chamber and exchanger.'},
+  {q:'Heavy sooting and a smoke odor at an oil burner should be:',o:['Ignored if the unit runs','Written up with a recommendation for service by a heating contractor','Cleaned by the inspector','Fixed by replacing the thermostat'],a:1,e:'You report incomplete combustion and refer it for service — you don\'t tune the burner yourself.'},
+ ]},
+
+/* ===== L6 OIL TANKS & STORAGE ===== */
+{id:'l6',kind:'Lesson 6',label:'Oil Tanks & Storage',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 6 · Ch.9 Oil — storage</span><h1>Where the fuel lives</h1>
+ <p class="lead">Oil heat brings something gas doesn't: a tank of liquid fuel on the property. Tanks come above ground (basement or outside) or buried, and each carries its own conditions — some functional, one environmental.</p>
+ <h2>Location and protection</h2>
+ <p>An oil tank should <b>not sit within 5 feet of any burner</b> — a fire-safety clearance. Tanks in garages or outdoors should be <b>protected from vehicle damage</b> (bollards or posts). Check the tank's <b>legs and supports</b>; a heavy full tank on corroded or undersized legs is a collapse risk.</p>
+ <h2>Fill and vent pipes</h2>
+ <p>Two pipes run to the outside: the <b>fill pipe</b> (where the truck pumps oil in) and the <b>vent pipe</b> (which lets air out as the tank fills and signals "full" with a whistle). Common findings: damaged, leaking, or improperly terminated fill/vent pipes. A telltale: a <b>strong oil odor right after a delivery</b> often means spillage or a fill-pipe leak.</p>
+ <h2>Leaks — functional and environmental</h2>
+ <p>A leak shows as <b>staining and odor</b> at the tank, fittings, fill, or vent. On an <b>above-ground</b> tank that's a functional problem you can see. On a <b>buried</b> tank it's far more serious: a leak from an underground tank is an <b>environmental hazard</b> with real cleanup liability, and you usually can't see the tank at all — so note the presence of any buried tank, look for surface staining and odor, and recommend evaluation.</p>
+ ${W('spot','oilburner')}
+ <div class="field"><div class="ic">${sv(ic.alert)}</div><div><div class="t">Buried tanks are a liability flag</div><p>An abandoned or active <b>underground oil tank</b> can be a significant financial and environmental issue for a buyer. If there's any indication of one — a fill/vent pipe leading into the ground with no visible tank — call it out clearly and recommend specialist evaluation. This is one your client genuinely needs to know before closing.</p></div></div>`,
+ quiz:[
+  {q:'An oil tank should not be located within:',o:['1 foot of a window','5 feet of any burner','10 feet of the chimney','20 feet of the house'],a:1,e:'A 5-foot clearance from any burner is a fire-safety requirement for oil tanks.'},
+  {q:'The vent pipe on an oil tank:',o:['Delivers oil to the burner','Lets air out as the tank fills and signals when it\'s full','Drains condensate','Regulates draft'],a:1,e:'The vent lets displaced air escape during filling (often with a whistle that stops when full).'},
+  {q:'A strong oil odor right after a delivery usually indicates:',o:['Normal operation','Spillage or a fill-pipe leak','A cracked heat exchanger','Low draft'],a:1,e:'Post-fill odor commonly points to spillage at the fill or a leaking fill pipe.'},
+  {q:'A leak from a BURIED oil tank is especially serious because it is:',o:['Only a cosmetic issue','An environmental hazard with cleanup liability, often unseen','Easy to repair from inside','Not the buyer\'s concern'],a:1,e:'Underground tank leaks are environmental/financial liabilities and the tank is usually hidden — flag and refer.'},
+  {q:'An oil tank in a garage or outdoors should be:',o:['Painted black','Protected from vehicle damage','Buried for safety','Mounted on the ceiling'],a:1,e:'Tanks exposed to vehicles need protection (posts/bollards) against impact.'},
+ ]},
+
+/* ===== L7 BOILERS & HYDRONIC ===== */
+{id:'l7',kind:'Lesson 7',label:'Boilers & Hydronic Heat',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 7 · Ch.10 Boilers</span><h1>Heating with water instead of air</h1>
+ <p class="lead">A boiler heats water and a pump sends it around a loop to radiators or baseboard, which release the heat into the rooms; cooled water returns to be reheated. No ducts, no blower — but the combustion side (burner, heat exchanger, flue) works just like a furnace, so everything you learned about cracks and venting still applies.</p>
+ <h2>The loop</h2>
+ <p>Hot water leaves the boiler on the <b>supply</b> side, travels to the emitters, gives up its heat, and comes back on the <b>return</b> side, cooler, to be reheated — a closed, pressurized loop. A <b>circulator</b> (pump) keeps it moving. Because it's a sealed system, the same water circulates for years; you're not constantly adding fresh water (and if the system <em>is</em> taking on make-up water, that points to a leak).</p>
+ <div class="dgm"><svg viewBox="0 0 700 220"><g fill="none" stroke="#3c5870" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+   <rect x="60" y="90" width="90" height="100" rx="8"/><text x="105" y="205" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#2c4153">BOILER</text>
+   <path d="M150 110 H 560" stroke="#b85436"/><text x="350" y="100" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#b85436">supply (hot)</text>
+   <rect x="300" y="110" width="60" height="30" rx="3"/><text x="330" y="130" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#2c4153">radiator</text>
+   <rect x="480" y="110" width="60" height="30" rx="3"/><text x="510" y="130" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#2c4153">baseboard</text>
+   <path d="M560 110 V 170 H 150" stroke="#5a7b97"/><text x="350" y="188" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#5a7b97">return (cooler)</text>
+   <circle cx="185" cy="170" r="11"/><text x="185" y="158" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#2c4153">circulator</text>
+ </g></svg><div class="cap">A closed loop: boiler heats water → circulator pumps it to the emitters → cooled water returns</div></div>
+ <h2>Water vs steam, and the gauge</h2>
+ <p>Most boilers are <b>hot-water (hydronic)</b>. Older <b>steam</b> systems boil the water and let steam rise to the radiators on its own (you'll spot a sight glass and different controls — covered next lesson). On a hot-water boiler, the <b>pressure/temperature gauge</b> is your quick read: a cold system typically sits around <b>12 psi</b>, and running pressure climbs with temperature but should stay <b>under 30 psi</b>. A reading far off — near zero, or pinned high — points to a fill, expansion-tank, or relief-valve issue you'll chase in the next lesson.</p>
+ ${W('match','heatsys')}`,
+ quiz:[
+  {q:'In a hydronic system, the circulator:',o:['Heats the water','Pumps heated water around the supply-and-return loop','Vents the exhaust','Filters the air'],a:1,e:'The circulator (pump) moves water from the boiler to the emitters and back.'},
+  {q:'The combustion side of a boiler (burner, heat exchanger, flue):',o:['Doesn\'t exist on boilers','Works essentially like a furnace, so crack/venting concerns still apply','Uses no fuel','Is always electric'],a:1,e:'A fuel-fired boiler burns and vents like a furnace — heat-exchanger and backdraft concerns carry over.'},
+  {q:'If a sealed hydronic system keeps needing make-up water, it suggests:',o:['Normal operation','A leak in the loop','Too much circulation','A dirty filter'],a:1,e:'A closed loop shouldn\'t consume water; ongoing make-up water points to a leak.'},
+  {q:'On a hot-water boiler, a cold-system pressure of about 12 psi and running pressure under 30 psi is:',o:['A sign of failure','Normal','Impossibly low','Only true for steam'],a:1,e:'~12 psi cold, climbing but staying under 30 psi running, is the normal hydronic range.'},
+  {q:'A steam system differs from a hot-water system in that it:',o:['Uses a circulator pump for steam','Boils the water and lets steam rise to the radiators','Has no boiler','Needs no venting'],a:1,e:'Steam systems boil water and the steam rises to the radiators; they use different controls (and a sight glass).'},
+ ]},
+
+/* ===== L8 BOILER SAFETIES & CIRCULATION ===== */
+{id:'l8',kind:'Lesson 8',label:'Boiler Safeties & Circulation',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 8 · Ch.10 Boilers — the safety set</span><h1>Keeping a vessel of hot water under control</h1>
+ <p class="lead">A boiler is a sealed vessel of heated water under pressure. Three devices keep that from becoming dangerous, and a couple more keep it circulating. Learn this set and you can read any boiler room.</p>
+ <h2>The pressure-relief valve — the critical safety</h2>
+ <p>The <b>pressure-relief valve</b> prevents system pressure from building past about <b>30 psi</b>. That number matters: excessive pressure can flash water to steam and cause a <b>steam explosion</b>. The valve is set to relieve at 30 psi, sits at or near the top of the boiler, and — like a water heater's TPR — its <b>discharge must be piped down near the floor</b>. As an inspector you generally <b>don't test it</b> (it can fail to reseat), but you confirm it's present, correctly sized, and properly piped. Missing relief protection or a discharge open at height is a flag-now finding.</p>
+ <h2>The high-temperature limit (aquastat)</h2>
+ <p>The <b>aquastat</b> is the high-temperature limit: it watches water temperature and shuts the burner down before the water gets too hot, working alongside the relief valve as a second line of defense.</p>
+ <h2>The expansion tank</h2>
+ <p>Water expands as it heats. The <b>expansion tank</b> gives it somewhere to go — a cushion of air that compresses to absorb the expansion. The classic failure is a <b>waterlogged</b> tank: it loses its air cushion, so heating the water spikes the pressure and makes the relief valve weep. A waterlogged or failed expansion tank is one of the most common hydronic faults you'll find.</p>
+ <h2>Circulator and zone valves</h2>
+ <p>The <b>circulator pump</b> drives the loop; corrosion or seepage at its seal is a wear finding. <b>Zone valves</b> let one boiler serve several independently controlled zones, opening and closing to direct hot water where the thermostats are calling. A stuck zone valve shows up as a zone that won't heat (or won't stop).</p>
+ ${W('spot','boiler')}`,
+ quiz:[
+  {q:'The boiler pressure-relief valve is set to relieve at about:',o:['12 psi','30 psi','60 psi','150 psi'],a:1,e:'It caps pressure near 30 psi to prevent a steam explosion.'},
+  {q:'Excessive boiler pressure is dangerous because it can:',o:['Cool the water too fast','Flash water to steam and cause an explosion','Stop the circulator','Clog the filter'],a:1,e:'Past the relief setting, superheated water can flash to steam — the relief valve exists to prevent this.'},
+  {q:'A waterlogged expansion tank causes:',o:['Low gas pressure','Pressure spikes on heating and a weeping relief valve','A cracked heat exchanger','Soot at the burner'],a:1,e:'Losing its air cushion, the tank can no longer absorb expansion, so pressure spikes and the relief valve weeps.'},
+  {q:'Inspectors generally do NOT operate the boiler relief valve because:',o:['It is illegal','It may fail to reseat and then leak','It has no test lever','It is electric'],a:1,e:'Testing risks the valve not reseating; you confirm presence, sizing, and proper discharge instead.'},
+  {q:'A zone valve\'s job is to:',o:['Relieve pressure','Direct hot water to the zone whose thermostat is calling','Filter the water','Ignite the burner'],a:1,e:'Zone valves open/close to send heated water to the zones calling for heat; stuck ones cause heating complaints.'},
+ ]},
+
+/* ===== L9 RADIATORS, BASEBOARD & STEAM ===== */
+{id:'l9',kind:'Lesson 9',label:'Radiators, Baseboard & Steam',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 9 · Ch.10 Boilers — emitters</span><h1>Where the water gives up its heat</h1>
+ <p class="lead">The emitters are the business end of a hydronic system — the radiators, baseboard, and convectors that actually warm the rooms. They're simple, but they have their own handful of conditions.</p>
+ <h2>The emitter types</h2>
+ <p><b>Cast-iron radiators</b> — the tall, old standbys — hold a lot of water and radiate steadily. <b>Baseboard convectors</b> — finned tubes along the wall — heat air that rises off the fins. <b>Convectors</b> in cabinets work the same way. All of them depend on water (or steam) actually reaching them and on air being able to get out of the way.</p>
+ <h2>Common conditions</h2>
+ <p><b>Trapped air</b> is the usual complaint: air collects at the high points and blocks circulation, so a radiator runs cold at the top or a baseboard won't heat. The cure is <b>bleeding</b> the air at the valves — a maintenance item you can note. <b>Leaks</b> at valves and connections leave staining. <b>Balancing</b> — some rooms too hot, others too cold — is common in older systems. And emitters or piping that are <b>painted over, damaged, or disconnected</b> are straightforward findings.</p>
+ <h2>Steam specifics</h2>
+ <p>On a <b>steam</b> system, each radiator has an <b>air vent</b> that hisses as steam pushes air out, then closes — a stuck-open or stuck-closed vent is a common steam fault. The boiler carries a <b>sight glass</b> showing water level, which must stay in range. Steam radiators must <b>slope slightly back toward the return</b> so condensate drains; a radiator pitched the wrong way bangs and spits (water hammer). You won't service these, but you should recognize a steam system and its telltales.</p>
+ ${story('Inspector in the house',`A homeowner complains the upstairs bedroom radiator "never gets hot at the top." You feel it — hot at the bottom, cold up high. That's textbook <b>trapped air</b>, not a dead radiator: the system needs bleeding. You note it as a maintenance item, not a defect, and explain the difference — which is exactly the kind of plain, useful call that builds trust on an inspection.`)}`,
+ quiz:[
+  {q:'A hydronic radiator that is hot at the bottom but cold at the top usually has:',o:['A cracked heat exchanger','Trapped air that needs bleeding','Too much pressure','A bad thermostat'],a:1,e:'Air collects at the high point and blocks circulation; bleeding the air restores it. A maintenance item.'},
+  {q:'Baseboard convectors heat a room by:',o:['Radiating from a large water mass only','Warming air that rises off finned tubes','Blowing air with a fan','Burning gas at the baseboard'],a:1,e:'Finned tubes warm passing air, which rises and circulates — convection.'},
+  {q:'On a steam radiator, the air vent:',o:['Supplies gas','Lets air out as steam enters, then closes; stuck vents are a common fault','Pumps water','Regulates draft'],a:1,e:'The vent releases air ahead of the steam and closes; stuck open/closed is a typical steam problem.'},
+  {q:'A steam boiler\'s sight glass shows:',o:['Flue temperature','The boiler water level, which must stay in range','Gas pressure','Outdoor temperature'],a:1,e:'The sight glass indicates water level — a key steam-system check.'},
+  {q:'A steam radiator pitched the wrong way (away from the return) tends to:',o:['Heat more evenly','Bang and spit (water hammer) because condensate can\'t drain','Use less fuel','Vent better'],a:1,e:'Improper slope traps condensate, causing water hammer and spitting.'},
+ ]},
+
+/* ===== L10 DUCTWORK & DISTRIBUTION ===== */
+{id:'l10',kind:'Lesson 10',label:'Ductwork & Air Distribution',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 10 · Ch.11 Distribution</span><h1>The delivery network for forced air</h1>
+ <p class="lead">On a forced-air system, the furnace or heat pump is only half the story — the duct network decides whether that heat actually reaches the rooms evenly. Ducts are mostly hidden, but the parts you can see tell you a lot.</p>
+ <h2>Supply and return</h2>
+ <p>Two halves: <b>supply</b> ducts carry conditioned air from the furnace to the <b>registers</b> in each room, and <b>return</b> ducts (through <b>return grilles</b>) bring room air back to be reheated and recirculated. A system needs adequate return as well as supply — rooms with supply but no return path tend to stay pressurized and underheated. <b>Registers and grilles</b> should be present, open, and unobstructed by furniture or rugs.</p>
+ <h2>Common conditions</h2>
+ <p><b>Leakage</b> at duct joints — especially in unconditioned spaces like attics and crawlspaces — wastes heat and money; look for disconnected or poorly sealed sections. <b>Damaged, crushed, or disconnected</b> ducts cut delivery to whole rooms. <b>Poor support</b> lets flex duct sag and kink. <b>Balance</b> problems — some rooms much warmer than others — often trace back to the ductwork. And in older homes, watch for <b>asbestos</b> used as duct insulation or tape on heating ducts: don't disturb it, note it, and recommend specialist evaluation.</p>
+ <div class="field"><div class="ic">${sv(ic.alert)}</div><div><div class="t">Old duct insulation — leave it alone</div><p>Crumbling white/gray insulation or tape wrapped on old heating ducts and the furnace plenum can contain <b>asbestos</b>. Don't probe or disturb it. Note its presence and recommend evaluation by a qualified specialist — the hazard comes from disturbing it, not from reporting it.</p></div></div>
+ <p>What you do: confirm registers and returns are present and open, feel for airflow at the registers with the system running, and look at accessible ductwork for disconnections, sagging, leakage, and suspect insulation.</p>`,
+ quiz:[
+  {q:'Supply registers and return grilles, respectively:',o:['Both bring air back to the furnace','Deliver conditioned air to rooms / bring room air back to be reheated','Both deliver air to rooms','Have no distinct roles'],a:1,e:'Supply delivers conditioned air; returns bring room air back for reconditioning.'},
+  {q:'Duct leakage is most wasteful when it occurs in:',o:['Conditioned living space','Unconditioned spaces like attics and crawlspaces','The thermostat','The flue'],a:1,e:'Leaks in unconditioned spaces dump heated air where it does no good, wasting energy.'},
+  {q:'A room with a supply register but no adequate return tends to:',o:['Overheat the rest of the house','Stay pressurized and underheated','Backdraft the furnace','Trip the limit switch'],a:1,e:'Without a return path, the room pressurizes and doesn\'t get good airflow/heating.'},
+  {q:'Crumbling insulation or tape on old heating ducts may contain asbestos, so you should:',o:['Remove it for the client','Disturb it to confirm','Leave it undisturbed, note it, and recommend specialist evaluation','Paint over it'],a:2,e:'The hazard is in disturbing it; report its presence and refer it, don\'t probe it.'},
+  {q:'Registers and grilles blocked by furniture or rugs will:',o:['Improve balance','Impair airflow and even heating','Have no effect','Protect the ducts'],a:1,e:'Blocked registers/returns choke airflow and worsen room-to-room balance.'},
+ ]},
+
+/* ===== L11 ELECTRIC HEAT & HEAT PUMPS ===== */
+{id:'l11',kind:'Lesson 11',label:'Electric Heat & Heat Pumps',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 11 · Ch.11 Other</span><h1>Heat without a flame</h1>
+ <p class="lead">Not all heat is burned. Electric systems make heat with no combustion — which means no flue, no carbon monoxide, and a very different set of things to check. Two kinds matter: simple resistance heat, and the heat pump.</p>
+ <h2>Electric resistance heat</h2>
+ <p><b>Electric resistance</b> heat — baseboard heaters, electric furnaces, wall units — works like a giant toaster: current through a resistance element makes heat. It's <b>100% efficient at the appliance</b> (all the electricity becomes heat) but electricity is expensive, so operating cost is high. There's no combustion to worry about; you're checking that units operate, aren't damaged, and aren't blocked by furniture or drapes (a fire concern with baseboard). Electric furnaces still use a blower and ducts, so the air-side checks from Lesson 4 apply.</p>
+ <h2>Heat pumps in heating mode</h2>
+ <p>A <b>heat pump</b> is an air conditioner that can run backward. In summer it moves heat out of the house; in winter a <b>reversing valve</b> flips the refrigerant cycle so it <b>moves heat from the outdoor air into the house</b> — even cold air has heat to extract. It's efficient because it <em>moves</em> heat rather than making it. Two heating-mode specifics: as outdoor temperatures drop, capacity falls, so heat pumps have <b>supplemental (backup) heat</b> — usually electric resistance strips — that kick in on the coldest days; and the outdoor coil ices up, so the unit runs a periodic <b>defrost</b> cycle (you may see steam off the outdoor unit, which is normal).</p>
+ <p>What you check carries over from the cooling section: the outdoor unit is level and clear, the coil isn't crushed or blocked, the refrigerant lines are insulated, and the unit produces warm air at the registers in heating mode. A heat pump blowing cool-ish air with the backup constantly running points to a refrigerant or system problem.</p>
+ ${story('Inspector in the house',`It's a mild day and the heat pump is putting out air that feels barely warm — cooler than a furnace would. A new inspector might call it broken. But heat-pump supply air is <b>normally cooler</b> than furnace air; it heats by volume over time, not by blasting hot air. You confirm it's warmer than room temperature and the backup isn't stuck on, and you explain the difference to the client rather than writing up a non-defect.`)}`,
+ quiz:[
+  {q:'Electric resistance heat differs from gas/oil heat in that it:',o:['Is cheaper to run','Has no combustion, so no flue and no carbon monoxide','Needs no electricity','Is less efficient at the appliance'],a:1,e:'No flame means no flue or CO; it\'s ~100% efficient at the unit, but electricity is costly to run.'},
+  {q:'In heating mode, a heat pump:',o:['Burns gas','Uses a reversing valve to move heat from outdoor air into the house','Makes heat with a flame','Has no outdoor unit'],a:1,e:'The reversing valve flips the refrigerant cycle so it extracts heat from outside air, even when cold.'},
+  {q:'Heat pumps include supplemental (backup) heat because:',o:['The reversing valve fails often','Capacity drops as outdoor temperature falls, so backup covers the coldest days','It improves cooling','Code forbids heat pumps alone'],a:1,e:'As it gets colder there\'s less heat to extract, so resistance backup supplements on the coldest days.'},
+  {q:'Steam rising off the outdoor unit of a heat pump in winter is:',o:['A refrigerant leak','Normal — the defrost cycle melting coil frost','A sign of fire','Always a defect'],a:1,e:'Heat pumps periodically defrost the iced outdoor coil; visible steam during defrost is normal.'},
+  {q:'Heat-pump supply air feels cooler than furnace air because it:',o:['Is broken','Heats by moving a larger volume of mildly warm air over time, not by blasting hot air','Is actually cooling','Has no blower'],a:1,e:'Cooler-than-furnace supply air is normal for heat pumps; confirm it\'s above room temp and backup isn\'t stuck on.'},
+ ]},
+
+/* ===== L12 SOLID FUEL & SAFETY SYNTHESIS ===== */
+{id:'l12',kind:'Lesson 12',label:'Wood, Fireplaces & Safety',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 12 · Ch.11 Solid fuel</span><h1>Open flames in the living room — and the wrap-up</h1>
+ <p class="lead">Wood stoves, fireplaces, inserts, and portable space heaters put combustion right in the living space. They're lower-tech but higher-stakes for clearances and fire, so you check the obvious safety items — then we pull the whole heating chapter together by triage.</p>
+ <h2>Fireplaces and the parts that matter</h2>
+ <p>A masonry fireplace has a <b>firebox</b> (where the fire burns), a <b>hearth</b> and a <b>hearth extension</b> (the non-combustible floor in front that catches sparks and embers), a <b>damper</b>, and a <b>flue liner</b> in the chimney. The hearth extension exists for a reason — combustible flooring right up to the firebox is a fire hazard, so the non-combustible extension must be present and adequately sized. <b>Flue liners</b> may be clay tile, firebrick, metal, or (in old chimneys) asbestos cement; a cracked, missing, or deteriorated liner lets heat and combustion gases reach the masonry and framing.</p>
+ <h2>Wood stoves, inserts, and clearances</h2>
+ <p>The recurring theme is <b>clearance to combustibles</b>: a wood stove or insert too close to walls, framing, or furniture is a fire hazard, and the connector pipe passing through a wall or ceiling needs proper <b>fire-stopping</b> and a <b>thimble</b> (a non-combustible pass-through). <b>Creosote</b> — the tarry, combustible residue from burning wood — builds up in flues and is the classic chimney-fire fuel, which is why solid-fuel flues need regular cleaning. Note inadequate clearances, missing fire-stopping, and any sign of past chimney fire or heavy creosote.</p>
+ <h2>Space heaters</h2>
+ <p><b>Portable space heaters</b> are a common finding — fine in principle, dangerous in practice when placed near combustibles or run on overloaded cords. Unvented fuel-burning space heaters add a CO concern indoors. Note their use and the obvious hazards.</p>
+ <h2>Pulling the chapter together</h2>
+ <p>You've now read every heating family through one loop: gas and oil combustion, the heat exchanger and venting, boilers and their safeties, distribution, electric/heat-pump, and solid fuel. The sort below is the synthesis — every heating finding lands in one of two buckets. <b>Flag now</b> anything that can release combustion gas, scald, explode, or start a fire; <b>note and monitor</b> the wear and maintenance. Then prove it on the scenarios and the mastery check.</p>
+ ${W('sort','heattriage')}`,
+ quiz:[
+  {q:'The hearth extension in front of a fireplace exists to:',o:['Improve draft','Provide a non-combustible surface that catches sparks and embers','Store wood','Hold the damper'],a:1,e:'It protects combustible flooring near the firebox from sparks/embers — a fire-safety feature.'},
+  {q:'A cracked or missing flue liner is a problem because it:',o:['Improves efficiency','Lets heat and combustion gases reach the masonry and framing','Has no effect','Only matters for gas'],a:1,e:'The liner contains heat and gases; a failed liner exposes the chimney structure and framing.'},
+  {q:'Creosote is:',o:['A type of flue liner','Tarry combustible residue from burning wood that fuels chimney fires','A boiler control','A duct sealant'],a:1,e:'Creosote builds up in solid-fuel flues and is the classic chimney-fire fuel — hence regular cleaning.'},
+  {q:'Where a wood-stove connector passes through a wall or ceiling, it needs:',o:['Extra creosote','Proper fire-stopping and a non-combustible thimble','A barometric damper','A circulator'],a:1,e:'A thimble and fire-stopping safely isolate the hot connector from combustible framing.'},
+  {q:'In the heating safety triage, which belongs in FLAG NOW?',o:['A dirty furnace filter','A backdrafting flue spilling exhaust','An older but working furnace','A slightly noisy blower'],a:1,e:'Backdrafting releases combustion gas/CO into the home — a flag-now safety item; the others are maintenance.'},
+ ]},
+
+ {id:'scenarios',kind:'Apply it',label:'Inspector\'s Call',type:'scenario'},
+ {id:'assess',kind:'Assessment',label:'Mastery check',type:'assess'},
+ {id:'glossary',kind:'Reference',label:'Glossary',type:'glossary'},
+ {id:'source',kind:'Deep reading',label:'Full source chapters',type:'source'},
+];
+(async()=>{await load();render();})();
+</script>

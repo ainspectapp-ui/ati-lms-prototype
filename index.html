@@ -1,693 +1,555 @@
-<!-- ATI Training LMS — Student Experience · v3 "Architect's vellum" (light & airy) -->
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Closer Capital — Referral Tracker</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#cbc6b8; --surf:#edebe2; --surf-2:#e3e0d6; --surf-3:#d7d3c7;
-    --line:#b8b2a2; --line-2:#cbc6b8; --line-brass:rgba(168,109,16,.3);
-    --ink:#29271f; --ink-2:#6a6557; --ink-3:#918c7d;
-    --brass:#a86d10; --brass-2:#c2841c; --brass-deep:#7f520a; --brass-soft:#e7ddc8; --brass-tint:rgba(168,109,16,.14);
-    --slate:#3c5870; --slate-2:#4d6982; --slate-soft:#d3dadf;
-    --pencil:#7b838a;
-    --pass:#3d7d50; --pass-soft:#d9e6dc; --fail:#b85436; --fail-soft:#edddd4;
-    --r:16px; --r-sm:10px;
-    --display:'Bricolage Grotesque',sans-serif; --body:'Hanken Grotesk',sans-serif; --mono:'JetBrains Mono',monospace;
-    --sb:252px;
-    --sh-1:0 1px 2px rgba(41,39,31,.06),0 2px 5px rgba(41,39,31,.05);
-    --sh-2:0 2px 8px rgba(41,39,31,.07),0 16px 44px rgba(41,39,31,.12);
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111;
+    --surface-2: #1a1a1a;
+    --red: #dc2626;
+    --red-dark: #991b1b;
+    --red-glow: rgba(220,38,38,0.15);
+    --green: #22c55e;
+    --blue: #3b82f6;
+    --yellow: #f59e0b;
+    --text: #fff;
+    --text-2: #aaa;
+    --text-3: #666;
+    --text-4: #444;
+    --border: rgba(255,255,255,0.06);
+    --border-2: rgba(255,255,255,0.1);
+    --font: 'DM Sans', -apple-system, sans-serif;
+    --mono: 'DM Mono', 'SF Mono', monospace;
   }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%}
-  body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5;
-    background-image:radial-gradient(120% 80% at 88% -8%,rgba(189,125,24,.045),transparent 52%),radial-gradient(90% 60% at -8% 108%,rgba(65,96,122,.05),transparent 52%)}
-  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
-  a{color:inherit}
-  .mono{font-family:var(--mono);font-feature-settings:"tnum" 1}
-  ::selection{background:var(--brass);color:#fff}
-  ::-webkit-scrollbar{width:11px;height:11px}::-webkit-scrollbar-thumb{background:#dadfd9;border-radius:11px;border:3px solid var(--bg)}
-
-  .app{display:grid;grid-template-columns:var(--sb) 1fr;min-height:100vh}
-
-  /* ---------- SIDEBAR ---------- */
-  .sidebar{background:#c3beaf;border-right:1px solid var(--line);display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
-  .brand{display:flex;align-items:center;gap:12px;padding:26px 22px 24px}
-  .brand .mark{width:40px;height:40px;border-radius:11px;flex:none;display:grid;place-items:center;background:linear-gradient(150deg,var(--brass-2),var(--brass-deep));box-shadow:0 3px 12px rgba(189,125,24,.3),inset 0 1px 0 rgba(255,255,255,.4)}
-  .brand .mark svg{width:22px;height:22px;color:#fff}
-  .brand .word{font-family:var(--display);font-weight:800;font-size:19px;letter-spacing:-.01em;line-height:1}
-  .brand .word b{color:var(--brass)}
-  .brand .sub{font-family:var(--mono);font-size:9px;letter-spacing:.22em;color:var(--ink-3);text-transform:uppercase;display:block;margin-top:4px}
-
-  .nav{padding:8px 13px;flex:1;overflow-y:auto}
-  .nav .label{font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);padding:20px 11px 9px}
-  .nav a{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:10px;color:var(--ink-2);font-size:14px;font-weight:500;text-decoration:none;transition:.14s;position:relative;cursor:pointer}
-  .nav a svg{width:18px;height:18px;flex:none;opacity:.75}
-  .nav a:hover{background:var(--surf-3);color:var(--ink)}
-  .nav a.active{background:var(--brass-soft);color:var(--brass-deep)}
-  .nav a.active svg{color:var(--brass);opacity:1}
-  .nav a.active::before{content:"";position:absolute;left:-13px;top:11px;bottom:11px;width:3px;border-radius:0 3px 3px 0;background:var(--brass)}
-  .nav a .pill{margin-left:auto;font-family:var(--mono);font-size:10px;background:var(--brass-tint);color:var(--brass-deep);padding:2px 7px;border-radius:20px;font-weight:600}
-
-  .me{margin:13px;padding:13px;border-radius:13px;background:var(--surf);border:1px solid var(--line);display:flex;align-items:center;gap:11px;box-shadow:var(--sh-1)}
-  .me .av{width:38px;height:38px;border-radius:10px;background:linear-gradient(140deg,var(--slate-2),var(--slate));display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:15px;color:#fff;flex:none}
-  .me .nm{font-size:13px;font-weight:600}
-  .me .rl{font-family:var(--mono);font-size:10px;color:var(--ink-3);letter-spacing:.03em}
-
-  /* ---------- MAIN ---------- */
-  .main{display:flex;flex-direction:column;min-width:0}
-  .topbar{position:sticky;top:0;z-index:40;background:rgba(203,198,184,.8);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:15px 38px;display:flex;align-items:center;gap:18px}
-  .crumb{font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--ink-3);display:flex;align-items:center;gap:8px}
-  .crumb b{color:var(--ink);font-weight:600}.crumb .sep{color:var(--line-brass)}
-  .search{margin-left:auto;display:flex;align-items:center;gap:9px;background:var(--surf);border:1px solid var(--line);border-radius:10px;padding:9px 13px;width:252px;color:var(--ink-3);transition:.16s;box-shadow:var(--sh-1)}
-  .search:focus-within{border-color:var(--line-brass)}
-  .search input{border:none;outline:none;background:none;font-family:var(--body);font-size:13px;width:100%;color:var(--ink)}
-  .search input::placeholder{color:var(--ink-3)}.search svg{width:15px;height:15px;flex:none}
-  .ready-chip{display:flex;align-items:center;gap:10px;background:var(--surf);border:1px solid var(--line-brass);padding:8px 14px;border-radius:10px;box-shadow:var(--sh-1)}
-  .ready-chip .dot{width:7px;height:7px;border-radius:50%;background:var(--brass);box-shadow:0 0 0 3px rgba(189,125,24,.16);animation:pulse 2.6s ease-in-out infinite}
-  @keyframes pulse{50%{box-shadow:0 0 0 6px rgba(189,125,24,.03)}}
-  .ready-chip .v{font-family:var(--mono);font-weight:600;font-size:13px;color:var(--brass-deep)}
-  .ready-chip .l{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3)}
-
-  .scroll{overflow-y:auto;flex:1}
-  .view{padding:40px 40px 80px;max-width:1160px;margin:0 auto;width:100%}
-  .view.in{animation:rise .42s cubic-bezier(.2,.7,.2,1)}
-  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-
-  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--brass-deep);font-weight:500}
-  h1{font-family:var(--display);font-weight:800;font-size:34px;letter-spacing:-.02em;line-height:1.05}
-  h2{font-family:var(--display);font-weight:700;font-size:21px;letter-spacing:-.01em}
-  .lead{color:var(--ink-2);font-size:15px;max-width:58ch;line-height:1.65}
-
-  /* ---------- DASHBOARD ---------- */
-  .dash-head{display:flex;align-items:flex-end;justify-content:space-between;gap:30px;flex-wrap:wrap}
-  .dash-head h1{margin:11px 0 0;font-size:40px}
-  .dash-head h1 .nm{color:var(--brass)}
-  .readbig{text-align:right;flex:none}
-  .readbig .n{font-family:var(--mono);font-weight:600;font-size:54px;line-height:.9;letter-spacing:-.03em;background:linear-gradient(160deg,var(--brass-2),var(--brass-deep));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-  .readbig .l{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);margin-top:5px}
-
-  .metrics{display:flex;align-items:center;gap:0;margin:26px 0 30px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:16px 0}
-  .metrics .m{padding:0 30px;border-right:1px solid var(--line)}
-  .metrics .m:first-child{padding-left:0}.metrics .m:last-child{border-right:none}
-  .metrics .mv{font-family:var(--mono);font-weight:600;font-size:23px;letter-spacing:-.02em}
-  .metrics .mv small{font-size:13px;color:var(--ink-3)}
-  .metrics .mk{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-top:4px}
-
-  .console{display:grid;grid-template-columns:1.3fr 1fr;gap:0;background:var(--surf);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-2)}
-  .stage{position:relative;background:#b6b1a1;border-right:1px solid var(--line);padding:20px;display:flex;flex-direction:column}
-  .stage::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(44,65,83,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(44,65,83,.1) 1px,transparent 1px);background-size:28px 28px;mask-image:radial-gradient(115% 95% at 50% 35%,#000 45%,transparent 88%)}
-  .stage .tag{position:relative;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);display:flex;justify-content:space-between}
-  .stage .tag .live{color:var(--brass-deep);display:flex;align-items:center;gap:6px}
-  .stage .tag .live::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--brass);box-shadow:0 0 6px rgba(189,125,24,.5)}
-  .house-wrap{flex:1;display:grid;place-items:center;position:relative;padding:6px 0}
-  .house{width:100%;max-width:430px;height:auto}
-  .scancap{position:relative;text-align:center;font-family:var(--mono);font-size:11px;color:var(--ink-2);min-height:18px;letter-spacing:.02em}
-  .scancap b{color:var(--brass-deep)}
-
-  .sysv{padding:22px 24px;display:flex;flex-direction:column;background:var(--surf)}
-  .sysv .h{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px}
-  .syslist{flex:1;margin:8px 0 6px}
-  .sysrow{display:flex;align-items:center;gap:12px;padding:12px 10px;border-radius:10px;width:100%;text-align:left;transition:.14s;cursor:pointer}
-  .sysrow:hover{background:var(--surf-2)}
-  .sysrow:disabled{opacity:.45;cursor:not-allowed}
-  .sysrow .ix{font-family:var(--mono);font-size:11px;color:var(--ink-3);width:18px;flex:none}
-  .sysrow .led{width:9px;height:9px;border-radius:50%;background:#fff;border:1.5px solid var(--line);flex:none;transition:.3s}
-  .sysrow.done .led{background:var(--brass);border-color:var(--brass);box-shadow:0 0 0 3px var(--brass-tint)}
-  .sysrow.prog .led{background:var(--slate);border-color:var(--slate);box-shadow:0 0 0 3px rgba(65,96,122,.12)}
-  .sysrow .nm{flex:1;font-size:13.5px;font-weight:500}
-  .sysrow .pc{font-family:var(--mono);font-size:12px;color:var(--ink-2)}
-  .sysrow.done .pc{color:var(--brass-deep)}
-  .sysrow .lk svg{width:13px;height:13px;color:var(--ink-3)}
-  .resume{display:flex;align-items:center;gap:13px;margin-top:8px;padding:14px;border-radius:12px;background:linear-gradient(150deg,var(--brass-2),var(--brass-deep));color:#fff;text-align:left;transition:.16s;box-shadow:0 6px 18px rgba(189,125,24,.26)}
-  .resume:hover{transform:translateY(-2px);box-shadow:0 11px 26px rgba(189,125,24,.34)}
-  .resume .pl{width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.2);display:grid;place-items:center;flex:none}
-  .resume .pl svg{width:18px;height:18px;margin-left:2px}
-  .resume .t{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;opacity:.85}
-  .resume .ti{font-family:var(--display);font-weight:700;font-size:15px;line-height:1.15;margin-top:1px}
-  .resume .ar{margin-left:auto}.resume .ar svg{width:18px;height:18px}
-
-  .sect-head{display:flex;align-items:baseline;justify-content:space-between;margin:44px 0 18px}
-  .sect-head .link{font-family:var(--mono);font-size:11px;color:var(--brass-deep);font-weight:500;letter-spacing:.03em;text-decoration:none;cursor:pointer}
-  .sect-head .link:hover{text-decoration:underline}
-
-  .track{border-top:1px solid var(--line)}
-  .trow{display:flex;align-items:center;gap:22px;padding:22px 10px;border-bottom:1px solid var(--line);width:100%;text-align:left;transition:.16s;cursor:pointer}
-  .trow:hover{background:var(--surf);padding-left:16px}
-  .trow:disabled{opacity:.45;cursor:not-allowed}.trow:disabled:hover{background:none;padding-left:10px}
-  .trow .n{font-family:var(--display);font-weight:700;font-size:30px;color:var(--ink-3);width:48px;flex:none;letter-spacing:-.02em;transition:.16s}
-  .trow.done .n{color:var(--brass)}.trow:hover .n{color:var(--ink)}
-  .trow .mid{flex:1;min-width:0}
-  .trow .nm{font-family:var(--display);font-weight:700;font-size:18px}
-  .trow .meta{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-top:4px;display:flex;gap:14px;flex-wrap:wrap;align-items:center}
-  .trow .right{flex:none;width:172px;text-align:right}
-  .trow .pc{font-family:var(--mono);font-size:13px;color:var(--ink-2);margin-bottom:8px}.trow.done .pc{color:var(--brass-deep)}
-  .tbar{height:5px;background:var(--surf-3);border-radius:5px;overflow:hidden}
-  .tbar i{display:block;height:100%;background:linear-gradient(90deg,var(--brass-deep),var(--brass));border-radius:5px;transition:width .6s cubic-bezier(.2,.7,.2,1)}
-  .trow.done .tbar i{background:var(--pass)}
-  .badge{font-family:var(--mono);font-size:10px;padding:3px 9px;border-radius:20px;font-weight:600;letter-spacing:.04em}
-  .badge.done{background:var(--pass-soft);color:var(--pass)}
-  .badge.prog{background:var(--brass-tint);color:var(--brass-deep)}
-  .badge.lock{background:var(--surf-3);color:var(--ink-3)}
-
-  /* ---------- CURRICULUM ---------- */
-  .acc{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-bottom:13px;transition:.16s;box-shadow:var(--sh-1)}
-  .acc.open{border-color:var(--line-brass);box-shadow:var(--sh-2)}
-  .acc-head{display:flex;align-items:center;gap:16px;padding:19px 22px;width:100%;text-align:left;transition:.14s}
-  .acc-head:hover{background:var(--surf-2)}
-  .acc-head .num{font-family:var(--display);font-weight:700;font-size:17px;color:var(--brass-deep);background:var(--brass-soft);width:38px;height:38px;border-radius:10px;display:grid;place-items:center;flex:none}
-  .acc.done .acc-head .num{color:#fff;background:var(--brass)}
-  .acc-head .info{flex:1}.acc-head .info .t{font-family:var(--display);font-weight:700;font-size:17px}
-  .acc-head .info .s{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-top:3px}
-  .acc-head .pct{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--brass-deep)}
-  .acc-head .chev{transition:.25s;color:var(--ink-3)}.acc-head .chev svg{width:18px;height:18px;display:block}
-  .acc.open .acc-head .chev{transform:rotate(180deg)}
-  .acc-body{display:none;border-top:1px solid var(--line)}.acc.open .acc-body{display:block}
-  .lrow{display:flex;align-items:center;gap:14px;padding:14px 22px 14px 24px;width:100%;text-align:left;border-bottom:1px solid var(--line-2);transition:.12s}
-  .lrow:last-child{border-bottom:none}.lrow:hover{background:var(--surf-2)}
-  .lrow .ck{width:23px;height:23px;border-radius:50%;border:2px solid var(--line);flex:none;display:grid;place-items:center;transition:.16s}
-  .lrow.done .ck{background:var(--brass);border-color:var(--brass)}.lrow.done .ck svg{width:12px;height:12px;color:#fff}
-  .lrow .tp{width:30px;height:30px;border-radius:8px;background:var(--slate-soft);display:grid;place-items:center;color:var(--slate);flex:none}.lrow .tp svg{width:15px;height:15px}
-  .lrow .tt{flex:1;font-size:14px;font-weight:500}.lrow.done .tt{color:var(--ink-2)}
-  .lrow .du{font-family:var(--mono);font-size:11px;color:var(--ink-3)}
-  .lrow.locked{opacity:.5;pointer-events:none}
-
-  /* ---------- LESSON ---------- */
-  .lesson-grid{display:grid;grid-template-columns:1fr 292px;gap:28px;align-items:start}
-  .player{background:#15171b;border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-2)}
-  .pstage{aspect-ratio:16/9;position:relative;display:grid;place-items:center;background:radial-gradient(120% 120% at 50% 0%,#222730,#13151a)}
-  .pstage::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(217,159,58,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(217,159,58,.07) 1px,transparent 1px);background-size:36px 36px;mask-image:radial-gradient(80% 80% at 50% 42%,#000,transparent)}
-  .pstage .play{width:70px;height:70px;border-radius:50%;background:linear-gradient(150deg,var(--brass-2),var(--brass));display:grid;place-items:center;position:relative;z-index:1;transition:.18s;box-shadow:0 10px 30px rgba(189,125,24,.4)}
-  .pstage .play:hover{transform:scale(1.07)}.pstage .play svg{width:26px;height:26px;color:#fff;margin-left:3px}
-  .pstage .badge2{position:absolute;top:15px;left:15px;font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:#c8ccd2;background:rgba(0,0,0,.4);padding:5px 11px;border-radius:7px;z-index:1}
-  .ctrl{display:flex;align-items:center;gap:14px;padding:13px 16px;color:#aeb3ba;border-top:1px solid rgba(255,255,255,.07)}
-  .ctrl svg{width:16px;height:16px}.ctrl .tk{flex:1;height:4px;background:rgba(255,255,255,.13);border-radius:4px;overflow:hidden}
-  .ctrl .tk i{display:block;width:32%;height:100%;background:var(--brass-2)}.ctrl .tm{font-family:var(--mono);font-size:11px}
-
-  .reader{margin-top:26px;background:var(--surf);border:1px solid var(--line);border-radius:var(--r);padding:36px 42px;box-shadow:var(--sh-1);position:relative}
-  .reader::before{content:"";position:absolute;left:0;top:28px;bottom:28px;width:3px;background:var(--brass);border-radius:0 3px 3px 0}
-  .reader h2{margin:7px 0 4px}
-  .reader .rmeta{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-bottom:22px;display:flex;gap:12px;flex-wrap:wrap}
-  .reader p{font-size:15.5px;color:#33373d;margin-bottom:15px;line-height:1.78}
-  .reader h3{font-family:var(--display);font-weight:700;font-size:17px;margin:26px 0 10px}
-  .reader ul{margin:0 0 16px;list-style:none}
-  .reader li{font-size:15px;color:#33373d;padding-left:24px;position:relative;margin-bottom:8px;line-height:1.65}
-  .reader li::before{content:"";position:absolute;left:3px;top:9px;width:8px;height:8px;border-radius:2px;background:var(--brass);transform:rotate(45deg)}
-  .reader li b,.reader p b{color:var(--ink);font-weight:700}
-  .callout{background:#2c4153;color:#e9edf0;border-radius:12px;padding:18px 20px;margin:24px 0;display:flex;gap:14px}
-  .callout .ic{flex:none;color:var(--brass-2)}.callout .ic svg{width:20px;height:20px}
-  .callout .t{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-2);margin-bottom:5px}
-  .callout p{color:#aeb3ba;font-size:14px;margin:0;line-height:1.65}
-
-  .lesson-foot{display:flex;align-items:center;gap:12px;margin-top:30px;padding-top:24px;border-top:1px solid var(--line)}.lesson-foot .sp{flex:1}
-  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:14px;padding:12px 18px;border-radius:11px;transition:.15s;font-family:var(--body)}
-  .btn svg{width:16px;height:16px}
-  .btn.brass{background:linear-gradient(150deg,var(--brass-2),var(--brass));color:#fff;box-shadow:0 5px 14px rgba(189,125,24,.28)}
-  .btn.brass:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(189,125,24,.36)}
-  .btn.dark{background:var(--slate);color:#fff}.btn.dark:hover{background:#2c4153}
-  .btn.ghost{background:var(--surf);border:1px solid var(--line);color:var(--ink-2)}.btn.ghost:hover{color:var(--ink);border-color:var(--ink-3)}
-  .btn.pass{background:var(--pass-soft);color:var(--pass);border:1px solid rgba(63,138,90,.3)}
-
-  .aside{position:sticky;top:92px}
-  .aside .box{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);padding:19px;margin-bottom:14px;box-shadow:var(--sh-1)}
-  .aside .box .h{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);margin-bottom:14px}
-  .res{display:flex;align-items:center;gap:12px;padding:10px 0;text-decoration:none;border-bottom:1px solid var(--line-2);cursor:pointer}
-  .res:last-child{border:none}.res:hover .rn{color:var(--brass-deep)}
-  .res .ri{width:32px;height:32px;border-radius:8px;background:var(--slate-soft);display:grid;place-items:center;color:var(--slate);flex:none}.res .ri svg{width:15px;height:15px}
-  .res .rn{font-size:13px;font-weight:500;transition:.14s}.res .rt{font-family:var(--mono);font-size:10px;color:var(--ink-3)}
-  .upnext{display:flex;align-items:center;gap:12px}
-  .upnext .un{width:36px;height:36px;border-radius:9px;background:var(--slate-soft);display:grid;place-items:center;color:var(--slate);flex:none}.upnext .un svg{width:16px;height:16px}
-  .upnext .ut{font-size:13px;font-weight:600}.upnext .uk{font-family:var(--mono);font-size:10px;color:var(--ink-3)}
-
-  /* ---------- QUIZ ---------- */
-  .qwrap{max-width:640px;margin:0 auto}
-  .quiz-card{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-2)}
-  .quiz-top{background:linear-gradient(120deg,#3c5870,#2c4153);color:#fff;padding:22px 26px;display:flex;align-items:center;justify-content:space-between}
-  .quiz-top .qt{font-family:var(--display);font-weight:700;font-size:18px}
-  .quiz-top .qm{font-family:var(--mono);font-size:11px;color:#9aa0a8;margin-top:4px;letter-spacing:.04em}
-  .quiz-top .qnum{font-family:var(--mono);font-size:14px;color:var(--brass-2);font-weight:600}
-  .qprog{height:4px;background:var(--surf-3)}.qprog i{display:block;height:100%;background:var(--brass);transition:width .3s}
-  .quiz-body{padding:30px 26px}
-  .q-text{font-family:var(--display);font-weight:600;font-size:20px;line-height:1.4;margin-bottom:24px}
-  .opt{display:flex;align-items:center;gap:14px;width:100%;text-align:left;padding:15px 17px;border:1.5px solid var(--line);border-radius:12px;margin-bottom:11px;transition:.14s;font-size:14.5px;font-weight:500;background:var(--surf)}
-  .opt:hover:not(.locked){border-color:var(--brass);background:var(--surf-2)}
-  .opt .key{font-family:var(--mono);font-weight:600;width:27px;height:27px;border-radius:8px;background:var(--surf-3);display:grid;place-items:center;font-size:12px;flex:none;color:var(--ink-2)}
-  .opt.sel{border-color:var(--brass);background:var(--brass-soft)}.opt.sel .key{background:var(--brass);color:#fff}
-  .opt.correct{border-color:var(--pass);background:var(--pass-soft)}.opt.correct .key{background:var(--pass);color:#fff}
-  .opt.wrong{border-color:var(--fail);background:var(--fail-soft)}.opt.wrong .key{background:var(--fail);color:#fff}
-  .opt .mk{margin-left:auto}.opt .mk svg{width:18px;height:18px}.opt.locked{cursor:default}
-  .explain{background:var(--surf-2);border-left:3px solid var(--brass);border-radius:0 10px 10px 0;padding:14px 17px;margin:6px 0;font-size:13.5px;color:var(--ink-2);line-height:1.65}
-  .explain b{color:var(--ink);font-weight:600}
-  .quiz-foot{display:flex;align-items:center;padding:18px 26px;border-top:1px solid var(--line);background:var(--surf-2)}
-  .quiz-foot .hint{font-family:var(--mono);font-size:11px;color:var(--ink-3)}.quiz-foot .sp{flex:1}
-
-  .result{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-2);padding:42px;text-align:center}
-  .ring{width:156px;height:156px;margin:0 auto 20px;position:relative}
-  .ring .rv{position:absolute;inset:0;display:grid;place-items:center}
-  .ring .rv .n{font-family:var(--mono);font-weight:600;font-size:40px;line-height:1}
-  .ring .rv .p{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);margin-top:4px}
-  .verdict{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;display:inline-block;padding:5px 13px;border-radius:20px;margin-bottom:18px}
-  .verdict.pass{background:var(--pass-soft);color:var(--pass)}.verdict.fail{background:var(--fail-soft);color:var(--fail)}
-  .result h2{font-size:25px;margin-bottom:8px}.result p{color:var(--ink-2);font-size:14px;max-width:44ch;margin:0 auto 24px;line-height:1.6}
-  .result .acts{display:flex;gap:12px;justify-content:center}
-
-  /* ---------- CERTIFICATE ---------- */
-  .cert-wrap{display:grid;place-items:center;padding:6px}
-  .cert{width:100%;max-width:740px;background:var(--surf);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-2);padding:9px}
-  .cert .inner{border:2px solid var(--ink);border-radius:10px;padding:46px 52px;position:relative;text-align:center;background:radial-gradient(circle at 10% 6%,rgba(189,125,24,.06),transparent 42%),radial-gradient(circle at 90% 94%,rgba(65,96,122,.05),transparent 42%),#fdfdfb}
-  .cert .corner{position:absolute;width:28px;height:28px;border:2px solid var(--brass-deep)}
-  .cert .c1{top:11px;left:11px;border-right:none;border-bottom:none}.cert .c2{top:11px;right:11px;border-left:none;border-bottom:none}
-  .cert .c3{bottom:11px;left:11px;border-right:none;border-top:none}.cert .c4{bottom:11px;right:11px;border-left:none;border-top:none}
-  .cert .seal{width:58px;height:58px;border-radius:13px;margin:0 auto 18px;background:linear-gradient(150deg,var(--brass-2),var(--brass-deep));display:grid;place-items:center;box-shadow:0 5px 16px rgba(154,101,16,.34)}
-  .cert .seal svg{width:30px;height:30px;color:#fff}
-  .cert .ce{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--brass-deep)}
-  .cert .ch{font-family:var(--display);font-weight:800;font-size:32px;margin:10px 0 5px;letter-spacing:-.02em}
-  .cert .csub{font-size:13px;color:var(--ink-2);margin-bottom:26px}
-  .cert .name{font-family:var(--display);font-weight:700;font-size:36px;border-bottom:2px solid var(--brass);display:inline-block;padding:0 26px 9px;margin-bottom:20px}
-  .cert .course{font-size:15px;color:#33373d;max-width:48ch;margin:0 auto 28px;line-height:1.65}.cert .course b{font-weight:700}
-  .cert .sigs{display:flex;justify-content:space-around;gap:30px}
-  .cert .sig{flex:1}.cert .sig .nm{font-family:var(--display);font-weight:600;font-size:14px;margin-bottom:2px;min-height:18px}
-  .cert .sig .ln{border-top:1.5px solid var(--ink);padding-top:8px;font-family:var(--mono);font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2)}
-  .cert-locked{text-align:center;padding:60px 20px;color:var(--ink-2)}
-  .cert-locked .lk{width:64px;height:64px;border-radius:15px;background:var(--surf);border:1px solid var(--line);display:grid;place-items:center;margin:0 auto 18px;color:var(--ink-3);box-shadow:var(--sh-1)}.cert-locked .lk svg{width:26px;height:26px}
-
-  .toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(90px);background:var(--slate);color:#fff;padding:13px 20px;border-radius:12px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;box-shadow:0 14px 40px rgba(31,35,41,.3);z-index:100;opacity:0;transition:.3s}
-  .toast.show{transform:translateX(-50%) translateY(0);opacity:1}.toast svg{width:17px;height:17px;color:var(--brass-2)}
-
-  /* schematic — pencil → inked */
-  .sys *{stroke:var(--pencil);stroke-opacity:.7;stroke-width:1.4;fill:none;vector-effect:non-scaling-stroke;transition:stroke .55s,stroke-opacity .55s,stroke-width .55s}
-  .sys{cursor:pointer}
-  .sys:hover *{stroke:var(--slate);stroke-opacity:1}
-  .sys.lit *{stroke:var(--brass);stroke-opacity:1;stroke-width:2;filter:url(#glow)}
-  .sys .fillz{fill:rgba(170,184,193,.1);stroke:none}
-  .sys.lit .fillz{fill:rgba(189,125,24,.12)}
-  #scanline{stroke:var(--brass);stroke-width:2;stroke-opacity:.5;filter:url(#glow)}
-  #sealStamp{opacity:0;transform-origin:240px 182px;transition:.5s}
-  #sealStamp.show{opacity:1;animation:stamp .6s cubic-bezier(.2,1.4,.4,1)}
-  @keyframes stamp{0%{opacity:0;transform:scale(1.8) rotate(-14deg)}60%{opacity:1}100%{transform:scale(1) rotate(-14deg)}}
-  #sealStamp *{stroke:var(--brass);stroke-width:2;fill:none;stroke-opacity:.9}
-  #sealStamp text{fill:var(--brass);stroke:none}
-
-  @media(prefers-reduced-motion:reduce){#scanline{display:none}#sealStamp.show{animation:none}.view.in{animation:none}}
-  @media(max-width:980px){
-    .app{grid-template-columns:1fr}.sidebar{display:none}
-    .console{grid-template-columns:1fr}.stage{border-right:none;border-bottom:1px solid var(--line)}
-    .lesson-grid{grid-template-columns:1fr}.search{display:none}
-    .dash-head h1{font-size:30px}.readbig .n{font-size:44px}
-    .metrics{flex-wrap:wrap;gap:16px 0}.metrics .m{padding:0 20px 0 0;border-right:none}
-    .view{padding:28px 22px 70px}
-  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: var(--bg); color: var(--text); font-family: var(--font); min-height: 100vh; }
+  #root { min-height: 100vh; }
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useCallback, useMemo } = React;
 
-<div class="app">
-  <aside class="sidebar">
-    <div class="brand">
-      <div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 21v-6h6v6"/></svg></div>
-      <div><span class="word">ATI<b>·</b>Academy</span><span class="sub">Inspector Training</span></div>
-    </div>
-    <nav class="nav" id="nav">
-      <div class="label">Learn</div>
-      <a data-view="dashboard" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>Dashboard</a>
-      <a data-view="curriculum"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>My Course</a>
-      <a data-view="practice"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Practice Exams<span class="pill">NHIE</span></a>
-      <div class="label">Reference</div>
-      <a data-view="resources"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>Resource Library</a>
-      <a data-view="certificate"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>Certificate</a>
-    </nav>
-    <div class="me"><div class="av">DC</div><div><div class="nm">Daniel Carter</div><div class="rl">Candidate · Cohort 14</div></div></div>
-  </aside>
-
-  <div class="main">
-    <div class="topbar">
-      <div class="crumb" id="crumb"><b>Dashboard</b></div>
-      <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><input placeholder="Search lessons, terms…" /></div>
-      <div class="ready-chip"><span class="dot"></span><div><div class="v" id="chipReady">0%</div><div class="l">Exam Ready</div></div></div>
-    </div>
-    <div class="scroll"><div class="view in" id="view"></div></div>
-  </div>
-</div>
-
-<div class="toast" id="toast"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span id="toastMsg"></span></div>
-
-<script>
-const I={
-  play:'<path d="M6 4l14 8-14 8V4z"/>', vid:'<path d="m22 8-6 4 6 4V8z"/><rect x="2" y="6" width="14" height="12" rx="2"/>',
-  read:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',
-  quiz:'<path d="M9.1 9a3 3 0 1 1 4 2.8c-.8.5-1.1 1-1.1 1.7v.5"/><circle cx="12" cy="17" r=".4"/>',
-  check:'<path d="M20 6 9 17l-5-5"/>', clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
-  layers:'<path d="m12 2 9 5-9 5-9-5 9-5z"/><path d="m3 12 9 5 9-5"/>', target:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',
-  award:'<circle cx="12" cy="8" r="6"/><path d="M15.5 12.9 17 22l-5-3-5 3 1.5-9.1"/>', arrow:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
-  back:'<path d="M19 12H5"/><path d="m12 19-7-7 7-7"/>', pdf:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/>',
-  download:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/>',
-  lock:'<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
-  alert:'<path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="9"/>', x:'<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
-  full:'<path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"/>',
-  vol:'<path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M19 12a4 4 0 0 0-2-3.5"/>', retake:'<path d="M3 12a9 9 0 1 0 9-9 9 9 0 0 0-6.4 2.6L3 8"/><path d="M3 3v5h5"/>',
-};
-const svg=(p,w=2)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
-
-const COURSE={title:'Certified Home Inspector — Pre-Licensing',modules:[
-  {id:'m1',name:'Roofing Systems',sop:'SOP §2.1',lessons:[
-    {id:'l1',t:'Roof Covering Materials',d:'14 min',type:'vid',
-      body:`<p>The roof covering is a home's first line of defense, and it's where a candidate inspector earns or loses credibility on the first walk. You're not grading the roof — you're reporting what you observe about its materials, installation, and remaining service life.</p>
-      <h3>Common covering types</h3>
-      <ul><li><b>Asphalt (composition) shingles</b> — the dominant residential covering. Note granule loss, cupping, clawing, and exposed mat.</li>
-      <li><b>Wood shakes &amp; shingles</b> — watch for splitting, cupping, and biological growth in shaded areas.</li>
-      <li><b>Clay &amp; concrete tile</b> — inspect for cracked or slipped tiles; the underlayment is the actual water barrier.</li>
-      <li><b>Metal panel &amp; standing seam</b> — check fastener backout, seam separation, and oil-canning.</li>
-      <li><b>Low-slope membrane</b> (EPDM, TPO, modified bitumen) — look for ponding, blistering, and seam integrity.</li></ul>
-      <h3>What granules actually do</h3>
-      <p>Mineral granules embedded in asphalt shingles shield the asphalt from ultraviolet degradation. Heavy granule loss in gutters and at downspout outlets signals the covering is aging out, even when the roof still sheds water.</p>`,
-      callout:{t:'Field note',p:'Report what you see, not what you assume. "Approximately 30% granule loss observed on south-facing slope" is defensible. "Roof has 5 years left" is a prediction you can be sued over.'},
-      res:[{n:'Roof Covering Field Guide',t:'PDF · 2.4 MB'},{n:'Defect Photo Reference',t:'PDF · 6.1 MB'}]},
-    {id:'l2',t:'Flashing &amp; Penetrations',d:'12 min',type:'vid',
-      body:`<p>Most roof leaks aren't failures of the field shingles — they happen where the roof plane is interrupted. Flashing manages water at every one of those interruptions.</p>
-      <h3>Flashing you must identify</h3>
-      <ul><li><b>Step flashing</b> — installed in courses where a roof plane meets a vertical wall.</li>
-      <li><b>Counter / cap flashing</b> — laps over step or base flashing to keep water out of the joint.</li>
-      <li><b>Valley flashing</b> — open metal or closed-cut, where two roof planes drain together.</li>
-      <li><b>Vent boots</b> — the rubber collars at plumbing stacks; the #1 cause of slow ceiling stains.</li>
-      <li><b>Chimney cricket</b> — a small peaked structure on the high side of a wide chimney that splits and diverts water around it.</li></ul>`,
-      callout:{t:'Why it matters',p:'A cricket is required by most codes on the upslope side of chimneys wider than 30 inches. Its job is to divert water around the chimney rather than letting it dam against the masonry.'},
-      res:[{n:'Flashing Detail Diagrams',t:'PDF · 3.0 MB'}]},
-    {id:'l3',t:'Drainage — Gutters &amp; Downspouts',d:'9 min',type:'read',
-      body:`<p>Roof drainage doesn't stop at the eave. A correctly performing system carries water clear of the foundation — the single most common moisture-intrusion path you'll document.</p>
-      <h3>Inspection points</h3><ul><li>Slope toward downspouts; standing water and rust streaks indicate poor pitch.</li><li>Secure attachment and proper spacing of hangers.</li><li>Downspout extensions discharging at least 4–6 ft from the foundation.</li></ul>`,
-      res:[{n:'Drainage Checklist',t:'PDF · 0.8 MB'}]},
-    {id:'l4',t:'Roof Structure &amp; Sheathing',d:'11 min',type:'read',
-      body:`<p>From the attic side, the structure tells the truth the covering can hide. You'll evaluate the framing system and the sheathing it supports.</p>
-      <h3>What to evaluate</h3><ul><li>Rafter / truss condition — sagging, cracked members, field-cut trusses (a defect).</li><li>Sheathing — delamination, water staining, daylight at penetrations.</li><li>Evidence of past leaks vs. active moisture.</li></ul>`,
-      res:[{n:'Framing Terminology Sheet',t:'PDF · 1.2 MB'}]},
-    {id:'q1',t:'Module Check — Roofing Systems',d:'5 questions',type:'quiz'},
-  ]},
-  {id:'m2',name:'Exterior &amp; Site',sop:'SOP §2.2',lessons:[
-    {id:'l5',t:'Wall Cladding &amp; Trim',d:'13 min',type:'vid',body:'<p>Siding, masonry veneer, EIFS, and trim — the systems that keep water off the structure. This module covers identification, common failure modes, and the moisture-management details inspectors are expected to verify.</p><h3>Coming up</h3><ul><li>Cladding types and clearances to grade</li><li>Window and door flashing integration</li><li>Decks, balconies, and ledger attachment</li></ul>',res:[{n:'Cladding Reference',t:'PDF · 2.1 MB'}]},
-    {id:'l6',t:'Grading, Drainage &amp; Walkways',d:'10 min',type:'read',body:'<p>The lot itself is part of the inspection. Negative grading toward the structure drives the majority of foundation moisture complaints.</p>',res:[]},
-    {id:'q2',t:'Module Check — Exterior',d:'5 questions',type:'quiz'},
-  ]},
-  {id:'m3',name:'Structure, Foundation &amp; Basement',sop:'SOP §2.3',lessons:[
-    {id:'l7',t:'Foundation Types &amp; Movement',d:'15 min',type:'vid',body:'<p>Slab, crawlspace, and full basement foundations — how they\'re built and how they fail. Distinguishing normal settlement cracking from active structural movement is one of the highest-stakes calls an inspector makes.</p>',res:[]},
-    {id:'q3',t:'Module Check — Structure',d:'5 questions',type:'quiz'},
-  ]},
-  {id:'m4',name:'Electrical Systems',sop:'SOP §2.4',lessons:[
-    {id:'l8',t:'Service Entrance &amp; Panels',d:'16 min',type:'vid',body:'<p>From the weatherhead to the breaker. Service size, grounding and bonding, panel condition, and the defects that show up over and over: double-tapped breakers, missing knockouts, and improper neutral/ground bonding.</p>',res:[]},
-    {id:'q4',t:'Module Check — Electrical',d:'5 questions',type:'quiz'},
-  ]},
-  {id:'m5',name:'Heating, Cooling &amp; Plumbing',sop:'SOP §2.5–2.7',lessons:[
-    {id:'l9',t:'HVAC Systems Overview',d:'18 min',type:'vid',body:'<p>Forced-air furnaces, heat pumps, and condensers — operation, normal vs. abnormal, and the safety items (heat exchangers, combustion air, condensate) you\'re obligated to flag.</p>',res:[]},
-    {id:'q5',t:'Module Check — Mechanical',d:'5 questions',type:'quiz'},
-  ]},
-  {id:'m6',name:'Report Writing &amp; Standards of Practice',sop:'SOP §1',lessons:[
-    {id:'l10',t:'Writing Defensible Reports',d:'14 min',type:'vid',body:'<p>The report is the product. This module covers the Standards of Practice, the scope and limitations of a general home inspection, and language that protects both the client and you.</p>',res:[]},
-    {id:'q6',t:'Final — Standards &amp; Reporting',d:'5 questions',type:'quiz'},
-  ]},
-]};
-
-const QUIZZES={
-  q1:{title:'Roofing Systems',q:[
-    {q:'What is the primary purpose of the mineral granules on an asphalt shingle?',o:['Add decorative color','Shield the asphalt from UV degradation','Increase weight for wind resistance','Provide a fire-rated surface'],a:1,e:'Granules protect the underlying asphalt from ultraviolet light. As they wash off, the asphalt degrades and the shingle reaches the end of its service life.'},
-    {q:'A chimney cricket is installed primarily to:',o:['Support the chimney structurally','Provide attic ventilation','Divert water around the high side of the chimney','Anchor the flashing to the masonry'],a:2,e:'A cricket is a small peaked saddle on the upslope side of a chimney that splits and diverts water around it, preventing damming against the masonry.'},
-    {q:'Step flashing is correctly installed where:',o:['Two roof slopes meet in a valley','A roof plane meets a vertical wall','A plumbing vent penetrates the roof','The roof terminates at the eave'],a:1,e:'Step flashing is woven in with the shingle courses wherever a sloped roof plane abuts a vertical wall.'},
-    {q:'Heavy granule accumulation in the gutters most likely indicates:',o:['Recent installation','An aging or deteriorating shingle covering','Improper attic ventilation','A manufacturing defect requiring no comment'],a:1,e:'Significant granule loss collecting at downspout outlets signals the covering is wearing out and should be documented.'},
-    {q:'When reporting roof condition, the most defensible statement is:',o:['"The roof has about 5 years of life remaining."','"The roof is in great shape."','"Approximately 30% granule loss observed on the south slope."','"The roof will need replacement soon."'],a:2,e:'Inspectors report observed, verifiable conditions — not predictions of remaining life, which invite liability.'},
-  ]},
-  q2:{title:'Exterior',q:[
-    {q:'The recommended minimum clearance between siding and finished grade is generally:',o:['Flush with grade','2 inches','6–8 inches','24 inches'],a:2,e:'A 6–8 inch clearance helps keep cladding clear of splash-back and soil moisture.'},
-    {q:'Negative grading refers to soil that:',o:['Slopes away from the structure','Slopes toward the structure','Is fully level','Has been chemically treated'],a:1,e:'Negative grade directs surface water toward the foundation and is a leading cause of moisture intrusion.'},
-    {q:'A deck ledger board must be:',o:['Nailed to the siding','Properly flashed and bolted to the rim joist','Attached only at the posts','Sealed with caulk alone'],a:1,e:'Ledger attachment with lag/through-bolts plus flashing is critical; nail-only attachment is a serious safety defect.'},
-    {q:'EIFS is best described as:',o:['A roofing membrane','An exterior insulation and finish system','A foundation drainage product','A window glazing standard'],a:1,e:'EIFS is a multi-layer synthetic cladding with known moisture-management concerns in older barrier systems.'},
-    {q:'Efflorescence on a masonry wall indicates:',o:['Structural failure','Moisture moving through the masonry','A fire hazard','Proper installation'],a:1,e:'Efflorescence is salt deposited as water migrates through and evaporates from masonry — a moisture indicator.'},
-  ]},
-  q3:{title:'Structure',q:[
-    {q:'A vertical foundation crack wider at the top than the bottom most often suggests:',o:['Normal curing shrinkage','Settlement or differential movement','Proper construction','Thermal expansion only'],a:1,e:'Tapering cracks frequently indicate differential settlement and warrant further evaluation.'},
-    {q:'In a crawlspace, a vapor barrier is installed primarily to:',o:['Provide structural support','Limit ground moisture entering the space','Improve appearance','Serve as insulation'],a:1,e:'A ground-cover vapor barrier reduces soil moisture migrating into the crawlspace.'},
-    {q:'Sistering a joist refers to:',o:['Removing a damaged joist','Adding a reinforcing member alongside an existing joist','Cutting a joist for ductwork','Painting joists'],a:1,e:'Sistering attaches a new member alongside a weakened joist to restore capacity.'},
-    {q:'Wood-destroying organism evidence is typically reported:',o:['Only if active','As an observed condition, noting whether it appears active or old','Never, it is out of scope','Only by the buyer'],a:1,e:'Inspectors document observed WDO evidence and whether it appears active, often recommending a specialist.'},
-    {q:'A field-cut or modified truss should be:',o:['Ignored if it looks fine','Reported as a defect requiring professional evaluation','Repaired by the inspector','Considered an upgrade'],a:1,e:'Trusses are engineered systems; any field modification compromises them and must be flagged.'},
-  ]},
-  q4:{title:'Electrical',q:[
-    {q:'A "double-tapped" breaker refers to:',o:['Two breakers in one slot','Two conductors under one breaker terminal not rated for it','A GFCI breaker','A 240V circuit'],a:1,e:'Most breakers are listed for a single conductor; two wires under one lug is a common, reportable defect.'},
-    {q:'In a main panel, the neutral and ground should be:',o:['Always kept separate','Bonded together at the service equipment','Never connected anywhere','Bonded at every subpanel'],a:1,e:'Neutral and ground are bonded at the service (main) panel and must be separated at subpanels.'},
-    {q:'GFCI protection is required in:',o:['Bedrooms only','Wet/damp locations like baths, kitchens, exterior','Attics','Nowhere in residential'],a:1,e:'GFCI protection guards against shock in locations with water exposure.'},
-    {q:'Knob-and-tube wiring, when found, should be:',o:['Considered modern and safe','Reported, noting condition and recommending evaluation','Removed by the inspector','Ignored if covered'],a:1,e:'K&T is obsolete; inspectors note its presence and condition and recommend professional evaluation.'},
-    {q:'An open ground at a three-prong receptacle means:',o:['The outlet is safe','The equipment grounding path is missing','The outlet is GFCI protected','The polarity is reversed'],a:1,e:'An open ground leaves connected equipment without a grounding path — a reportable safety issue.'},
-  ]},
-  q5:{title:'Mechanical',q:[
-    {q:'A cracked furnace heat exchanger is a concern because it can:',o:['Reduce efficiency only','Allow combustion gases including CO into living space','Improve airflow','Lower the gas bill'],a:1,e:'A breach can introduce carbon monoxide into the conditioned air — a life-safety defect.'},
-    {q:'The condensate line on an AC system removes:',o:['Refrigerant','Water from the evaporator coil','Combustion gases','Electrical surge'],a:1,e:'The condensate drain carries away water that condenses on the cooling coil; clogs cause overflow damage.'},
-    {q:'A TPR valve on a water heater is designed to:',o:['Regulate temperature for comfort','Relieve excess temperature and pressure','Filter sediment','Boost water pressure'],a:1,e:'The temperature & pressure relief valve discharges to prevent dangerous over-pressurization.'},
-    {q:'Adequate combustion air for a gas appliance ensures:',o:['Quieter operation','Complete, safe fuel combustion','Faster heating','Lower humidity'],a:1,e:'Adequate combustion air prevents incomplete combustion and CO production.'},
-    {q:'An S-trap under a sink is:',o:['Current best practice','A largely obsolete configuration prone to siphoning the trap dry','Required by code','A type of shutoff valve'],a:1,e:'S-traps can self-siphon, breaking the water seal that blocks sewer gas; vented P-traps are standard.'},
-  ]},
-  q6:{title:'Standards & Reporting',q:[
-    {q:'A general home inspection is best described as:',o:['A code-compliance inspection','A non-invasive, visual exam of readily accessible systems','A warranty on the home','A pass/fail certification'],a:1,e:'It is a visual, non-invasive assessment of accessible components at the time of inspection.'},
-    {q:'When a system cannot be inspected, the report should:',o:['Assume it is functional','State the limitation and why it was not inspected','Omit any mention','Estimate its condition'],a:1,e:'Documenting limitations (e.g., "not inspected — inaccessible") protects both client and inspector.'},
-    {q:'The Standards of Practice primarily define:',o:['Pricing for inspections','The minimum scope and exclusions of an inspection','Marketing rules','Continuing education hours'],a:1,e:'The SOP establishes what is and is not included in a home inspection.'},
-    {q:'Best practice for describing a defect is to note the:',o:['Cost to repair','Observation, implication, and recommendation','Seller\'s name','Inspector\'s opinion of the owner'],a:1,e:'Clear reporting states what was observed, why it matters, and the recommended next step.'},
-    {q:'Inspector liability is reduced most by:',o:['Vague language','Clear, factual, observation-based reporting','Promising future performance','Skipping limitations'],a:1,e:'Factual, observed, well-qualified statements are the strongest protection against disputes.'},
-  ]},
+// ─── DATABASE ────────────────────────────────────────────────────
+const DB = {
+  _key: 'cc_referral_data_v1',
+  load() {
+    try {
+      const raw = localStorage.getItem(this._key);
+      return raw ? JSON.parse(raw) : { referrals: [], settings: { defaultRate: 25, defaultTerm: 36 } };
+    } catch { return { referrals: [], settings: { defaultRate: 25, defaultTerm: 36 } }; }
+  },
+  save(data) {
+    try { localStorage.setItem(this._key, JSON.stringify(data)); return true; }
+    catch { return false; }
+  },
+  export() {
+    const data = this.load();
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = `cc-referrals-${new Date().toISOString().split('T')[0]}.json`;
+    a.click(); URL.revokeObjectURL(url);
+  },
+  import(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const data = JSON.parse(e.target.result);
+          if (data.referrals) { this.save(data); resolve(data); }
+          else reject('Invalid file format');
+        } catch { reject('Invalid JSON'); }
+      };
+      reader.onerror = () => reject('Read error');
+      reader.readAsText(file);
+    });
+  }
 };
 
-const KEY='ati_lms_mid';
-let S={done:{},quiz:{},lastLesson:'l1'};
-const allLessonIds=COURSE.modules.flatMap(m=>m.lessons.map(l=>l.id));
-const totalLessons=allLessonIds.length;
-async function load(){try{const r=await window.storage.get(KEY,false);if(r&&r.value)S=JSON.parse(r.value);}catch(e){}S.done=S.done||{};S.quiz=S.quiz||{};S.lastLesson=S.lastLesson||'l1';}
-async function save(){try{await window.storage.set(KEY,JSON.stringify(S),false);}catch(e){}}
-const lessonDone=id=>!!S.done[id];
-const doneCount=()=>allLessonIds.filter(lessonDone).length;
-const coursePct=()=>Math.round(doneCount()/totalLessons*100);
-function modPct(m){const ids=m.lessons.map(l=>l.id);return Math.round(ids.filter(lessonDone).length/ids.length*100);}
-const modDone=m=>modPct(m)===100;
-function readiness(){const prog=doneCount()/totalLessons;const sc=Object.values(S.quiz).map(x=>x.best);const avg=sc.length?sc.reduce((a,b)=>a+b,0)/sc.length/100:0;return Math.round((prog*.65+avg*.35)*100);}
-function flatLessons(){return COURSE.modules.flatMap(m=>m.lessons.map(l=>({...l,mod:m})));}
-const lessonById=id=>flatLessons().find(l=>l.id===id);
-const moduleIdx=mid=>COURSE.modules.findIndex(m=>m.id===mid);
-function moduleUnlocked(i){return i===0?true:modDone(COURSE.modules[i-1]);}
-function lessonUnlocked(id){for(let i=0;i<COURSE.modules.length;i++){if(COURSE.modules[i].lessons.some(l=>l.id===id))return moduleUnlocked(i);}return false;}
+// ─── CONSTANTS ───────────────────────────────────────────────────
+const SOURCES = [
+  "Facebook Group", "Reddit", "Direct Network",
+  "Landing Page - Roofing", "Landing Page - Window Cleaning",
+  "Landing Page - Home Inspectors", "Landing Page - Fix & Flip",
+  "Landing Page - Business Buyers", "Landing Page - General",
+  "Dashboard Link", "Other"
+];
+const STATUSES = ["Lead", "Submitted", "In Review", "Funded", "Declined", "Lost"];
+const STATUS_META = {
+  Lead:        { bg: "rgba(255,255,255,0.04)", text: "#888", dot: "#555" },
+  Submitted:   { bg: "rgba(59,130,246,0.06)", text: "#60a5fa", dot: "#3b82f6" },
+  "In Review": { bg: "rgba(251,191,36,0.06)", text: "#fbbf24", dot: "#f59e0b" },
+  Funded:      { bg: "rgba(34,197,94,0.06)", text: "#4ade80", dot: "#22c55e" },
+  Declined:    { bg: "rgba(239,68,68,0.06)", text: "#f87171", dot: "#ef4444" },
+  Lost:        { bg: "rgba(255,255,255,0.02)", text: "#555", dot: "#333" },
+};
+const LOAN_TYPES = [
+  "Line of Credit", "Term Loan", "SBA Loan", "Equipment Financing",
+  "Real Estate", "Fix & Flip", "Business Acquisition", "Working Capital", "Other"
+];
 
-const view=document.getElementById('view'),crumb=document.getElementById('crumb');
-function setNav(v){document.querySelectorAll('#nav a').forEach(a=>a.classList.toggle('active',a.dataset.view===v));}
-function go(v,arg){setNav(['dashboard','curriculum','practice','resources','certificate'].includes(v)?v:'curriculum');view.classList.remove('in');void view.offsetWidth;view.classList.add('in');render(v,arg);document.querySelector('.scroll').scrollTop=0;}
-function updateChips(){document.getElementById('chipReady').textContent=readiness()+'%';}
-function render(v,a){updateChips();({dashboard:renderDashboard,curriculum:renderCurriculum,lesson:renderLesson,quiz:renderQuizIntro,quizrun:renderQuiz,practice:renderPractice,resources:renderResources,certificate:renderCertificate}[v])(a);}
-
-function houseSVG(){
-  return `<svg class="house" viewBox="0 0 480 340" xmlns="http://www.w3.org/2000/svg">
-    <defs><filter id="glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
-    <g class="sys" data-mod="m1"><title>Roofing Systems</title>
-      <polyline points="84,156 240,58 396,156"/><polyline points="112,156 240,82 368,156"/><line x1="84" y1="156" x2="396" y2="156"/>
-      <rect x="300" y="92" width="22" height="42"/><line x1="300" y1="100" x2="322" y2="100"/></g>
-    <g class="sys" data-mod="m2"><title>Exterior &amp; Site</title>
-      <line x1="120" y1="156" x2="120" y2="286"/><line x1="360" y1="156" x2="360" y2="286"/>
-      <rect x="150" y="178" width="36" height="42"/><line x1="168" y1="178" x2="168" y2="220"/>
-      <rect x="294" y="178" width="36" height="42"/><line x1="312" y1="178" x2="312" y2="220"/>
-      <rect x="150" y="240" width="34" height="34"/><rect x="222" y="226" width="40" height="60"/><circle cx="252" cy="256" r="2.4"/></g>
-    <g class="sys" data-mod="m3"><title>Structure, Foundation &amp; Basement</title>
-      <line x1="120" y1="222" x2="360" y2="222"/><line x1="120" y1="286" x2="360" y2="286"/>
-      <rect class="fillz" x="120" y="286" width="240" height="36"/>
-      <line x1="120" y1="286" x2="120" y2="322"/><line x1="360" y1="286" x2="360" y2="322"/><line x1="120" y1="322" x2="360" y2="322"/>
-      <line x1="60" y1="286" x2="120" y2="286"/><line x1="360" y1="286" x2="420" y2="286"/>
-      <line x1="70" y1="286" x2="62" y2="296"/><line x1="86" y1="286" x2="78" y2="296"/><line x1="102" y1="286" x2="94" y2="296"/>
-      <line x1="394" y1="286" x2="386" y2="296"/><line x1="410" y1="286" x2="402" y2="296"/></g>
-    <g class="sys" data-mod="m4"><title>Electrical Systems</title>
-      <rect x="364" y="196" width="20" height="32"/><line x1="368" y1="204" x2="380" y2="204"/><line x1="368" y1="212" x2="380" y2="212"/><line x1="368" y1="220" x2="380" y2="220"/>
-      <polyline points="384,156 384,196"/><polyline points="350,234 360,234"/><polyline points="206,238 198,256 210,256 200,276"/></g>
-    <g class="sys" data-mod="m5"><title>Heating, Cooling &amp; Plumbing</title>
-      <rect x="300" y="290" width="30" height="30"/><line x1="300" y1="300" x2="330" y2="300"/>
-      <polyline points="315,290 315,250 290,250"/><polyline points="140,318 140,300 280,300"/><circle cx="140" cy="318" r="3"/></g>
-    <line id="scanline" x1="70" y1="60" x2="410" y2="60">
-      <animate attributeName="y1" values="58;322;58" dur="6s" repeatCount="indefinite"/>
-      <animate attributeName="y2" values="58;322;58" dur="6s" repeatCount="indefinite"/>
-      <animate attributeName="stroke-opacity" values="0;.45;.45;0" dur="6s" repeatCount="indefinite"/></line>
-    <g id="sealStamp" transform="rotate(-14 240 182)">
-      <circle cx="240" cy="182" r="52"/><circle cx="240" cy="182" r="44"/>
-      <text x="240" y="172" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="13" font-weight="600" letter-spacing="2">PASSED</text>
-      <text x="240" y="190" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" letter-spacing="1">INSPECTION</text>
-      <text x="240" y="203" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" letter-spacing="1">COMPLETE</text></g>
-  </svg>`;
+// ─── UTILS ───────────────────────────────────────────────────────
+const uid = () => Date.now().toString(36) + Math.random().toString(36).substr(2,6);
+const fmt = (n) => new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',minimumFractionDigits:0,maximumFractionDigits:0}).format(n);
+const fmt2 = (n) => new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',minimumFractionDigits:2,maximumFractionDigits:2}).format(n);
+function calcInterest(p, apr, months) {
+  if (!p || !apr || !months) return 0;
+  const r = apr / 100 / 12;
+  if (r === 0) return 0;
+  const pmt = p * (r * Math.pow(1+r, months)) / (Math.pow(1+r, months) - 1);
+  return (pmt * months) - p;
 }
-function paintHouse(){
-  document.querySelectorAll('.house .sys').forEach(g=>{
-    const m=COURSE.modules.find(x=>x.id===g.dataset.mod);
-    g.classList.toggle('lit',modDone(m));
-    g.onclick=()=>{const i=moduleIdx(m.id);if(moduleUnlocked(i))go('curriculum',m.id);else toast(m.name.replace(/&amp;/g,'&')+' unlocks after the previous module');};
-    g.onmouseenter=()=>setCap(m);g.onmouseleave=()=>setCap(null);
+
+// ─── STYLES ──────────────────────────────────────────────────────
+const S = {
+  input: {
+    width: '100%', padding: '10px 12px', background: 'rgba(255,255,255,0.06)',
+    border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff',
+    fontSize: '14px', outline: 'none', boxSizing: 'border-box', fontFamily: 'var(--font)'
+  },
+  label: {
+    display: 'block', fontSize: '11px', textTransform: 'uppercase',
+    letterSpacing: '1px', color: '#666', marginBottom: '6px', fontWeight: 600
+  },
+  btn: (bg='var(--red)', color='#fff') => ({
+    padding: '10px 20px', background: bg, border: 'none', borderRadius: '8px',
+    color, fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--font)'
+  }),
+  ghost: {
+    padding: '10px 20px', background: 'rgba(255,255,255,0.06)',
+    border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px',
+    color: '#aaa', fontSize: '13px', cursor: 'pointer', fontFamily: 'var(--font)'
+  }
+};
+
+// ─── MODAL ───────────────────────────────────────────────────────
+function Modal({ open, onClose, children }) {
+  if (!open) return null;
+  return React.createElement('div', {
+    style: { position:'fixed',inset:0,background:'rgba(0,0,0,0.8)',display:'flex',
+      alignItems:'center',justifyContent:'center',zIndex:1000,padding:'20px' },
+    onClick: onClose
+  },
+    React.createElement('div', {
+      style: { background:'#111',borderRadius:'16px',padding:'32px',width:'100%',
+        maxWidth:'500px',maxHeight:'90vh',overflowY:'auto',border:'1px solid rgba(255,255,255,0.08)' },
+      onClick: e => e.stopPropagation()
+    }, children)
+  );
+}
+
+// ─── REFERRAL FORM ───────────────────────────────────────────────
+function ReferralForm({ initial, onSave, onDelete, onClose }) {
+  const [f, setF] = useState(initial || {
+    name:'', business:'', email:'', phone:'', loanType: LOAN_TYPES[0],
+    amount:'', source: SOURCES[0], status:'Lead', notes:'', bonus: false,
+    apr: 25, term: 36, dateAdded: new Date().toISOString().split('T')[0]
   });
-  const seal=document.getElementById('sealStamp');if(seal)seal.classList.toggle('show',modDone(COURSE.modules[5]));
-}
-function setCap(m){const c=document.getElementById('scancap');if(!c)return;c.innerHTML=m?`<b>${m.name.replace(/&amp;/g,'&')}</b> · ${modPct(m)}% complete · ${modDone(m)?'inked in':'click to open'}`:'Hover a system to inspect it · each one inks in as you master it';}
+  const upd = (k,v) => setF(p => ({...p,[k]:v}));
+  const field = (label, key, type='text', placeholder='') =>
+    React.createElement('div', { style: { marginBottom: '14px' } },
+      React.createElement('label', { style: S.label }, label),
+      React.createElement('input', {
+        style: S.input, type, placeholder, value: f[key] || '',
+        onChange: e => upd(key, e.target.value)
+      })
+    );
+  const select = (label, key, opts) =>
+    React.createElement('div', { style: { marginBottom: '14px' } },
+      React.createElement('label', { style: S.label }, label),
+      React.createElement('select', {
+        style: {...S.input, appearance:'auto'}, value: f[key],
+        onChange: e => upd(key, e.target.value)
+      }, opts.map(o => React.createElement('option', { key:o, value:o }, o)))
+    );
 
-function renderDashboard(){
-  crumb.innerHTML='<b>Dashboard</b>';
-  const last=lessonById(S.lastLesson)||flatLessons()[0];const r=readiness();
-  const quizAvg=(()=>{const s=Object.values(S.quiz).map(x=>x.best);return s.length?Math.round(s.reduce((a,b)=>a+b,0)/s.length):0;})();
-  const hours=(doneCount()*0.22).toFixed(1);
-  view.innerHTML=`
-  <div class="dash-head">
-    <div><span class="eyebrow">Pre-Licensing Track · Cohort 14</span><h1>Welcome back, <span class="nm">Daniel</span></h1></div>
-    <div class="readbig"><div class="n">${r}%</div><div class="l">NHIE Readiness Index</div></div>
-  </div>
-  <div class="metrics">
-    <div class="m"><div class="mv">${doneCount()}<small> / ${totalLessons}</small></div><div class="mk">Lessons complete</div></div>
-    <div class="m"><div class="mv">${hours}<small>h</small></div><div class="mk">Study time</div></div>
-    <div class="m"><div class="mv">${quizAvg}<small>%</small></div><div class="mk">Quiz average</div></div>
-    <div class="m"><div class="mv">${COURSE.modules.filter(modDone).length}<small> / 6</small></div><div class="mk">Modules mastered</div></div>
-  </div>
-  <div class="console">
-    <div class="stage"><div class="tag"><span>Inspection Schematic</span><span class="live">Live</span></div>
-      <div class="house-wrap">${houseSVG()}</div><div class="scancap" id="scancap"></div></div>
-    <div class="sysv"><div class="h">Building Systems</div>
-      <div class="syslist">${COURSE.modules.map((m,i)=>{const p=modPct(m),done=modDone(m),unl=moduleUnlocked(i);
-        return `<button class="sysrow ${done?'done':p>0?'prog':''}" ${unl?`onclick="go('curriculum','${m.id}')"`:'disabled'}>
-          <span class="ix">${String(i+1).padStart(2,'0')}</span><span class="led"></span><span class="nm">${m.name}</span>
-          ${unl?`<span class="pc">${p}%</span>`:`<span class="lk">${svg(I.lock)}</span>`}</button>`;}).join('')}</div>
-      <button class="resume" onclick="openLesson('${last.id}')"><span class="pl">${svg(I.play)}</span>
-        <span><span class="t">Resume</span><span class="ti">${last.t}</span></span><span class="ar">${svg(I.arrow)}</span></button></div>
-  </div>
-  <div class="sect-head"><h2>Your curriculum</h2><a class="link" onclick="go('curriculum')">All modules →</a></div>
-  <div class="track">${COURSE.modules.map((m,i)=>{const p=modPct(m),done=modDone(m),unl=moduleUnlocked(i);
-    const badge=done?'<span class="badge done">Mastered</span>':!unl?'<span class="badge lock">Locked</span>':p>0?'<span class="badge prog">In progress</span>':'<span class="badge lock">Not started</span>';
-    return `<button class="trow ${done?'done':''}" ${unl?`onclick="go('curriculum','${m.id}')"`:'disabled'}>
-      <span class="n">${done?'✓':String(i+1).padStart(2,'0')}</span>
-      <span class="mid"><span class="nm">${m.name}</span><span class="meta"><span>${m.sop}</span><span>${m.lessons.length} items</span>${badge}</span></span>
-      <span class="right"><div class="pc">${p}%</div><div class="tbar"><i style="width:${p}%"></i></div></span></button>`;}).join('')}</div>`;
-  requestAnimationFrame(()=>{paintHouse();setCap(null);});
-}
-
-function renderCurriculum(openId){
-  crumb.innerHTML='Dashboard <span class="sep">/</span> <b>My Course</b>';
-  view.innerHTML=`<span class="eyebrow">Pre-Licensing Track</span>
-    <h1 style="margin:10px 0 8px">${COURSE.title}</h1>
-    <p class="lead">A complete, Standards-of-Practice–aligned path from zero to exam-ready. Each module unlocks the next once you pass its check quiz.</p>
-    <div style="height:28px"></div>
-    ${COURSE.modules.map((m,i)=>{const p=modPct(m),done=modDone(m),unl=moduleUnlocked(i);
-      const open=openId?openId===m.id:(unl&&p>0&&p<100)||(i===0&&!Object.keys(S.done).length);
-      return `<div class="acc ${done?'done':''} ${open?'open':''}" id="acc-${m.id}">
-        <button class="acc-head" onclick="toggleAcc('${m.id}')"><div class="num">${done?'✓':(i+1)}</div>
-          <div class="info"><div class="t">${m.name}</div><div class="s">${m.sop} · ${m.lessons.length} items · ${p}% complete</div></div>
-          ${!unl?`<div class="pct" style="color:var(--ink-3)">${svg(I.lock)}</div>`:`<div class="pct">${p}%</div>`}
-          <div class="chev">${svg('<path d="m6 9 6 6 6-6"/>')}</div></button>
-        <div class="acc-body">${m.lessons.map(l=>{const d=lessonDone(l.id),lk=!unl,ic=l.type==='quiz'?I.quiz:l.type==='vid'?I.vid:I.read;
-          return `<button class="lrow ${d?'done':''} ${lk?'locked':''}" onclick="${l.type==='quiz'?`go('quiz','${l.id}')`:`openLesson('${l.id}')`}">
-            <div class="ck">${d?svg(I.check,3):''}</div><div class="tp">${svg(ic)}</div><div class="tt">${l.t}</div><div class="du">${l.d}</div></button>`;}).join('')}</div>
-      </div>`;}).join('')}`;
-}
-function toggleAcc(id){document.getElementById('acc-'+id).classList.toggle('open');}
-
-function renderLesson(id){
-  const l=lessonById(id);if(!l)return;if(!lessonUnlocked(id)){go('curriculum');return;}
-  S.lastLesson=id;save();
-  crumb.innerHTML=`My Course <span class="sep">/</span> ${l.mod.name} <span class="sep">/</span> <b>${l.t}</b>`;
-  const ids=flatLessons().map(x=>x.id),idx=ids.indexOf(id);
-  const prev=idx>0?ids[idx-1]:null,next=idx<ids.length-1?ids[idx+1]:null,nextL=next?lessonById(next):null,done=lessonDone(id);
-  view.innerHTML=`<div class="lesson-grid"><div>
-    <div class="player"><div class="pstage"><div class="badge2">${l.mod.sop} · ${l.d}</div><button class="play" onclick="toast('Video playback is stubbed in the prototype')">${svg(I.play)}</button></div>
-      <div class="ctrl">${svg(I.play)}<div class="tk"><i></i></div><span class="tm">4:38 / ${l.d.replace(' min','')}:00</span>${svg(I.vol)}${svg(I.full)}</div></div>
-    <div class="reader"><span class="eyebrow">${l.mod.name}</span><h2>${l.t}</h2>
-      <div class="rmeta"><span>${l.type==='vid'?'Video lesson':'Reading'}</span><span>·</span><span>${l.d}</span><span>·</span><span>${l.mod.sop}</span></div>
-      ${l.body||'<p>Lesson content coming soon.</p>'}
-      ${l.callout?`<div class="callout"><div class="ic">${svg(I.alert)}</div><div><div class="t">${l.callout.t}</div><p>${l.callout.p}</p></div></div>`:''}</div>
-    <div class="lesson-foot">${prev?`<button class="btn ghost" onclick="openLesson('${prev}')">${svg(I.back)} Previous</button>`:''}<div class="sp"></div>
-      ${done?`<span class="btn pass">${svg(I.check)} Completed</span>`:`<button class="btn dark" onclick="markDone('${id}','${next||''}')">${svg(I.check)} Mark complete</button>`}
-      ${next?`<button class="btn brass" onclick="openLesson('${next}')">${nextL.type==='quiz'?'Take the quiz':'Next lesson'} ${svg(I.arrow)}</button>`:`<button class="btn brass" onclick="go('certificate')">Finish course ${svg(I.arrow)}</button>`}</div>
-  </div>
-  <div class="aside"><div class="box"><div class="h">Lesson resources</div>
-    ${(l.res&&l.res.length)?l.res.map(r=>`<a class="res" onclick="toast('Download stubbed in prototype')"><div class="ri">${svg(I.pdf)}</div><div><div class="rn">${r.n}</div><div class="rt">${r.t}</div></div></a>`).join(''):'<div style="font-size:13px;color:var(--ink-3)">No attachments for this lesson.</div>'}</div>
-    ${nextL?`<div class="box"><div class="h">Up next</div><div class="upnext"><div class="un">${svg(nextL.type==='quiz'?I.quiz:nextL.type==='vid'?I.vid:I.read)}</div><div><div class="ut">${nextL.t}</div><div class="uk">${nextL.d}</div></div></div></div>`:''}</div>
-  </div>`;
-}
-function openLesson(id){const l=lessonById(id);if(l&&l.type==='quiz'){go('quiz',id);return;}go('lesson',id);}
-function markDone(id,next){S.done[id]=true;save();toast('Lesson marked complete');if(next){const nl=lessonById(next);if(nl&&nl.type==='quiz'){go('quiz',next);return;}openLesson(next);}else go('certificate');}
-
-function renderQuizIntro(id){
-  const data=QUIZZES[id],l=lessonById(id);if(!lessonUnlocked(id)){go('curriculum');return;}
-  crumb.innerHTML=`My Course <span class="sep">/</span> ${l.mod.name} <span class="sep">/</span> <b>${data.title} Check</b>`;
-  const prior=S.quiz[id];
-  view.innerHTML=`<div class="qwrap"><div class="quiz-card">
-    <div class="quiz-top"><div><div class="qt">Module Check — ${data.title}</div><div class="qm">${l.mod.sop} · ${data.q.length} questions · 80% to pass</div></div><div class="qnum">${svg(I.quiz)}</div></div>
-    <div class="quiz-body" style="text-align:center">
-      <p style="color:var(--ink-2);font-size:15px;max-width:44ch;margin:0 auto 22px;line-height:1.6">Answer all ${data.q.length} questions. You'll see the correct answer and an explanation after each. Score 80% or higher to master this module and ink in its system on your schematic.</p>
-      ${prior?`<div style="font-family:var(--mono);font-size:13px;color:var(--ink-2);margin-bottom:20px">Best score: <b style="color:${prior.best>=80?'var(--pass)':'var(--fail)'}">${prior.best}%</b> · ${prior.attempts} attempt${prior.attempts>1?'s':''}</div>`:''}
-      <button class="btn brass" style="margin:0 auto" onclick="go('quizrun','${id}')">${prior?'Retake quiz':'Start quiz'} ${svg(I.arrow)}</button>
-    </div></div></div>`;
-}
-let QS=null;
-function renderQuiz(id){const data=QUIZZES[id],l=lessonById(id);QS={id,i:0,answers:[],data};crumb.innerHTML=`My Course <span class="sep">/</span> ${l.mod.name} <span class="sep">/</span> <b>${data.title} Check</b>`;paintQ();}
-function paintQ(){const {data,i}=QS,q=data.q[i];
-  view.innerHTML=`<div class="qwrap"><div class="quiz-card">
-    <div class="quiz-top"><div><div class="qt">${data.title}</div><div class="qm">Module check quiz</div></div><div class="qnum">${String(i+1).padStart(2,'0')} / ${String(data.q.length).padStart(2,'0')}</div></div>
-    <div class="qprog"><i style="width:${i/data.q.length*100}%"></i></div>
-    <div class="quiz-body"><div class="q-text">${q.q}</div>
-      <div id="opts">${q.o.map((o,k)=>`<button class="opt" onclick="answer(${k})"><span class="key">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div>
-      <div id="exp"></div></div>
-    <div class="quiz-foot"><div class="hint">Select an answer to continue</div><div class="sp"></div><div id="qnext"></div></div></div></div>`;}
-function answer(k){const {data,i}=QS,q=data.q[i];if(QS.answers[i]!==undefined)return;QS.answers[i]=k;
-  document.querySelectorAll('#opts .opt').forEach((el,idx)=>{el.classList.add('locked');if(idx===q.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=svg(I.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=svg(I.x,2.6);}});
-  document.getElementById('exp').innerHTML=`<div class="explain"><b>${k===q.a?'Correct.':'Not quite.'}</b> ${q.e}</div>`;
-  document.querySelector('.quiz-foot .hint').textContent=k===q.a?'Nice — that\'s right':'Review the explanation';
-  const last=i===data.q.length-1;
-  document.getElementById('qnext').innerHTML=`<button class="btn ${last?'brass':'dark'}" onclick="${last?'finishQuiz()':'nextQ()'}">${last?'See results':'Next question'} ${svg(I.arrow)}</button>`;}
-function nextQ(){QS.i++;paintQ();}
-function finishQuiz(){const {data,answers,id}=QS;const correct=answers.filter((a,i)=>a===data.q[i].a).length;const pct=Math.round(correct/data.q.length*100);const pass=pct>=80;
-  const prior=S.quiz[id]||{best:0,attempts:0};S.quiz[id]={best:Math.max(prior.best,pct),attempts:prior.attempts+1};if(pass)S.done[id]=true;save();updateChips();
-  const l=lessonById(id),circ=2*Math.PI*64;
-  view.innerHTML=`<div class="qwrap" style="max-width:560px"><div class="result">
-    <div class="ring"><svg width="156" height="156" viewBox="0 0 156 156" style="transform:rotate(-90deg)">
-      <circle cx="78" cy="78" r="64" fill="none" stroke="var(--surf-3)" stroke-width="11"/>
-      <circle cx="78" cy="78" r="64" fill="none" stroke="${pass?'var(--pass)':'var(--fail)'}" stroke-width="11" stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${circ}"><animate attributeName="stroke-dashoffset" from="${circ}" to="${circ-circ*pct/100}" dur=".8s" fill="freeze" calcMode="spline" keySplines=".2 .7 .2 1"/></circle></svg>
-      <div class="rv"><div><div class="n" style="color:${pass?'var(--pass)':'var(--fail)'}">${pct}%</div><div class="p">${correct}/${data.q.length} correct</div></div></div></div>
-    <span class="verdict ${pass?'pass':'fail'}">${pass?'Module mastered':'Below passing'}</span>
-    <h2>${pass?'You\'ve cleared '+data.title:'Almost there'}</h2>
-    <p>${pass?'This system is now inked in on your schematic and the next module is unlocked. Keep the momentum.':'You need 80% to pass. Review the lessons and explanations, then retake — your best score counts.'}</p>
-    <div class="acts"><button class="btn ghost" onclick="go('quizrun','${id}')">${svg(I.retake)} Retake</button>
-      ${pass?`<button class="btn brass" onclick="go('dashboard')">View schematic ${svg(I.arrow)}</button>`:`<button class="btn dark" onclick="go('curriculum','${l.mod.id}')">Back to module</button>`}</div>
-  </div></div>`;}
-
-function renderPractice(){
-  crumb.innerHTML='Dashboard <span class="sep">/</span> <b>Practice Exams</b>';
-  view.innerHTML=`<span class="eyebrow">Exam Preparation</span><h1 style="margin:10px 0 8px">NHIE Practice Exams</h1>
-    <p class="lead">Timed practice modeled on the National Home Inspector Examination domains. Module checks feed directly into your Readiness Index.</p><div style="height:26px"></div>
-    <div class="track">${COURSE.modules.filter(m=>m.lessons.some(l=>l.type==='quiz')).map((m,i)=>{const q=m.lessons.find(l=>l.type==='quiz'),sc=S.quiz[q.id],best=sc?sc.best:0;
-      return `<button class="trow ${sc&&sc.best>=80?'done':''}" onclick="go('quiz','${q.id}')">
-        <span class="n">${sc&&sc.best>=80?'✓':String(i+1).padStart(2,'0')}</span>
-        <span class="mid"><span class="nm">${QUIZZES[q.id].title}</span><span class="meta"><span>${QUIZZES[q.id].q.length} questions</span><span>80% to pass</span>${sc?`<span class="badge ${sc.best>=80?'done':'prog'}">${sc.attempts} attempt${sc.attempts>1?'s':''}</span>`:'<span class="badge lock">New</span>'}</span></span>
-        <span class="right"><div class="pc">${best}%</div><div class="tbar"><i style="width:${best}%"></i></div></span></button>`;}).join('')}</div>
-    <div class="callout" style="margin-top:26px"><div class="ic">${svg(I.target)}</div><div><div class="t">Coming in the full build</div><p>Adaptive 200-question mock exams with a countdown timer, domain-weighted scoring, and a breakdown showing exactly which inspection systems to review before exam day.</p></div></div>`;
-}
-function renderResources(){
-  crumb.innerHTML='Dashboard <span class="sep">/</span> <b>Resource Library</b>';
-  const all=flatLessons().flatMap(l=>(l.res||[]).map(r=>({...r,mod:l.mod.name})));
-  view.innerHTML=`<span class="eyebrow">Downloads</span><h1 style="margin:10px 0 8px">Resource Library</h1>
-    <p class="lead">Field guides, checklists, and reference diagrams — everything your students keep on their phone during a real inspection.</p><div style="height:26px"></div>
-    <div class="acc open"><div class="acc-body">${all.map(r=>`<button class="lrow" onclick="toast('Download stubbed in prototype')"><div class="tp">${svg(I.pdf)}</div><div class="tt">${r.n}</div><div class="du">${r.mod.replace(/&amp;/g,'&')}</div><div style="color:var(--slate);margin-left:14px">${svg(I.download)}</div></button>`).join('')}</div></div>`;
-}
-function renderCertificate(){
-  crumb.innerHTML='Dashboard <span class="sep">/</span> <b>Certificate</b>';
-  const pct=coursePct();
-  if(pct<100){view.innerHTML=`<span class="eyebrow">Completion</span><h1 style="margin:10px 0 8px">Certificate of Completion</h1>
-    <div class="cert-locked"><div class="lk">${svg(I.lock)}</div><h2 style="margin-bottom:8px">Not unlocked yet</h2>
-      <p style="max-width:42ch;margin:0 auto 18px">Complete all ${totalLessons} lessons and pass every module check to earn your certificate. You're at <b class="mono" style="color:var(--brass-deep)">${pct}%</b>.</p>
-      <div style="max-width:300px;margin:0 auto"><div class="tbar"><i style="width:${pct}%"></i></div></div>
-      <button class="btn brass" style="margin:22px auto 0" onclick="go('curriculum')">Back to course ${svg(I.arrow)}</button></div>`;return;}
-  const date=new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
-  view.innerHTML=`<span class="eyebrow">Completion</span><h1 style="margin:10px 0 18px">Your Certificate</h1>
-    <div class="cert-wrap"><div class="cert"><div class="inner">
-      <div class="corner c1"></div><div class="corner c2"></div><div class="corner c3"></div><div class="corner c4"></div>
-      <div class="seal">${svg(I.award)}</div><div class="ce">ATI Academy · Inspector Training</div>
-      <div class="ch">Certificate of Completion</div><div class="csub">This certifies that</div>
-      <div class="name">Daniel Carter</div>
-      <div class="course">has successfully completed the <b>${COURSE.title}</b> program, fulfilling all coursework and module assessments aligned to the Standards of Practice.</div>
-      <div class="sigs"><div class="sig"><div class="nm">&nbsp;</div><div class="ln">Program Director</div></div>
-        <div class="sig"><div class="nm" style="font-family:var(--mono);font-size:12px">${date}</div><div class="ln">Date Issued</div></div>
-        <div class="sig"><div class="nm" style="font-family:var(--mono);font-size:12px">ATI-${Date.now().toString().slice(-7)}</div><div class="ln">Credential ID</div></div></div>
-    </div></div></div>
-    <div style="text-align:center;margin-top:22px"><button class="btn dark" onclick="toast('PDF export stubbed in prototype')">${svg(I.download)} Download PDF</button></div>`;
+  return React.createElement('div', null,
+    React.createElement('h2', { style: { margin:'0 0 24px', fontSize:'18px', fontWeight:700 } },
+      initial ? 'Edit Referral' : 'New Referral'),
+    React.createElement('div', { style: { display:'grid', gridTemplateColumns:'1fr 1fr', gap:'0 14px' } },
+      field('Contact Name', 'name', 'text', 'John Smith'),
+      field('Business', 'business', 'text', 'Smith Roofing LLC'),
+      field('Email', 'email', 'email', 'john@company.com'),
+      field('Phone', 'phone', 'tel', '(555) 123-4567'),
+    ),
+    React.createElement('div', { style: { display:'grid', gridTemplateColumns:'1fr 1fr', gap:'0 14px' } },
+      select('Loan Type', 'loanType', LOAN_TYPES),
+      field('Amount', 'amount', 'number', '150000'),
+    ),
+    React.createElement('div', { style: { display:'grid', gridTemplateColumns:'1fr 1fr', gap:'0 14px' } },
+      select('Source', 'source', SOURCES),
+      select('Status', 'status', STATUSES),
+    ),
+    React.createElement('div', { style: { display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:'0 14px' } },
+      field('Date', 'dateAdded', 'date'),
+      field('APR %', 'apr', 'number', '25'),
+      field('Term (mo)', 'term', 'number', '36'),
+    ),
+    React.createElement('div', { style: { marginBottom:'14px' } },
+      React.createElement('label', { style: S.label }, 'Notes'),
+      React.createElement('textarea', {
+        style: {...S.input, minHeight:'60px', resize:'vertical'},
+        value: f.notes||'', onChange: e => upd('notes', e.target.value),
+        placeholder: 'Additional context...'
+      })
+    ),
+    React.createElement('label', {
+      style: { display:'flex', alignItems:'center', gap:'10px', cursor:'pointer',
+        fontSize:'14px', marginBottom:'24px' }
+    },
+      React.createElement('input', {
+        type:'checkbox', checked: f.bonus||false,
+        onChange: e => upd('bonus', e.target.checked),
+        style: { accentColor:'var(--red)', width:'16px', height:'16px' }
+      }),
+      '15% Bonus Period'
+    ),
+    React.createElement('div', { style: { display:'flex', justifyContent:'space-between' } },
+      React.createElement('div', null,
+        initial && React.createElement('button', {
+          style: { ...S.ghost, color:'#f87171', borderColor:'rgba(239,68,68,0.2)',
+            background:'rgba(239,68,68,0.08)' },
+          onClick: () => { onDelete(initial.id); onClose(); }
+        }, 'Delete')
+      ),
+      React.createElement('div', { style: { display:'flex', gap:'12px' } },
+        React.createElement('button', { style: S.ghost, onClick: onClose }, 'Cancel'),
+        React.createElement('button', {
+          style: S.btn(),
+          onClick: () => { onSave({...f, id: initial?.id || uid(), amount: parseFloat(f.amount)||0, apr: parseFloat(f.apr)||25, term: parseInt(f.term)||36}); onClose(); }
+        }, 'Save')
+      )
+    )
+  );
 }
 
-let toastT;function toast(m){const t=document.getElementById('toast');document.getElementById('toastMsg').textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2200);}
-document.querySelectorAll('#nav a').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();go(a.dataset.view);}));
-(async()=>{await load();go('dashboard');})();
+// ─── STAT CARD ───────────────────────────────────────────────────
+function Stat({ label, value, sub, highlight }) {
+  return React.createElement('div', {
+    style: { padding:'20px 24px', background: highlight ? 'rgba(220,38,38,0.05)' : 'var(--bg)' }
+  },
+    React.createElement('p', { style: { margin:0, fontSize:'11px', color:'#555', letterSpacing:'1px', fontWeight:600, fontFamily:'var(--mono)', textTransform:'uppercase' } }, label),
+    React.createElement('p', { style: { margin:'6px 0 2px', fontSize:'24px', fontWeight:700, color: highlight?'#ef4444':'#fff', fontFamily:'var(--mono)' } }, value),
+    sub && React.createElement('p', { style: { margin:0, fontSize:'12px', color:'#444' } }, sub)
+  );
+}
+
+// ─── MAIN APP ────────────────────────────────────────────────────
+function App() {
+  const [data, setData] = useState(() => DB.load());
+  const [view, setView] = useState('pipeline');
+  const [modal, setModal] = useState(null); // null | 'new' | referral object
+  const [calcAmt, setCalcAmt] = useState(150000);
+  const [calcRate, setCalcRate] = useState(25);
+  const [calcTerm, setCalcTerm] = useState(36);
+  const [importMsg, setImportMsg] = useState('');
+  const [search, setSearch] = useState('');
+
+  const refs = data.referrals || [];
+
+  const persist = useCallback((newRefs) => {
+    const next = { ...data, referrals: newRefs };
+    setData(next);
+    DB.save(next);
+  }, [data]);
+
+  const saveRef = (ref) => {
+    const exists = refs.find(r => r.id === ref.id);
+    persist(exists ? refs.map(r => r.id === ref.id ? ref : r) : [...refs, ref]);
+  };
+  const deleteRef = (id) => persist(refs.filter(r => r.id !== id));
+
+  const filtered = useMemo(() => {
+    if (!search.trim()) return refs;
+    const q = search.toLowerCase();
+    return refs.filter(r =>
+      (r.name||'').toLowerCase().includes(q) ||
+      (r.business||'').toLowerCase().includes(q) ||
+      (r.source||'').toLowerCase().includes(q) ||
+      (r.loanType||'').toLowerCase().includes(q)
+    );
+  }, [refs, search]);
+
+  // Stats
+  const funded = refs.filter(r => r.status === 'Funded');
+  const totalFunded = funded.reduce((s,r) => s + r.amount, 0);
+  const totalInterest = funded.reduce((s,r) => s + calcInterest(r.amount, r.apr||25, r.term||36), 0);
+  const totalComm = funded.reduce((s,r) => {
+    const int = calcInterest(r.amount, r.apr||25, r.term||36);
+    return s + int * (r.bonus ? 0.15 : 0.10);
+  }, 0);
+  const pipeline = refs.filter(r => !['Funded','Declined','Lost'].includes(r.status));
+  const pipelineVal = pipeline.reduce((s,r) => s + r.amount, 0);
+
+  const sourceData = useMemo(() =>
+    SOURCES.map(src => ({
+      source: src,
+      total: refs.filter(r => r.source === src).length,
+      funded: refs.filter(r => r.source === src && r.status === 'Funded').length,
+      value: refs.filter(r => r.source === src && r.status === 'Funded').reduce((s,r) => s + r.amount, 0),
+      comm: refs.filter(r => r.source === src && r.status === 'Funded').reduce((s,r) => {
+        const int = calcInterest(r.amount, r.apr||25, r.term||36);
+        return s + int * (r.bonus ? 0.15 : 0.10);
+      }, 0)
+    })).filter(s => s.total > 0).sort((a,b) => b.comm - a.comm),
+  [refs]);
+
+  const cInt = calcInterest(calcAmt, calcRate, calcTerm);
+
+  const handleImport = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    DB.import(file).then(d => { setData(d); setImportMsg('Imported!'); setTimeout(()=>setImportMsg(''),2000); })
+      .catch(err => { setImportMsg('Error: ' + err); setTimeout(()=>setImportMsg(''),3000); });
+    e.target.value = '';
+  };
+
+  // Nav tab
+  const Tab = ({ id, label }) =>
+    React.createElement('button', {
+      onClick: () => setView(id),
+      style: {
+        padding:'12px 24px', background:'none', border:'none',
+        borderBottom: view===id ? '2px solid var(--red)' : '2px solid transparent',
+        color: view===id ? '#fff' : '#555', fontSize:'12px', fontWeight:600,
+        cursor:'pointer', textTransform:'uppercase', letterSpacing:'1px', fontFamily:'var(--font)'
+      }
+    }, label);
+
+  return React.createElement('div', null,
+    // Header
+    React.createElement('div', {
+      style: { background:'linear-gradient(135deg,#0a0a0a,#1a0a0a)',
+        borderBottom:'1px solid var(--border)', padding:'20px 28px',
+        display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap', gap:'14px' }
+    },
+      React.createElement('div', { style: { display:'flex', alignItems:'center', gap:'14px' } },
+        React.createElement('div', {
+          style: { width:'40px',height:'40px',borderRadius:'10px',
+            background:'linear-gradient(135deg,#dc2626,#991b1b)',
+            display:'flex',alignItems:'center',justifyContent:'center',
+            fontSize:'16px',fontWeight:700,fontFamily:'var(--mono)' }
+        }, 'CC'),
+        React.createElement('div', null,
+          React.createElement('h1', { style: { margin:0,fontSize:'18px',fontWeight:700,letterSpacing:'-0.5px' } }, 'Closer Capital'),
+          React.createElement('p', { style: { margin:0,fontSize:'11px',color:'#555',fontFamily:'var(--mono)' } }, 'REFERRAL TRACKER')
+        )
+      ),
+      React.createElement('div', { style: { display:'flex', gap:'10px', alignItems:'center', flexWrap:'wrap' } },
+        React.createElement('input', {
+          style: { ...S.input, width:'200px', fontSize:'13px' },
+          placeholder: 'Search referrals...',
+          value: search, onChange: e => setSearch(e.target.value)
+        }),
+        React.createElement('button', { style: S.btn(), onClick: () => setModal('new') }, '+ New Referral')
+      )
+    ),
+
+    // Nav
+    React.createElement('div', {
+      style: { display:'flex', gap:0, borderBottom:'1px solid var(--border)',
+        background:'rgba(255,255,255,0.02)', flexWrap:'wrap' }
+    },
+      React.createElement(Tab, { id:'pipeline', label:'Pipeline' }),
+      React.createElement(Tab, { id:'calculator', label:'Calculator' }),
+      React.createElement(Tab, { id:'sources', label:'Sources' }),
+      React.createElement(Tab, { id:'settings', label:'Settings' }),
+    ),
+
+    // Stats bar
+    React.createElement('div', {
+      style: { display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(170px,1fr))',
+        gap:'1px', background:'var(--border)', margin:'24px 28px', borderRadius:'12px', overflow:'hidden' }
+    },
+      React.createElement(Stat, { label:'Pipeline', value: fmt(pipelineVal), sub:`${pipeline.length} active` }),
+      React.createElement(Stat, { label:'Total Funded', value: fmt(totalFunded), sub:`${funded.length} deals` }),
+      React.createElement(Stat, { label:'Est. Interest', value: fmt(totalInterest), sub:'on funded deals' }),
+      React.createElement(Stat, { label:'Commission', value: fmt2(totalComm), sub:'earned to date', highlight:true }),
+    ),
+
+    // Content
+    React.createElement('div', { style: { padding:'0 28px 60px' } },
+
+      // ── PIPELINE ──
+      view === 'pipeline' && React.createElement('div', null,
+        filtered.length === 0
+          ? React.createElement('div', { style: { textAlign:'center', padding:'60px 20px', color:'#444' } },
+              React.createElement('p', { style: { fontSize:'48px', margin:'0 0 16px' } }, '📋'),
+              React.createElement('p', { style: { fontSize:'16px', fontWeight:600, color:'#555' } },
+                search ? 'No matching referrals' : 'No referrals yet'),
+              !search && React.createElement('p', { style: { fontSize:'13px' } }, 'Add your first referral to start tracking commissions')
+            )
+          : STATUSES.map(status => {
+              const items = filtered.filter(r => r.status === status);
+              if (!items.length) return null;
+              const m = STATUS_META[status];
+              return React.createElement('div', { key: status },
+                React.createElement('div', {
+                  style: { display:'flex', alignItems:'center', gap:'8px', margin:'20px 0 8px' }
+                },
+                  React.createElement('div', { style: { width:'8px',height:'8px',borderRadius:'50%',background:m.dot } }),
+                  React.createElement('span', { style: { fontSize:'12px',fontWeight:600,color:m.text,textTransform:'uppercase',letterSpacing:'1px' } }, status),
+                  React.createElement('span', { style: { fontSize:'11px',color:'#444',fontFamily:'var(--mono)' } }, `(${items.length})`)
+                ),
+                items.map(r => {
+                  const interest = calcInterest(r.amount, r.apr||25, r.term||36);
+                  const comm = interest * (r.bonus ? 0.15 : 0.10);
+                  return React.createElement('div', {
+                    key: r.id,
+                    style: { background:m.bg, border:'1px solid rgba(255,255,255,0.04)',
+                      borderRadius:'10px', padding:'14px 18px', marginBottom:'6px',
+                      display:'grid', gridTemplateColumns:'1fr auto', alignItems:'center', gap:'12px',
+                      cursor:'pointer', transition:'border-color 0.2s' },
+                    onClick: () => setModal(r),
+                    onMouseEnter: e => e.currentTarget.style.borderColor='rgba(255,255,255,0.12)',
+                    onMouseLeave: e => e.currentTarget.style.borderColor='rgba(255,255,255,0.04)'
+                  },
+                    React.createElement('div', null,
+                      React.createElement('div', { style: { display:'flex',alignItems:'center',gap:'10px',flexWrap:'wrap' } },
+                        React.createElement('span', { style: { fontWeight:600,fontSize:'15px' } }, r.name || 'Unnamed'),
+                        r.business && React.createElement('span', { style: { fontSize:'12px',color:'#555' } }, `— ${r.business}`),
+                        r.bonus && React.createElement('span', {
+                          style: { fontSize:'10px',background:'rgba(220,38,38,0.15)',color:'#f87171',
+                            padding:'2px 8px',borderRadius:'4px',fontWeight:600 }
+                        }, '15%')
+                      ),
+                      React.createElement('div', { style: { display:'flex',gap:'14px',marginTop:'5px',flexWrap:'wrap' } },
+                        React.createElement('span', { style: { fontSize:'11px',color:'#444',fontFamily:'var(--mono)' } }, r.loanType),
+                        React.createElement('span', { style: { fontSize:'11px',color:'#444',fontFamily:'var(--mono)' } }, r.source),
+                        React.createElement('span', { style: { fontSize:'11px',color:'#444',fontFamily:'var(--mono)' } }, r.dateAdded),
+                        r.email && React.createElement('span', { style: { fontSize:'11px',color:'#444',fontFamily:'var(--mono)' } }, r.email)
+                      )
+                    ),
+                    React.createElement('div', { style: { textAlign:'right' } },
+                      React.createElement('p', { style: { margin:0,fontSize:'18px',fontWeight:700,fontFamily:'var(--mono)',color:m.text } }, fmt(r.amount)),
+                      r.status === 'Funded' && React.createElement('p', {
+                        style: { margin:'2px 0 0',fontSize:'11px',color:'#22c55e',fontFamily:'var(--mono)' }
+                      }, `+${fmt2(comm)} comm.`)
+                    )
+                  );
+                })
+              );
+            })
+      ),
+
+      // ── CALCULATOR ──
+      view === 'calculator' && React.createElement('div', { style: { maxWidth:'600px' } },
+        React.createElement('h2', { style: { fontSize:'16px',fontWeight:700,marginBottom:'24px',color:'#ccc' } }, 'Commission Calculator'),
+        [
+          { label:'LOAN AMOUNT', val:calcAmt, set:setCalcAmt, min:25000, max:5000000, step:5000, fmt: fmt },
+          { label:'EST. APR (%)', val:calcRate, set:setCalcRate, min:8, max:40, step:0.5, fmt: v=>v.toFixed(1)+'%' },
+          { label:'TERM (MONTHS)', val:calcTerm, set:setCalcTerm, min:6, max:60, step:1, fmt: v=>v+' mo' },
+        ].map(s =>
+          React.createElement('div', { key:s.label, style: { marginBottom:'24px' } },
+            React.createElement('div', { style: { display:'flex',justifyContent:'space-between',marginBottom:'8px' } },
+              React.createElement('span', { style: { fontSize:'11px',color:'#555',letterSpacing:'1px',fontWeight:600,fontFamily:'var(--mono)',textTransform:'uppercase' } }, s.label),
+              React.createElement('span', { style: { fontSize:'20px',fontWeight:700,fontFamily:'var(--mono)' } }, s.fmt(s.val))
+            ),
+            React.createElement('input', { type:'range', min:s.min, max:s.max, step:s.step, value:s.val,
+              onChange: e => s.set(parseFloat(e.target.value)),
+              style: { width:'100%', accentColor:'var(--red)' }
+            }),
+            React.createElement('div', { style: { display:'flex',justifyContent:'space-between',fontSize:'11px',color:'#444',fontFamily:'var(--mono)' } },
+              React.createElement('span', null, s.fmt(s.min)),
+              React.createElement('span', null, s.fmt(s.max))
+            )
+          )
+        ),
+        React.createElement('div', { style: { background:'rgba(255,255,255,0.03)',borderRadius:'12px',padding:'20px 24px',marginTop:'32px' } },
+          [
+            { l:'Total Interest on Loan', v: fmt(cInt) },
+            { l:'Your Commission @ 10%', v: fmt2(cInt*0.10), c:'#fff' },
+            { l:'Your Commission @ 15% (Bonus)', v: fmt2(cInt*0.15), c:'#ef4444' },
+          ].map((row,i) =>
+            React.createElement('div', { key:i, style: { display:'flex',justifyContent:'space-between',padding:'10px 0',
+              borderBottom: i<2 ? '1px solid rgba(255,255,255,0.06)':'none' } },
+              React.createElement('span', { style: { fontSize:'13px',color:'#777' } }, row.l),
+              React.createElement('span', { style: { fontSize:'18px',fontWeight:700,fontFamily:'var(--mono)',color:row.c||'#aaa' } }, row.v)
+            )
+          )
+        ),
+        React.createElement('div', { style: { background:'rgba(220,38,38,0.05)',borderRadius:'12px',padding:'20px 24px',marginTop:'16px',border:'1px solid rgba(220,38,38,0.12)' } },
+          React.createElement('p', { style: { margin:'0 0 12px',fontSize:'11px',color:'#dc2626',letterSpacing:'1px',fontWeight:600,fontFamily:'var(--mono)',textTransform:'uppercase' } }, 'ANNUAL PROJECTION'),
+          [5,10,20,50].map(n => {
+            const annual = cInt * 0.10 * n;
+            return React.createElement('div', { key:n, style: { display:'flex',justifyContent:'space-between',padding:'6px 0' } },
+              React.createElement('span', { style: { fontSize:'13px',color:'#777' } }, `${n} deals/year`),
+              React.createElement('span', { style: { fontSize:'16px',fontWeight:700,fontFamily:'var(--mono)',color:annual>50000?'#22c55e':'#fff' } }, fmt(annual))
+            );
+          })
+        )
+      ),
+
+      // ── SOURCES ──
+      view === 'sources' && React.createElement('div', null,
+        React.createElement('h2', { style: { fontSize:'16px',fontWeight:700,marginBottom:'24px',color:'#ccc' } }, 'Channel Performance'),
+        sourceData.length === 0
+          ? React.createElement('p', { style: { color:'#444',fontSize:'14px' } }, 'Add referrals with source attribution to track channel performance.')
+          : sourceData.map(s =>
+              React.createElement('div', { key:s.source, style: {
+                background:'rgba(255,255,255,0.03)',borderRadius:'10px',padding:'16px 20px',
+                marginBottom:'8px',display:'grid',gridTemplateColumns:'1fr auto',alignItems:'center'
+              } },
+                React.createElement('div', null,
+                  React.createElement('p', { style: { margin:0,fontWeight:600,fontSize:'14px' } }, s.source),
+                  React.createElement('p', { style: { margin:'4px 0 0',fontSize:'12px',color:'#444',fontFamily:'var(--mono)' } },
+                    `${s.total} referrals · ${s.funded} funded · ${s.total>0?Math.round(s.funded/s.total*100):0}% conversion`)
+                ),
+                React.createElement('div', { style: { textAlign:'right' } },
+                  React.createElement('p', { style: { margin:0,fontSize:'18px',fontWeight:700,fontFamily:'var(--mono)',color:s.comm>0?'#22c55e':'#444' } }, fmt2(s.comm)),
+                  React.createElement('p', { style: { margin:'2px 0 0',fontSize:'11px',color:'#555' } }, 'commission')
+                )
+              )
+            )
+      ),
+
+      // ── SETTINGS ──
+      view === 'settings' && React.createElement('div', { style: { maxWidth:'500px' } },
+        React.createElement('h2', { style: { fontSize:'16px',fontWeight:700,marginBottom:'24px',color:'#ccc' } }, 'Data Management'),
+        React.createElement('div', { style: { display:'flex',flexDirection:'column',gap:'12px' } },
+          React.createElement('button', { style: S.ghost, onClick: () => DB.export() }, 'Export Data (JSON)'),
+          React.createElement('label', { style: { ...S.ghost, display:'inline-block', textAlign:'center' } },
+            'Import Data (JSON)',
+            React.createElement('input', { type:'file', accept:'.json', onChange: handleImport,
+              style: { display:'none' } })
+          ),
+          importMsg && React.createElement('p', { style: { fontSize:'13px', color: importMsg.startsWith('Error') ? '#f87171' : '#4ade80' } }, importMsg),
+          React.createElement('div', { style: { marginTop:'24px',padding:'20px',background:'rgba(255,255,255,0.03)',borderRadius:'10px' } },
+            React.createElement('p', { style: { fontSize:'13px',color:'#666',lineHeight:1.6 } },
+              `Database: localStorage (browser) · ${refs.length} referrals · ${funded.length} funded · Data persists across sessions. Export regularly for backup.`)
+          ),
+          React.createElement('button', {
+            style: { ...S.ghost, color:'#f87171', borderColor:'rgba(239,68,68,0.2)', marginTop:'12px' },
+            onClick: () => { if (confirm('Delete ALL referral data? This cannot be undone.')) { persist([]); } }
+          }, 'Clear All Data')
+        )
+      )
+    ),
+
+    // Modal
+    React.createElement(Modal, { open: modal !== null, onClose: () => setModal(null) },
+      modal && React.createElement(ReferralForm, {
+        initial: modal === 'new' ? null : modal,
+        onSave: saveRef,
+        onDelete: deleteRef,
+        onClose: () => setModal(null)
+      })
+    )
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
 </script>
+</body>
+</html>

@@ -1,0 +1,692 @@
+<!-- ATI · Module II · Plumbing — full interactive section -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#cbc6b8;--surf:#edebe2;--surf-2:#e3e0d6;--surf-3:#d7d3c7;
+    --line:#b8b2a2;--line-2:#cbc6b8;--line-brass:rgba(168,109,16,.3);
+    --ink:#29271f;--ink-2:#6a6557;--ink-3:#918c7d;
+    --brass:#a86d10;--brass-2:#c2841c;--brass-deep:#7f520a;--brass-soft:#e7ddc8;
+    --slate:#3c5870;--slate-2:#4d6982;--slate-soft:#d3dadf;--slate-deep:#2c4153;
+    --pass:#3d7d50;--pass-soft:#d9e6dc;--fail:#b85436;--fail-soft:#edddd4;
+    --r:16px;--display:'Bricolage Grotesque',sans-serif;--body:'Hanken Grotesk',sans-serif;--mono:'JetBrains Mono',monospace;
+    --sh-1:0 1px 2px rgba(41,39,31,.06),0 2px 5px rgba(41,39,31,.05);--sh-2:0 2px 8px rgba(41,39,31,.07),0 16px 44px rgba(41,39,31,.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.55;background-image:radial-gradient(120% 80% at 88% -8%,rgba(168,109,16,.05),transparent 52%),radial-gradient(90% 60% at -8% 108%,rgba(60,88,112,.06),transparent 52%)}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  .mono{font-family:var(--mono)}
+  ::selection{background:var(--brass);color:#fff}
+  ::-webkit-scrollbar{width:11px;height:11px}::-webkit-scrollbar-thumb{background:#b3ad9d;border-radius:11px;border:3px solid var(--bg)}
+
+  .top{position:sticky;top:0;z-index:30;background:rgba(203,198,184,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  .top .row{max-width:1150px;margin:0 auto;padding:13px 24px;display:flex;align-items:center;gap:14px}
+  .mark{width:36px;height:36px;border-radius:10px;flex:none;display:grid;place-items:center;background:linear-gradient(150deg,var(--brass-2),var(--brass-deep));box-shadow:0 3px 12px rgba(168,109,16,.3),inset 0 1px 0 rgba(255,255,255,.35)}
+  .mark svg{width:20px;height:20px;color:#fff}
+  .top .tt{font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:-.01em;line-height:1.1}.top .tt b{color:var(--brass-deep)}
+  .top .sub{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);display:block;margin-top:2px}
+  .top .prog{margin-left:auto;display:flex;align-items:center;gap:12px}
+  .top .prog .bar{width:150px;height:7px;background:var(--surf-3);border-radius:7px;overflow:hidden;border:1px solid var(--line)}
+  .top .prog .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--brass-deep),var(--brass));border-radius:7px;transition:width .5s cubic-bezier(.2,.7,.2,1)}
+  .top .prog .pc{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--brass-deep);min-width:34px;text-align:right}
+
+  .wrap{max-width:1150px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:250px 1fr;gap:32px;align-items:start}
+  .rail{position:sticky;top:88px;margin-top:28px;max-height:calc(100vh - 110px);overflow-y:auto;padding-right:4px}
+  .rail .h{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);padding:0 8px 10px}
+  .step{display:flex;align-items:center;gap:11px;padding:9px 10px;border-radius:10px;width:100%;text-align:left;transition:.13s;color:var(--ink-2);font-size:12.5px;font-weight:500;position:relative}
+  .step:hover{background:var(--surf-2)}
+  .step.active{background:var(--surf);box-shadow:var(--sh-1);color:var(--ink)}
+  .step.active::before{content:"";position:absolute;left:-8px;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--brass)}
+  .step .dot{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);flex:none;display:grid;place-items:center;font-family:var(--mono);font-size:10px;color:var(--ink-3);background:var(--bg);transition:.2s}
+  .step.done .dot{background:var(--brass);border-color:var(--brass);color:#fff}.step.done .dot svg{width:11px;height:11px}
+  .step .lbl{flex:1;line-height:1.2}
+  .step .kind{font-family:var(--mono);font-size:8.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);display:block;margin-top:1px}
+  .step.locked{opacity:.42;pointer-events:none}
+
+  .view{min-width:0;margin-top:28px;animation:rise .38s cubic-bezier(.2,.7,.2,1);padding-bottom:40px}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--brass-deep);font-weight:600}
+  h1{font-family:var(--display);font-weight:800;font-size:31px;letter-spacing:-.02em;line-height:1.08;margin:8px 0 0}
+  h2{font-family:var(--display);font-weight:700;font-size:21px;letter-spacing:-.01em;margin:32px 0 10px}
+  h3{font-family:var(--display);font-weight:700;font-size:16px;margin:24px 0 8px}
+  p{font-size:15.5px;color:#33312a;margin-bottom:14px;line-height:1.74}
+  p b,li b{color:var(--ink);font-weight:700}
+  .lead{font-size:16.5px;color:var(--ink-2);margin-top:12px;max-width:64ch}
+  ul.clean{list-style:none;margin:2px 0 16px}
+  ul.clean li{font-size:14.5px;color:#33312a;padding-left:22px;position:relative;margin-bottom:9px;line-height:1.6}
+  ul.clean li::before{content:"";position:absolute;left:2px;top:8px;width:7px;height:7px;border-radius:2px;background:var(--brass);transform:rotate(45deg)}
+  ul.num{margin:0 0 16px 20px}ul.num li{font-size:14.5px;color:#33312a;margin-bottom:7px;line-height:1.6}
+
+  .field{background:var(--slate-deep);color:#e9edf0;border-radius:13px;padding:18px 20px;margin:22px 0;display:flex;gap:14px}
+  .field.brass{background:linear-gradient(135deg,#3a3526,#2c2818)}
+  .field .ic{flex:none;color:var(--brass-2)}.field .ic svg{width:20px;height:20px}
+  .field .t{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-2);margin-bottom:5px}
+  .field p{color:#c4cdd4;font-size:14px;margin:0 0 8px;line-height:1.65}.field p:last-child{margin-bottom:0}.field p b{color:#fff}
+
+  .story{background:var(--surf);border:1px solid var(--line);border-left:4px solid var(--brass);border-radius:0 13px 13px 0;padding:16px 19px;margin:22px 0;box-shadow:var(--sh-1)}
+  .story .st{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-deep);display:flex;align-items:center;gap:8px;margin-bottom:7px}
+  .story .st svg{width:14px;height:14px}
+  .story p{font-size:14.5px;color:#403d33;font-style:italic;margin:0;line-height:1.7}
+  .story p b{font-style:normal}
+
+  .loop{display:flex;align-items:stretch;background:var(--surf);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin:18px 0 8px;box-shadow:var(--sh-1)}
+  .loop .seg{flex:1;padding:13px 10px;text-align:center;border-right:1px solid var(--line-2)}.loop .seg:last-child{border-right:none}
+  .loop .seg .n{font-family:var(--mono);font-size:9px;color:var(--ink-3);letter-spacing:.1em}
+  .loop .seg .w{font-family:var(--display);font-weight:700;font-size:12.5px;margin-top:3px}
+  .loop .seg.on{background:var(--brass-soft)}.loop .seg.on .w{color:var(--brass-deep)}
+
+  .dgm{background:#bdb8a8;border:1px solid var(--line);border-radius:var(--r);padding:8px;margin:20px 0;box-shadow:var(--sh-1);position:relative;overflow:hidden}
+  .dgm::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(44,65,83,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(44,65,83,.1) 1px,transparent 1px);background-size:26px 26px;pointer-events:none}
+  .dgm svg{display:block;width:100%;height:auto;position:relative}
+  .dgm .cap{position:relative;text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:.04em;color:var(--slate-deep);padding:4px 6px 8px}
+
+  .defect{background:var(--surf);border:1px solid var(--line);border-radius:13px;padding:16px 18px;box-shadow:var(--sh-1);margin:12px 0}
+  .defect .dh{display:flex;align-items:center;gap:11px;margin-bottom:8px}
+  .defect .dh .n{width:26px;height:26px;border-radius:8px;background:var(--fail-soft);color:var(--fail);display:grid;place-items:center;flex:none;font-family:var(--mono);font-weight:600;font-size:12px}
+  .defect .dh .nm{font-family:var(--display);font-weight:700;font-size:15px}
+  .defect p{font-size:14px;margin-bottom:9px}
+  .defect .meta{display:grid;grid-template-columns:auto 1fr;gap:5px 12px;font-size:13px;align-items:start}
+  .defect .meta .lab{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);padding-top:3px;white-space:nowrap}
+  .defect .meta .val{color:#33312a;line-height:1.5}
+  .defect .rep{font-family:var(--mono);font-size:11px;background:var(--slate-soft);border-radius:8px;padding:8px 11px;color:var(--slate-deep);line-height:1.5;margin-top:8px}.defect .rep b{color:var(--slate-deep)}
+
+  .pills{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 6px}
+  .pill{font-family:var(--mono);font-size:11.5px;background:var(--surf);border:1px solid var(--line);color:var(--ink-2);padding:6px 12px;border-radius:20px}.pill b{color:var(--brass-deep)}
+  .tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px;background:var(--surf);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .tbl th{background:var(--slate-deep);color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;text-align:left;padding:9px 12px;font-weight:600}
+  .tbl td{padding:9px 12px;border-top:1px solid var(--line-2);color:#33312a}
+  .tbl td:first-child{font-family:var(--mono);font-weight:600;color:var(--brass-deep);white-space:nowrap}
+
+  /* ---- quiz (multi-question) ---- */
+  .quiz{background:var(--surf);border:1.5px solid var(--line-brass);border-radius:var(--r);padding:24px;margin:30px 0 0;box-shadow:var(--sh-1)}
+  .quiz .qh{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-deep);display:flex;align-items:center;gap:8px;margin-bottom:4px}.quiz .qh svg{width:15px;height:15px}
+  .quiz .qt{font-family:var(--display);font-weight:700;font-size:18px}.quiz .qsub{font-size:13.5px;color:var(--ink-2);margin:4px 0 4px}
+  .qblock{border-top:1px solid var(--line-2);padding-top:18px;margin-top:18px}.qblock:first-of-type{border-top:none;padding-top:14px}
+  .qnum{font-family:var(--mono);font-size:11px;color:var(--brass-deep);font-weight:600;margin-bottom:6px}
+  .q{font-family:var(--display);font-weight:600;font-size:15.5px;margin-bottom:13px;line-height:1.4}
+  .opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:11px 14px;border:1.5px solid var(--line);border-radius:10px;margin-bottom:8px;transition:.13s;font-size:14px;font-weight:500;background:var(--surf-2)}
+  .opt:hover:not(.lk){border-color:var(--brass);background:var(--surf)}
+  .opt .k{font-family:var(--mono);font-weight:600;width:23px;height:23px;border-radius:6px;background:var(--surf-3);display:grid;place-items:center;font-size:11px;flex:none;color:var(--ink-2)}
+  .opt.correct{border-color:var(--pass);background:var(--pass-soft)}.opt.correct .k{background:var(--pass);color:#fff}
+  .opt.wrong{border-color:var(--fail);background:var(--fail-soft)}.opt.wrong .k{background:var(--fail);color:#fff}
+  .opt .mk{margin-left:auto}.opt .mk svg{width:16px;height:16px}.opt.lk{cursor:default}
+  .exp{font-size:13px;color:var(--ink-2);line-height:1.62;padding:11px 13px;background:var(--surf-2);border-left:3px solid var(--brass);border-radius:0 9px 9px 0;margin-top:4px}.exp b{color:var(--ink)}
+  .qscore{margin-top:20px;padding-top:18px;border-top:1px solid var(--line-2);font-family:var(--mono);font-size:13px;color:var(--ink-2);display:flex;align-items:center;gap:10px}.qscore svg{width:18px;height:18px;flex:none}.qscore b{font-size:15px}
+
+  .foot{display:flex;align-items:center;gap:12px;margin:30px 0 10px;padding-top:22px;border-top:1px solid var(--line)}.foot .sp{flex:1}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:14px;padding:12px 18px;border-radius:11px;transition:.15s;font-family:var(--body)}.btn svg{width:16px;height:16px}
+  .btn.brass{background:linear-gradient(150deg,var(--brass-2),var(--brass));color:#fff;box-shadow:0 5px 14px rgba(168,109,16,.28)}.btn.brass:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(168,109,16,.36)}
+  .btn.brass:disabled{opacity:.5;filter:grayscale(.3);cursor:not-allowed;transform:none;box-shadow:none}
+  .btn.ghost{background:var(--surf);border:1px solid var(--line);color:var(--ink-2)}.btn.ghost:hover{color:var(--ink);border-color:var(--ink-3)}
+  .btn.slate{background:var(--slate);color:#fff}.btn.slate:hover{background:var(--slate-deep)}
+
+  /* ---- WIDGETS ---- */
+  .wlabel{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:var(--brass);padding:4px 9px;border-radius:20px;display:inline-block;margin-bottom:6px}
+  .wtitle{font-family:var(--display);font-weight:700;font-size:16px;margin-bottom:3px}
+  .wsub{font-size:13.5px;color:var(--ink-2);margin-bottom:14px}
+  .widget{background:var(--surf-2);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;margin:24px 0;box-shadow:var(--sh-1)}
+
+  .sd-wrap{display:grid;grid-template-columns:1fr 260px;gap:16px}@media(max-width:760px){.sd-wrap{grid-template-columns:1fr}}
+  .sd-stage{background:#bdb8a8;border:1px solid var(--line);border-radius:13px;padding:8px;position:relative;overflow:hidden}
+  .sd-stage::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(44,65,83,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(44,65,83,.09) 1px,transparent 1px);background-size:24px 24px;pointer-events:none}
+  .sd-stage svg{display:block;width:100%;height:auto;position:relative}
+  .hot{cursor:pointer}.hot circle.zone{fill:transparent;stroke:transparent}
+  .hot.found circle.zone{fill:rgba(61,125,80,.16);stroke:var(--pass);stroke-width:2.5;stroke-dasharray:4 3}
+  .sd-side{display:flex;flex-direction:column;gap:11px}
+  .sd-count{background:var(--slate-deep);color:#fff;border-radius:12px;padding:13px 15px;text-align:center}
+  .sd-count .big{font-family:var(--mono);font-weight:600;font-size:28px;line-height:1}.sd-count .lbl{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-2);margin-top:5px}
+  .sd-found{display:flex;flex-direction:column;gap:7px;max-height:280px;overflow-y:auto}
+  .fcard{background:var(--surf);border:1px solid var(--line);border-left:3px solid var(--pass);border-radius:9px;padding:9px 11px;animation:pop .3s}@keyframes pop{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:none}}
+  .fcard .fn{font-family:var(--display);font-weight:700;font-size:13px;color:var(--pass)}.fcard .fd{font-size:12px;color:var(--ink-2);margin-top:2px;line-height:1.45}
+  .sd-empty{font-size:12.5px;color:var(--ink-3);font-style:italic;text-align:center;padding:18px 8px}
+  .sd-done{background:var(--pass-soft);border:1px solid var(--pass);border-radius:11px;padding:12px;text-align:center;font-size:13px;color:var(--pass);font-weight:600}
+
+  .gfi-stage{background:var(--slate-deep);border-radius:13px;padding:20px;position:relative;overflow:hidden;height:220px}
+  .lane{position:absolute;left:120px;right:120px;height:3px;background:rgba(255,255,255,.18);border-radius:3px}.lane.hot{top:66px}.lane.neu{top:146px}
+  .lane .lab{position:absolute;top:-19px;left:0;font-family:var(--mono);font-size:10px;color:#9fb0bd}
+  .dot{position:absolute;width:9px;height:9px;border-radius:50%;top:-3px}
+  .dot.h{background:var(--brass-2);animation:flowR 2.4s linear infinite}.dot.n{background:#7fa8c4;animation:flowL 2.4s linear infinite}
+  @keyframes flowR{from{left:0}to{left:100%}}@keyframes flowL{from{left:100%}to{left:0}}
+  .gbox{position:absolute;left:28px;top:66px;width:68px;height:80px;border:2px solid #9fb0bd;border-radius:8px;display:grid;place-items:center;text-align:center}
+  .gbox .gt{font-family:var(--mono);font-size:10px;color:#fff}.gbox .gs{font-family:var(--mono);font-size:8px;color:#7fa8c4;margin-top:3px}
+  .load{position:absolute;right:28px;top:66px;width:68px;height:80px;border:2px solid #9fb0bd;border-radius:8px;display:grid;place-items:center}.load .lt{font-family:var(--mono);font-size:10px;color:#fff}
+  .leak{position:absolute;left:50%;top:69px;width:2px;height:88px;background:repeating-linear-gradient(180deg,var(--fail),var(--fail) 5px,transparent 5px,transparent 10px);opacity:0;transition:.3s}.leak.on{opacity:1}
+  .person{position:absolute;left:calc(50% - 13px);top:160px;font-size:22px;opacity:0;transition:.3s}.person.on{opacity:1}
+  .trip{position:absolute;inset:0;background:rgba(184,84,54,.92);display:grid;place-items:center;opacity:0;pointer-events:none;transition:.3s}.trip.on{opacity:1}
+  .trip .tw{text-align:center;color:#fff}.trip .tw .b{font-family:var(--display);font-weight:800;font-size:25px}.trip .tw .s{font-family:var(--mono);font-size:11px;letter-spacing:.1em;margin-top:6px;opacity:.9}
+  .gfi-status{display:flex;align-items:center;gap:10px;margin-top:14px;font-size:14px;font-weight:600}.gfi-status .pip{width:11px;height:11px;border-radius:50%;background:var(--pass)}.gfi-status.fault .pip{background:var(--fail)}
+  .gfi-controls{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}.gfi-read{font-family:var(--mono);font-size:12px;color:var(--ink-2);margin-top:10px}.gfi-read b{color:var(--brass-deep)}
+
+  .match{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:600px){.match{grid-template-columns:1fr}}
+  .mcol{display:flex;flex-direction:column;gap:9px}.mcol .ch{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);text-align:center;margin-bottom:2px}
+  .chip{padding:13px;border:1.5px solid var(--line);border-radius:11px;background:var(--surf);font-family:var(--mono);font-weight:600;font-size:14px;text-align:center;transition:.13s;color:var(--ink)}
+  .chip:hover:not(.locked){border-color:var(--brass)}.chip.sel{border-color:var(--brass);background:var(--brass-soft);color:var(--brass-deep)}
+  .chip.locked{border-color:var(--pass);background:var(--pass-soft);color:var(--pass);cursor:default;opacity:.85}
+  .chip.miss{border-color:var(--fail);background:var(--fail-soft);animation:shake .3s}@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+  .w-done{margin-top:14px;background:var(--pass-soft);border:1px solid var(--pass);border-radius:11px;padding:12px;text-align:center;font-size:13px;color:var(--pass);font-weight:600}
+
+  .est{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:600px){.est{grid-template-columns:1fr}}
+  .est label{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:6px}
+  .est select{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--surf);font-family:var(--mono);font-size:14px;color:var(--ink);font-weight:600}
+  .est-out{grid-column:1/-1;margin-top:4px;border-radius:12px;padding:15px 17px;border:1px solid var(--line);background:var(--surf);transition:.2s}
+  .est-out.ok{border-color:var(--pass);background:var(--pass-soft)}.est-out.bad{border-color:var(--fail);background:var(--fail-soft)}
+  .est-out .ev{font-family:var(--display);font-weight:800;font-size:19px}.est-out .ed{font-size:13px;color:var(--ink-2);margin-top:5px;line-height:1.5}
+  .est-out.ok .ev{color:var(--pass)}.est-out.bad .ev{color:var(--fail)}
+
+  .sort{display:grid;gap:14px}
+  .sort-items{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;min-height:20px}
+  .sitem{padding:10px 14px;border:1.5px solid var(--line);border-radius:10px;background:var(--surf);font-size:13.5px;font-weight:500;transition:.13s}.sitem:hover:not(.placed){border-color:var(--brass)}.sitem.sel{border-color:var(--brass);background:var(--brass-soft);color:var(--brass-deep)}.sitem.placed{display:none}
+  .bins{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:600px){.bins{grid-template-columns:1fr}}
+  .bin{border:1.5px dashed var(--line);border-radius:12px;padding:14px;min-height:90px;background:var(--surf)}
+  .bin.activeb{border-color:var(--brass);background:var(--brass-soft)}
+  .bin .bt{font-family:var(--display);font-weight:700;font-size:14px;text-align:center;margin-bottom:10px}
+  .bin .drop{font-size:11px;color:var(--ink-3);text-align:center;font-style:italic}
+  .binitem{padding:8px 11px;border-radius:8px;font-size:13px;font-weight:500;margin-bottom:6px;display:flex;align-items:center;gap:7px}.binitem svg{width:13px;height:13px;flex:none}
+  .binitem.right{background:var(--pass-soft);color:var(--pass)}.binitem.wrong{background:var(--fail-soft);color:var(--fail)}
+
+  .era{display:flex;flex-direction:column;gap:0;position:relative;margin:6px 0 4px;padding-left:8px}
+  .era .line{position:absolute;left:14px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .erow{display:flex;align-items:flex-start;gap:14px;padding:9px 0;position:relative;cursor:pointer}
+  .erow .ed{width:12px;height:12px;border-radius:50%;background:var(--surf-3);border:2px solid var(--line);flex:none;margin-top:3px;z-index:1;transition:.15s}
+  .erow:hover .ed,.erow.open .ed{background:var(--brass);border-color:var(--brass)}
+  .erow .et{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--brass-deep);width:130px;flex:none}
+  .erow .en{font-size:14px;color:#33312a;font-weight:600}
+  .erow .ex{font-size:13px;color:var(--ink-2);line-height:1.5;margin-top:4px;display:none}.erow.open .ex{display:block}
+
+  .panelcard{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-2);padding:34px;text-align:center}
+  .panelcard .ic{width:56px;height:56px;border-radius:14px;background:var(--brass-soft);color:var(--brass-deep);display:grid;place-items:center;margin:0 auto 16px}.panelcard .ic svg{width:27px;height:27px}
+  .panelcard h2{margin:0 0 8px}.panelcard p{max-width:48ch;margin:0 auto 22px}
+  .ring{width:150px;height:150px;margin:0 auto 18px;position:relative}.ring .rv{position:absolute;inset:0;display:grid;place-items:center}.ring .rv .n{font-family:var(--mono);font-weight:600;font-size:38px;line-height:1}.ring .rv .p{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-top:4px}
+  .verdict{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;display:inline-block;padding:5px 13px;border-radius:20px;margin-bottom:16px}.verdict.pass{background:var(--pass-soft);color:var(--pass)}.verdict.fail{background:var(--fail-soft);color:var(--fail)}
+
+  .scen{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-2);margin-bottom:16px}
+  .scen .sh{background:linear-gradient(120deg,#3c5870,#2c4153);color:#fff;padding:16px 20px}.scen .sh .t{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-2)}.scen .sh .n{font-family:var(--display);font-weight:700;font-size:17px;margin-top:3px}
+  .scen .body{padding:20px 22px}.scen .situation{font-size:15.5px;color:#33312a;line-height:1.7;margin-bottom:6px}.scen .ask{font-family:var(--display);font-weight:600;font-size:15px;margin:16px 0 14px;color:var(--ink)}
+  .scount{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-bottom:10px}
+
+  .gloss{display:grid;gap:10px}.term{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:13px 16px;box-shadow:var(--sh-1)}
+  .term .tw{font-family:var(--display);font-weight:700;font-size:14.5px;color:var(--brass-deep)}.term .td{font-size:13.5px;color:var(--ink-2);margin-top:3px;line-height:1.55}
+  .srcframe{width:100%;height:78vh;border:1px solid var(--line);border-radius:var(--r);background:var(--surf);box-shadow:var(--sh-1)}
+  .srcnote{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:14px 17px;font-size:13.5px;color:var(--ink-2);margin:14px 0;line-height:1.6}.srcnote a{color:var(--brass-deep);font-weight:600}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--slate-deep);color:#fff;padding:12px 18px;border-radius:11px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;box-shadow:var(--sh-2);z-index:100;opacity:0;transition:.3s}.toast.show{transform:translateX(-50%) translateY(0);opacity:1}.toast svg{width:16px;height:16px;color:var(--brass-2)}
+  @media(max-width:880px){.wrap{grid-template-columns:1fr}.rail{display:none}.top .prog .bar{width:90px}}
+  em{font-style:italic;color:inherit}
+</style>
+
+<div class="top"><div class="row">
+  <div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg></div>
+  <div><div class="tt">ATI · Module II — <b>Electrical Systems</b></div><span class="sub">Property &amp; Building Inspection · interactive</span></div>
+  <div class="prog"><div class="bar"><i id="pbar"></i></div><span class="pc" id="ppc">0%</span></div>
+</div></div>
+<div class="wrap"><aside class="rail"><div class="h">Section contents</div><div id="rail"></div></aside><main class="view" id="view"></main></div>
+<div class="toast" id="toast"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span id="tmsg"></span></div>
+
+<script>
+const ic={check:'<path d="M20 6 9 17l-5-5"/>',x:'<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',arrow:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',back:'<path d="M19 12H5"/><path d="m12 19-7-7 7-7"/>',brain:'<path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44A2.5 2.5 0 0 1 4 17.5a2.5 2.5 0 0 1-.5-4.9 2.5 2.5 0 0 1 0-4.2A2.5 2.5 0 0 1 5 3.5 2.5 2.5 0 0 1 9.5 2z"/>',flag:'<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>',alert:'<path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="9"/>',bolt:'<path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/>',book:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',open:'<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/>',award:'<circle cx="12" cy="8" r="6"/><path d="M15.5 12.9 17 22l-5-3-5 3 1.5-9.1"/>',retake:'<path d="M3 12a9 9 0 1 0 9-9 9 9 0 0 0-6.4 2.6L3 8"/><path d="M3 3v5h5"/>',coffee:'<path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/><line x1="6" y1="2" x2="6" y2="5"/><line x1="10" y1="2" x2="10" y2="5"/><line x1="14" y1="2" x2="14" y2="5"/>'};
+const sv=(p,w=2)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+function conds(title,items){return `<h3>${title}</h3><ul class="clean">${items.map(([n,d])=>`<li><b>${n}</b> — ${d}</li>`).join('')}</ul>`;}
+function story(title,text){return `<div class="story"><div class="st">${sv(ic.coffee)} ${title}</div><p>${text}</p></div>`;}
+
+/* ================= WIDGET LIBRARY ================= */
+const SPOT={}, MATCH={}, SORT={}, ERA={};
+const WID={
+  spot(el,k){const c=SPOT[k];let found=new Set();
+    el.innerHTML=`<span class="wlabel">Spot the defect</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div>
+     <div class="sd-wrap"><div class="sd-stage"><svg viewBox="${c.vb}" class="hot">${c.svg}<g class="hsg"></g></svg></div>
+     <div class="sd-side"><div class="sd-count"><div class="big"><span class="sdn">0</span>/${c.defects.length}</div><div class="lbl">defects found</div></div><div class="sd-found"><div class="sd-empty">Click a defect to log it…</div></div></div></div>`;
+    const g=el.querySelector('.hsg'),cnt=el.querySelector('.sdn'),fw=el.querySelector('.sd-found');
+    c.defects.forEach((d,i)=>{const gg=document.createElementNS('http://www.w3.org/2000/svg','g');gg.setAttribute('class','hot');gg.innerHTML=`<circle class="zone" cx="${d.x}" cy="${d.y}" r="${d.r}"/>`;gg.style.cursor='pointer';
+      gg.addEventListener('click',()=>{if(found.has(i))return;found.add(i);gg.classList.add('found');cnt.textContent=found.size;if(fw.querySelector('.sd-empty'))fw.innerHTML='';
+        const card=document.createElement('div');card.className='fcard';card.innerHTML=`<div class="fn">${found.size}. ${d.n}</div><div class="fd">${d.d}</div>`;fw.appendChild(card);
+        if(found.size===c.defects.length){const dn=document.createElement('div');dn.className='sd-done';dn.textContent='All found — that\'s the scan. Nicely done.';fw.appendChild(dn);}});
+      g.appendChild(gg);});},
+  gfi(el){el.innerHTML=`<span class="wlabel">Animated diagram</span><div class="wtitle">Watch the GFI work</div><div class="wsub">Current flows out the hot and back on the neutral — equal. Introduce a leak and see what happens.</div>
+    <div class="gfi-stage"><div class="gbox"><div><div class="gt">GFI</div><div class="gs">in vs out</div></div></div><div class="load"><div class="lt">LOAD</div></div><div class="lane hot"><span class="lab">hot — out</span></div><div class="lane neu"><span class="lab">neutral — back</span></div><div class="leak"></div><div class="person">🧍</div><div class="trip"><div class="tw"><div class="b">⚡ GFI TRIPPED</div><div class="s">imbalance &gt; 5 mA — cut in milliseconds</div></div></div></div>
+    <div class="gfi-status"><span class="pip"></span><span class="gtxt">Balanced — out equals back. Holding.</span></div>
+    <div class="gfi-read">Hot out: <b>15.000 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b>0 mA</b></div>
+    <div class="gfi-controls"><button class="btn brass gflt">Introduce a ground fault</button><button class="btn ghost grst">Reset</button></div>`;
+    const stage=el.querySelector('.gfi-stage'),st=el.querySelector('.gfi-status'),txt=el.querySelector('.gtxt'),read=el.querySelector('.gfi-read'),trip=el.querySelector('.trip'),fbtn=el.querySelector('.gflt');let f=false,to;
+    function dots(){stage.querySelectorAll('.dot').forEach(d=>d.remove());for(let i=0;i<5;i++){const d=document.createElement('span');d.className='dot h';d.style.animationDelay=(-i*0.48)+'s';stage.querySelector('.lane.hot').appendChild(d);}const nc=f?2:5;for(let i=0;i<nc;i++){const d=document.createElement('span');d.className='dot n';d.style.animationDelay=(-i*0.48)+'s';stage.querySelector('.lane.neu').appendChild(d);}}
+    function reset(){f=false;clearTimeout(to);el.querySelector('.leak').classList.remove('on');el.querySelector('.person').classList.remove('on');trip.classList.remove('on');st.classList.remove('fault');txt.textContent='Balanced — out equals back. Holding.';read.innerHTML='Hot out: <b>15.000 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b>0 mA</b>';fbtn.textContent='Introduce a ground fault';dots();}
+    fbtn.onclick=()=>{f=!f;if(f){el.querySelector('.leak').classList.add('on');el.querySelector('.person').classList.add('on');st.classList.add('fault');txt.textContent='Imbalance — current is leaking to ground.';read.innerHTML='Hot out: <b>15.006 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b style="color:var(--fail)">6 mA</b>';fbtn.textContent='Clear the fault';dots();to=setTimeout(()=>trip.classList.add('on'),650);}else reset();};
+    el.querySelector('.grst').onclick=reset;dots();},
+  match(el,k){const c=MATCH[k];const sh=a=>a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v[1]);let sel=null,locked=0;
+    el.innerHTML=`<span class="wlabel">Match drill</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="match"><div class="mcol"><div class="ch">${c.left}</div><div class=" L"></div></div><div class="mcol"><div class="ch">${c.right}</div><div class="R"></div></div></div><div class="md"></div>`;
+    const L=el.querySelector('.L'),R=el.querySelector('.R'),done=el.querySelector('.md');
+    c.pairs.forEach(p=>{const b=document.createElement('button');b.className='chip';b.textContent=p[0];b.dataset.a=p[0];b.dataset.s='L';L.appendChild(b);});
+    sh(c.pairs.map(p=>p[1])).forEach(v=>{const b=document.createElement('button');b.className='chip';b.textContent=v;b.dataset.b=v;b.dataset.s='R';R.appendChild(b);});
+    el.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{if(b.classList.contains('locked'))return;
+      if(!sel){sel=b;b.classList.add('sel');return;}if(sel===b){b.classList.remove('sel');sel=null;return;}if(sel.dataset.s===b.dataset.s){sel.classList.remove('sel');sel=b;b.classList.add('sel');return;}
+      const left=sel.dataset.s==='L'?sel:b,right=sel.dataset.s==='R'?sel:b,ok=c.pairs.find(p=>p[0]===left.dataset.a)[1]===right.dataset.b;
+      if(ok){[left,right].forEach(x=>{x.classList.remove('sel');x.classList.add('locked');});locked++;if(locked===c.pairs.length)done.innerHTML=`<div class="w-done">${c.done}</div>`;}
+      else{[left,right].forEach(x=>{x.classList.add('miss');setTimeout(()=>x.classList.remove('miss','sel'),350);});}sel=null;});},
+  sort(el,k){const c=SORT[k];let sel=null,placed=0;
+    el.innerHTML=`<span class="wlabel">Sort it</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="sort"><div class="sort-items">${c.items.map((it,i)=>`<button class="sitem" data-i="${i}">${it.t}</button>`).join('')}</div><div class="bins">${c.bins.map((b,bi)=>`<div class="bin" data-bin="${bi}"><div class="bt">${b}</div><div class="drop">tap an item, then tap here</div></div>`).join('')}</div></div><div class="md"></div>`;
+    const items=el.querySelectorAll('.sitem'),bins=el.querySelectorAll('.bin'),done=el.querySelector('.md');
+    items.forEach(it=>it.onclick=()=>{if(it.classList.contains('placed'))return;el.querySelectorAll('.sitem').forEach(x=>x.classList.remove('sel'));sel=it;it.classList.add('sel');});
+    bins.forEach(bin=>bin.onclick=()=>{if(!sel)return;const i=+sel.dataset.i,bi=+bin.dataset.bin,ok=c.items[i].bin===bi;
+      const row=document.createElement('div');row.className='binitem '+(ok?'right':'wrong');row.innerHTML=(ok?sv(ic.check,2.6):sv(ic.x,2.6))+' '+c.items[i].t;bin.querySelector('.drop').remove?bin.querySelector('.drop')&&(bin.querySelector('.drop').style.display='none'):0;bin.appendChild(row);
+      sel.classList.add('placed');sel=null;placed++;if(placed===c.items.length)done.innerHTML=`<div class="w-done">${c.done}</div>`;});},
+  est(el){el.innerHTML=`<span class="wlabel">Field tool</span><div class="wtitle">Service-size estimator</div><div class="wsub">Set what you'd read on site; it calls the size and flags an unsafe mismatch — your on-site logic.</div>
+    <div class="est"><div><label>Service-entrance conductor (copper)</label><select class="sew"><option value="6">#6 AWG</option><option value="4">#4 AWG</option><option value="2" selected>2/0 AWG</option><option value="0">4/0 AWG</option></select></div><div><label>Main breaker rating</label><select class="mbk"><option value="60">60 A</option><option value="100">100 A</option><option value="200" selected>200 A</option><option value="400">400 A</option></select></div><div class="est-out"></div></div>`;
+    const WA={'6':60,'4':100,'2':200,'0':400},WL={'6':'#6 AWG','4':'#4 AWG','2':'2/0 AWG','0':'4/0 AWG'},sew=el.querySelector('.sew'),mbk=el.querySelector('.mbk'),out=el.querySelector('.est-out');
+    function go(){const w=sew.value,b=+mbk.value,sup=WA[w];if(b>sup){out.className='est-out bad';out.innerHTML=`<div class="ev">⚠ Overfused — unsafe</div><div class="ed">A ${b} A main on ${WL[w]} copper (good for ~${sup} A) won't shut off before the conductor overheats. Report: overcurrent device oversized for the service-entrance conductor.</div>`;}else{const ap=Math.min(b,sup);out.className='est-out ok';out.innerHTML=`<div class="ev">${ap} A service</div><div class="ed">${WL[w]} copper supports ~${sup} A and the main is ${b} A — conductor protected. Report the service size as ${ap} A${b<sup?' (limited by the main breaker)':''}.</div>`;}}
+    sew.onchange=go;mbk.onchange=go;go();},
+  era(el,k){const c=ERA[k];el.innerHTML=`<span class="wlabel">Explore</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="era"><div class="line"></div>${c.rows.map((r,i)=>`<div class="erow" data-i="${i}"><span class="ed"></span><span class="et">${r.d}</span><div><div class="en">${r.n}</div><div class="ex">${r.x}</div></div></div>`).join('')}</div>`;
+    el.querySelectorAll('.erow').forEach(r=>r.onclick=()=>r.classList.toggle('open'));}
+};
+function wireWidgets(root){root.querySelectorAll('.wmount').forEach(el=>{const w=el.dataset.w,k=el.dataset.k;if(WID[w])WID[w](el,k);});}
+function W(w,k){return `<div class="widget wmount" data-w="${w}" data-k="${k||''}"></div>`;}
+
+/* ================= ENGINE ================= */
+const KEY='ati_plumbing_ix_v1';
+let S={done:{},quiz:{},assessBest:0,cur:0};
+async function load(){try{const r=await window.storage.get(KEY,false);if(r&&r.value)S=JSON.parse(r.value);}catch(e){}S.done=S.done||{};S.quiz=S.quiz||{};}
+async function save(){try{await window.storage.set(KEY,JSON.stringify(S),false);}catch(e){}}
+const stepDone=i=>!!S.done[STEPS[i].id];
+const pct=()=>Math.round(Object.keys(S.done).length/STEPS.length*100);
+const unlocked=i=>i===0?true:stepDone(i-1);
+const view=document.getElementById('view');
+function updTop(){const p=pct();document.getElementById('pbar').style.width=p+'%';document.getElementById('ppc').textContent=p+'%';}
+function rail(){document.getElementById('rail').innerHTML=STEPS.map((s,i)=>{const d=stepDone(i),u=unlocked(i),a=i===S.cur;return `<button class="step ${d?'done':''} ${a?'active':''} ${u?'':'locked'}" ${u?`onclick="goStep(${i})"`:''}><span class="dot">${d?sv(ic.check,3):(i+1)}</span><span class="lbl">${s.label}<span class="kind">${s.kind}</span></span></button>`;}).join('');}
+function goStep(i){if(!unlocked(i))return;S.cur=i;save();render();window.scrollTo({top:0,behavior:'smooth'});}
+function markDoneAndNext(){S.done[STEPS[S.cur].id]=true;save();updTop();rail();if(S.cur<STEPS.length-1)goStep(S.cur+1);else render();}
+function render(){updTop();rail();const s=STEPS[S.cur];({lesson:renderLesson,scenario:renderScenarios,assess:renderAssess,glossary:renderGlossary,source:renderSource}[s.type])(s);}
+function navFoot(label,gated){const last=S.cur===STEPS.length-1;return `<div class="foot">${S.cur>0?`<button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button>`:''}<div class="sp"></div><button class="btn brass" id="nextBtn" ${gated?'disabled':''} onclick="markDoneAndNext()">${label||(last?'Finish section':'Mark complete & continue')} ${sv(ic.arrow)}</button></div>`;}
+
+function renderLesson(s){
+  let h=(typeof s.body==='function'?s.body():s.body);
+  if(s.quiz&&s.quiz.length){
+    h+=`<div class="quiz"><div class="qh">${sv(ic.brain)} Check your understanding</div><div class="qt">${s.label}</div><div class="qsub">${s.quiz.length} questions covering the lesson — answer each to see the reasoning.</div><div class="qbody">${
+      s.quiz.map((q,qi)=>`<div class="qblock"><div class="qnum">Question ${qi+1} of ${s.quiz.length}</div><div class="q">${q.q}</div><div class="opts" data-qi="${qi}">${q.o.map((o,k)=>`<button class="opt" onclick="qAns(${qi},${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="qexp" data-qi="${qi}"></div></div>`).join('')
+    }</div><div class="qscore" style="display:none"></div></div>`;
+  }
+  const gated=!!(s.quiz&&s.quiz.length&&!S.quiz[s.id]);
+  view.innerHTML=h+navFoot(null,gated);
+  wireWidgets(view);
+  window._ql={answered:{},total:s.quiz?s.quiz.length:0};
+}
+function qAns(qi,k){const s=STEPS[S.cur],q=s.quiz[qi];if(window._ql.answered[qi]!==undefined)return;window._ql.answered[qi]=k;
+  const opts=view.querySelector('.opts[data-qi="'+qi+'"]');opts.querySelectorAll('.opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===q.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});
+  view.querySelector('.qexp[data-qi="'+qi+'"]').innerHTML=`<div class="exp"><b>${k===q.a?'Correct.':'Review:'}</b> ${q.e}</div>`;
+  if(Object.keys(window._ql.answered).length===window._ql.total){
+    const right=s.quiz.filter((q,i)=>window._ql.answered[i]===q.a).length,sc=view.querySelector('.qscore');sc.style.display='flex';
+    sc.innerHTML=`${sv(ic.check,2.4)}<span>You scored <b style="color:${right>=Math.ceil(s.quiz.length*0.8)?'var(--pass)':'var(--fail)'}">${right}/${s.quiz.length}</b> on this lesson.</span>`;
+    sc.querySelector('svg').style.color=right>=Math.ceil(s.quiz.length*0.8)?'var(--pass)':'var(--fail)';
+    S.quiz[s.id]=true;save();const b=document.getElementById('nextBtn');if(b)b.disabled=false;}
+}
+
+let SC={i:0,answered:false};
+function renderScenarios(){SC={i:0,answered:false};paintScen();}
+function paintScen(){const sc=SCEN[SC.i];view.innerHTML=`<span class="eyebrow">Apply it · Inspector's Call</span><h1>Make the call</h1><p class="lead">The decisions you'll actually make standing in front of the system. Read it, choose, see the reasoning.</p><div class="scount mono">Scenario ${SC.i+1} of ${SCEN.length}</div><div class="scen"><div class="sh"><div class="t">${sc.t}</div><div class="n">${sc.n}</div></div><div class="body"><div class="situation">${sc.s}</div><div class="ask">${sc.ask}</div><div class="scopts">${sc.o.map((o,k)=>`<button class="opt" onclick="scAns(${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="scexp"></div></div></div><div class="foot"><button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button><div class="sp"></div><div class="scnext"></div></div>`;}
+function scAns(k){if(SC.answered)return;SC.answered=true;const sc=SCEN[SC.i];view.querySelectorAll('.scopts .opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===sc.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});view.querySelector('.scexp').innerHTML=`<div class="exp"><b>${k===sc.a?'Right call.':'Here\'s the call:'}</b> ${sc.e}</div>`;const last=SC.i===SCEN.length-1;view.querySelector('.scnext').innerHTML=`<button class="btn brass" onclick="${last?'markDoneAndNext()':'scNext()'}">${last?'Mark complete & continue':'Next scenario'} ${sv(ic.arrow)}</button>`;}
+function scNext(){SC.i++;SC.answered=false;paintScen();window.scrollTo({top:0,behavior:'smooth'});}
+
+let AS=null;
+function renderAssess(){if(!AS||AS.done)AS={i:0,answers:[],done:false};view.innerHTML=`<span class="eyebrow">Assessment</span><h1>Mastery check — Plumbing</h1><p class="lead">${ASSESS.length} application questions across the whole chapter. 80% to pass; reasoning shown on every answer.</p><div class="panelcard" style="text-align:left;padding:0;overflow:hidden"><div style="background:linear-gradient(120deg,#3c5870,#2c4153);color:#fff;padding:18px 22px;display:flex;justify-content:space-between;align-items:center"><div><div style="font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-2)">Plumbing Systems</div><div style="font-family:var(--display);font-weight:700;font-size:17px;margin-top:3px">${ASSESS.length} questions · 80% to pass</div></div><div style="color:var(--brass-2)">${sv(ic.award)}</div></div><div style="padding:26px 22px;text-align:center">${S.assessBest?`<div class="mono" style="font-size:13px;color:var(--ink-2);margin-bottom:16px">Best score: <b style="color:${S.assessBest>=80?'var(--pass)':'var(--fail)'}">${S.assessBest}%</b></div>`:''}<button class="btn brass" style="margin:0 auto" onclick="asStart()">${S.assessBest?'Retake assessment':'Begin assessment'} ${sv(ic.arrow)}</button></div></div>`;}
+function asStart(){AS={i:0,answers:[],done:false};asPaint();window.scrollTo({top:0,behavior:'smooth'});}
+function asPaint(){const q=ASSESS[AS.i];view.innerHTML=`<span class="eyebrow">Assessment · Plumbing</span><h1 style="font-size:24px">Question ${AS.i+1} <span style="color:var(--ink-3)">/ ${ASSESS.length}</span></h1><div style="margin:14px 0 0"><div style="width:100%;height:6px;background:var(--surf-3);border-radius:6px;overflow:hidden;border:1px solid var(--line)"><i style="display:block;height:100%;width:${AS.i/ASSESS.length*100}%;background:var(--brass)"></i></div></div><div class="quiz" style="border-color:var(--line);margin-top:22px"><div class="q">${q.q}</div><div class="opts">${q.o.map((o,k)=>`<button class="opt" onclick="asAns(${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="asexp"></div></div><div class="foot"><div class="sp"></div><div class="asnext"></div></div>`;}
+function asAns(k){if(AS.answers[AS.i]!==undefined)return;AS.answers[AS.i]=k;const q=ASSESS[AS.i];view.querySelectorAll('.opts .opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===q.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});view.querySelector('.asexp').innerHTML=`<div class="exp"><b>${k===q.a?'Correct.':'Review:'}</b> ${q.e}</div>`;const last=AS.i===ASSESS.length-1;view.querySelector('.asnext').innerHTML=`<button class="btn brass" onclick="${last?'asFinish()':'asNext()'}">${last?'See results':'Next'} ${sv(ic.arrow)}</button>`;}
+function asNext(){AS.i++;asPaint();window.scrollTo({top:0,behavior:'smooth'});}
+function asFinish(){const correct=AS.answers.filter((a,i)=>a===ASSESS[i].a).length,p=Math.round(correct/ASSESS.length*100),pass=p>=80;S.assessBest=Math.max(S.assessBest||0,p);AS.done=true;if(pass)S.done['assess']=true;save();updTop();rail();const circ=2*Math.PI*62;
+  view.innerHTML=`<span class="eyebrow">Assessment · Result</span><h1 style="margin-bottom:18px">${pass?'Section mastered':'Not quite there'}</h1><div class="panelcard"><div class="ring"><svg width="150" height="150" viewBox="0 0 150 150" style="transform:rotate(-90deg)"><circle cx="75" cy="75" r="62" fill="none" stroke="var(--surf-3)" stroke-width="11"/><circle cx="75" cy="75" r="62" fill="none" stroke="${pass?'var(--pass)':'var(--fail)'}" stroke-width="11" stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${circ}"><animate attributeName="stroke-dashoffset" from="${circ}" to="${circ-circ*p/100}" dur=".8s" fill="freeze" calcMode="spline" keySplines=".2 .7 .2 1"/></circle></svg><div class="rv"><div><div class="n" style="color:${pass?'var(--pass)':'var(--fail)'}">${p}%</div><div class="p">${correct}/${ASSESS.length} correct</div></div></div></div><span class="verdict ${pass?'pass':'fail'}">${pass?'Passed':'Below 80%'}</span><p>${pass?'You\'ve cleared Electrical with real depth. The same five-step loop carries into Cooling, Heating, Insulation, and Plumbing.':'You need 80% to pass. Revisit the lessons and explanations, then retake — your best score counts.'}</p><div style="display:flex;gap:12px;justify-content:center"><button class="btn ghost" onclick="asStart()">${sv(ic.retake)} Retake</button>${pass?`<button class="btn brass" onclick="goStep(${STEPS.length-1})">Continue ${sv(ic.arrow)}</button>`:`<button class="btn brass" onclick="goStep(1)">Review lessons ${sv(ic.arrow)}</button>`}</div></div><div style="height:30px"></div>`;}
+
+function renderGlossary(){view.innerHTML=`<span class="eyebrow">Reference</span><h1>Plumbing glossary</h1><p class="lead">Every key term in one place — quick reference for a real inspection.</p><div class="gloss" style="margin-top:20px">${GLOSSARY.map(([w,d])=>`<div class="term"><div class="tw">${w}</div><div class="td">${d}</div></div>`).join('')}</div>${navFoot('Continue')}`;}
+function renderSource(){view.innerHTML=`<span class="eyebrow">Deep reading · optional</span><h1>The full source chapter</h1><p class="lead">Everything required is taught in the lessons — the complete original chapter is here for the deepest dive.</p><div class="srcnote">${sv(ic.book,2)} <b>Chapter 13 — Plumbing</b> · <i>Principles of Home Inspection: Systems and Standards</i>. If the viewer is blank, the PDF needs to sit alongside this file — <a href="ati-plumbing-chapter.pdf" target="_blank">open it in a new tab</a>.</div><iframe class="srcframe" src="ati-plumbing-chapter.pdf"></iframe><div style="margin-top:14px"><a class="btn slate" href="ati-plumbing-chapter.pdf" target="_blank">${sv(ic.open)} Open full chapter (PDF)</a></div><div class="foot"><button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button><div class="sp"></div><button class="btn brass" onclick="finishAll()">${sv(ic.check)} Complete section</button></div>`;}
+function finishAll(){S.done['source']=true;save();updTop();rail();toast('Plumbing section complete');}
+let tT;function toast(m){const t=document.getElementById('toast');document.getElementById('tmsg').textContent=m;t.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('show'),2400);}
+
+/* ================= DATA: scenarios / assessment / glossary ================= */
+const SCEN=[
+ {t:'At the water heater',n:'No place for the relief to go',s:'A gas water heater has a temperature/pressure relief valve at the top, but no discharge tube is connected — the valve outlet is open at about chest height.',ask:'Your call?',o:['Fine — the valve is present, which is what matters','Note it as a minor maintenance item','Flag now — a release would spray scalding water at face/chest height','Recommend raising the water temperature to compensate'],a:2,e:'The TPR valve needs a discharge tube piped down to ~6 in above the floor. Without it, a release scalds whoever is nearby. This is a flag-now safety item.'},
+ {t:'At the floor drain',n:'Looking down a dry hole',s:'You look into a basement floor drain and see no standing water at the bottom, and you catch a faint sewer odor in the area.',ask:'What does this tell you?',o:['The drain is working perfectly','The trap seal is gone — evaporated, cracked, or no trap — letting sewer gas in','The vent is oversized','The supply pressure is low'],a:1,e:'Standing water means a healthy trap seal. No water plus odor means the seal is lost; recommend filling and further investigation.'},
+ {t:'Draining the sink',n:'A glug and a burp',s:'You run the kitchen sink. As the last water leaves, the drain gurgles loudly — and a moment later the nearby floor drain burps.',ask:'Most likely cause?',o:['A clogged drain line needing snaking','A venting problem — draining is pulling a vacuum and siphoning traps','Excess water pressure','A failed sacrificial anode'],a:1,e:'Loud gurgling and a sympathetic burp are the signature of inadequate venting: air can\'t get in, so draining siphons the traps. Report it as a venting concern.'},
+ {t:'On the supply lines',n:'Gray pipe, lots of fittings',s:'Supply piping is gray plastic with crimp-ring fittings, and you notice more fittings than expected — including a couple of different fitting types in the same run.',ask:'Best response?',o:['Ignore it; no active leak is visible','Identify it as polybutylene and make the client aware of its failure history; recommend evaluation','Confirm it as approved PEX and move on','Recommend immediate whole-house repipe'],a:1,e:'Gray plastic + crimp rings + many/mixed fittings points to polybutylene and prior repairs. Raise the known crimp-fitting history and recommend evaluation — even with no active leak.'},
+ {t:'Under the bathroom sink',n:'The wrong letter',s:'The trap under the lavatory forms an S shape, dropping straight down into the floor rather than turning into a vented wall fitting.',ask:'Your call?',o:['Acceptable — any trap holds a seal','An S-trap, which tends to self-siphon its seal as it drains — recommend a properly vented P-trap','A cleanout, not a trap','A vent, so no trap is needed'],a:1,e:'S-traps siphon themselves dry as the fixture drains, opening the sewer to the room. The fix is a properly vented P-trap.'},
+ {t:'In the laundry',n:'A hose where it shouldn\'t be',s:'A utility-sink faucet has a hose attached, and the free end of the hose is lying submerged in a tub full of cleaning solution.',ask:'What\'s the concern?',o:['Nothing — hoses are common at laundry sinks','A cross-connection: if pressure drops, contaminated water could siphon back into the potable supply','A drainage slope problem','A water-heater venting issue'],a:1,e:'A submerged inlet with no air gap is a classic cross-connection — a health hazard. Note it and recommend an air gap or backflow protection.'},
+ {t:'At the gas heater',n:'Black streaks at the hood',s:'You see soot staining and a bit of melted plastic near the draft hood of a gas water heater, and the vent connector looks loosely seated.',ask:'Your call?',o:['Cosmetic — wipe and ignore','Flag now — signs of flue spillage/backdraft; combustion gases including CO may be entering the room','Recommend a larger tank','Note it as normal aging'],a:1,e:'Soot, melted plastic, and a loose vent connector point to backdraft/flue spillage — a carbon-monoxide hazard. Flag it and recommend correction.'},
+];
+const ASSESS=[
+ {q:'The single pipe carrying water from the municipal main into the house is the:',o:['House supply piping','Water service','Building drain','Vent stack'],a:1,e:'The water service is the one feeder pipe; the house supply piping branches from it inside.'},
+ {q:'A constant drip from a pipe (versus intermittent) most likely indicates:',o:['A drain leak','A pressurized supply leak','A vent fault','A clogged trap'],a:1,e:'Supply is always pressurized, so its leaks are constant; drain leaks are intermittent.'},
+ {q:'The modern recommended water-heater temperature is about:',o:['100°F','120°F','140°F','160°F'],a:1,e:'120°F balances safety (scald risk rises sharply at 140°F+), economy, and conservation.'},
+ {q:'A TPR valve discharge tube should terminate:',o:['At the ceiling','About 6 inches above the floor','Inside the tank','Above the roof'],a:1,e:'The tube pipes a release safely down to ~6 in above the floor, full size, no valve, no threaded/capped end.'},
+ {q:'An S-trap is considered a defect because it:',o:['Is too expensive','Self-siphons its own water seal as the fixture drains','Cannot connect to plastic pipe','Needs no vent'],a:1,e:'The S-trap siphons itself dry, opening the sewer to the room; a vented P-trap is correct.'},
+ {q:'The primary purpose of the venting system is to:',o:['Carry waste to the sewer','Equalize air pressure so traps aren\'t siphoned','Supply water to fixtures','Heat the drain water'],a:1,e:'Vents balance pressure and protect trap seals — "trap protectors."'},
+ {q:'A floor drain with no standing water in it means:',o:['The vent is working','The trap seal is lost — sewer gas can enter','The drain is new','The supply pressure is high'],a:1,e:'A dry trap has lost its seal (evaporated, cracked, or absent); smell for odor and investigate.'},
+ {q:'Gray plastic supply pipe with crimp-ring fittings and a history of failures is:',o:['PEX','Polybutylene','CPVC','ABS'],a:1,e:'Polybutylene — recognizable as gray plastic, known for crimp-fitting failures and a major settlement.'},
+ {q:'Which plastic is rated for hot-water supply?',o:['PVC','CPVC','ABS','Clay'],a:1,e:'CPVC is rated for hot water; ordinary PVC is not.'},
+ {q:'In the DWV system, lead is permitted for:',o:['Vents only','Drain and waste only (legacy)','Supply only','Any use'],a:1,e:'Lead is a legacy drain-and-waste-only material; clay is underground-only.'},
+ {q:'A cross-connection is hazardous because it can:',o:['Lower the recovery rate','Allow non-potable water to siphon back into the drinking supply','Cause pipe noise','Reduce the slope'],a:1,e:'If supply pressure drops, a cross-connection draws contaminated water into the potable system — a health hazard.'},
+ {q:'The sacrificial anode rod in a water heater:',o:['Heats the water','Is corroded instead of the tank','Relieves pressure','Carries combustion gases'],a:1,e:'The anode is attacked by the corrosive single-pass water, protecting the tank.'},
+ {q:'The dip tube in a tank heater:',o:['Vents the burner','Carries incoming cold water to the bottom of the tank','Holds the anode','Drains the tank'],a:1,e:'Cold enters via the dip tube to the bottom; hot is drawn off the top.'},
+ {q:'A loud gurgle as the last water leaves a sink usually means:',o:['Good venting','A venting problem — air pulled through the trap','High pressure','A failed heater'],a:1,e:'Gurgling indicates the vent isn\'t admitting air, so draining siphons the trap. (Toilets are allowed to gurgle.)'},
+ {q:'Galvanized steel supply pipe typically fails by:',o:['UV cracking','Rusting from the inside out, reducing flow over time','Crimp-ring blowouts','Solvent-joint separation'],a:1,e:'Galvanized rusts internally; flow drops and surface scabs appear as it nears end of life.'},
+];
+const GLOSSARY=[
+ ['Water service','The single pipe bringing potable water from the municipal main (or well) into the house.'],
+ ['Main shutoff','Valve that stops all water entering the house; must be present and accessible for emergencies.'],
+ ['Water meter','Utility device measuring usage; can be watched (all fixtures off) to detect a hidden leak.'],
+ ['House supply piping','Pressurized pipe branching from the service to fixtures, appliances, bibbs, and the water heater (~60 psi).'],
+ ['Functional flow','Inspector test of whether supply pressure/flow is adequate, often with more than one fixture running.'],
+ ['Functional drainage','Watching water drain from a fixture to judge the drain and the venting system.'],
+ ['Copper','Soldered metal supply pipe; doesn\'t rust, but acidic water pits it; leaks show as green/white deposit.'],
+ ['Galvanized steel','Threaded gray metal pipe that rusts from the inside out, losing flow as it ages.'],
+ ['Polybutylene (PB)','Gray plastic supply pipe (late-70s to mid-90s) with a history of crimp-fitting failures and a major settlement.'],
+ ['PEX','Flexible cross-linked polyethylene, color-coded, joined with crimp rings; the modern default.'],
+ ['CPVC','Rigid cream/tan plastic, solvent-glued, rated for hot water (unlike ordinary PVC).'],
+ ['Water heater','Storage (30–60 gal) or tankless unit inline on the supply that raises water to ~120°F.'],
+ ['Glass-lined tank','Steel tank with an enamel inner coating that slows but doesn\'t stop corrosion.'],
+ ['Dip tube','Tube carrying incoming cold water to the bottom of the tank; hot is drawn off the top.'],
+ ['Sacrificial anode','Rod inside the tank corroded preferentially to protect the tank from the corrosive single-pass water.'],
+ ['Recovery rate','How fast a heater reheats a tankful; set by burner size — bigger burner, faster recovery.'],
+ ['TPR valve','Temperature/pressure relief valve — the key safety device; opens to relieve dangerous heat/pressure.'],
+ ['Discharge tube','Pipe from the TPR valve to ~6 in above the floor; full size, no valve, no threaded/capped end.'],
+ ['DWV','Drain-waste-vent — the unpressurized gravity system carrying used water away and venting the system.'],
+ ['Trap','U-shaped fitting that retains a water seal blocking sewer gas; every fixture and floor drain needs one.'],
+ ['Water seal','The plug of water held in a trap that keeps sewer gas out of the house.'],
+ ['P-trap','The standard, properly vented trap that reliably holds its seal.'],
+ ['S-trap','Defective trap that self-siphons its seal as the fixture drains; replace with a vented P-trap.'],
+ ['Vent','Piping that equalizes air pressure so traps aren\'t siphoned and waste can flow; terminates above the roof.'],
+ ['Cleanout','Accessible opening in a drain run allowing a blockage to be cleared.'],
+ ['Cross-connection','Any arrangement that could let non-potable water siphon back into the potable supply — a health hazard.'],
+ ['Air gap','Physical space between a spout and the flood rim that prevents backflow into the supply.'],
+ ['Backflow preventer','Anti-siphon device (e.g., on hose bibbs/irrigation) that stops contaminated water from reversing into the supply.'],
+];
+
+/* ================= WIDGET CONTENT REGISTRIES ================= */
+const _gs='fill="none" stroke="#3c5870" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"';
+const _mono=(x,y,s,t,c='#2c4153',a='middle')=>`<text x="${x}" y="${y}" text-anchor="${a}" font-family="JetBrains Mono" font-size="${s}" fill="${c}">${t}</text>`;
+
+SPOT.waterheater={title:'Walk up to the water heater',sub:'Five safety problems on this gas tank heater — click each one you spot.',vb:'0 0 480 380',
+ svg:`<g ${_gs}>
+   <rect x="150" y="70" width="150" height="250" rx="10"/>${_mono(225,300,9,'GLASS-LINED TANK')}
+   <rect x="168" y="300" width="114" height="34" rx="3"/>${_mono(225,322,8,'BURNER COMPARTMENT')}
+   <line x1="225" y1="70" x2="225" y2="40"/><circle cx="225" cy="34" r="8"/>${_mono(225,22,8,'flue / vent connector')}
+   <path d="M225 42 C 225 56, 270 56, 270 42" stroke="#b85436" stroke-dasharray="4 3"/>${_mono(300,52,8,'gap','#b85436','start')}
+   <line x1="180" y1="70" x2="180" y2="48"/>${_mono(150,44,8,'cold in','#2c4153','end')}
+   <line x1="270" y1="70" x2="270" y2="48"/>${_mono(300,44,8,'hot out','#2c4153','start')}
+   <line x1="300" y1="110" x2="340" y2="110"/><rect x="296" y="103" width="14" height="14" rx="2"/>${_mono(360,108,8,'TPR valve','#2c4153','start')}
+   <line x1="340" y1="110" x2="340" y2="120"/>${_mono(372,128,8,'no discharge tube','#b85436','start')}
+   <ellipse cx="225" cy="338" rx="60" ry="14" fill="#9c6b3a" opacity="0.4"/><ellipse cx="225" cy="338" rx="34" ry="8" fill="#7d4f24" opacity="0.42"/>
+   <rect x="120" y="306" width="22" height="26" rx="2"/>${_mono(108,300,8,'rags / fuel','#b85436','end')}
+   <path d="M168 318 h-22" stroke="#6a6557"/>${_mono(120,330,8,'air blocked','#b85436','end')}
+ </g>`,
+ defects:[
+  {x:340,y:118,r:20,n:'TPR valve with no discharge tube',d:'The temperature/pressure relief valve must pipe down to 6 in above the floor. With no tube, a release sprays scalding water at face height — the single most-cited water-heater defect.'},
+  {x:250,y:48,r:20,n:'Flue/vent connector disconnected',d:'A gap at the draft hood lets combustion gases — including carbon monoxide — spill into the room instead of up the chimney. Backdraft hazard; flag it now.'},
+  {x:225,y:338,r:34,n:'Corrosion / leak at the base',d:'Rust and standing water at the tank base mean the tank is failing. Once a glass-lined tank leaks, it is replaced, not repaired.'},
+  {x:131,y:319,r:18,n:'Combustibles / blocked combustion air',d:'Rags, paint, and stored fuel beside a gas burner are a fire hazard, and clutter starves the burner of combustion air, causing incomplete burning and CO.'},
+  {x:225,y:318,r:24,n:'Burner compartment / cover concern',d:'A missing or damaged burner cover (roll-out shield) lets flames roll out during a backdraft and lets the burner foul. Confirm the shield is in place.'},
+ ]};
+
+SPOT.supply={title:'Trace the supply piping',sub:'Five problems on this basement supply run — click them all.',vb:'0 0 520 320',
+ svg:`<g ${_gs}>
+   <line x1="20" y1="60" x2="500" y2="60"/>${_mono(40,52,9,'floor joists','#918c7d','start')}
+   <line x1="60" y1="60" x2="60" y2="300"/>${_mono(60,316,9,'meter / shutoff','#918c7d')}<rect x="48" y="150" width="24" height="30" rx="3"/>
+   <path d="M60 120 H 200" stroke="#a86d10" stroke-width="2.2"/>${_mono(130,112,8,'copper','#2c4153')}
+   <path d="M200 120 H 330" stroke="#8a8475" stroke-width="3"/>${_mono(265,112,8,'galvanized','#2c4153')}
+   <rect x="196" y="113" width="10" height="14" rx="1" stroke="#b85436"/>${_mono(200,146,8,'dissimilar metals','#b85436')}
+   <path d="M330 120 C 360 120, 360 200, 400 200" stroke="#8a8475" stroke-width="3"/>
+   <path d="M400 200 C 440 200, 420 150, 470 150" stroke="#8a8475" stroke-width="3"/>${_mono(440,176,8,'sag / no support','#b85436')}
+   <path d="M280 120 l3 -6 l3 12 l3 -12 l3 12 l3 -6" stroke="#b85436" stroke-width="1.6" fill="none"/>${_mono(296,104,8,'rust scab','#b85436','start')}
+   <line x1="120" y1="120" x2="120" y2="250"/><circle cx="120" cy="256" r="7"/>${_mono(120,278,8,'hose bibb','#918c7d')}
+   <path d="M120 200 q 18 6 0 12" stroke="#3f7d52" stroke-width="3"/>${_mono(150,210,8,'plastic at bibb','#b85436','start')}
+ </g>`,
+ defects:[
+  {x:201,y:120,r:18,n:'Dissimilar metals without a dielectric union',d:'Copper joined directly to galvanized steel sets up galvanic corrosion at the joint. A dielectric union belongs between them.'},
+  {x:285,y:118,r:20,n:'Rust on galvanized steel',d:'Galvanized rusts from the inside out — surface scabs and reduced flow signal the pipe is near the end of its life.'},
+  {x:440,y:185,r:30,n:'Poor support / sagging run',d:'Unsupported pipe strains joints and traps. Supply piping needs proper hangers along its run.'},
+  {x:135,y:206,r:18,n:'Combustible (plastic) pipe at a hose bibb',d:'Outdoor hose-bibb connections should be metal. Polybutylene/plastic at a bibb is the wrong material there.'},
+  {x:60,y:165,r:20,n:'Main shutoff / meter area',d:'Confirm the main shutoff is present and accessible. With a meter, you can watch for movement with all fixtures off to catch a hidden leak.'},
+ ]};
+
+SPOT.dwv={title:'Look under the fixtures',sub:'Five drain-waste-vent problems here — click each one.',vb:'0 0 520 320',
+ svg:`<g ${_gs}>
+   <line x1="20" y1="50" x2="500" y2="50" stroke-width="2"/>${_mono(40,42,9,'fixture / sink above','#918c7d','start')}
+   <line x1="120" y1="50" x2="120" y2="110"/>
+   <path d="M120 110 C 120 150, 170 150, 170 110 C 170 150, 170 170, 200 170" stroke="#3c5870" stroke-width="2"/>${_mono(150,196,8,'S-trap (illegal)','#b85436')}
+   <path d="M200 170 H 470" stroke="#3c5870" stroke-width="2"/>
+   <line x1="360" y1="170" x2="360" y2="50" stroke-dasharray="5 4"/>${_mono(360,40,8,'vent? (none)','#b85436')}
+   <path d="M300 170 l0 0" /><line x1="300" y1="160" x2="300" y2="178" stroke="#b85436"/>${_mono(300,196,8,'no cleanout','#b85436')}
+   <rect x="40" y="250" width="60" height="14" rx="2"/>${_mono(70,278,8,'floor drain')}<line x1="70" y1="250" x2="70" y2="226" stroke-dasharray="3 3"/>${_mono(70,218,8,'dry trap','#b85436')}
+   <path d="M420 170 l5 8 l-10 0 z" fill="#9c6b3a" opacity="0.5"/>${_mono(440,184,8,'leak / stain','#b85436','start')}
+ </g>`,
+ defects:[
+  {x:150,y:140,r:24,n:'S-trap instead of a P-trap',d:'An S-trap self-siphons its own water seal as it drains, then lets sewer gas in. Modern work uses a vented P-trap.'},
+  {x:360,y:90,r:22,n:'No vent serving the fixture',d:'Without a vent, draining pulls a vacuum that siphons the trap. The tell is a loud gurgle as the last water leaves.'},
+  {x:300,y:170,r:18,n:'No accessible cleanout',d:'Drain runs need cleanouts so a blockage can be cleared. Note where access is missing.'},
+  {x:70,y:235,r:20,n:'Dry floor-drain trap',d:'No standing water means the trap seal has evaporated (or there is no trap) — sewer odor enters. Recommend filling and further checking.'},
+  {x:425,y:176,r:18,n:'Leaking / stained drain joint',d:'Drain leaks are intermittent — they show as staining below joints. Trace and report.'},
+ ]};
+
+MATCH.supplymat={title:'Supply material ↔ field clue',sub:'Tap a piping material, then the clue that identifies it. Correct pairs lock green.',left:'Material',right:'How you spot it',
+ pairs:[['Copper','Soldered joints; greenish stain when leaking'],['Galvanized steel','Threaded, rusts from inside, flow drops with age'],['PEX','Flexible, red/blue, crimp-ring fittings'],['Polybutylene','Gray plastic, recalled, crimp-ring failures'],['CPVC','Cream/tan rigid plastic, solvent-glued']],done:'That is the supply-material cheat sheet — material drives both lifespan and failure mode.'};
+
+MATCH.dwvmat={title:'DWV material ↔ where it is allowed',sub:'Drain-waste-vent materials and their permitted use. Tap to pair.',left:'Material',right:'Permitted use',
+ pairs:[['ABS','Black plastic — drain, waste & vent'],['PVC','White plastic — drain, waste & vent'],['Cast iron','Heavy stacks; hubless neoprene bands'],['Lead','Drain & waste only (legacy)'],['Clay','Underground drain & waste only']],done:'Matched — note lead and clay are limited-use legacy materials.'};
+
+SORT.triage={title:'Flag now, or note and monitor?',sub:'Sort each finding by urgency. Tap an item, then a bin.',bins:['FLAG NOW — safety','NOTE — monitor / maintenance'],
+ items:[{t:'TPR valve with no discharge tube',bin:0},{t:'Backdrafting / disconnected flue',bin:0},{t:'Dry trap on a floor drain (sewer gas)',bin:0},{t:'A single dripping faucet',bin:1},{t:'Slightly low flow at one fixture',bin:1},{t:'Aging galvanized supply near end of life',bin:1}],
+ done:'Right — anything that scalds, gases, or burns gets flagged now; wear-and-tear items get noted to monitor.'};
+
+SORT.ventsymptom={title:'Venting fault or trap fault?',sub:'Each symptom points one way. Tap an item, then a bin.',bins:['Likely a VENTING fault','Likely a TRAP fault'],
+ items:[{t:'Loud gurgle as the last water leaves the sink',bin:0},{t:'Toilet bubbles when the tub drains',bin:0},{t:'System-wide slow drainage with glugging',bin:0},{t:'Sewer odor at a seldom-used floor drain',bin:1},{t:'A visible S-trap under the sink',bin:1},{t:'No standing water visible in the trap',bin:1}],
+ done:'Exactly — gurgling and siphoning point to venting; odor and a missing/dry seal point to the trap.'};
+
+/* ================= STEPS ================= */
+const STEPS=[
+/* ===== ORIENTATION ===== */
+{id:'intro',kind:'Start here',label:'How water moves through a house',type:'lesson',
+ body:()=>`<span class="eyebrow">Plumbing · Orientation</span><h1>Three systems, one job: keep clean water in and waste water out.</h1>
+ <p class="lead">You're not a plumber. Your job is to <b>observe what's accessible, recognize the conditions that matter, and report them clearly</b> — with the implication spelled out so your client can decide. This section covers the entire ATI plumbing chapter, broken up with things to <em>do</em>.</p>
+ <p>Every house plumbing system is really three smaller systems chained together. Get this map in your head and every defect you find has a place to live:</p>
+ <ul class="num"><li><b>Supply</b> — pressurized pipe carrying potable water from the street (or a well) to every fixture, appliance, and the water heater.</li><li><b>Water heating</b> — a tank (or tankless) unit that is really just "a fat part of the supply pipe" where the water gets hot.</li><li><b>Drain, waste &amp; vent (DWV)</b> — gravity pipe carrying used water away, with vents that protect the system and let sewer gas escape outdoors.</li></ul>
+ <p>Each component runs through the same five-step loop. Learn it once and it works on a copper pipe, a water heater, or a floor drain:</p>
+ <div class="loop"><div class="seg on"><div class="n">01</div><div class="w">Component</div></div><div class="seg"><div class="n">02</div><div class="w">Function</div></div><div class="seg"><div class="n">03</div><div class="w">Common defect</div></div><div class="seg"><div class="n">04</div><div class="w">Implication</div></div><div class="seg"><div class="n">05</div><div class="w">How you report</div></div></div>
+ <h2>The three hazards that outrank everything</h2>
+ <p>Most plumbing findings are wear and maintenance. Three are different — they can hurt someone, so they get flagged the moment you see them:</p>
+ <div class="field"><div class="ic">${sv(ic.alert)}</div><div><div class="t">Scald · sewer gas · combustion gas</div><p><b>Scalding</b> from a water heater set too hot or a relief valve with no discharge tube. <b>Sewer gas</b> entering through a dry or missing trap. <b>Combustion gas</b> (including carbon monoxide) spilling from a backdrafting gas water heater. These three are why plumbing is a safety inspection, not just a plumbing-quality inspection.</p></div></div>
+ <p>One language note, same as every system: know the technical term, but translate for the client. "The water seal in the trap" can become "the little bit of water that blocks sewer smell." The complete original chapter is embedded at the end for the deepest dive — but everything you need to pass is taught right here.</p>`,
+ quiz:[
+  {q:'The home inspector\'s role with the plumbing system is best described as:',o:['Repair leaks and replace failed valves','Certify the system to current plumbing code','Observe accessible components, recognize conditions, and report implications','Size the supply and DWV piping for the house'],a:2,e:'Inspectors observe and report — they do not repair, certify, or design plumbing.'},
+  {q:'The three chained subsystems of house plumbing are:',o:['Hot, cold, and recirculation','Supply, water heating, and drain-waste-vent','Copper, plastic, and cast iron','Meter, fixtures, and septic'],a:1,e:'Pressurized supply, the water heater, and the gravity DWV system — every component lives in one of these.'},
+  {q:'Which set of hazards is treated as flag-now safety, not routine maintenance?',o:['Low flow, a dripping faucet, and old galvanized pipe','Scalding, sewer gas, and combustion-gas spillage','Noisy pipes, a stuck shutoff, and a slow drain','Hard-water scale, a loose toilet, and a worn aerator'],a:1,e:'Scald, sewer gas, and combustion gas can injure people — they outrank ordinary wear items.'},
+  {q:'A water heater is best understood as:',o:['A separate appliance isolated from the supply piping','A fat part of the supply piping where the water gets heated','Part of the drain-waste-vent system','A pressure-reducing device for the house'],a:1,e:'It sits inline on the pressurized supply at the same ~60 psi as the rest of the system — just a wide spot where heat is added.'},
+  {q:'The five-step loop this section teaches is:',o:['Test, repair, certify, document, warranty','Component → Function → Common defect → Implication → How you report','Supply, heat, drain, vent, bill','Inspect, photograph, leave, invoice, repeat'],a:1,e:'Every component is read the same way — what it is, what it does, what goes wrong, why that matters, and how you write it up.'},
+ ]},
+
+/* ===== L1 WATER SERVICE & SUPPLY ===== */
+{id:'l1',kind:'Lesson 1',label:'Water Service & Supply',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 1 · §13.1 Supply</span><h1>Getting water to the house</h1>
+ <p class="lead">Before water does anything useful, it has to get from the main (or a well) into the building under pressure and reach every point of use. Get the path and the vocabulary right here and the rest of the supply side makes sense.</p>
+ <h2>The path, and what to call each part</h2>
+ <p>Water arrives through the <b>water service</b> — the single pipe from the municipal main (or the well) to the house. At or just inside the wall it passes the <b>main shutoff</b> and, in municipal systems, the <b>water meter</b>. From there the <b>house supply piping</b> branches out to carry water to fixtures, appliances such as the dishwasher and clothes washer, hose bibbs, and the water heater. Typical pressure in the house is around <b>60 psi</b>.</p>
+ <p>Two jobs you can actually do at the meter and shutoff: confirm the <b>main shutoff is present and accessible</b> (your client needs to find it in an emergency), and use the meter to hunt a hidden leak — shut every fixture, then watch the meter. Movement with everything off means water is escaping somewhere. You can also press a screwdriver tip to a pipe and your ear to the handle to <b>listen</b> for water moving.</p>
+ <div class="dgm"><svg viewBox="0 0 720 210"><g fill="none" stroke="#3c5870" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+   <line x1="20" y1="150" x2="120" y2="150" stroke="#5a7b97"/><text x="60" y="142" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#2c4153">main</text>
+   <rect x="120" y="142" width="20" height="16" rx="2"/><text x="130" y="178" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#2c4153">shutoff</text>
+   <circle cx="180" cy="150" r="14"/><text x="180" y="182" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#2c4153">meter</text>
+   <line x1="194" y1="150" x2="300" y2="150"/><line x1="300" y1="150" x2="300" y2="50"/>
+   <line x1="300" y1="70" x2="430" y2="70"/><text x="365" y="62" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#918c7d">to fixtures</text>
+   <line x1="300" y1="110" x2="430" y2="110"/><text x="365" y="102" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#918c7d">to hose bibb</text>
+   <line x1="300" y1="150" x2="500" y2="150"/><rect x="500" y="110" width="70" height="80" rx="8"/><text x="535" y="205" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#2c4153">WATER HEATER</text>
+   <line x1="570" y1="130" x2="660" y2="130"/><text x="640" y="122" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#b85436">hot out</text>
+ </g></svg><div class="cap">Service → shutoff → meter → house supply → fixtures, bibbs, and the water heater (all near 60 psi)</div></div>
+ <h2>Materials and sizes — at a glance</h2>
+ <p>Common supply pipe sizes are <b>½-inch and ¾-inch</b>, with 1-inch occasionally on large homes; the longer the run, the larger the diameter should be. The materials you'll encounter — covered in depth next lesson — include <b>copper, galvanized steel, brass, stainless steel, polybutylene (PB), polyethylene (PE), cross-linked polyethylene (PEX), and CPVC</b>. Not all are permitted everywhere, and a couple (notably polybutylene) carry baggage you'll learn to recognize.</p>
+ <div class="field"><div class="ic">${sv(ic.alert)}</div><div><div class="t">Don't size the service by the service pipe alone</div><p>What the supply tells you reliably is the <em>configuration and condition</em>, not a precise capacity. Report low pressure or flow as an observed condition — you won't always be able to pinpoint the cause, and that's fine.</p></div></div>`,
+ quiz:[
+  {q:'The single pipe from the municipal main to the house is the:',o:['House supply piping','Water service','Distribution main','Service lateral vent'],a:1,e:'The water service is the one pipe feeding the building; the house supply piping branches off it inside.'},
+  {q:'Typical residential supply pressure is approximately:',o:['10 psi','60 psi','150 psi','250 psi'],a:1,e:'Around 60 psi is normal household pressure throughout the supply system, including inside the water heater.'},
+  {q:'To check for a hidden supply leak with a water meter you should:',o:['Run every fixture at once and read the meter','Shut all fixtures off and watch the meter for movement','Compare two monthly bills','Measure the static pressure at a hose bibb'],a:1,e:'With everything off, any meter movement means water is escaping somewhere in the system.'},
+  {q:'Common residential supply pipe sizes are:',o:['¼-inch and ⅜-inch','½-inch and ¾-inch','2-inch and 3-inch','4-inch and 6-inch'],a:1,e:'½-inch and ¾-inch are standard, with 1-inch occasionally on large homes; longer runs want larger diameter.'},
+  {q:'Confirming the main shutoff is present and accessible matters because:',o:['It sets the water pressure','The client must be able to stop the water in an emergency','It is required to read the meter','It controls the water heater temperature'],a:1,e:'An accessible main shutoff lets the homeowner cut water fast when a pipe fails — a basic safety/usability item to verify.'},
+ ]},
+
+/* ===== L2 SUPPLY MATERIALS ===== */
+{id:'l2',kind:'Lesson 2',label:'Supply Materials',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 2 · §13.1 Materials</span><h1>Know the pipe by sight</h1>
+ <p class="lead">Material drives both how long a supply pipe lasts and how it fails. You won't test it — you'll identify it on sight and know what each one's failure looks like.</p>
+ <h2>The materials you'll meet</h2>
+ <p><b>Copper</b> — the workhorse. Soldered joints; doesn't rust, but acidic water can pit it, and a leak shows as a greenish stain or whitish deposit near a fitting. <b>Galvanized steel</b> — threaded gray metal that rusts from the inside out; flow drops over decades and surface scabs appear, signaling end of life. <b>Brass</b> and <b>stainless steel</b> — durable, less common. <b>CPVC</b> — rigid cream/tan plastic, solvent-glued, rated for hot water (ordinary PVC is not). <b>PEX</b> — flexible, color-coded red/blue, joined with crimp rings; the modern default. <b>PE</b> — polyethylene, common for underground/well service lines.</p>
+ ${W('match','supplymat')}
+ <h2>Polybutylene — the one with a history</h2>
+ <p><b>Polybutylene (PB)</b> is gray plastic pipe widely installed from the late 1970s into the mid-90s, then the subject of a massive class-action settlement after widespread failures. You should be able to recognize it and raise the issue even if you see no active leak.</p>
+ <div class="defect"><div class="dh"><span class="n">!</span><span class="nm">What to watch for with polybutylene</span></div><p>The weak point is the connection. Crimp-ring fittings are questionable even when well made — several authorities prefer compression fittings on PB.</p><div class="meta"><span class="lab">Leak clues</span><span class="val">Water or a whitish deposit near fittings; more fittings than expected (a sign of repeated repairs), especially mixed fitting types in one house.</span><span class="lab">Other rules</span><span class="val">Use metal — not PB — for hose-bibb connections; some authorities bar PB on hot-water recirculating loops; keep any plastic supply clear of recessed lights and flues.</span></div><div class="rep"><b>Report:</b> "Polybutylene supply piping observed. Recommend the client be aware of the known history of crimp-fitting failures and budget for evaluation."</div></div>
+ <h2>Non-standard materials</h2>
+ <p>The approved list above is the whole list. If you see <b>radiator hose, garden hose, corrugated tubing, or ordinary PVC used on hot water</b>, that's non-standard. Implications include leakage, premature failure, poor pressure, and possible health issues including cross-connections. Where you're unsure whether a material is suitable, simply raise the question and call for evaluation by a specialist — you don't have to be certain to write it up.</p>`,
+ quiz:[
+  {q:'A greenish or whitish deposit near a fitting most likely indicates a leak in which material?',o:['Copper','Cast iron','ABS','Clay'],a:0,e:'Copper shows a green/white deposit at a leaking joint; it does not rust like steel.'},
+  {q:'Galvanized steel supply pipe typically fails by:',o:['UV cracking','Rusting from the inside out, reducing flow over time','Crimp-ring blowouts','Solvent-joint separation'],a:1,e:'Galvanized rusts internally; flow drops and surface scabs appear as it nears the end of its life.'},
+  {q:'Polybutylene piping is best recognized as:',o:['Flexible red/blue tubing with crimp rings','Gray plastic pipe with a history of crimp-fitting failures','Cream/tan rigid glued plastic','Threaded gray metal'],a:1,e:'PB is gray plastic, installed roughly late-70s to mid-90s, known for crimp-fitting failures and a major settlement.'},
+  {q:'Which plastic is rated for hot-water supply?',o:['Ordinary PVC','CPVC','ABS','Clay'],a:1,e:'CPVC is rated for hot water; ordinary PVC is not and is non-standard on hot supply.'},
+  {q:'When you see an unfamiliar or clearly non-standard supply material, the correct move is to:',o:['Ignore it if it isn\'t leaking','Estimate its remaining life','Raise the question and call for evaluation by a specialist','Recommend immediate replacement of all piping'],a:2,e:'You don\'t need certainty — flag the questionable material and refer it for evaluation.'},
+ ]},
+
+/* ===== L3 SUPPLY PROBLEMS ===== */
+{id:'l3',kind:'Lesson 3',label:'Supply Problems',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 3 · §13.1 Conditions</span><h1>What goes wrong on the pressure side</h1>
+ <p class="lead">Because supply piping is pressurized, its failures are fast and can do real damage. Here are the conditions you'll actually write up, each through the loop.</p>
+ <div class="defect"><div class="dh"><span class="n">1</span><span class="nm">Leaking</span></div><p>Pressurized leaks can flood a house quickly, especially with no functional floor drain. Homeowners catch the dramatic ones; you're more likely to find the small drips and pinhole rust on galvanized that scab over.</p><div class="meta"><span class="lab">Tell</span><span class="val">Supply leaks are usually <b>constant</b>; fixture and drain leaks are <b>intermittent</b>. Use the meter / screwdriver-listen tricks from Lesson 1.</span></div></div>
+ <div class="defect"><div class="dh"><span class="n">2</span><span class="nm">Poor pressure or flow</span></div><p>One of the most common complaints, especially in older homes. Most noticeable when two fixtures run at once; in severe cases, opening a lower fixture stops flow upstairs.</p><div class="meta"><span class="lab">Strategy</span><span class="val">Your first job is to <b>point it out</b> — pinpointing the cause is a bonus you won't always manage. Undersized mains and old neighborhoods are common culprits.</span></div></div>
+ <div class="defect"><div class="dh"><span class="n">3</span><span class="nm">Rust</span></div><p>Found on metallic pipe only — galvanized and steel are prone; copper doesn't rust unless the water is acidic. Distinguish interior rusting (pipe failing) from harmless exterior surface rust.</p></div>
+ <div class="defect"><div class="dh"><span class="n">4</span><span class="nm">Split, damaged, or crimped</span></div><p>Freeze splits, mechanical damage, and kinks restrict or release water. Crimped soft copper or PEX chokes flow.</p></div>
+ <div class="defect"><div class="dh"><span class="n">5</span><span class="nm">Poor support</span></div><p>Sagging, unsupported runs strain joints and fittings over time.</p></div>
+ <div class="defect"><div class="dh"><span class="n">6</span><span class="nm">Cross connections</span></div><p>Any path that could let non-potable water back into the supply. The big health item — covered fully in Lesson 8.</p></div>
+ <div class="defect"><div class="dh"><span class="n">7</span><span class="nm">Excess pressure · noise · combustible pipe · suspect PB · non-standard</span></div><p>Excess pressure stresses the whole system (a pressure-reducing valve may be needed); banging/"water hammer" is a noise condition; plastic at a hose bibb is combustible/wrong; suspect polybutylene connections and any non-standard material round out the list.</p><div class="rep"><b>Report:</b> "Active drip at [location] supply joint — constant, suggesting a supply leak. Recommend evaluation/repair by a plumber."</div></div>
+ ${W('spot','supply')}
+ ${story('Inspector in the house',`A homeowner shrugs off weak upstairs flow as "just an old-house thing." Maybe — but your job isn't to diagnose the municipal main. It's to document the observed condition plainly: "Low water pressure and flow observed throughout; cause not determined; recommend evaluation." You pointed it out, you didn't overreach, and the client can take it from there.`)}`,
+ quiz:[
+  {q:'A constant drip from a pipe, versus an intermittent one, most likely indicates:',o:['A drain leak','A pressurized supply leak','A vent problem','A trap that needs cleaning'],a:1,e:'Supply piping is always pressurized, so its leaks are constant; drain and fixture leaks come and go with use.'},
+  {q:'Your most important job when you find low water pressure/flow is to:',o:['Identify the exact cause','Point out the condition clearly','Recommend repiping the house','Adjust the pressure-reducing valve'],a:1,e:'Report the condition; pinpointing the cause is helpful but not always possible, and not required.'},
+  {q:'Rust as a failure mode applies to:',o:['All supply materials','Metallic pipe only (galvanized/steel; copper only with acidic water)','Plastic pipe only','Cast-iron drains only'],a:1,e:'Only metallic pipe rusts; copper resists it unless the water is acidic.'},
+  {q:'Excess water pressure in a house is best addressed by:',o:['Larger fixtures','A pressure-reducing valve','Removing the water meter','Adding more hose bibbs'],a:1,e:'High pressure stresses the system; a pressure-reducing valve brings it into a safe range.'},
+  {q:'Plastic (e.g., polybutylene) used at an outdoor hose bibb is a problem because:',o:['It freezes faster','Hose-bibb connections should be metal','It changes the water taste','It raises system pressure'],a:1,e:'Bibb connections take abuse and should be metal; plastic there is the wrong material.'},
+ ]},
+
+/* ===== L4 WATER HEATERS ===== */
+{id:'l4',kind:'Lesson 4',label:'Water Heaters',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 4 · §13.2 Water Heaters</span><h1>A tank that's just a wide spot in the pipe</h1>
+ <p class="lead">A conventional water heater stores 30–60 gallons and raises incoming water from roughly 50°F to about 120°F. It sits inline on the pressurized supply — same ~60 psi as everything else — so think of it as a fat, heated section of pipe.</p>
+ <h2>How a tank heater works</h2>
+ <p>Most tanks are <b>glass-lined steel</b> (an enamel coating slows, but doesn't stop, corrosion); some are copper, aluminum, or alloy and last longer. Cold water enters through a <b>dip tube</b> that carries it to the <em>bottom</em> of the tank; hot water is drawn off the <em>top</em>. It's a <b>single-pass</b> system — always seeing fresh, oxygen-rich water — so it's prone to corrosion, which is why a <b>sacrificial anode rod</b> sits inside to be attacked instead of the tank.</p>
+ <p>On gas- and oil-fired units, a <b>burner at the bottom</b> heats the tank; exhaust rises through a central flue inside the tank and out a vent connector to the chimney. The tank wall <em>is</em> the heat exchanger — there's no separate one. A <b>thermostat</b> senses the incoming cold and fires the burner. The size of the burner sets the <b>recovery rate</b> (how fast it reheats a tankful); oil units typically have bigger burners and faster recovery, so they can use smaller tanks. Electric units have no burner, flue, or venting — heating elements do the work.</p>
+ <div class="dgm"><svg viewBox="0 0 480 300"><g fill="none" stroke="#3c5870" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+   <rect x="150" y="40" width="150" height="210" rx="10"/>
+   <line x1="180" y1="40" x2="180" y2="18"/><text x="150" y="14" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#2c4153">cold in</text>
+   <line x1="180" y1="40" x2="180" y2="210" stroke="#5a7b97" stroke-dasharray="4 3"/><text x="150" y="150" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#5a7b97" transform="rotate(-90 150 150)">dip tube</text>
+   <line x1="270" y1="40" x2="270" y2="18"/><text x="300" y="14" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#b85436">hot out (top)</text>
+   <line x1="225" y1="40" x2="225" y2="14"/><circle cx="225" cy="10" r="6"/><text x="225" y="-2" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#2c4153">flue</text>
+   <rect x="210" y="60" width="30" height="170" rx="3" stroke="#918c7d"/><text x="225" y="150" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#918c7d" transform="rotate(-90 225 150)">central flue</text>
+   <line x1="218" y1="60" x2="218" y2="44"/><text x="120" y="78" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#a86d10">anode rod</text><line x1="160" y1="64" x2="208" y2="64" stroke="#a86d10"/>
+   <rect x="168" y="250" width="114" height="30" rx="3"/><text x="225" y="270" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#2c4153">BURNER</text>
+   <line x1="300" y1="90" x2="350" y2="90"/><rect x="296" y="83" width="12" height="14" rx="2"/><text x="380" y="88" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#2c4153">TPR valve</text>
+ </g></svg><div class="cap">Cold down the dip tube → heated by the central flue/burner → hot drawn off the top. The tank wall is the heat exchanger.</div></div>
+ <h2>Temperature and the scald question</h2>
+ <p>Manufacturers, installers, and authorities now recommend <b>120°F</b>. Some people set 140°F or higher, but for safety, economy, and conservation the trend is lower — <b>140°F water scalds quickly</b>, a real risk with children and the elderly. A <b>vacuum relief valve</b> on the cold inlet (when present) prevents a cross-connection and protects the tank from collapsing under vacuum if cold pressure drops.</p>
+ <div class="field"><div class="ic">${sv(ic.alert)}</div><div><div class="t">Life expectancy varies — don't predict it</div><p>Conventional heaters last anywhere from 8–12 years in some regions to 15–25 in others. Report age and observed condition (rust, leakage, anode access), not a confident "X years left."</p></div></div>`,
+ quiz:[
+  {q:'The dip tube in a tank water heater:',o:['Carries hot water out of the top','Carries incoming cold water to the bottom of the tank','Vents combustion gases','Holds the sacrificial anode'],a:1,e:'Cold enters via the dip tube to the bottom; hot is drawn off the top.'},
+  {q:'The sacrificial anode rod exists to:',o:['Heat the water faster','Be corroded instead of the tank','Relieve excess pressure','Mix hot and cold water'],a:1,e:'The anode is attacked by the corrosive single-pass water, sparing the tank.'},
+  {q:'On a gas tank water heater, the heat exchanger is:',o:['A separate finned coil','The tank wall itself','The dip tube','The TPR valve'],a:1,e:'Domestic tanks transfer heat directly through the tank wall — there is no separate heat exchanger.'},
+  {q:'The recommended water-heater temperature today is about:',o:['100°F','120°F','140°F','160°F'],a:1,e:'120°F is the modern recommendation; 140°F+ scalds quickly and wastes energy.'},
+  {q:'"Recovery rate" refers to:',o:['How long the tank lasts','How fast the heater reheats a tankful of water','The pressure inside the tank','How quickly the anode corrodes'],a:1,e:'Recovery rate is set by burner size — bigger burner, faster reheat, which lets a smaller tank keep up.'},
+ ]},
+
+/* ===== L5 WATER HEATER SAFETY ===== */
+{id:'l5',kind:'Lesson 5',label:'Water-Heater Safety',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 5 · §13.2 Safety</span><h1>The relief valve, the flue, and the burner</h1>
+ <p class="lead">This is the highest-stakes lesson in the chapter. A water heater can scald, can leak combustion gas into the home, and can — rarely but catastrophically — fail as a pressure vessel. These items get flagged the moment you see them.</p>
+ <h2>The temperature/pressure relief (TPR) valve</h2>
+ <p>The <b>TPR valve</b> is the single most important safety device on the heater. If temperature or pressure climbs dangerously, it opens and dumps water to relieve it — preventing the tank from becoming a bomb. The valve is only half the device; the <b>discharge tube</b> is the other half.</p>
+ <div class="defect"><div class="dh"><span class="n">12</span><span class="nm">TPR valve problems — the most-cited water-heater defect</span></div><p>The discharge tube must run <b>down to roughly 6 inches above the floor</b>, be the same diameter as the valve outlet, made of an approved material, have <b>no threads on the end</b> (so nothing gets capped), and <b>no valve</b> in the line. A missing tube means a release sprays scalding water at face height.</p><div class="meta"><span class="lab">Implication</span><span class="val">Scalding; or, if the valve itself is missing/blocked/incorrectly sized, a pressure-vessel failure.</span><span class="lab">Strategy</span><span class="val">Confirm a TPR valve is present and a proper discharge tube runs to ~6 in above the floor. Flag any deviation.</span></div><div class="rep"><b>Report:</b> "Water-heater relief valve discharge tube missing/improper. Safety hazard — recommend correction by a plumber."</div></div>
+ <h2>Combustion safety on gas and oil units</h2>
+ <p>Gas and oil heaters burn fuel indoors, so they must exhaust and breathe correctly:</p>
+ <div class="defect"><div class="dh"><span class="n">!</span><span class="nm">Flue / backdraft</span></div><p>A disconnected, corroded, or improperly sloped vent connector — or a draft hood that spills — lets combustion gases including <b>carbon monoxide</b> into the room. Watch for soot, melted plastic near the draft hood, or condensation/scorching at the burner.</p></div>
+ <div class="defect"><div class="dh"><span class="n">!</span><span class="nm">Burner cover / roll-out shield</span></div><p>Missing or damaged shields let the burner foul and let flames roll out during a backdraft — a fire hazard. Confirm the cover is in place.</p></div>
+ <div class="defect"><div class="dh"><span class="n">!</span><span class="nm">Combustion air</span></div><p>Stored rags, paint, and fuel beside the burner are a fire hazard, and clutter or blocked vents starve the burner of air, causing incomplete combustion and CO. Insulation must not obstruct combustion air or the draft hood.</p></div>
+ ${W('spot','waterheater')}
+ <div class="field"><div class="ic">${sv(ic.alert)}</div><div><div class="t">If you see it, flag it</div><p>TPR without a discharge tube, a spilling/disconnected flue, and a missing burner shield are all <b>flag-now safety items</b> — not "monitor" findings. When in doubt, write it up and recommend correction.</p></div></div>`,
+ quiz:[
+  {q:'The TPR valve\'s discharge tube should terminate:',o:['At the ceiling','About 6 inches above the floor','Inside the tank','Outdoors above the roof'],a:1,e:'The tube must pipe a release safely down to ~6 in above the floor so it can\'t spray someone.'},
+  {q:'Which is a correct rule for the TPR discharge tube?',o:['It should have a shutoff valve in the line','Its end should be threaded and capped','It should have no valve and no threaded/capped end','It can be smaller than the valve outlet'],a:2,e:'No valve, no threads/cap on the end, full size, approved material, running down near the floor.'},
+  {q:'A disconnected flue/vent connector on a gas water heater is dangerous because it can:',o:['Lower the water pressure','Spill carbon monoxide and combustion gases into the room','Increase the recovery rate','Drain the tank'],a:1,e:'A spilling or disconnected flue lets CO and combustion gases into living space — a backdraft hazard.'},
+  {q:'A missing burner cover / roll-out shield can:',o:['Improve combustion efficiency','Let flames roll out in a backdraft and let the burner foul','Reduce scald risk','Replace the need for a flue'],a:1,e:'The shield contains roll-out and keeps the burner clean; missing/damaged is a fire hazard.'},
+  {q:'Rags, paint, and stored fuel beside a gas water heater are a problem because they:',o:['Improve draft','Are a fire hazard and can starve the burner of combustion air','Insulate the tank','Raise the recovery rate'],a:1,e:'Combustibles near the burner risk fire, and clutter blocks combustion air, causing incomplete burning and CO.'},
+ ]},
+
+/* ===== L6 DRAIN, WASTE & VENT ===== */
+{id:'l6',kind:'Lesson 6',label:'Drain, Waste & Vent',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 6 · §13.3 DWV</span><h1>Carrying it away by gravity</h1>
+ <p class="lead">The drain-waste-vent system is the unpressurized half of plumbing. Waste moves by <b>gravity and slope</b>, not pressure — which means support, pitch, and venting all matter, and most of it is hidden inside walls.</p>
+ <h2>What's in the system</h2>
+ <p><b>Drains</b> carry water from fixtures; <b>waste</b> piping carries it (and sewage) to the building drain and out to the sewer or septic; <b>vents</b> extend up through the roof to equalize air pressure (Lesson 7). Horizontal runs need correct <b>slope</b> — too flat and solids settle, too steep and water outruns solids — and proper <b>support</b>.</p>
+ <h2>DWV materials — and where each is allowed</h2>
+ <p>Unlike supply, DWV materials have <b>use restrictions</b>:</p>
+ <ul class="clean"><li><b>ABS</b> — black plastic; drain, waste &amp; vent.</li><li><b>PVC</b> — white plastic; drain, waste &amp; vent.</li><li><b>Cast iron</b> — heavy old stacks; modern hubless pipe joins with neoprene gaskets and stainless bands.</li><li><b>Copper</b> — used in DWV as well as supply.</li><li><b>Lead</b> — drain and waste <em>only</em> (legacy).</li><li><b>Galvanized steel</b> — typically drain and vent only.</li><li><b>Brass</b> — typically fittings.</li><li><b>Clay</b> — underground drain and waste <em>only</em>.</li></ul>
+ ${W('match','dwvmat')}
+ <h2>Supports and the conditions you'll see</h2>
+ <p>Vertical pipe generally needs support about <b>every other floor</b> (every floor for heavy cast iron); copper roughly every 10 ft vertically. Long flexible cast-iron hangers over ~18 in want sway bracing. The recurring conditions: <b>leaks</b> (intermittent — they show as staining under joints), <b>poor support/sag</b>, <b>improper slope</b>, <b>non-standard materials and patches</b>, and <b>missing cleanouts</b> (you need access to clear a blockage). Where a drain run has no accessible cleanout, note it.</p>
+ <div class="field"><div class="ic">${sv(ic.alert)}</div><div><div class="t">Drain leaks hide</div><p>Because DWV isn't pressurized, leaks are <b>intermittent</b> — only when that fixture drains. Look for dried staining and mineral trails below joints rather than active drips, and run water to test.</p></div></div>`,
+ quiz:[
+  {q:'Waste moves through the DWV system primarily by:',o:['Pressure from the supply','Gravity and proper slope','A pump at every fixture','Vent suction'],a:1,e:'DWV is unpressurized — gravity and correct pitch move the waste, so slope and support matter.'},
+  {q:'Which material is permitted for drain and waste only (legacy), not vents?',o:['ABS','PVC','Lead','Cast iron'],a:2,e:'Lead is a legacy drain-and-waste-only material; clay is underground-only.'},
+  {q:'A DWV leak typically appears as:',o:['A constant high-pressure spray','Intermittent staining below a joint, seen when that fixture drains','Rust on the supply lines','Low water pressure at fixtures'],a:1,e:'Unpressurized drains leak only during use, leaving dried stains/mineral trails under joints.'},
+  {q:'Modern hubless cast-iron waste pipe is joined with:',o:['Solvent cement','Solder','Neoprene gaskets and stainless-steel bands','Crimp rings'],a:2,e:'Hubless cast iron uses a neoprene gasket and a clamped stainless band.'},
+  {q:'A missing accessible cleanout on a drain run matters because:',o:['It changes the slope','A blockage can\'t be cleared without access','It causes the trap to siphon','It increases water pressure'],a:1,e:'Cleanouts give access to clear blockages; note where that access is missing.'},
+ ]},
+
+/* ===== L7 TRAPS & VENTING ===== */
+{id:'l7',kind:'Lesson 7',label:'Traps & Venting',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 7 · §13.3 Traps &amp; Vents</span><h1>The water seal that keeps the sewer out of the house</h1>
+ <p class="lead">Two ideas do most of the work here, and they're linked: the <b>trap</b> holds a plug of water that blocks sewer gas, and the <b>vent</b> exists mostly to keep that plug from getting siphoned away.</p>
+ <h2>Traps</h2>
+ <p>Every fixture — and <b>every floor drain</b> inside a building — needs a trap. The standard is the <b>P-trap</b>: a U that retains a <b>water seal</b>. When you look down a floor drain you should see <b>standing water</b>; no water means the seal evaporated, the trap is cracked, or there's no trap at all — and sewer odor is getting in. If you see no water, smell for sewer gas and recommend further investigation.</p>
+ <div class="defect"><div class="dh"><span class="n">!</span><span class="nm">The S-trap — a classic defect</span></div><p>An <b>S-trap</b> tends to <b>self-siphon</b>: as the fixture drains, the falling water pulls its own seal right out behind it, leaving the trap dry and the sewer open to the room. Modern work uses a properly vented P-trap instead.</p></div>
+ <h2>Venting — the trap protector</h2>
+ <p>The <b>venting system equalizes air pressure</b> in the drains. It lets air escape so waste flows, and lets air in so a <b>vacuum can't form and siphon the traps</b>. It also carries sewer gas out above the roof. Most of it is hidden — often all you can see is the stack through the roof and some pipe in the attic, basement, or crawlspace.</p>
+ <p>You test venting every time you run a fixture: <b>watch the functional drainage</b>. Water should drain at about the same noise level to the end. If the last bit <b>gurgles loudly</b>, air is being pulled through the trap seal — siphoning it — and that tells you the vent isn't working. The <b>toilet is the exception</b>: it's a siphoning fixture and is allowed to gurgle.</p>
+ ${W('sort','ventsymptom')}
+ <p>Common venting problems: <b>missing</b> (vents must run continuously up through the roof), <b>ineffective</b>, <b>poor arrangements</b>, <b>too small or too long</b>, <b>island-venting</b> issues, <b>vent-termination</b> problems, and <b>automatic air vents</b> (mechanical devices used where a real vent is hard to run — acceptable only where permitted).</p>
+ ${W('spot','dwv')}
+ ${story('Inspector in the house',`You run the kitchen sink and the last gulp of water leaves with a loud glug — then the floor drain across the basement burps. New inspectors reach for "clogged drain." But the gurgle and the sympathetic burp are the signature of a <b>venting</b> problem: the draining water is pulling a vacuum and siphoning traps because air can't get in. Write it as a venting concern and recommend evaluation — and remember the toilet's allowed to gurgle.`)}`,
+ quiz:[
+  {q:'The water held in a trap (the water seal) functions to:',o:['Slow the drainage','Block sewer gas from entering the house','Increase water pressure','Filter the waste'],a:1,e:'The trap\'s water seal is what keeps sewer gas out of the living space.'},
+  {q:'An S-trap is a defect mainly because it:',o:['Costs more than a P-trap','Tends to self-siphon its own water seal as the fixture drains','Cannot be used with plastic pipe','Requires a cleanout'],a:1,e:'The S-trap siphons itself dry, leaving the sewer open to the room; a vented P-trap is the fix.'},
+  {q:'The primary purpose of the venting system is to:',o:['Carry waste to the sewer','Equalize air pressure so traps aren\'t siphoned and waste can flow','Supply water to fixtures','Heat the drain water'],a:1,e:'Vents balance pressure — letting air out and in — which protects trap seals; people call them "trap protectors."'},
+  {q:'A loud gurgle as the last water leaves a sink usually indicates:',o:['Good venting','Air being pulled through the trap — a venting problem','Excess water pressure','A failed water heater'],a:1,e:'Gurgling means the vent isn\'t admitting air, so draining siphons the trap.'},
+  {q:'No standing water visible in a floor drain means:',o:['The vent is working perfectly','The trap seal is gone (evaporated, cracked, or no trap) — sewer gas can enter','The drain is brand new','The water pressure is high'],a:1,e:'A dry trap loses its seal; smell for sewer gas and recommend further investigation.'},
+ ]},
+
+/* ===== L8 FIXTURES, FLOW & CROSS-CONNECTIONS ===== */
+{id:'l8',kind:'Lesson 8',label:'Fixtures & Cross-Connections',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 8 · §13.4 Fixtures &amp; Flow</span><h1>The functional test — and the health item that outranks it</h1>
+ <p class="lead">You finish the plumbing inspection at the fixtures, where supply and drainage meet. The method is simple and you've been doing it all along: <b>run water and watch what happens</b>. One item here — cross-connections — is a public-health concern, not a comfort issue.</p>
+ <h2>The functional flow test</h2>
+ <p><b>Functional flow</b> and <b>functional drainage</b> are the inspector's core fixture tests: turn fixtures on (sometimes more than one at a time) to judge whether supply pressure/flow is adequate, then watch the water drain to judge the drain and vent. At <b>faucets</b>, check operation, leaks, and that the aerator isn't clogging flow; at fixtures, look for chips, cracks, secure mounting, and leaks at supply and drain connections. A loose toilet, a dripping faucet, a worn aerator — these are <b>note-and-monitor</b> items.</p>
+ ${W('sort','triage')}
+ <h2>Cross-connections — the one that's about health, not comfort</h2>
+ <p>A <b>cross-connection</b> is any arrangement that could let non-potable water flow <em>back</em> into the potable supply — for example, a hose left submerged in a bucket of chemicals, a handheld shower lying in dirty bathwater, or a fixture spout below the flood rim of a basin. If supply pressure drops, that contaminated water can be <b>siphoned back</b> into the drinking water.</p>
+ <div class="defect"><div class="dh"><span class="n">!</span><span class="nm">Cross-connection</span></div><p>The defenses are an <b>air gap</b> (a physical space between a spout and the flood rim) or a <b>backflow preventer / anti-siphon device</b> (e.g., on hose bibbs and irrigation). The classic finding is a submerged inlet or a spout that ends below the flood rim.</p><div class="meta"><span class="lab">Implication</span><span class="val">Contamination of the potable water supply — a health hazard.</span><span class="lab">Strategy</span><span class="val">Note any submerged inlet, missing air gap, or missing backflow preventer and recommend correction.</span></div><div class="rep"><b>Report:</b> "Potential cross-connection at [location] — no air gap / backflow protection. Health concern; recommend correction by a plumber."</div></div>
+ <h2>Pulling it together</h2>
+ <p>You've now run the whole chapter through one loop: supply (service, materials, conditions), water heating (operation and its safety devices), and DWV (drains, materials, traps, and vents), finishing at the fixtures with the functional test and the cross-connection check. Sort your findings by what scalds, gases, or contaminates — flag those now — and note the wear items to monitor. Then prove it on the scenarios and the mastery check.</p>`,
+ quiz:[
+  {q:'The inspector\'s core fixture test is to:',o:['Disassemble and inspect each valve','Run water and observe functional flow and functional drainage','Measure exact gallons per minute','Pressure-test the supply lines'],a:1,e:'Running fixtures and watching supply flow and drainage is the functional test inspectors actually perform.'},
+  {q:'A cross-connection is dangerous because it can:',o:['Lower the water heater temperature','Allow non-potable water to be siphoned back into the drinking supply','Cause the trap to gurgle','Reduce the recovery rate'],a:1,e:'If supply pressure drops, a cross-connection can draw contaminated water back into the potable system — a health hazard.'},
+  {q:'The simplest protection against a cross-connection is:',o:['A larger supply pipe','An air gap between the spout and the flood rim','A pressure-reducing valve','A sacrificial anode'],a:1,e:'An air gap — physical space above the flood rim — prevents backflow; a backflow preventer is the device-based alternative.'},
+  {q:'Which finding is a note-and-monitor item rather than a flag-now safety item?',o:['A submerged hose end with no air gap','A dripping faucet or worn aerator','A TPR valve with no discharge tube','A backdrafting gas water heater'],a:1,e:'A drip or worn aerator is routine wear; the others can contaminate, scald, or gas the occupants.'},
+  {q:'A classic visible cross-connection finding is:',o:['A faucet spout ending below the flood rim of the basin','A copper supply line','A white PVC drain','An accessible cleanout'],a:0,e:'A spout below the flood rim (or a submerged inlet) can backflow into the supply if pressure drops.'},
+ ]},
+
+ {id:'scenarios',kind:'Apply it',label:'Inspector\'s Call',type:'scenario'},
+ {id:'assess',kind:'Assessment',label:'Mastery check',type:'assess'},
+ {id:'glossary',kind:'Reference',label:'Glossary',type:'glossary'},
+ {id:'source',kind:'Deep reading',label:'Full source chapter',type:'source'},
+];
+(async()=>{await load();render();})();
+</script>

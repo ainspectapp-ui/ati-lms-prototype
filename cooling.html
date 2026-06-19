@@ -1,0 +1,687 @@
+<!-- ATI · Module II · Electrical Systems — full interactive section -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#cbc6b8;--surf:#edebe2;--surf-2:#e3e0d6;--surf-3:#d7d3c7;
+    --line:#b8b2a2;--line-2:#cbc6b8;--line-brass:rgba(168,109,16,.3);
+    --ink:#29271f;--ink-2:#6a6557;--ink-3:#918c7d;
+    --brass:#a86d10;--brass-2:#c2841c;--brass-deep:#7f520a;--brass-soft:#e7ddc8;
+    --slate:#3c5870;--slate-2:#4d6982;--slate-soft:#d3dadf;--slate-deep:#2c4153;
+    --pass:#3d7d50;--pass-soft:#d9e6dc;--fail:#b85436;--fail-soft:#edddd4;
+    --r:16px;--display:'Bricolage Grotesque',sans-serif;--body:'Hanken Grotesk',sans-serif;--mono:'JetBrains Mono',monospace;
+    --sh-1:0 1px 2px rgba(41,39,31,.06),0 2px 5px rgba(41,39,31,.05);--sh-2:0 2px 8px rgba(41,39,31,.07),0 16px 44px rgba(41,39,31,.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.55;background-image:radial-gradient(120% 80% at 88% -8%,rgba(168,109,16,.05),transparent 52%),radial-gradient(90% 60% at -8% 108%,rgba(60,88,112,.06),transparent 52%)}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  .mono{font-family:var(--mono)}
+  ::selection{background:var(--brass);color:#fff}
+  ::-webkit-scrollbar{width:11px;height:11px}::-webkit-scrollbar-thumb{background:#b3ad9d;border-radius:11px;border:3px solid var(--bg)}
+
+  .top{position:sticky;top:0;z-index:30;background:rgba(203,198,184,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  .top .row{max-width:1150px;margin:0 auto;padding:13px 24px;display:flex;align-items:center;gap:14px}
+  .mark{width:36px;height:36px;border-radius:10px;flex:none;display:grid;place-items:center;background:linear-gradient(150deg,var(--brass-2),var(--brass-deep));box-shadow:0 3px 12px rgba(168,109,16,.3),inset 0 1px 0 rgba(255,255,255,.35)}
+  .mark svg{width:20px;height:20px;color:#fff}
+  .top .tt{font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:-.01em;line-height:1.1}.top .tt b{color:var(--brass-deep)}
+  .top .sub{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);display:block;margin-top:2px}
+  .top .prog{margin-left:auto;display:flex;align-items:center;gap:12px}
+  .top .prog .bar{width:150px;height:7px;background:var(--surf-3);border-radius:7px;overflow:hidden;border:1px solid var(--line)}
+  .top .prog .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--brass-deep),var(--brass));border-radius:7px;transition:width .5s cubic-bezier(.2,.7,.2,1)}
+  .top .prog .pc{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--brass-deep);min-width:34px;text-align:right}
+
+  .wrap{max-width:1150px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:250px 1fr;gap:32px;align-items:start}
+  .rail{position:sticky;top:88px;margin-top:28px;max-height:calc(100vh - 110px);overflow-y:auto;padding-right:4px}
+  .rail .h{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);padding:0 8px 10px}
+  .step{display:flex;align-items:center;gap:11px;padding:9px 10px;border-radius:10px;width:100%;text-align:left;transition:.13s;color:var(--ink-2);font-size:12.5px;font-weight:500;position:relative}
+  .step:hover{background:var(--surf-2)}
+  .step.active{background:var(--surf);box-shadow:var(--sh-1);color:var(--ink)}
+  .step.active::before{content:"";position:absolute;left:-8px;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--brass)}
+  .step .dot{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);flex:none;display:grid;place-items:center;font-family:var(--mono);font-size:10px;color:var(--ink-3);background:var(--bg);transition:.2s}
+  .step.done .dot{background:var(--brass);border-color:var(--brass);color:#fff}.step.done .dot svg{width:11px;height:11px}
+  .step .lbl{flex:1;line-height:1.2}
+  .step .kind{font-family:var(--mono);font-size:8.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);display:block;margin-top:1px}
+  .step.locked{opacity:.42;pointer-events:none}
+
+  .view{min-width:0;margin-top:28px;animation:rise .38s cubic-bezier(.2,.7,.2,1);padding-bottom:40px}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--brass-deep);font-weight:600}
+  h1{font-family:var(--display);font-weight:800;font-size:31px;letter-spacing:-.02em;line-height:1.08;margin:8px 0 0}
+  h2{font-family:var(--display);font-weight:700;font-size:21px;letter-spacing:-.01em;margin:32px 0 10px}
+  h3{font-family:var(--display);font-weight:700;font-size:16px;margin:24px 0 8px}
+  p{font-size:15.5px;color:#33312a;margin-bottom:14px;line-height:1.74}
+  p b,li b{color:var(--ink);font-weight:700}
+  .lead{font-size:16.5px;color:var(--ink-2);margin-top:12px;max-width:64ch}
+  ul.clean{list-style:none;margin:2px 0 16px}
+  ul.clean li{font-size:14.5px;color:#33312a;padding-left:22px;position:relative;margin-bottom:9px;line-height:1.6}
+  ul.clean li::before{content:"";position:absolute;left:2px;top:8px;width:7px;height:7px;border-radius:2px;background:var(--brass);transform:rotate(45deg)}
+  ul.num{margin:0 0 16px 20px}ul.num li{font-size:14.5px;color:#33312a;margin-bottom:7px;line-height:1.6}
+
+  .field{background:var(--slate-deep);color:#e9edf0;border-radius:13px;padding:18px 20px;margin:22px 0;display:flex;gap:14px}
+  .field.brass{background:linear-gradient(135deg,#3a3526,#2c2818)}
+  .field .ic{flex:none;color:var(--brass-2)}.field .ic svg{width:20px;height:20px}
+  .field .t{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-2);margin-bottom:5px}
+  .field p{color:#c4cdd4;font-size:14px;margin:0 0 8px;line-height:1.65}.field p:last-child{margin-bottom:0}.field p b{color:#fff}
+
+  .story{background:var(--surf);border:1px solid var(--line);border-left:4px solid var(--brass);border-radius:0 13px 13px 0;padding:16px 19px;margin:22px 0;box-shadow:var(--sh-1)}
+  .story .st{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-deep);display:flex;align-items:center;gap:8px;margin-bottom:7px}
+  .story .st svg{width:14px;height:14px}
+  .story p{font-size:14.5px;color:#403d33;font-style:italic;margin:0;line-height:1.7}
+  .story p b{font-style:normal}
+
+  .loop{display:flex;align-items:stretch;background:var(--surf);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin:18px 0 8px;box-shadow:var(--sh-1)}
+  .loop .seg{flex:1;padding:13px 10px;text-align:center;border-right:1px solid var(--line-2)}.loop .seg:last-child{border-right:none}
+  .loop .seg .n{font-family:var(--mono);font-size:9px;color:var(--ink-3);letter-spacing:.1em}
+  .loop .seg .w{font-family:var(--display);font-weight:700;font-size:12.5px;margin-top:3px}
+  .loop .seg.on{background:var(--brass-soft)}.loop .seg.on .w{color:var(--brass-deep)}
+
+  .dgm{background:#bdb8a8;border:1px solid var(--line);border-radius:var(--r);padding:8px;margin:20px 0;box-shadow:var(--sh-1);position:relative;overflow:hidden}
+  .dgm::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(44,65,83,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(44,65,83,.1) 1px,transparent 1px);background-size:26px 26px;pointer-events:none}
+  .dgm svg{display:block;width:100%;height:auto;position:relative}
+  .dgm .cap{position:relative;text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:.04em;color:var(--slate-deep);padding:4px 6px 8px}
+
+  .defect{background:var(--surf);border:1px solid var(--line);border-radius:13px;padding:16px 18px;box-shadow:var(--sh-1);margin:12px 0}
+  .defect .dh{display:flex;align-items:center;gap:11px;margin-bottom:8px}
+  .defect .dh .n{width:26px;height:26px;border-radius:8px;background:var(--fail-soft);color:var(--fail);display:grid;place-items:center;flex:none;font-family:var(--mono);font-weight:600;font-size:12px}
+  .defect .dh .nm{font-family:var(--display);font-weight:700;font-size:15px}
+  .defect p{font-size:14px;margin-bottom:9px}
+  .defect .meta{display:grid;grid-template-columns:auto 1fr;gap:5px 12px;font-size:13px;align-items:start}
+  .defect .meta .lab{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);padding-top:3px;white-space:nowrap}
+  .defect .meta .val{color:#33312a;line-height:1.5}
+  .defect .rep{font-family:var(--mono);font-size:11px;background:var(--slate-soft);border-radius:8px;padding:8px 11px;color:var(--slate-deep);line-height:1.5;margin-top:8px}.defect .rep b{color:var(--slate-deep)}
+
+  .pills{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 6px}
+  .pill{font-family:var(--mono);font-size:11.5px;background:var(--surf);border:1px solid var(--line);color:var(--ink-2);padding:6px 12px;border-radius:20px}.pill b{color:var(--brass-deep)}
+  .tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px;background:var(--surf);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .tbl th{background:var(--slate-deep);color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;text-align:left;padding:9px 12px;font-weight:600}
+  .tbl td{padding:9px 12px;border-top:1px solid var(--line-2);color:#33312a}
+  .tbl td:first-child{font-family:var(--mono);font-weight:600;color:var(--brass-deep);white-space:nowrap}
+
+  /* ---- quiz (multi-question) ---- */
+  .quiz{background:var(--surf);border:1.5px solid var(--line-brass);border-radius:var(--r);padding:24px;margin:30px 0 0;box-shadow:var(--sh-1)}
+  .quiz .qh{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-deep);display:flex;align-items:center;gap:8px;margin-bottom:4px}.quiz .qh svg{width:15px;height:15px}
+  .quiz .qt{font-family:var(--display);font-weight:700;font-size:18px}.quiz .qsub{font-size:13.5px;color:var(--ink-2);margin:4px 0 4px}
+  .qblock{border-top:1px solid var(--line-2);padding-top:18px;margin-top:18px}.qblock:first-of-type{border-top:none;padding-top:14px}
+  .qnum{font-family:var(--mono);font-size:11px;color:var(--brass-deep);font-weight:600;margin-bottom:6px}
+  .q{font-family:var(--display);font-weight:600;font-size:15.5px;margin-bottom:13px;line-height:1.4}
+  .opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:11px 14px;border:1.5px solid var(--line);border-radius:10px;margin-bottom:8px;transition:.13s;font-size:14px;font-weight:500;background:var(--surf-2)}
+  .opt:hover:not(.lk){border-color:var(--brass);background:var(--surf)}
+  .opt .k{font-family:var(--mono);font-weight:600;width:23px;height:23px;border-radius:6px;background:var(--surf-3);display:grid;place-items:center;font-size:11px;flex:none;color:var(--ink-2)}
+  .opt.correct{border-color:var(--pass);background:var(--pass-soft)}.opt.correct .k{background:var(--pass);color:#fff}
+  .opt.wrong{border-color:var(--fail);background:var(--fail-soft)}.opt.wrong .k{background:var(--fail);color:#fff}
+  .opt .mk{margin-left:auto}.opt .mk svg{width:16px;height:16px}.opt.lk{cursor:default}
+  .exp{font-size:13px;color:var(--ink-2);line-height:1.62;padding:11px 13px;background:var(--surf-2);border-left:3px solid var(--brass);border-radius:0 9px 9px 0;margin-top:4px}.exp b{color:var(--ink)}
+  .qscore{margin-top:20px;padding-top:18px;border-top:1px solid var(--line-2);font-family:var(--mono);font-size:13px;color:var(--ink-2);display:flex;align-items:center;gap:10px}.qscore svg{width:18px;height:18px;flex:none}.qscore b{font-size:15px}
+
+  .foot{display:flex;align-items:center;gap:12px;margin:30px 0 10px;padding-top:22px;border-top:1px solid var(--line)}.foot .sp{flex:1}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:14px;padding:12px 18px;border-radius:11px;transition:.15s;font-family:var(--body)}.btn svg{width:16px;height:16px}
+  .btn.brass{background:linear-gradient(150deg,var(--brass-2),var(--brass));color:#fff;box-shadow:0 5px 14px rgba(168,109,16,.28)}.btn.brass:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(168,109,16,.36)}
+  .btn.brass:disabled{opacity:.5;filter:grayscale(.3);cursor:not-allowed;transform:none;box-shadow:none}
+  .btn.ghost{background:var(--surf);border:1px solid var(--line);color:var(--ink-2)}.btn.ghost:hover{color:var(--ink);border-color:var(--ink-3)}
+  .btn.slate{background:var(--slate);color:#fff}.btn.slate:hover{background:var(--slate-deep)}
+
+  /* ---- WIDGETS ---- */
+  .wlabel{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:var(--brass);padding:4px 9px;border-radius:20px;display:inline-block;margin-bottom:6px}
+  .wtitle{font-family:var(--display);font-weight:700;font-size:16px;margin-bottom:3px}
+  .wsub{font-size:13.5px;color:var(--ink-2);margin-bottom:14px}
+  .widget{background:var(--surf-2);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;margin:24px 0;box-shadow:var(--sh-1)}
+
+  .sd-wrap{display:grid;grid-template-columns:1fr 260px;gap:16px}@media(max-width:760px){.sd-wrap{grid-template-columns:1fr}}
+  .sd-stage{background:#bdb8a8;border:1px solid var(--line);border-radius:13px;padding:8px;position:relative;overflow:hidden}
+  .sd-stage::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(44,65,83,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(44,65,83,.09) 1px,transparent 1px);background-size:24px 24px;pointer-events:none}
+  .sd-stage svg{display:block;width:100%;height:auto;position:relative}
+  .hot{cursor:pointer}.hot circle.zone{fill:transparent;stroke:transparent}
+  .hot.found circle.zone{fill:rgba(61,125,80,.16);stroke:var(--pass);stroke-width:2.5;stroke-dasharray:4 3}
+  .sd-side{display:flex;flex-direction:column;gap:11px}
+  .sd-count{background:var(--slate-deep);color:#fff;border-radius:12px;padding:13px 15px;text-align:center}
+  .sd-count .big{font-family:var(--mono);font-weight:600;font-size:28px;line-height:1}.sd-count .lbl{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-2);margin-top:5px}
+  .sd-found{display:flex;flex-direction:column;gap:7px;max-height:280px;overflow-y:auto}
+  .fcard{background:var(--surf);border:1px solid var(--line);border-left:3px solid var(--pass);border-radius:9px;padding:9px 11px;animation:pop .3s}@keyframes pop{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:none}}
+  .fcard .fn{font-family:var(--display);font-weight:700;font-size:13px;color:var(--pass)}.fcard .fd{font-size:12px;color:var(--ink-2);margin-top:2px;line-height:1.45}
+  .sd-empty{font-size:12.5px;color:var(--ink-3);font-style:italic;text-align:center;padding:18px 8px}
+  .sd-done{background:var(--pass-soft);border:1px solid var(--pass);border-radius:11px;padding:12px;text-align:center;font-size:13px;color:var(--pass);font-weight:600}
+
+  .gfi-stage{background:var(--slate-deep);border-radius:13px;padding:20px;position:relative;overflow:hidden;height:220px}
+  .lane{position:absolute;left:120px;right:120px;height:3px;background:rgba(255,255,255,.18);border-radius:3px}.lane.hot{top:66px}.lane.neu{top:146px}
+  .lane .lab{position:absolute;top:-19px;left:0;font-family:var(--mono);font-size:10px;color:#9fb0bd}
+  .dot{position:absolute;width:9px;height:9px;border-radius:50%;top:-3px}
+  .dot.h{background:var(--brass-2);animation:flowR 2.4s linear infinite}.dot.n{background:#7fa8c4;animation:flowL 2.4s linear infinite}
+  @keyframes flowR{from{left:0}to{left:100%}}@keyframes flowL{from{left:100%}to{left:0}}
+  .gbox{position:absolute;left:28px;top:66px;width:68px;height:80px;border:2px solid #9fb0bd;border-radius:8px;display:grid;place-items:center;text-align:center}
+  .gbox .gt{font-family:var(--mono);font-size:10px;color:#fff}.gbox .gs{font-family:var(--mono);font-size:8px;color:#7fa8c4;margin-top:3px}
+  .load{position:absolute;right:28px;top:66px;width:68px;height:80px;border:2px solid #9fb0bd;border-radius:8px;display:grid;place-items:center}.load .lt{font-family:var(--mono);font-size:10px;color:#fff}
+  .leak{position:absolute;left:50%;top:69px;width:2px;height:88px;background:repeating-linear-gradient(180deg,var(--fail),var(--fail) 5px,transparent 5px,transparent 10px);opacity:0;transition:.3s}.leak.on{opacity:1}
+  .person{position:absolute;left:calc(50% - 13px);top:160px;font-size:22px;opacity:0;transition:.3s}.person.on{opacity:1}
+  .trip{position:absolute;inset:0;background:rgba(184,84,54,.92);display:grid;place-items:center;opacity:0;pointer-events:none;transition:.3s}.trip.on{opacity:1}
+  .trip .tw{text-align:center;color:#fff}.trip .tw .b{font-family:var(--display);font-weight:800;font-size:25px}.trip .tw .s{font-family:var(--mono);font-size:11px;letter-spacing:.1em;margin-top:6px;opacity:.9}
+  .gfi-status{display:flex;align-items:center;gap:10px;margin-top:14px;font-size:14px;font-weight:600}.gfi-status .pip{width:11px;height:11px;border-radius:50%;background:var(--pass)}.gfi-status.fault .pip{background:var(--fail)}
+  .gfi-controls{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}.gfi-read{font-family:var(--mono);font-size:12px;color:var(--ink-2);margin-top:10px}.gfi-read b{color:var(--brass-deep)}
+
+  .match{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:600px){.match{grid-template-columns:1fr}}
+  .mcol{display:flex;flex-direction:column;gap:9px}.mcol .ch{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);text-align:center;margin-bottom:2px}
+  .chip{padding:13px;border:1.5px solid var(--line);border-radius:11px;background:var(--surf);font-family:var(--mono);font-weight:600;font-size:14px;text-align:center;transition:.13s;color:var(--ink)}
+  .chip:hover:not(.locked){border-color:var(--brass)}.chip.sel{border-color:var(--brass);background:var(--brass-soft);color:var(--brass-deep)}
+  .chip.locked{border-color:var(--pass);background:var(--pass-soft);color:var(--pass);cursor:default;opacity:.85}
+  .chip.miss{border-color:var(--fail);background:var(--fail-soft);animation:shake .3s}@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+  .w-done{margin-top:14px;background:var(--pass-soft);border:1px solid var(--pass);border-radius:11px;padding:12px;text-align:center;font-size:13px;color:var(--pass);font-weight:600}
+
+  .est{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:600px){.est{grid-template-columns:1fr}}
+  .est label{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:6px}
+  .est select{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--surf);font-family:var(--mono);font-size:14px;color:var(--ink);font-weight:600}
+  .est-out{grid-column:1/-1;margin-top:4px;border-radius:12px;padding:15px 17px;border:1px solid var(--line);background:var(--surf);transition:.2s}
+  .est-out.ok{border-color:var(--pass);background:var(--pass-soft)}.est-out.bad{border-color:var(--fail);background:var(--fail-soft)}
+  .est-out .ev{font-family:var(--display);font-weight:800;font-size:19px}.est-out .ed{font-size:13px;color:var(--ink-2);margin-top:5px;line-height:1.5}
+  .est-out.ok .ev{color:var(--pass)}.est-out.bad .ev{color:var(--fail)}
+
+  .sort{display:grid;gap:14px}
+  .sort-items{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;min-height:20px}
+  .sitem{padding:10px 14px;border:1.5px solid var(--line);border-radius:10px;background:var(--surf);font-size:13.5px;font-weight:500;transition:.13s}.sitem:hover:not(.placed){border-color:var(--brass)}.sitem.sel{border-color:var(--brass);background:var(--brass-soft);color:var(--brass-deep)}.sitem.placed{display:none}
+  .bins{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:600px){.bins{grid-template-columns:1fr}}
+  .bin{border:1.5px dashed var(--line);border-radius:12px;padding:14px;min-height:90px;background:var(--surf)}
+  .bin.activeb{border-color:var(--brass);background:var(--brass-soft)}
+  .bin .bt{font-family:var(--display);font-weight:700;font-size:14px;text-align:center;margin-bottom:10px}
+  .bin .drop{font-size:11px;color:var(--ink-3);text-align:center;font-style:italic}
+  .binitem{padding:8px 11px;border-radius:8px;font-size:13px;font-weight:500;margin-bottom:6px;display:flex;align-items:center;gap:7px}.binitem svg{width:13px;height:13px;flex:none}
+  .binitem.right{background:var(--pass-soft);color:var(--pass)}.binitem.wrong{background:var(--fail-soft);color:var(--fail)}
+
+  .era{display:flex;flex-direction:column;gap:0;position:relative;margin:6px 0 4px;padding-left:8px}
+  .era .line{position:absolute;left:14px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .erow{display:flex;align-items:flex-start;gap:14px;padding:9px 0;position:relative;cursor:pointer}
+  .erow .ed{width:12px;height:12px;border-radius:50%;background:var(--surf-3);border:2px solid var(--line);flex:none;margin-top:3px;z-index:1;transition:.15s}
+  .erow:hover .ed,.erow.open .ed{background:var(--brass);border-color:var(--brass)}
+  .erow .et{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--brass-deep);width:130px;flex:none}
+  .erow .en{font-size:14px;color:#33312a;font-weight:600}
+  .erow .ex{font-size:13px;color:var(--ink-2);line-height:1.5;margin-top:4px;display:none}.erow.open .ex{display:block}
+
+  .panelcard{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-2);padding:34px;text-align:center}
+  .panelcard .ic{width:56px;height:56px;border-radius:14px;background:var(--brass-soft);color:var(--brass-deep);display:grid;place-items:center;margin:0 auto 16px}.panelcard .ic svg{width:27px;height:27px}
+  .panelcard h2{margin:0 0 8px}.panelcard p{max-width:48ch;margin:0 auto 22px}
+  .ring{width:150px;height:150px;margin:0 auto 18px;position:relative}.ring .rv{position:absolute;inset:0;display:grid;place-items:center}.ring .rv .n{font-family:var(--mono);font-weight:600;font-size:38px;line-height:1}.ring .rv .p{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-top:4px}
+  .verdict{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;display:inline-block;padding:5px 13px;border-radius:20px;margin-bottom:16px}.verdict.pass{background:var(--pass-soft);color:var(--pass)}.verdict.fail{background:var(--fail-soft);color:var(--fail)}
+
+  .scen{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-2);margin-bottom:16px}
+  .scen .sh{background:linear-gradient(120deg,#3c5870,#2c4153);color:#fff;padding:16px 20px}.scen .sh .t{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-2)}.scen .sh .n{font-family:var(--display);font-weight:700;font-size:17px;margin-top:3px}
+  .scen .body{padding:20px 22px}.scen .situation{font-size:15.5px;color:#33312a;line-height:1.7;margin-bottom:6px}.scen .ask{font-family:var(--display);font-weight:600;font-size:15px;margin:16px 0 14px;color:var(--ink)}
+  .scount{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-bottom:10px}
+
+  .gloss{display:grid;gap:10px}.term{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:13px 16px;box-shadow:var(--sh-1)}
+  .term .tw{font-family:var(--display);font-weight:700;font-size:14.5px;color:var(--brass-deep)}.term .td{font-size:13.5px;color:var(--ink-2);margin-top:3px;line-height:1.55}
+  .srcframe{width:100%;height:78vh;border:1px solid var(--line);border-radius:var(--r);background:var(--surf);box-shadow:var(--sh-1)}
+  .srcnote{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:14px 17px;font-size:13.5px;color:var(--ink-2);margin:14px 0;line-height:1.6}.srcnote a{color:var(--brass-deep);font-weight:600}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--slate-deep);color:#fff;padding:12px 18px;border-radius:11px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;box-shadow:var(--sh-2);z-index:100;opacity:0;transition:.3s}.toast.show{transform:translateX(-50%) translateY(0);opacity:1}.toast svg{width:16px;height:16px;color:var(--brass-2)}
+  @media(max-width:880px){.wrap{grid-template-columns:1fr}.rail{display:none}.top .prog .bar{width:90px}}
+  em{font-style:italic;color:inherit}
+</style>
+
+<div class="top"><div class="row">
+  <a href="index.html" class="mark" style="text-decoration:none" title="Back to Module II"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg></a>
+  <div><div class="tt">ATI · Module II — <b>Cooling &amp; Heat Pumps</b></div><span class="sub">System 2 of 5 · interactive</span></div>
+  <div class="prog"><a href="index.html" style="font-family:var(--mono);font-size:11px;font-weight:600;color:var(--brass-deep);text-decoration:none;margin-right:2px" title="All systems">↩ Systems</a><div class="bar"><i id="pbar"></i></div><span class="pc" id="ppc">0%</span></div>
+</div></div>
+<div class="wrap"><aside class="rail"><div class="h">Section contents</div><div id="rail"></div></aside><main class="view" id="view"></main></div>
+<div class="toast" id="toast"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span id="tmsg"></span></div>
+
+<script>
+/* ---- storage adapter: native window.storage in Claude; localStorage when deployed (GitHub Pages); memory as last resort ---- */
+(function(){if(typeof window==='undefined')return;if(window.storage&&window.storage.get)return;var mem={};window.storage={get:function(k){try{var v=window.localStorage.getItem(k);return Promise.resolve(v!=null?{value:v}:null);}catch(e){return Promise.resolve(mem[k]!=null?{value:mem[k]}:null);}},set:function(k,v){try{window.localStorage.setItem(k,v);}catch(e){mem[k]=v;}return Promise.resolve({value:v});},delete:function(k){try{window.localStorage.removeItem(k);}catch(e){delete mem[k];}return Promise.resolve({deleted:true});}};})();
+
+const ic={check:'<path d="M20 6 9 17l-5-5"/>',x:'<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',arrow:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',back:'<path d="M19 12H5"/><path d="m12 19-7-7 7-7"/>',brain:'<path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44A2.5 2.5 0 0 1 4 17.5a2.5 2.5 0 0 1-.5-4.9 2.5 2.5 0 0 1 0-4.2A2.5 2.5 0 0 1 5 3.5 2.5 2.5 0 0 1 9.5 2z"/>',flag:'<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>',alert:'<path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="9"/>',bolt:'<path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/>',book:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',open:'<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/>',award:'<circle cx="12" cy="8" r="6"/><path d="M15.5 12.9 17 22l-5-3-5 3 1.5-9.1"/>',retake:'<path d="M3 12a9 9 0 1 0 9-9 9 9 0 0 0-6.4 2.6L3 8"/><path d="M3 3v5h5"/>',coffee:'<path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/><line x1="6" y1="2" x2="6" y2="5"/><line x1="10" y1="2" x2="10" y2="5"/><line x1="14" y1="2" x2="14" y2="5"/>'};
+const sv=(p,w=2)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+function conds(title,items){return `<h3>${title}</h3><ul class="clean">${items.map(([n,d])=>`<li><b>${n}</b> — ${d}</li>`).join('')}</ul>`;}
+function story(title,text){return `<div class="story"><div class="st">${sv(ic.coffee)} ${title}</div><p>${text}</p></div>`;}
+
+/* ================= WIDGET LIBRARY ================= */
+const SPOT={}, MATCH={}, SORT={}, ERA={};
+const WID={
+  spot(el,k){const c=SPOT[k];let found=new Set();
+    el.innerHTML=`<span class="wlabel">Spot the defect</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div>
+     <div class="sd-wrap"><div class="sd-stage"><svg viewBox="${c.vb}" class="hot">${c.svg}<g class="hsg"></g></svg></div>
+     <div class="sd-side"><div class="sd-count"><div class="big"><span class="sdn">0</span>/${c.defects.length}</div><div class="lbl">defects found</div></div><div class="sd-found"><div class="sd-empty">Click a defect to log it…</div></div></div></div>`;
+    const g=el.querySelector('.hsg'),cnt=el.querySelector('.sdn'),fw=el.querySelector('.sd-found');
+    c.defects.forEach((d,i)=>{const gg=document.createElementNS('http://www.w3.org/2000/svg','g');gg.setAttribute('class','hot');gg.innerHTML=`<circle class="zone" cx="${d.x}" cy="${d.y}" r="${d.r}"/>`;gg.style.cursor='pointer';
+      gg.addEventListener('click',()=>{if(found.has(i))return;found.add(i);gg.classList.add('found');cnt.textContent=found.size;if(fw.querySelector('.sd-empty'))fw.innerHTML='';
+        const card=document.createElement('div');card.className='fcard';card.innerHTML=`<div class="fn">${found.size}. ${d.n}</div><div class="fd">${d.d}</div>`;fw.appendChild(card);
+        if(found.size===c.defects.length){const dn=document.createElement('div');dn.className='sd-done';dn.textContent='All found — that\'s the scan. Nicely done.';fw.appendChild(dn);}});
+      g.appendChild(gg);});},
+  gfi(el){el.innerHTML=`<span class="wlabel">Animated diagram</span><div class="wtitle">Watch the GFI work</div><div class="wsub">Current flows out the hot and back on the neutral — equal. Introduce a leak and see what happens.</div>
+    <div class="gfi-stage"><div class="gbox"><div><div class="gt">GFI</div><div class="gs">in vs out</div></div></div><div class="load"><div class="lt">LOAD</div></div><div class="lane hot"><span class="lab">hot — out</span></div><div class="lane neu"><span class="lab">neutral — back</span></div><div class="leak"></div><div class="person">🧍</div><div class="trip"><div class="tw"><div class="b">⚡ GFI TRIPPED</div><div class="s">imbalance &gt; 5 mA — cut in milliseconds</div></div></div></div>
+    <div class="gfi-status"><span class="pip"></span><span class="gtxt">Balanced — out equals back. Holding.</span></div>
+    <div class="gfi-read">Hot out: <b>15.000 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b>0 mA</b></div>
+    <div class="gfi-controls"><button class="btn brass gflt">Introduce a ground fault</button><button class="btn ghost grst">Reset</button></div>`;
+    const stage=el.querySelector('.gfi-stage'),st=el.querySelector('.gfi-status'),txt=el.querySelector('.gtxt'),read=el.querySelector('.gfi-read'),trip=el.querySelector('.trip'),fbtn=el.querySelector('.gflt');let f=false,to;
+    function dots(){stage.querySelectorAll('.dot').forEach(d=>d.remove());for(let i=0;i<5;i++){const d=document.createElement('span');d.className='dot h';d.style.animationDelay=(-i*0.48)+'s';stage.querySelector('.lane.hot').appendChild(d);}const nc=f?2:5;for(let i=0;i<nc;i++){const d=document.createElement('span');d.className='dot n';d.style.animationDelay=(-i*0.48)+'s';stage.querySelector('.lane.neu').appendChild(d);}}
+    function reset(){f=false;clearTimeout(to);el.querySelector('.leak').classList.remove('on');el.querySelector('.person').classList.remove('on');trip.classList.remove('on');st.classList.remove('fault');txt.textContent='Balanced — out equals back. Holding.';read.innerHTML='Hot out: <b>15.000 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b>0 mA</b>';fbtn.textContent='Introduce a ground fault';dots();}
+    fbtn.onclick=()=>{f=!f;if(f){el.querySelector('.leak').classList.add('on');el.querySelector('.person').classList.add('on');st.classList.add('fault');txt.textContent='Imbalance — current is leaking to ground.';read.innerHTML='Hot out: <b>15.006 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b style="color:var(--fail)">6 mA</b>';fbtn.textContent='Clear the fault';dots();to=setTimeout(()=>trip.classList.add('on'),650);}else reset();};
+    el.querySelector('.grst').onclick=reset;dots();},
+  match(el,k){const c=MATCH[k];const sh=a=>a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v[1]);let sel=null,locked=0;
+    el.innerHTML=`<span class="wlabel">Match drill</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="match"><div class="mcol"><div class="ch">${c.left}</div><div class=" L"></div></div><div class="mcol"><div class="ch">${c.right}</div><div class="R"></div></div></div><div class="md"></div>`;
+    const L=el.querySelector('.L'),R=el.querySelector('.R'),done=el.querySelector('.md');
+    c.pairs.forEach(p=>{const b=document.createElement('button');b.className='chip';b.textContent=p[0];b.dataset.a=p[0];b.dataset.s='L';L.appendChild(b);});
+    sh(c.pairs.map(p=>p[1])).forEach(v=>{const b=document.createElement('button');b.className='chip';b.textContent=v;b.dataset.b=v;b.dataset.s='R';R.appendChild(b);});
+    el.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{if(b.classList.contains('locked'))return;
+      if(!sel){sel=b;b.classList.add('sel');return;}if(sel===b){b.classList.remove('sel');sel=null;return;}if(sel.dataset.s===b.dataset.s){sel.classList.remove('sel');sel=b;b.classList.add('sel');return;}
+      const left=sel.dataset.s==='L'?sel:b,right=sel.dataset.s==='R'?sel:b,ok=c.pairs.find(p=>p[0]===left.dataset.a)[1]===right.dataset.b;
+      if(ok){[left,right].forEach(x=>{x.classList.remove('sel');x.classList.add('locked');});locked++;if(locked===c.pairs.length)done.innerHTML=`<div class="w-done">${c.done}</div>`;}
+      else{[left,right].forEach(x=>{x.classList.add('miss');setTimeout(()=>x.classList.remove('miss','sel'),350);});}sel=null;});},
+  sort(el,k){const c=SORT[k];let sel=null,placed=0;
+    el.innerHTML=`<span class="wlabel">Sort it</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="sort"><div class="sort-items">${c.items.map((it,i)=>`<button class="sitem" data-i="${i}">${it.t}</button>`).join('')}</div><div class="bins">${c.bins.map((b,bi)=>`<div class="bin" data-bin="${bi}"><div class="bt">${b}</div><div class="drop">tap an item, then tap here</div></div>`).join('')}</div></div><div class="md"></div>`;
+    const items=el.querySelectorAll('.sitem'),bins=el.querySelectorAll('.bin'),done=el.querySelector('.md');
+    items.forEach(it=>it.onclick=()=>{if(it.classList.contains('placed'))return;el.querySelectorAll('.sitem').forEach(x=>x.classList.remove('sel'));sel=it;it.classList.add('sel');});
+    bins.forEach(bin=>bin.onclick=()=>{if(!sel)return;const i=+sel.dataset.i,bi=+bin.dataset.bin,ok=c.items[i].bin===bi;
+      const row=document.createElement('div');row.className='binitem '+(ok?'right':'wrong');row.innerHTML=(ok?sv(ic.check,2.6):sv(ic.x,2.6))+' '+c.items[i].t;bin.querySelector('.drop').remove?bin.querySelector('.drop')&&(bin.querySelector('.drop').style.display='none'):0;bin.appendChild(row);
+      sel.classList.add('placed');sel=null;placed++;if(placed===c.items.length)done.innerHTML=`<div class="w-done">${c.done}</div>`;});},
+  est(el){el.innerHTML=`<span class="wlabel">Field tool</span><div class="wtitle">Service-size estimator</div><div class="wsub">Set what you'd read on site; it calls the size and flags an unsafe mismatch — your on-site logic.</div>
+    <div class="est"><div><label>Service-entrance conductor (copper)</label><select class="sew"><option value="6">#6 AWG</option><option value="4">#4 AWG</option><option value="2" selected>2/0 AWG</option><option value="0">4/0 AWG</option></select></div><div><label>Main breaker rating</label><select class="mbk"><option value="60">60 A</option><option value="100">100 A</option><option value="200" selected>200 A</option><option value="400">400 A</option></select></div><div class="est-out"></div></div>`;
+    const WA={'6':60,'4':100,'2':200,'0':400},WL={'6':'#6 AWG','4':'#4 AWG','2':'2/0 AWG','0':'4/0 AWG'},sew=el.querySelector('.sew'),mbk=el.querySelector('.mbk'),out=el.querySelector('.est-out');
+    function go(){const w=sew.value,b=+mbk.value,sup=WA[w];if(b>sup){out.className='est-out bad';out.innerHTML=`<div class="ev">⚠ Overfused — unsafe</div><div class="ed">A ${b} A main on ${WL[w]} copper (good for ~${sup} A) won't shut off before the conductor overheats. Report: overcurrent device oversized for the service-entrance conductor.</div>`;}else{const ap=Math.min(b,sup);out.className='est-out ok';out.innerHTML=`<div class="ev">${ap} A service</div><div class="ed">${WL[w]} copper supports ~${sup} A and the main is ${b} A — conductor protected. Report the service size as ${ap} A${b<sup?' (limited by the main breaker)':''}.</div>`;}}
+    sew.onchange=go;mbk.onchange=go;go();},
+  era(el,k){const c=ERA[k];el.innerHTML=`<span class="wlabel">Explore</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="era"><div class="line"></div>${c.rows.map((r,i)=>`<div class="erow" data-i="${i}"><span class="ed"></span><span class="et">${r.d}</span><div><div class="en">${r.n}</div><div class="ex">${r.x}</div></div></div>`).join('')}</div>`;
+    el.querySelectorAll('.erow').forEach(r=>r.onclick=()=>r.classList.toggle('open'));}
+};
+function wireWidgets(root){root.querySelectorAll('.wmount').forEach(el=>{const w=el.dataset.w,k=el.dataset.k;if(WID[w])WID[w](el,k);});}
+function W(w,k){return `<div class="widget wmount" data-w="${w}" data-k="${k||''}"></div>`;}
+
+/* ================= ENGINE ================= */
+const KEY='ati_cooling_ix_v1';
+let S={done:{},quiz:{},assessBest:0,cur:0};
+async function load(){try{const r=await window.storage.get(KEY,false);if(r&&r.value)S=JSON.parse(r.value);}catch(e){}S.done=S.done||{};S.quiz=S.quiz||{};}
+async function save(){try{await window.storage.set(KEY,JSON.stringify(S),false);}catch(e){}}
+const stepDone=i=>!!S.done[STEPS[i].id];
+const pct=()=>Math.round(Object.keys(S.done).length/STEPS.length*100);
+const unlocked=i=>i===0?true:stepDone(i-1);
+const view=document.getElementById('view');
+function updTop(){const p=pct();document.getElementById('pbar').style.width=p+'%';document.getElementById('ppc').textContent=p+'%';}
+function rail(){document.getElementById('rail').innerHTML=STEPS.map((s,i)=>{const d=stepDone(i),u=unlocked(i),a=i===S.cur;return `<button class="step ${d?'done':''} ${a?'active':''} ${u?'':'locked'}" ${u?`onclick="goStep(${i})"`:''}><span class="dot">${d?sv(ic.check,3):(i+1)}</span><span class="lbl">${s.label}<span class="kind">${s.kind}</span></span></button>`;}).join('');}
+function goStep(i){if(!unlocked(i))return;S.cur=i;save();render();window.scrollTo({top:0,behavior:'smooth'});}
+function markDoneAndNext(){S.done[STEPS[S.cur].id]=true;save();updTop();rail();if(S.cur<STEPS.length-1)goStep(S.cur+1);else render();}
+function render(){updTop();rail();const s=STEPS[S.cur];({lesson:renderLesson,scenario:renderScenarios,assess:renderAssess,glossary:renderGlossary,source:renderSource}[s.type])(s);}
+function navFoot(label,gated){const last=S.cur===STEPS.length-1;return `<div class="foot">${S.cur>0?`<button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button>`:''}<div class="sp"></div><button class="btn brass" id="nextBtn" ${gated?'disabled':''} onclick="markDoneAndNext()">${label||(last?'Finish section':'Mark complete & continue')} ${sv(ic.arrow)}</button></div>`;}
+
+function renderLesson(s){
+  let h=(typeof s.body==='function'?s.body():s.body);
+  if(s.quiz&&s.quiz.length){
+    h+=`<div class="quiz"><div class="qh">${sv(ic.brain)} Check your understanding</div><div class="qt">${s.label}</div><div class="qsub">${s.quiz.length} questions covering the lesson — answer each to see the reasoning.</div><div class="qbody">${
+      s.quiz.map((q,qi)=>`<div class="qblock"><div class="qnum">Question ${qi+1} of ${s.quiz.length}</div><div class="q">${q.q}</div><div class="opts" data-qi="${qi}">${q.o.map((o,k)=>`<button class="opt" onclick="qAns(${qi},${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="qexp" data-qi="${qi}"></div></div>`).join('')
+    }</div><div class="qscore" style="display:none"></div></div>`;
+  }
+  const gated=!!(s.quiz&&s.quiz.length&&!S.quiz[s.id]);
+  view.innerHTML=h+navFoot(null,gated);
+  wireWidgets(view);
+  window._ql={answered:{},total:s.quiz?s.quiz.length:0};
+}
+function qAns(qi,k){const s=STEPS[S.cur],q=s.quiz[qi];if(window._ql.answered[qi]!==undefined)return;window._ql.answered[qi]=k;
+  const opts=view.querySelector('.opts[data-qi="'+qi+'"]');opts.querySelectorAll('.opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===q.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});
+  view.querySelector('.qexp[data-qi="'+qi+'"]').innerHTML=`<div class="exp"><b>${k===q.a?'Correct.':'Review:'}</b> ${q.e}</div>`;
+  if(Object.keys(window._ql.answered).length===window._ql.total){
+    const right=s.quiz.filter((q,i)=>window._ql.answered[i]===q.a).length,sc=view.querySelector('.qscore');sc.style.display='flex';
+    sc.innerHTML=`${sv(ic.check,2.4)}<span>You scored <b style="color:${right>=Math.ceil(s.quiz.length*0.8)?'var(--pass)':'var(--fail)'}">${right}/${s.quiz.length}</b> on this lesson.</span>`;
+    sc.querySelector('svg').style.color=right>=Math.ceil(s.quiz.length*0.8)?'var(--pass)':'var(--fail)';
+    S.quiz[s.id]=true;save();const b=document.getElementById('nextBtn');if(b)b.disabled=false;}
+}
+
+let SC={i:0,answered:false};
+function renderScenarios(){SC={i:0,answered:false};paintScen();}
+function paintScen(){const sc=SCEN[SC.i];view.innerHTML=`<span class="eyebrow">Apply it · Inspector's Call</span><h1>Make the call</h1><p class="lead">The decisions you'll actually make standing in front of the system. Read it, choose, see the reasoning.</p><div class="scount mono">Scenario ${SC.i+1} of ${SCEN.length}</div><div class="scen"><div class="sh"><div class="t">${sc.t}</div><div class="n">${sc.n}</div></div><div class="body"><div class="situation">${sc.s}</div><div class="ask">${sc.ask}</div><div class="scopts">${sc.o.map((o,k)=>`<button class="opt" onclick="scAns(${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="scexp"></div></div></div><div class="foot"><button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button><div class="sp"></div><div class="scnext"></div></div>`;}
+function scAns(k){if(SC.answered)return;SC.answered=true;const sc=SCEN[SC.i];view.querySelectorAll('.scopts .opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===sc.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});view.querySelector('.scexp').innerHTML=`<div class="exp"><b>${k===sc.a?'Right call.':'Here\'s the call:'}</b> ${sc.e}</div>`;const last=SC.i===SCEN.length-1;view.querySelector('.scnext').innerHTML=`<button class="btn brass" onclick="${last?'markDoneAndNext()':'scNext()'}">${last?'Mark complete & continue':'Next scenario'} ${sv(ic.arrow)}</button>`;}
+function scNext(){SC.i++;SC.answered=false;paintScen();window.scrollTo({top:0,behavior:'smooth'});}
+
+let AS=null;
+function renderAssess(){if(!AS||AS.done)AS={i:0,answers:[],done:false};view.innerHTML=`<span class="eyebrow">Assessment</span><h1>Mastery check — Cooling & Heat Pumps</h1><p class="lead">${ASSESS.length} application questions across the whole chapter. 80% to pass; reasoning shown on every answer.</p><div class="panelcard" style="text-align:left;padding:0;overflow:hidden"><div style="background:linear-gradient(120deg,#3c5870,#2c4153);color:#fff;padding:18px 22px;display:flex;justify-content:space-between;align-items:center"><div><div style="font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-2)">Cooling &amp; Heat Pumps</div><div style="font-family:var(--display);font-weight:700;font-size:17px;margin-top:3px">${ASSESS.length} questions · 80% to pass</div></div><div style="color:var(--brass-2)">${sv(ic.award)}</div></div><div style="padding:26px 22px;text-align:center">${S.assessBest?`<div class="mono" style="font-size:13px;color:var(--ink-2);margin-bottom:16px">Best score: <b style="color:${S.assessBest>=80?'var(--pass)':'var(--fail)'}">${S.assessBest}%</b></div>`:''}<button class="btn brass" style="margin:0 auto" onclick="asStart()">${S.assessBest?'Retake assessment':'Begin assessment'} ${sv(ic.arrow)}</button></div></div>`;}
+function asStart(){AS={i:0,answers:[],done:false};asPaint();window.scrollTo({top:0,behavior:'smooth'});}
+function asPaint(){const q=ASSESS[AS.i];view.innerHTML=`<span class="eyebrow">Assessment · Electrical</span><h1 style="font-size:24px">Question ${AS.i+1} <span style="color:var(--ink-3)">/ ${ASSESS.length}</span></h1><div style="margin:14px 0 0"><div style="width:100%;height:6px;background:var(--surf-3);border-radius:6px;overflow:hidden;border:1px solid var(--line)"><i style="display:block;height:100%;width:${AS.i/ASSESS.length*100}%;background:var(--brass)"></i></div></div><div class="quiz" style="border-color:var(--line);margin-top:22px"><div class="q">${q.q}</div><div class="opts">${q.o.map((o,k)=>`<button class="opt" onclick="asAns(${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="asexp"></div></div><div class="foot"><div class="sp"></div><div class="asnext"></div></div>`;}
+function asAns(k){if(AS.answers[AS.i]!==undefined)return;AS.answers[AS.i]=k;const q=ASSESS[AS.i];view.querySelectorAll('.opts .opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===q.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});view.querySelector('.asexp').innerHTML=`<div class="exp"><b>${k===q.a?'Correct.':'Review:'}</b> ${q.e}</div>`;const last=AS.i===ASSESS.length-1;view.querySelector('.asnext').innerHTML=`<button class="btn brass" onclick="${last?'asFinish()':'asNext()'}">${last?'See results':'Next'} ${sv(ic.arrow)}</button>`;}
+function asNext(){AS.i++;asPaint();window.scrollTo({top:0,behavior:'smooth'});}
+function asFinish(){const correct=AS.answers.filter((a,i)=>a===ASSESS[i].a).length,p=Math.round(correct/ASSESS.length*100),pass=p>=80;S.assessBest=Math.max(S.assessBest||0,p);AS.done=true;if(pass)S.done['assess']=true;save();updTop();rail();const circ=2*Math.PI*62;
+  view.innerHTML=`<span class="eyebrow">Assessment · Result</span><h1 style="margin-bottom:18px">${pass?'Section mastered':'Not quite there'}</h1><div class="panelcard"><div class="ring"><svg width="150" height="150" viewBox="0 0 150 150" style="transform:rotate(-90deg)"><circle cx="75" cy="75" r="62" fill="none" stroke="var(--surf-3)" stroke-width="11"/><circle cx="75" cy="75" r="62" fill="none" stroke="${pass?'var(--pass)':'var(--fail)'}" stroke-width="11" stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${circ}"><animate attributeName="stroke-dashoffset" from="${circ}" to="${circ-circ*p/100}" dur=".8s" fill="freeze" calcMode="spline" keySplines=".2 .7 .2 1"/></circle></svg><div class="rv"><div><div class="n" style="color:${pass?'var(--pass)':'var(--fail)'}">${p}%</div><div class="p">${correct}/${ASSESS.length} correct</div></div></div></div><span class="verdict ${pass?'pass':'fail'}">${pass?'Passed':'Below 80%'}</span><p>${pass?'You\'ve cleared Cooling &amp; Heat Pumps. Same loop, same depth — Heating is next, then Insulation &amp; Ventilation and Plumbing.':'You need 80% to pass. Revisit the lessons and explanations, then retake — your best score counts.'}</p><div style="display:flex;gap:12px;justify-content:center"><button class="btn ghost" onclick="asStart()">${sv(ic.retake)} Retake</button>${pass?`<button class="btn brass" onclick="goStep(${STEPS.length-1})">Continue ${sv(ic.arrow)}</button>`:`<button class="btn brass" onclick="goStep(1)">Review lessons ${sv(ic.arrow)}</button>`}</div></div><div style="height:30px"></div>`;}
+
+function renderGlossary(){view.innerHTML=`<span class="eyebrow">Reference</span><h1>Cooling &amp; Heat Pumps glossary</h1><p class="lead">Every key term in one place — quick reference for a real inspection.</p><div class="gloss" style="margin-top:20px">${GLOSSARY.map(([w,d])=>`<div class="term"><div class="tw">${w}</div><div class="td">${d}</div></div>`).join('')}</div>${navFoot('Continue')}`;}
+function renderSource(){view.innerHTML=`<span class="eyebrow">Deep reading · optional</span><h1>The full source chapter</h1><p class="lead">Everything required is taught in the lessons — the complete original chapter is here for the deepest dive.</p><div class="srcnote">${sv(ic.book,2)} <b>Chapter 12 — Air Conditioning &amp; Heat Pumps</b> · <i>Principles of Home Inspection: Systems and Standards</i>. If the viewer is blank, the PDF needs to sit alongside this file — <a href="cooling-chapter.pdf" target="_blank">open it in a new tab</a>.</div><iframe class="srcframe" src="cooling-chapter.pdf"></iframe><div style="margin-top:14px"><a class="btn slate" href="cooling-chapter.pdf" target="_blank">${sv(ic.open)} Open full chapter (PDF)</a></div><div class="foot"><button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button><div class="sp"></div><a class="btn slate" href="index.html" style="text-decoration:none;margin-right:10px">${sv(ic.back)} Module II</a><button class="btn brass" onclick="finishAll()">${sv(ic.check)} Complete section</button></div>`;}
+function finishAll(){S.done['source']=true;save();updTop();rail();toast('Electrical Systems section complete');}
+let tT;function toast(m){const t=document.getElementById('toast');document.getElementById('tmsg').textContent=m;t.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('show'),2400);}
+
+/* ================= DATA: scenarios / assessment / glossary ================= */
+const SCEN=[
+ {t:'On the roof of the house',n:'The cold-day test',s:'It\'s a 48°F morning and the buyer wants you to "just turn the AC on to make sure it works."',ask:'What do you do?',o:['Run it for a few minutes — that\'s long enough to be safe','Decline to run the compressor; note it as not tested due to low outdoor temperature and recommend a return visit in season','Run it for 30 minutes to be thorough','Turn it on and off rapidly to test the controls'],a:1,e:'Below ~65°F, refrigerant pools in the oil and starting the compressor can seize it. Report it as not tested due to temperature and recommend in-season verification.'},
+ {t:'In the living room',n:'Cool but clammy',s:'The thermostat reads 72°F but the house feels damp, and you notice the unit kicking on and off in short bursts.',ask:'Most likely diagnosis?',o:['Undersized system','Oversized system — short cycling and poor dehumidification','Low refrigerant only','A bad thermostat'],a:1,e:'Cool-but-clammy plus short cycling is the classic oversized signature: it satisfies temperature fast and shuts off before removing humidity, and the frequent starts shorten compressor life.'},
+ {t:'At the far bedroom',n:'One room never cools',s:'Every room is comfortable except the bedroom farthest from the air handler, which stays warm.',ask:'Where do you look first?',o:['Replace the compressor','Distribution — crushed flex, a disconnected or undersized duct, or a closed return','Add refrigerant','Increase the thermostat setting'],a:1,e:'Uneven cooling points to distribution before capacity. Check for crushed flex, disconnected runs, undersized branches, and blocked returns to that room.'},
+ {t:'At the indoor coil',n:'A block of ice',s:'The evaporator coil is encased in ice and the supply air is weak.',ask:'Cause and action?',o:['Too much airflow; speed up the blower','Too little airflow or low charge; stop the unit, let it thaw, and recommend evaluation','Normal in humid weather; ignore it','Oversized condenser fan'],a:1,e:'A frozen coil comes from starved airflow (dirty filter, weak blower) or low refrigerant. Shut it down, let it thaw, and recommend evaluation — running it iced does no good.'},
+ {t:'At the line set',n:'The oily smudge',s:'You spot a glistening, oily film at a fitting on the refrigerant line.',ask:'How do you handle it?',o:['Wipe it off and move on','Note a probable refrigerant leak and recommend evaluation by a technician','Add refrigerant yourself','Tighten the fitting'],a:1,e:'Refrigerant carries oil, so an oily residue is the visual signature of a leak. You don\'t service the sealed circuit — document it and refer to a technician.'},
+ {t:'Winter inspection',n:'Steaming outside',s:'A buyer panics that the heat pump is "broken" — it briefly blew cool air and the outdoor unit was steaming.',ask:'Your explanation?',o:['The compressor has failed','It was a normal defrost cycle melting ice off the outdoor coil','The refrigerant is overcharged','The reversing valve is stuck'],a:1,e:'Defrost briefly reverses the unit to de-ice the outdoor coil, so indoor air goes cool and the outdoor unit steams. It\'s normal heat-pump behavior, not a fault.'},
+ {t:'In the basement',n:'The wet ceiling',s:'Below an attic air handler you find a water-stained ceiling, and the unit has no float switch or secondary pan.',ask:'What do you report?',o:['Nothing — some staining is normal','A condensate overflow risk: the primary drain likely clogged and there\'s no backup protection. Recommend correction','Replace the compressor','Add refrigerant'],a:1,e:'Equipment over finished space needs a secondary pan, secondary drain, or float switch. The staining shows the primary drain backed up; recommend backup protection and clearing the drain.'},
+];
+const ASSESS=[
+ {q:'An air conditioner cools a house by:',o:['Creating cold air','Moving heat from indoors to outdoors with refrigerant','Adding cool refrigerant to the air','Lowering the air pressure'],a:1,e:'It moves heat outdoors — it never creates coldness.'},
+ {q:'The compressor\'s function is to:',o:['Release heat outdoors','Pump and pressurize the refrigerant','Absorb heat indoors','Drain condensate'],a:1,e:'The compressor pressurizes the refrigerant and drives it around the loop — the heart of the system.'},
+ {q:'Compared with undersizing, oversizing an AC is:',o:['Always preferable','The worse problem — short cycling and poor dehumidification','Identical','Required in dry climates'],a:1,e:'Oversized units short cycle, leave the house clammy, and wear out early. Better to slightly undersize.'},
+ {q:'A healthy evaporator temperature split is about:',o:['2–5°F','15–20°F','35–40°F','60–70°F'],a:1,e:'About 15–20°F across the coil after the unit runs ~15 minutes.'},
+ {q:'You should not run the compressor below:',o:['85°F','65°F','45°F','32°F'],a:1,e:'Below ~65°F refrigerant can condense into the oil; starting on it can seize the compressor.'},
+ {q:'A crankcase (sump) heater:',o:['Heats the house','Keeps compressor oil warm so refrigerant boils out of it','Defrosts the indoor coil','Drives the condenser fan'],a:1,e:'It keeps the oil warm enough to drive refrigerant out — which is why a unit isn\'t ready instantly after a long shutoff.'},
+ {q:'After a low-torque compressor shuts off, wait about ___ before restarting.',o:['5 seconds','30 seconds','5 minutes','2 hours'],a:2,e:'About five minutes for the capillary tube to equalize pressure; restarting against high head pressure can damage it.'},
+ {q:'Typical compressor life expectancy is roughly:',o:['3–5 years','10–15 years','25 years','40 years'],a:1,e:'About 10–15 years; flag units near the end of their expectancy.'},
+ {q:'A frozen evaporator coil is usually caused by:',o:['Too much airflow','Too little airflow or low refrigerant','High outdoor humidity','An oversized condenser'],a:1,e:'Starved airflow (dirty filter, weak blower) or low charge drops the coil below freezing; ice then blocks airflow further.'},
+ {q:'A condensate float switch is there to:',o:['Speed the drain','Shut the unit off if water backs up, preventing overflow','Cool the refrigerant','Increase airflow'],a:1,e:'It\'s backup protection against a clogged primary drain flooding the space below.'},
+ {q:'On a standard AC, the insulated refrigerant line is the:',o:['Liquid line','Suction line carrying cold gas','Condensate line','Ground'],a:1,e:'The large suction line carries cold gas back to the compressor and must be insulated.'},
+ {q:'An oily film at a line fitting indicates:',o:['Normal lubrication','A probable refrigerant leak','Condensate','Excess insulation'],a:1,e:'Refrigerant carries oil, so oily residue is the classic leak sign. Refer to a technician.'},
+ {q:'Ducts designed for heating are commonly ___ for cooling.',o:['Oversized','Undersized','Perfectly matched','Unusable'],a:1,e:'Cooling moves about twice the air (~400–450 CFM/ton), so heating ducts often can\'t keep up.'},
+ {q:'The component that lets a heat pump both heat and cool is the:',o:['Crankcase heater','Reversing valve','Expansion device','Condensate pump'],a:1,e:'The reversing valve switches refrigerant flow so the system can run in either direction.'},
+ {q:'A heat pump steaming outdoors in winter for a few minutes is:',o:['A failing compressor','A normal defrost cycle','A refrigerant leak','An overfilled drain pan'],a:1,e:'Defrost briefly reverses to de-ice the outdoor coil — normal behavior.'},
+];
+const GLOSSARY=[
+ ['Refrigerant','The fluid that carries heat through the system, boiling and condensing as its pressure changes.'],
+ ['Compressor','The pump that pressurizes refrigerant and drives it around the loop — the heart of the system and costliest part to replace.'],
+ ['Condenser','The outdoor coil where hot refrigerant gives up heat to the outside air and condenses to liquid.'],
+ ['Evaporator','The indoor coil where cold refrigerant absorbs heat from house air and boils to gas — where the home actually cools.'],
+ ['Expansion / metering device','A capillary tube or thermostatic expansion valve (TXV) that drops pressure and meters refrigerant into the evaporator.'],
+ ['Ton','A unit of cooling capacity — one ton = 12,000 BTU/hr.'],
+ ['Temperature split','The drop in air temperature across the evaporator coil; ~15–20°F is healthy after the unit runs.'],
+ ['CFM per ton','Airflow benchmark — cooling moves ~400–450 CFM per ton, about double a heating system.'],
+ ['Crankcase / sump heater','A heater that keeps compressor oil warm so liquid refrigerant boils out of it.'],
+ ['Suction line','The large, insulated line carrying cold low-pressure gas back to the compressor.'],
+ ['Liquid line','The small, bare line carrying warm high-pressure liquid toward the evaporator.'],
+ ['Short cycling','Rapid on/off operation — often a sign of an oversized unit; hard on the compressor.'],
+ ['Condensate','Water pulled from the air by the cold coil; routed away by a drain system.'],
+ ['Drain pan','The tray that catches condensate beneath the evaporator coil.'],
+ ['Float switch','A safety that shuts the unit off if condensate backs up, preventing an overflow.'],
+ ['Condensate pump','A pump that lifts condensate to a drain where gravity won\'t carry it.'],
+ ['Split system','The common arrangement — condensing unit outdoors, evaporator/air handler indoors, joined by refrigerant lines.'],
+ ['Reversing valve','The heat-pump component that reverses refrigerant flow so the system can heat as well as cool.'],
+ ['Defrost cycle','A heat pump briefly reversing in winter to melt frost off the outdoor coil — normal, looks like steaming.'],
+ ['Auxiliary / supplementary heat','Backup heat (usually electric strips) that assists a heat pump on cold days.'],
+ ['Emergency heat','A thermostat setting that runs the backup heat alone, with the compressor off.'],
+ ['Heat pump','An air conditioner with a reversing valve, able to move heat into the house in winter and out in summer.'],
+];
+
+/* ================= WIDGET CONTENT REGISTRIES ================= */
+const _gs='fill="none" stroke="#3c5870" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"';
+const _mono=(x,y,s,t,c='#2c4153',a='middle')=>`<text x="${x}" y="${y}" text-anchor="${a}" font-family="JetBrains Mono" font-size="${s}" fill="${c}">${t}</text>`;
+
+WID.cycle=(el)=>{
+  const F={comp:'Compressor — the pump that drives the refrigerant. It squeezes low-pressure cool gas into high-pressure hot gas. It is the heart of the system and the most expensive part to replace.',cond:'Condenser (outdoors) — the hot refrigerant gas gives up its heat to the outside air here and condenses into a warm liquid. This is where the heat you removed from the house is dumped.',exp:'Expansion device — a tiny restriction (capillary tube or valve) that drops the pressure suddenly. The refrigerant flashes cold, ready to absorb heat.',evap:'Evaporator (indoors) — the cold refrigerant absorbs heat from the house air blowing across the coil and boils back into a gas. This is where your house actually gets cooler.'};
+  el.innerHTML=`<span class="wlabel">Animated diagram</span><div class="wtitle">The refrigeration cycle</div><div class="wsub">Air conditioning doesn't make cold — it moves heat from inside to outside. Watch the refrigerant loop, and tap each component to see its one job.</div>
+   <div style="background:var(--slate-deep);border-radius:13px;padding:10px;position:relative;overflow:hidden">
+   <svg viewBox="0 0 560 300" style="display:block;width:100%;height:auto">
+     <defs><path id="cycpath" d="M140 230 L140 70 L420 70 L420 230 Z" fill="none"/>
+     <marker id="ca" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="none" stroke="#c2841c" stroke-width="1.5"/></marker></defs>
+     <line x1="280" y1="20" x2="280" y2="280" stroke="#5a7488" stroke-width="1.4" stroke-dasharray="5 5"/>
+     <text x="200" y="36" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#7fa8c4">OUTDOORS</text>
+     <text x="372" y="36" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#7fa8c4">INDOORS</text>
+     <path d="M140 230 L140 70 L420 70 L420 230 Z" fill="none" stroke="#6a87a0" stroke-width="2"/>
+     <path d="M150 150 L120 150" stroke="#c2841c" stroke-width="2" marker-end="url(#ca)"/><path d="M138 158 L120 158" stroke="#c2841c" stroke-width="2" marker-end="url(#ca)"/><text x="92" y="146" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#c2841c">heat</text><text x="92" y="158" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#c2841c">OUT</text>
+     <path d="M440 150 L410 150" stroke="#7fa8c4" stroke-width="2" marker-end="url(#ca)"/><path d="M452 158 L432 158" stroke="#7fa8c4" stroke-width="2" marker-end="url(#ca)"/><text x="478" y="146" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#7fa8c4">heat</text><text x="478" y="158" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#7fa8c4">IN</text>
+     <g class="cycst" data-s="comp" style="cursor:pointer"><rect x="100" y="212" width="80" height="36" rx="6" fill="#3a3526" stroke="#c2841c" stroke-width="1.6"/><text x="140" y="234" text-anchor="middle" font-family="Bricolage Grotesque" font-weight="700" font-size="12" fill="#fff">Compressor</text></g>
+     <g class="cycst" data-s="cond" style="cursor:pointer"><rect x="100" y="52" width="80" height="36" rx="6" fill="#3a3526" stroke="#9fb0bd" stroke-width="1.6"/><text x="140" y="74" text-anchor="middle" font-family="Bricolage Grotesque" font-weight="700" font-size="12" fill="#fff">Condenser</text></g>
+     <g class="cycst" data-s="exp" style="cursor:pointer"><rect x="380" y="52" width="80" height="36" rx="6" fill="#3a3526" stroke="#9fb0bd" stroke-width="1.6"/><text x="420" y="70" text-anchor="middle" font-family="Bricolage Grotesque" font-weight="700" font-size="11" fill="#fff">Expansion</text><text x="420" y="82" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#9fb0bd">device</text></g>
+     <g class="cycst" data-s="evap" style="cursor:pointer"><rect x="380" y="212" width="80" height="36" rx="6" fill="#3a3526" stroke="#7fa8c4" stroke-width="1.6"/><text x="420" y="234" text-anchor="middle" font-family="Bricolage Grotesque" font-weight="700" font-size="12" fill="#fff">Evaporator</text></g>
+     ${[0,1,2,3,4,5].map(i=>`<circle r="5" fill="${i<3?'#c2841c':'#7fa8c4'}"><animateMotion dur="7s" repeatCount="indefinite" begin="-${i*1.16}s"><mpath href="#cycpath"/></animateMotion></circle>`).join('')}
+   </svg>
+   <div class="cyc-info" style="margin-top:8px;background:rgba(255,255,255,.06);border-radius:9px;padding:11px 13px;font-size:13px;color:#c4cdd4;line-height:1.55;min-height:54px">Tap a component above to see what it does.</div>
+   </div>`;
+  const info=el.querySelector('.cyc-info');
+  el.querySelectorAll('.cycst').forEach(g=>g.onclick=()=>{el.querySelectorAll('.cycst rect').forEach(r=>r.setAttribute('fill','#3a3526'));g.querySelector('rect').setAttribute('fill','#5a4a1e');info.innerHTML=F[g.dataset.s];});
+};
+
+WID.sizer=(el)=>{
+  el.innerHTML=`<span class="wlabel">Field tool</span><div class="wtitle">Cooling-load estimator</div><div class="wsub">Inspectors don't do formal load calcs, but you give clients a read. Set the home and climate, then compare the installed size.</div>
+   <div class="est"><div><label>Conditioned floor area</label><select class="sf"><option value="1000">1,000 sq ft</option><option value="1500">1,500 sq ft</option><option value="2000" selected>2,000 sq ft</option><option value="2500">2,500 sq ft</option><option value="3000">3,000 sq ft</option></select></div>
+   <div><label>Climate</label><select class="rg"><option value="south" selected>Southern US (hot)</option><option value="north">Northern US (mild)</option></select></div>
+   <div><label>Installed compressor size</label><select class="ts"><option value="1.5">1.5 tons</option><option value="2">2 tons</option><option value="2.5">2.5 tons</option><option value="3" selected>3 tons</option><option value="4">4 tons</option><option value="5">5 tons</option></select></div>
+   <div style="display:flex;align-items:flex-end"><div class="est-out" style="margin:0;width:100%"></div></div></div>`;
+  const sf=el.querySelector('.sf'),rg=el.querySelector('.rg'),ts=el.querySelector('.ts'),out=el.querySelector('.est-out');
+  function go(){const a=+sf.value,south=rg.value==='south',lo=south?700:1000,hi=south?450:700;
+    const minT=a/lo, maxT=a/hi, inst=+ts.value, mid=(minT+maxT)/2;
+    let cls,ev,ed;
+    if(inst>maxT*1.15){cls='bad';ev='Likely oversized';ed=`At ${a.toLocaleString()} sq ft in this climate, roughly ${minT.toFixed(1)}–${maxT.toFixed(1)} tons fits. ${inst} tons is high — expect short cycling, a clammy house, and shortened compressor life.`;}
+    else if(inst<minT*0.85){cls='bad';ev='Likely undersized';ed=`Roughly ${minT.toFixed(1)}–${maxT.toFixed(1)} tons fits here. ${inst} tons is low — it may run nonstop and never catch up on the hottest days.`;}
+    else{cls='ok';ev='In the right range';ed=`≈ ${minT.toFixed(1)}–${maxT.toFixed(1)} tons suits ${a.toLocaleString()} sq ft in this climate. ${inst} tons fits. Installers often slightly undersize on purpose — that's fine; oversizing is the bigger problem.`;}
+    out.className='est-out '+cls;out.innerHTML=`<div class="ev">${ev}</div><div class="ed">${ed}</div>`;}
+  sf.onchange=go;rg.onchange=go;ts.onchange=go;go();
+};
+
+SPOT.outdoor={title:'Walk up to the condensing unit',sub:'Five problems on this outdoor unit — click each one.',vb:'0 0 520 320',
+ svg:`<g ${_gs}>
+   <rect x="200" y="120" width="150" height="150" rx="6"/><line x1="200" y1="120" x2="350" y2="120"/>
+   <g stroke-width="1">${[0,1,2,3,4,5,6].map(i=>`<line x1="${212+i*20}" y1="128" x2="${212+i*20}" y2="262"/>`).join('')}</g>
+   <circle cx="275" cy="100" r="26" fill="none"/><line x1="260" y1="100" x2="290" y2="100"/><line x1="275" y1="85" x2="275" y2="115"/>${_mono(275,78,8,'fan')}
+   <line x1="20" y1="278" x2="500" y2="278" stroke-width="2"/>${_mono(60,296,9,'grade','#918c7d','start')}
+   <!-- D1 no clearance: wall hard against unit -->
+   <line x1="180" y1="110" x2="180" y2="278" stroke="#8a8475" stroke-width="6"/>${_mono(150,150,8,'wall','#b85436')}
+   <!-- D2 vegetation blocking airflow -->
+   <path d="M360 270 q 10 -40 22 -30 q -4 -22 16 -18 q 8 -20 22 -2 q 18 -6 10 22 q 16 6 0 26 z" fill="#7d8a5a" opacity="0.6" stroke="#5a6a3a"/>${_mono(412,300,8,'shrubs','#b85436')}
+   <!-- D3 not level / unstable base -->
+   <path d="M200 270 L350 282" stroke="#b85436" stroke-width="2"/>${_mono(275,300,8,'unit tilted','#b85436')}
+   <!-- D4 refrigerant line not insulated -->
+   <path d="M200 160 H 120 V 240" stroke="#6a6557" stroke-width="2.4"/>${_mono(96,200,8,'bare','#b85436')}<path d="M200 175 H 130 V 250" stroke="#6a6557" stroke-width="1.2"/>
+   <!-- D5 debris/leaves on top -->
+   <path d="M210 120 q 6 -8 12 0 q 6 -8 12 0 q 6 -8 12 0" stroke="#9c6b3a" stroke-width="2" fill="none" opacity="0.7"/>${_mono(300,114,8,'debris on coil','#b85436')}
+ </g>`,
+ defects:[
+  {x:182,y:180,r:26,n:'No clearance to the wall',d:'The condenser needs open air on all sides — typically a foot or more — to reject heat. Crowded against a wall, it loses efficiency and overheats.'},
+  {x:395,y:262,r:28,n:'Vegetation blocking airflow',d:'Shrubs and tall grass starve the coil of air. Recommend clearing growth back from the unit.'},
+  {x:275,y:278,r:30,n:'Unit not level / unstable base',d:'A tilted or settling pad stresses the lines and can let oil pool away from the compressor. It should sit level on a stable pad.'},
+  {x:118,y:200,r:22,n:'Refrigerant suction line not insulated',d:'The large suction line must be insulated; bare, it sweats, drips, and loses efficiency.'},
+  {x:280,y:120,r:24,n:'Debris on the condenser coil',d:'Leaves and dirt on the fins choke airflow. Note it and recommend cleaning.'},
+ ]};
+
+SPOT.indoor={title:'Open up the indoor air handler',sub:'Five problems at the evaporator and condensate. Click them.',vb:'0 0 520 320',
+ svg:`<g ${_gs}>
+   <rect x="150" y="40" width="220" height="150" rx="6"/>${_mono(260,32,9,'air handler / plenum')}
+   <path d="M180 70 L260 150 L340 70 Z" fill="none"/>${_mono(260,110,9,'evaporator coil (A-coil)')}
+   <rect x="170" y="196" width="180" height="26" rx="3"/>${_mono(260,213,9,'drain pan')}
+   <path d="M350 209 H 420 V 280" stroke="#6a6557" stroke-width="2"/>${_mono(440,250,8,'primary drain','#918c7d')}
+   <line x1="20" y1="296" x2="500" y2="296" stroke-width="2"/>
+   <!-- D1 rusty/overflowing pan -->
+   <ellipse cx="240" cy="222" rx="40" ry="8" fill="#9c6b3a" opacity="0.5"/>${_mono(240,246,8,'rust / standing water','#b85436')}
+   <!-- D2 no secondary drain / float switch -->
+   <path d="M170 209 H 110" stroke="#b85436" stroke-width="1.4" stroke-dasharray="3 3"/>${_mono(90,213,8,'no 2nd','#b85436')}${_mono(96,224,8,'drain','#b85436')}
+   <!-- D3 dirty filter -->
+   <rect x="150" y="150" width="40" height="40" rx="2" transform="rotate(0)" fill="#9c8a5a" opacity="0.5"/>${_mono(170,205,8,'filter','#b85436')}
+   <!-- D4 uninsulated sweating line -->
+   <path d="M370 90 H 450" stroke="#6a6557" stroke-width="2.4"/>${_mono(470,86,8,'bare line','#b85436')}<path d="M450 90 q 0 14 -6 18" stroke="#7fa8c4" stroke-width="1.2"/>
+   <!-- D5 disconnected supply duct -->
+   <path d="M150 55 H 80" stroke="#6a6557" stroke-width="6"/><path d="M150 55 H 90" stroke="#bdb8a8" stroke-width="3"/>${_mono(70,48,8,'duct off','#b85436')}
+ </g>`,
+ defects:[
+  {x:240,y:218,r:30,n:'Rusty / overflowing drain pan',d:'Standing water and rust mean the condensate isn\'t draining — a clog or slope problem. Water damage and mold follow.'},
+  {x:120,y:212,r:22,n:'No secondary drain or float switch',d:'A backup pan/drain or a float switch should cut the unit off if the primary drain clogs. Without it, an overflow floods the ceiling below.'},
+  {x:170,y:170,r:22,n:'Dirty air filter',d:'A clogged filter starves the coil of air — weak cooling and, eventually, a frozen evaporator. Recommend regular replacement.'},
+  {x:455,y:90,r:22,n:'Uninsulated, sweating line',d:'The cold suction line indoors must be insulated or it drips condensation onto whatever\'s below.'},
+  {x:95,y:55,r:22,n:'Disconnected supply duct',d:'A duct pulled loose dumps conditioned air into the attic or chase instead of the rooms — big efficiency loss.'},
+ ]};
+
+SPOT.duct={title:'Trace the ducts in the attic',sub:'Five duct problems up here. Click each one.',vb:'0 0 540 300',
+ svg:`<g ${_gs}>
+   <line x1="20" y1="60" x2="520" y2="60"/><g stroke-width="1.1">${[0,1,2,3,4].map(i=>`<line x1="${80+i*100}" y1="60" x2="${80+i*100}" y2="270"/>`).join('')}</g>${_mono(40,52,9,'rafters / unconditioned attic','#918c7d','start')}
+   <rect x="40" y="120" width="120" height="40" rx="6"/>${_mono(100,144,9,'trunk')}
+   <!-- D1 disconnected joint -->
+   <rect x="170" y="124" width="70" height="32" rx="5"/><path d="M160 140 H 170 M240 140 H 252" stroke="#6a6557"/><path d="M250 124 v 32" stroke="#b85436" stroke-dasharray="3 3"/>${_mono(250,176,8,'joint open','#b85436')}
+   <!-- D2 uninsulated duct in attic -->
+   <rect x="270" y="124" width="90" height="32" rx="5"/>${_mono(315,176,8,'no insulation','#b85436')}
+   <!-- D3 crushed/kinked flex -->
+   <path d="M360 140 q 20 0 24 16 q 4 -16 24 -16 q -18 8 -10 24" stroke="#6a6557" stroke-width="3" fill="none"/>${_mono(410,186,8,'crushed flex','#b85436')}
+   <!-- D4 unsealed seams (no mastic) -->
+   <rect x="40" y="200" width="120" height="30" rx="5"/><path d="M100 200 v 30" stroke="#b85436" stroke-dasharray="2 3"/>${_mono(100,248,8,'unsealed seam','#b85436')}
+   <!-- D5 undersized branch -->
+   <rect x="200" y="206" width="60" height="14" rx="5"/>${_mono(230,236,8,'undersized','#b85436')}
+ </g>`,
+ defects:[
+  {x:250,y:140,r:20,n:'Disconnected duct joint',d:'A separated joint leaks conditioned air into the attic. Reconnect and seal it.'},
+  {x:315,y:140,r:24,n:'Uninsulated duct in an unconditioned space',d:'Ducts running through hot attics must be insulated, or you lose much of the cooling before it reaches the rooms.'},
+  {x:400,y:150,r:24,n:'Crushed / kinked flex duct',d:'A pinched flex run chokes airflow to those rooms. It should run smooth and supported.'},
+  {x:100,y:215,r:24,n:'Unsealed seams (no mastic)',d:'Duct seams should be sealed with mastic or proper tape — leaky seams waste a surprising amount of air.'},
+  {x:230,y:213,r:20,n:'Undersized branch duct',d:'A branch too small for its load starves those rooms; ducts sized for heating are often too small for cooling airflow.'},
+ ]};
+
+MATCH.components={title:'Component ↔ job',sub:'Tap a part, then the one thing it does. Lock the cycle into memory.',left:'Component',right:'Its one job',
+ pairs:[['Compressor','Pressurizes the refrigerant'],['Condenser','Releases heat outdoors'],['Evaporator','Absorbs heat indoors'],['Expansion device','Drops pressure, meters flow']],done:'That\'s the whole cycle — pressurize, reject heat, expand, absorb heat.'};
+MATCH.hpid={title:'Heat-pump feature ↔ what it means',sub:'The tells that separate a heat pump from a plain AC. Tap to pair.',left:'You see…',right:'…which means',
+ pairs:[['Reversing valve','It can heat and cool'],['Both lines insulated','Heat pump (AC has one bare)'],['Emergency-heat setting','Backup heat-only mode'],['Outdoor unit runs in winter','It heats, not just cools']],done:'Those are the heat-pump fingerprints.'};
+MATCH.lines={title:'Refrigerant line ↔ reading',sub:'What each line and clue tells you. Tap to pair.',left:'What you see',right:'What it is',
+ pairs:[['Large, insulated line','Suction — cold gas to compressor'],['Small, bare line','Liquid line — warm'],['Oily film at a fitting','Sign of a refrigerant leak'],['Missing line insulation','Lost efficiency / sweating']],done:'Right — the big insulated line is the cold suction line; oil traces flag leaks.'};
+
+SORT.sizesymptom={title:'Oversized or undersized?',sub:'Sort each symptom to the sizing problem it points to. Tap an item, then a bin.',bins:['OVERSIZED','UNDERSIZED'],
+ items:[{t:'Short cycling — on and off quickly',bin:0},{t:'House is cool but clammy/humid',bin:0},{t:'Big temperature swings room to room',bin:0},{t:'Runs nonstop on the hottest days',bin:1},{t:'Never quite reaches the setpoint in a heat wave',bin:1},{t:'Compressor wears out early from frequent starts',bin:0}],
+ done:'Exactly — oversized short-cycles and leaves the air clammy; undersized just can\'t keep up.'};
+SORT.tstat={title:'Is it the thermostat?',sub:'The unit won\'t respond. Sort each finding. Tap an item, then a bin.',bins:['THERMOSTAT problem','LOOK ELSEWHERE'],
+ items:[{t:'Thermostat not level (mercury type)',bin:0},{t:'Mounted over a warm supply register',bin:0},{t:'Dead batteries / loose wires',bin:0},{t:'Tripped breaker feeding the unit',bin:1},{t:'Float switch opened on a full drain pan',bin:1},{t:'Failed compressor or contactor',bin:1}],
+ done:'Good instinct — confirm the simple thermostat causes, then look at power, safeties, and the equipment.'};
+
+/* ================= STEPS ================= */
+const STEPS=[
+{id:'intro',kind:'Lesson 1',label:'How cooling works',type:'lesson',
+ body:()=>`<span class="eyebrow">Cooling &amp; Heat Pumps · Orientation</span><h1>Air conditioning doesn't make cold. It moves heat.</h1>
+ <p class="lead">That one idea unlocks the whole system. A cooling system never creates coldness — it picks up heat from the air inside your house and carries it outside, then comes back for more. Everything you'll inspect is just hardware in service of that heat-moving loop. This section covers the entire air-conditioning and heat-pump chapter, with the reading broken up by things to do.</p>
+ <p>The carrier is a <b>refrigerant</b> — a fluid that boils and condenses at convenient temperatures. By changing its pressure, the system makes it cold enough to soak up heat indoors and hot enough to dump that heat outdoors. Four components do the work, and you'll meet them in the animation below.</p>
+ ${W('cycle')}
+ <p>Same five-step loop as always — for every component you'll ask: what is it, what does it do, what goes wrong, why does that matter, and how do you report it.</p>
+ <div class="loop"><div class="seg on"><div class="n">01</div><div class="w">Component</div></div><div class="seg"><div class="n">02</div><div class="w">Function</div></div><div class="seg"><div class="n">03</div><div class="w">Common defect</div></div><div class="seg"><div class="n">04</div><div class="w">Implication</div></div><div class="seg"><div class="n">05</div><div class="w">How you report</div></div></div>
+ <p>Pin the four components to their one job before you go further:</p>
+ ${W('match','components')}
+ <div class="field"><div class="ic">${sv(ic.alert)}</div><div><div class="t">What the Standards ask — and a hard safety rule</div><p>You operate the system at the thermostat and inspect what's accessible; opening the sealed condenser cabinet or touching the refrigerant is <b>beyond the Standards</b>. And never run the compressor when it's <b>below 65°F outside</b> — you can destroy it (you'll see why in the compressor lesson).</p></div></div>`,
+ quiz:[
+  {q:'The fundamental job of an air conditioner is to:',o:['Create cold air','Move heat from inside the house to outside','Add humidity to the air','Generate refrigerant'],a:1,e:'Cooling moves heat outdoors using refrigerant — it never creates coldness. That single idea explains every component.'},
+  {q:'Which component releases heat to the outdoors?',o:['Evaporator','Compressor','Condenser','Expansion device'],a:2,e:'The condenser (outdoors) is where the hot refrigerant gives up its heat and condenses to liquid.'},
+  {q:'The evaporator\'s job is to:',o:['Pressurize the refrigerant','Absorb heat from the indoor air','Dump heat outdoors','Drop the refrigerant pressure'],a:1,e:'The cold evaporator coil indoors absorbs heat from house air blown across it — that\'s where the home actually cools.'},
+  {q:'Opening the sealed condenser cabinet to inspect the compressor is:',o:['Required by the Standards','Beyond the Standards','Done on every inspection','Only skipped on heat pumps'],a:1,e:'Operating the system and inspecting accessible parts is the job; opening the refrigerant circuit is beyond the Standards.'},
+  {q:'The compressor should not be run when the outdoor temperature is:',o:['Above 90°F','Below 65°F','Exactly 72°F','Above 100°F'],a:1,e:'Below 65°F, refrigerant can condense into the oil and ruin lubrication — running it can seize the compressor.'},
+ ]},
+{id:'l2',kind:'Lesson 2',label:'Capacity & Sizing',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 2 · §12.1 Capacity</span><h1>Is it the right size for the house?</h1>
+ <p class="lead">Clients ask this constantly, and although a formal load calculation is beyond the Standards, you're expected to give a sensible read. The surprising headline: when AC is the wrong size, <b>bigger is the worse mistake.</b></p>
+ <h2>What drives the cooling load</h2>
+ <p>The heat a house gains — and therefore the cooling it needs — depends on a long list of factors: outdoor temperature and humidity, the level of insulation, the amount of air leakage, the area of south/east/west glass and whether it's low-e or gas-filled, whether curtains and blinds are used, shading from trees, overhangs, awnings, or neighboring buildings, and the heat thrown off by people and equipment inside. No inspector weighs all that on site — so we use rules of thumb.</p>
+ <p>The working guideline is floor area per <b>ton</b> of cooling (one ton = 12,000 BTU/hr): in the <b>southern US, 450–700 sq ft per ton</b>; in the <b>northern US, 700–1,000 sq ft per ton</b> (assuming 8-foot ceilings). Find the local range from installers and other inspectors. Try it:</p>
+ ${W('sizer')}
+ <h2>Capacity is only half the story — the ducts matter too</h2>
+ <p>A correctly sized compressor still under-performs if the duct system can't move the air. This bites hardest when AC was <b>added to a furnace system</b>: the evaporator coil is an extra obstruction, and cooling-season air (around 55°F) is <b>denser and harder to push</b> than the 140°F air of heating season. You also have to move <b>more</b> of it — the temperature difference between conditioned and room air is only about 15–20°F in cooling versus 60–70°F in heating. As a number: cooling needs roughly <b>400–450 CFM per ton</b>, about double a heating system. Ducts sized for heat are frequently undersized for cooling.</p>
+ <div class="field brass"><div class="ic">${sv(ic.bolt)}</div><div><div class="t">The temperature split — a real field check</div><p>Let the system run at least <b>15 minutes</b>, then compare the air entering the return to the air leaving a supply register near the coil. A healthy system shows roughly a <b>15–20°F drop</b>. Measuring it is beyond the Standards, but many inspectors do — too small a split hints at low airflow or low refrigerant; too large can mean too little airflow.</p></div></div>
+ <h2>Undersized vs. oversized</h2>
+ <p>An <b>undersized</b> system runs continuously and still can't hold the setpoint on the hottest days — an inconvenience, not a hazard. An <b>oversized</b> system is the trickier problem: it cools the air fast and shuts off before it has pulled much humidity out, so it <b>short cycles</b> and leaves the house cool but <b>clammy</b>. Short cycling also means frequent start-ups — and compressors suffer the most wear on start-up — so an oversized unit dies younger. Some utilities accept up to ~25% oversize; surveys have found a third to half of systems are oversized. The pros' advice: when in doubt, slightly undersize. Sort the symptoms:</p>
+ ${W('sort','sizesymptom')}`,
+ quiz:[
+  {q:'In the southern US, the rule-of-thumb cooling capacity is about:',o:['100–200 sq ft per ton','450–700 sq ft per ton','1,500–2,000 sq ft per ton','It cannot be estimated'],a:1,e:'Roughly 450–700 sq ft/ton in the south, 700–1,000 in the north (8-ft ceilings). Confirm the local range.'},
+  {q:'Compared with an undersized system, an oversized air conditioner is:',o:['Always better','The worse mistake — it short cycles and dehumidifies poorly','Identical in performance','Required in humid climates'],a:1,e:'Oversized units cool fast, shut off before removing humidity, short cycle, leave the house clammy, and wear out early. Better to slightly undersize.'},
+  {q:'Why are ducts designed for heating often inadequate for cooling?',o:['Cooling air is warmer','Cooling needs to move about twice the air, and that cooler air is denser/harder to push','Cooling uses no ducts','Heating ducts are always oversized'],a:1,e:'Cooling moves ~400–450 CFM/ton (about double heating) because the temperature split is smaller, and the cool 55°F air is denser.'},
+  {q:'A healthy evaporator temperature split (after ~15 min) is about:',o:['2–5°F','15–20°F','40–50°F','60–70°F'],a:1,e:'About a 15–20°F drop across the coil. Too small suggests low airflow or low refrigerant; measuring it is beyond the Standards but common practice.'},
+  {q:'An undersized cooling system is best described to a client as:',o:['A fire hazard','A safety hazard','An inconvenience — it may not keep up on the hottest days','A reason to condemn the home'],a:2,e:'Like an undersized electrical service, it\'s an inconvenience, not a hazard. Oversizing is the one that actually harms comfort and the equipment.'},
+ ]},
+{id:'l3',kind:'Lesson 3',label:'The Condensing Unit',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 3 · §12.2–12.3, 12.8, 12.12 Outdoor Unit</span><h1>The compressor, condenser coil &amp; fan</h1>
+ <p class="lead">The outdoor unit holds three of the four components — the compressor, the condenser coil, and the condenser fan — and it's the part most exposed to abuse. It's also home to the single most expensive thing on the system: the compressor.</p>
+ <h2>The compressor — the heart of it all</h2>
+ <p>The compressor is the pump that drives refrigerant around the loop. On a split system it lives in the condenser cabinet outdoors (sometimes in the attic) as a large, black, hermetically sealed cylinder, running in a refrigerant-filled bath of oil. You don't open the cabinet — that's beyond the Standards. But you do need to understand two things that protect it:</p>
+ <p>First, the <b>65°F rule.</b> Below about 65°F outdoors, refrigerant can condense and mix into the oil at the base of the compressor. That mix doesn't lubricate, and starting the compressor on it can seize it. Many systems carry a <b>crankcase (sump) heater</b> that keeps the oil warm enough to boil the refrigerant back out — which is exactly why, after a long shutoff, you can't just flip it on and expect it to be ready.</p>
+ <p>Second, the <b>wait-before-restart rule.</b> Low-torque compressors (those using a capillary tube) expect equal pressure on both sides at start-up. When the unit shuts off it has high pressure on the discharge side; the capillary tube needs a little time — about <b>five minutes</b> — to bleed that down. Restart it immediately and it's trying to start against high head pressure, which it can't do. Cycle a unit off and back on too fast and you can damage it.</p>
+ ${W('spot','outdoor')}
+ <h2>Conditions — outdoor unit</h2>
+ ${conds('Eight common compressor problems', [['Won\'t start','No power, failed capacitor/contactor/relay, or a locked rotor. Check the breaker and thermostat first.'],['Short cycling','On and off rapidly — points to oversizing, a control fault, or low refrigerant; hard on the compressor.'],['Runs continuously','Can\'t satisfy the thermostat — undersizing, low charge, a dirty coil, or poor airflow.'],['Noisy or vibrating','Worn bearings, loose mounts, or failing internals.'],['Run below 65°F','Tested in the cold without a crankcase heater — risks seizing.'],['Electrical faults','Bad start/run capacitor, pitted contactor, or failed relay.'],['Unstable or non-level base','Stresses lines and disturbs oil return.'],['Near end of life','Compressors run about 10–15 years; flag a unit near the end of its expectancy.']])}
+ ${conds('Four common condenser-fan problems', [['Inoperative / seized motor','No airflow over the coil means the system can\'t reject heat and pressures climb.'],['Noisy or vibrating','Worn motor bearings or an unbalanced blade.'],['Dirty or bent blades','Reduces airflow and strains the motor.'],['Obstructed airflow / wrong rotation','Blocked coil, debris, or a miswired motor moving air the wrong way.']])}
+ ${conds('Condenser coil', [['Dirty or blocked fins','Leaves, grass clippings, and cottonwood choke the coil; cleaning restores capacity.'],['Bent or damaged fins','Reduce the airflow area.'],['Inadequate clearance','The unit needs open air on all sides to dump heat.']])}
+ <div class="field brass"><div class="ic">${sv(ic.award)}</div><div><div class="t">Reading the age — and watching for a swapped compressor</div><p>Get the unit's age from the <b>condenser data plate</b> (Preston's Guide decodes the serial). The compressor is by far the costliest part to replace, so on any unit more than five years old, the inspector who goes the extra mile checks whether the compressor itself has been replaced. Report a unit near the end of its life so the buyer can budget for it.</p></div></div>
+ ${story('Inspector in the House', 'A buyer asked me to "just turn the AC on" during a cold-snap inspection — 50°F outside. I didn\'t. I explained that starting the compressor that cold, with refrigerant pooled in the oil, can seize it, and that I\'d note the system as not tested due to low temperature and recommend a return visit in season. Protecting the equipment you\'re inspecting is part of doing the job right — and it\'s a far better outcome than killing a compressor to satisfy curiosity.')}`,
+ quiz:[
+  {q:'You should not run the compressor below 65°F outdoors because:',o:['The fan won\'t spin','Refrigerant can condense into the oil, ruining lubrication and risking a seizure','It uses too much electricity','The thermostat won\'t respond'],a:1,e:'Cold lets refrigerant mix into the oil; that mix doesn\'t lubricate, and starting on it can seize the compressor. A crankcase heater is what prevents this.'},
+  {q:'The crankcase (sump) heater\'s job is to:',o:['Heat the house in winter','Keep the compressor oil warm so refrigerant boils back out of it','Defrost the coil','Run the condenser fan'],a:1,e:'It keeps the oil warm enough that liquid refrigerant boils off — which is why a unit isn\'t ready the instant you flip it on after a long off period.'},
+  {q:'After a low-torque compressor shuts off, you should wait about how long before restarting?',o:['10 seconds','1 minute','5 minutes','1 hour'],a:2,e:'About five minutes for the capillary tube to equalize pressure; restarting against high head pressure can damage the compressor.'},
+  {q:'The normal life expectancy of an AC compressor is roughly:',o:['3–5 years','10–15 years','25–30 years','50 years'],a:1,e:'About 10–15 years. The Standards ask you to flag equipment near the end of its expectancy — and the compressor is the costliest part.'},
+  {q:'A seized or inoperative condenser fan causes:',o:['Better efficiency','The system to lose its ability to reject heat, so pressures climb','Lower humidity','Faster cooling'],a:1,e:'No airflow over the condenser coil means heat can\'t leave; head pressure rises and the compressor suffers.'},
+ ]},
+{id:'l4',kind:'Lesson 4',label:'The Indoor Unit',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 4 · §12.4, 12.6, 12.9 Indoor Unit</span><h1>The evaporator, blower &amp; condensate</h1>
+ <p class="lead">Inside the house sit the evaporator coil, the blower that pushes air across it, and — because cold coils pull water out of the air — a condensate system to carry that water away. Two failure stories dominate here: a frozen coil and an overflowing drain.</p>
+ <h2>The evaporator coil and the frozen-coil trap</h2>
+ <p>The evaporator is the cold coil (often an A-shape) in the plenum just above or beside the furnace/air handler. Warm house air blows across it, gives up its heat, and the refrigerant boils. The counter-intuitive failure: <b>too little airflow makes the coil freeze.</b> A dirty filter, a weak blower, or a blocked return starves the coil of warm air, its temperature drops below freezing, and the moisture on it turns to ice — which blocks airflow further, a runaway that ends in a solid block of ice and no cooling. Low refrigerant charge does the same. If you find a frozen coil, the move is to stop the unit, let it thaw, and recommend evaluation.</p>
+ ${W('spot','indoor')}
+ <h2>The blower (evaporator fan)</h2>
+ ${conds('Seven common evaporator-fan problems', [['Inoperative','No air movement — cooling stops and the coil can freeze.'],['Dirty blower wheel','Caked blades move far less air over time.'],['Noisy or vibrating','Worn bearings or an unbalanced wheel.'],['Wrong speed setting','Many blowers are multi-speed; the wrong tap starves or over-drives airflow.'],['Slipping or worn belt','On older belt-drive blowers, a loose belt cuts airflow.'],['Insufficient airflow','From a dirty filter, closed returns, or undersized ducts — the classic coil-freezing cause.'],['Dirty air filter starving the coil','The single most common and most preventable airflow problem.']])}
+ <h2>Condensate — where the water goes</h2>
+ <p>A cooling coil can pull gallons of water a day out of humid air. That water drips into a <b>drain pan</b> and leaves through a <b>primary drain line</b> to an approved point — a floor drain, a laundry standpipe, or outside (never just onto the ground next to the foundation, and not into a place that's a problem). Because a clog floods whatever is below, good installations add a <b>secondary line, a backup pan, or a float switch</b> that shuts the unit off if water backs up. Where gravity won't carry it, a <b>condensate pump</b> lifts it — and pumps fail.</p>
+ ${conds('Condensate-system problems', [['Clogged or slow primary drain','Standing water, a rusty pan, algae — the water has nowhere to go.'],['No secondary protection','No backup pan, secondary drain, or float switch under equipment over finished space.'],['Improper discharge point','Draining where it causes damage, or back into an unsafe location.'],['Condensate pump not working','A failed pump on a basement or attic unit overflows.'],['Uninsulated cold lines/pan sweating','Cold surfaces drip onto ceilings and framing.']])}`,
+ quiz:[
+  {q:'A frozen evaporator coil is most often caused by:',o:['Too much airflow','Too little airflow (dirty filter, weak blower) or low refrigerant','Outdoor temperatures above 100°F','An oversized condenser fan'],a:1,e:'Starve the coil of warm air and it drops below freezing; moisture ices up and blocks airflow further. Stop the unit, let it thaw, recommend evaluation.'},
+  {q:'The purpose of a float switch on the condensate system is to:',o:['Speed up the drain','Shut the unit off if water backs up, preventing an overflow','Cool the refrigerant','Boost airflow'],a:1,e:'It\'s backup protection — if the primary drain clogs, the float switch cuts the unit off before water floods the space below.'},
+  {q:'The most common, most preventable cause of weak airflow is:',o:['A dirty air filter','A bent condenser fin','An oversized compressor','A long refrigerant line'],a:0,e:'A clogged filter starves the coil — weak cooling and eventually a frozen evaporator. Regular replacement prevents it.'},
+  {q:'A rusty drain pan with standing water indicates:',o:['Normal operation','The condensate isn\'t draining — a clog or slope problem with water-damage risk','Low refrigerant','An oversized system'],a:1,e:'Standing water means it isn\'t draining. Water damage and mold follow; recommend clearing the drain and checking the slope.'},
+  {q:'Where gravity can\'t carry condensate to a drain, the installation uses a:',o:['Second compressor','Condensate pump','Crankcase heater','Reversing valve'],a:1,e:'A condensate pump lifts the water to a drain. Pumps fail, so it\'s a point to check on basement and attic units.'},
+ ]},
+{id:'l5',kind:'Lesson 5',label:'Lines & Expansion Device',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 5 · §12.5, 12.7 Lines &amp; Metering</span><h1>The refrigerant lines and the expansion device</h1>
+ <p class="lead">Two copper lines connect the outdoor and indoor units, and a small metering device sits between them. You won't open the sealed circuit, but you can read a lot from the outside — and one clue, an oily smudge, is the classic sign of trouble.</p>
+ <h2>Reading the two lines</h2>
+ <p>The <b>large line is the suction line</b> — it carries cold, low-pressure gas back to the compressor and <b>must be insulated</b>; left bare it sweats, drips, and wastes efficiency. The <b>small line is the liquid line</b> — warm, high-pressure liquid heading to the evaporator, and it runs bare. So at a glance: big-and-insulated is the cold return; small-and-bare is the warm feed. (On a heat pump, you'll find <b>both</b> lines insulated — a key tell you'll use in the heat-pump lesson.)</p>
+ ${W('match','lines')}
+ <h2>The expansion (metering) device</h2>
+ <p>Between the liquid line and the evaporator sits the <b>expansion device</b> — a capillary tube or a thermostatic expansion valve (TXV). Its job is to drop the pressure suddenly so the refrigerant flashes cold before it enters the evaporator, and to meter how much flows. It's inside the sealed circuit, so you're not servicing it — but knowing it's there explains why a capillary-tube system is "low-torque" and needs that five-minute restart pause from Lesson 3.</p>
+ <h2>Conditions — lines and charge</h2>
+ ${conds('Refrigerant-line problems', [['Missing suction-line insulation','Sweating, dripping, and lost efficiency. Recommend insulating.'],['Damaged or compressed lines','Kinks restrict flow; crushed insulation lets the line sweat.'],['Oily residue at a fitting or joint','Refrigerant carries oil — an oily film is the visual signature of a leak. Recommend evaluation by a technician.'],['Lines run unprotected or unsupported','Vibration and abrasion lead to failures.'],['Lines too long / improperly routed','Affects performance; beyond what you correct, but note obvious issues.']])}
+ <div class="field"><div class="ic">${sv(ic.alert)}</div><div><div class="t">Charging refrigerant is beyond the Standards</div><p>You don't add, recover, or measure refrigerant — that's licensed work. What you <b>do</b> is observe and report: bare suction lines, oily leak signs, ice on the lines, and performance clues like a weak temperature split. Then point the client to a technician.</p></div></div>`,
+ quiz:[
+  {q:'On a standard air conditioner, the insulated line is the:',o:['Liquid line (small, warm)','Suction line (large, cold gas)','Drain line','Ground wire'],a:1,e:'The large suction line carries cold gas back to the compressor and must be insulated; the small liquid line runs bare.'},
+  {q:'An oily film at a refrigerant-line fitting usually indicates:',o:['Normal lubrication','A refrigerant leak — oil travels with the refrigerant','Condensate','Too much insulation'],a:1,e:'Refrigerant carries oil, so an oily residue is the classic visual sign of a leak. Recommend a technician evaluate.'},
+  {q:'The expansion device\'s function is to:',o:['Pump the refrigerant','Drop the pressure so the refrigerant flashes cold, and meter its flow','Release heat outdoors','Filter the air'],a:1,e:'A capillary tube or TXV drops pressure suddenly and meters flow into the evaporator.'},
+  {q:'Measuring or adding refrigerant is:',o:['A routine inspection step','Beyond the Standards — licensed work; observe and report instead','Required on every call','Done with the thermostat'],a:1,e:'Inspectors observe symptoms (bare lines, oil traces, ice, weak split) and refer to a technician; charging is licensed work.'},
+  {q:'Finding both refrigerant lines insulated is a clue that the unit may be a:',o:['Window unit','Heat pump','Boiler','Gas furnace'],a:1,e:'A standard AC insulates only the suction line; both insulated is a classic heat-pump tell.'},
+ ]},
+{id:'l6',kind:'Lesson 6',label:'Ducts & Distribution',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 6 · §12.10 Duct System</span><h1>Getting the cool air to the rooms</h1>
+ <p class="lead">The best-sized compressor is wasted if the ducts can't deliver the air. Distribution problems are a leading reason systems under-perform — especially when cooling was bolted onto a duct system that was only ever designed for heat.</p>
+ <h2>Why cooling is harder on ducts</h2>
+ <p>Recall the airflow math from Lesson 2: cooling moves roughly <b>twice the air</b> of heating (about 400–450 CFM per ton), the conditioned air is cooler and denser, and the room-to-supply temperature difference is much smaller. A duct system sized for a furnace is frequently <b>undersized for cooling</b>, so the rooms farthest from the air handler starve. Add the evaporator coil as a new obstruction and airflow drops further.</p>
+ ${W('spot','duct')}
+ <h2>Conditions — duct system</h2>
+ ${conds('Eight common duct problems', [['Undersized for cooling','Especially heating ducts pressed into AC service — poor airflow to far rooms.'],['Leaky or disconnected joints','Conditioned air spills into attics, crawlspaces, and chases instead of rooms.'],['Unsealed seams','Seams should be sealed with mastic or proper tape; bare seams leak surprisingly much.'],['Uninsulated ducts in unconditioned space','Ducts in hot attics or crawlspaces must be insulated, or the cooling is lost before it arrives.'],['Crushed or kinked flex duct','Pinched runs choke airflow to those rooms.'],['Poor balance','Some rooms freeze while others never cool — registers and dampers need adjusting.'],['Obstructed registers or returns','Furniture, rugs, or closed returns strangle the system.'],['Condensation / sweating ducts','Cold ducts in humid, unconditioned space drip and can damage framing or grow mold.']])}
+ <div class="field brass"><div class="ic">${sv(ic.bolt)}</div><div><div class="t">A practical tell</div><p>When a client complains that one end of the house never cools, suspect <b>distribution</b> before capacity. Check for closed or blocked returns, crushed flex, disconnected runs in the attic, and whether AC was added to heat-only ducts. The compressor may be perfectly healthy.</p></div></div>`,
+ quiz:[
+  {q:'A duct system originally designed for heating is often:',o:['Oversized for cooling','Undersized for cooling, because cooling moves about twice the air','Perfect for cooling','Unable to carry warm air'],a:1,e:'Cooling needs ~400–450 CFM/ton (about double heating), with denser air — heating ducts frequently can\'t keep up.'},
+  {q:'Ducts running through an unconditioned attic should be:',o:['Left bare for airflow','Insulated, or much of the cooling is lost before it reaches the rooms','Painted','Crushed to fit'],a:1,e:'Uninsulated ducts in hot attics waste cooling; they must be insulated.'},
+  {q:'Duct seams should be sealed with:',o:['Nothing — they\'re airtight','Mastic or proper tape','Spray foam only','Drywall mud'],a:1,e:'Unsealed seams leak a surprising amount of air; mastic or a listed tape seals them.'},
+  {q:'A client says one end of the house never cools. Your first suspicion should be:',o:['The compressor is dead','Distribution — closed returns, crushed flex, or disconnected/undersized ducts','The thermostat is broken','Low refrigerant'],a:1,e:'Uneven cooling usually points to distribution, not capacity. Check returns, flex runs, and whether AC was added to heat-only ducts.'},
+  {q:'A disconnected duct joint in the attic results in:',o:['Better efficiency','Conditioned air dumped into the attic instead of the rooms','Lower humidity indoors','A frozen compressor'],a:1,e:'A separated joint leaks cool air into the attic — a big, common efficiency loss. Reconnect and seal it.'},
+ ]},
+{id:'l7',kind:'Lesson 7',label:'Thermostats & Controls',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 7 · §12.11 Thermostats</span><h1>The control — and how to test the system without harming it</h1>
+ <p class="lead">The thermostat is how you operate the system, and it's the first place a "no cooling" complaint sends you. Most thermostat issues are simple — but you have to test in a way that doesn't damage the compressor.</p>
+ <h2>Testing the system at the thermostat</h2>
+ <p>To call for cooling, set the mode to cool and lower the setpoint below room temperature. If nothing happens, work the simple causes first: confirm power (breaker on), the mode and setpoint, and dead batteries on an electronic stat. Then remember the lesson from the compressor: many systems have a <b>built-in restart delay</b>, and low-torque compressors need that five-minute pressure-equalization window — so a unit that doesn't fire instantly may simply be in its delay. Don't rapidly cycle it trying to force a start.</p>
+ ${W('sort','tstat')}
+ <h2>Conditions — thermostats</h2>
+ ${conds('Seven common thermostat problems', [['Inoperative','No response to a call for cooling — could be the stat or anything downstream.'],['Not level (mercury type)','An old mercury-bulb stat reads wrong if it isn\'t mounted level.'],['Poor location','Mounted over a supply register, near a lamp or sunny window, or in a draft — it senses the wrong temperature and mis-cycles the system.'],['Dirty contacts','Dust on the contacts causes erratic operation.'],['Loose mounting or wiring','Intermittent operation.'],['Dead batteries / lost programming','Common on electronic stats — simple to fix.'],['Anticipator misadjusted','On older stats, affects cycle length and comfort.']])}
+ <div class="field"><div class="ic">${sv(ic.alert)}</div><div><div class="t">Don\'t mistake a safety for a failure</div><p>If the system won\'t run, the cause may be a tripped <b>safety</b> doing its job — a float switch that opened on a full condensate pan, a breaker that tripped, or a high-pressure cutout — not the thermostat. Diagnose in order: thermostat basics, then power, then safeties, then the equipment.</p></div></div>`,
+ quiz:[
+  {q:'To call for cooling at the thermostat you should:',o:['Raise the setpoint above room temperature','Set mode to cool and lower the setpoint below room temperature','Switch to heat','Remove the batteries'],a:1,e:'Cool mode, setpoint below the room. If nothing happens, check power, settings, and remember the restart delay before assuming a failure.'},
+  {q:'A mercury-bulb thermostat that isn\'t mounted level will:',o:['Work fine','Read the temperature incorrectly and mis-cycle the system','Run the heat only','Trip the breaker'],a:1,e:'A tilted mercury stat senses wrong and switches at the wrong temperatures. It must be level.'},
+  {q:'A thermostat mounted over a warm supply register or in direct sun will:',o:['Improve accuracy','Sense the wrong temperature and cause poor, erratic cycling','Save energy','Prevent short cycling'],a:1,e:'Location matters — false readings from a nearby heat source make the system cycle incorrectly.'},
+  {q:'A unit that doesn\'t start the instant you lower the thermostat:',o:['Is definitely broken','May simply be in a normal restart delay — don\'t rapidly cycle it','Needs refrigerant','Has a dead compressor for certain'],a:1,e:'Built-in delays and the five-minute pressure-equalization window are normal. Forcing rapid cycling can damage the compressor.'},
+  {q:'If the system won\'t run, a tripped float switch on a full condensate pan is an example of:',o:['A thermostat failure','A safety device doing its job — not a fault to "fix" by bypassing','A refrigerant leak','An oversized unit'],a:1,e:'Diagnose in order — thermostat, power, safeties, equipment. A safety that opened is protecting the home, not failing.'},
+ ]},
+{id:'l8',kind:'Lesson 8',label:'Heat Pumps',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 8 · §12.13–12.14 Heat Pumps</span><h1>An air conditioner that runs in reverse</h1>
+ <p class="lead">A heat pump is the same refrigeration loop you already understand — with one extra part that lets it run backwards. In summer it cools like any AC; in winter it reverses, pulling heat out of the cold outdoor air and pumping it inside. Everything you've learned applies, plus a handful of heat-pump-only features and failures.</p>
+ <h2>The reversing valve and what changes in winter</h2>
+ <p>The added component is the <b>reversing valve</b>. Flip it and the refrigerant flow reverses: the outdoor coil becomes the evaporator (absorbing heat from cold outside air — yes, even cold air holds heat) and the indoor coil becomes the condenser (releasing that heat into the house). Because the outdoor coil runs cold and frosts up, the heat pump periodically runs a <b>defrost cycle</b> — briefly switching to cooling mode to warm and de-ice the outdoor coil, which looks like the unit steaming outside in winter. That's normal, not a malfunction.</p>
+ <h2>Auxiliary and emergency heat</h2>
+ <p>On cold days a heat pump can't pull enough heat from frigid air, so it's backed by <b>auxiliary (supplementary) heat</b> — usually electric resistance strips in the air handler — that kicks in to help. The thermostat also has an <b>emergency heat</b> setting that runs the backup heat alone with the compressor off, for when the heat pump itself fails. Knowing these exist is half of identifying a heat pump.</p>
+ ${W('match','hpid')}
+ <h2>Nine ways to spot a heat pump</h2>
+ ${conds('Tells that it\'s a heat pump, not a plain AC', [['Outdoor unit runs in heating season','A straight AC sits idle in winter; a heat pump runs.'],['Both refrigerant lines insulated','An AC insulates only the suction line.'],['A reversing valve in the cabinet','The signature component.'],['Two expansion devices with bypasses','Needed to meter flow in both directions.'],['"Emergency heat" on the thermostat','Only heat pumps have it.'],['Electric heat strips in the air handler','The auxiliary backup heat.'],['A defrost cycle in winter','Periodic steaming/ice-melt at the outdoor unit.'],['No fossil-fuel furnace present','Heat with no gas/oil appliance suggests a heat pump.'],['The data plate says so','"Heat pump" or "HP" on the label.']])}
+ <h2>Conditions — heat pumps</h2>
+ ${conds('Seven common heat-pump problems', [['Oversized for cooling / undersized for heating','Northern heat pumps are almost always undersized for the heating load — describe sizing as suspect and recommend evaluation rather than calling it over- or undersized.'],['Reversing valve stuck or failed','Stuck in one mode — heats but won\'t cool, or vice-versa.'],['Defrost control failure','The outdoor coil ices up because the unit never defrosts.'],['Outdoor coil iced up','From a failed defrost, poor condensate drainage at the unit, or a unit set below snow-drift depth — poor or no heat results.'],['Airflow problems in the house','Same distribution issues as any forced-air system.'],['Auxiliary heat inoperative','No backup on the coldest days, or, if stuck on, sky-high electric bills.'],['Short cycling','Hard on the compressor, as with any system.']])}
+ ${story('Inspector in the House', 'On a frosty morning a seller was sure the heat pump was failing — it was "blowing cold and steaming outside." It was simply in a defrost cycle: the unit had reversed for a few minutes to melt ice off the outdoor coil, so the indoor air went briefly cool while the outdoor unit gave off vapor. I explained that defrost is normal heat-pump behavior, showed them the emergency-heat setting for true failures, and noted the system operated as designed. Recognizing normal defrost saves a needless service call — and a needless alarm in the report.')}`,
+ quiz:[
+  {q:'A heat pump differs from a standard AC by adding a:',o:['Second compressor','Reversing valve that lets it run in reverse to heat','Larger condenser only','Gas burner'],a:1,e:'The reversing valve switches refrigerant flow so the system can heat as well as cool — otherwise it\'s the same loop.'},
+  {q:'In winter, a heat pump steaming outside for a few minutes is usually:',o:['A refrigerant leak','A normal defrost cycle melting ice off the outdoor coil','A failed compressor','An overfilled drain pan'],a:1,e:'Defrost briefly reverses to warm and de-ice the outdoor coil — normal behavior, not a fault.'},
+  {q:'"Emergency heat" on the thermostat runs:',o:['The compressor at full speed','The backup (auxiliary) heat alone, with the compressor off','The defrost cycle continuously','The condenser fan only'],a:1,e:'Emergency heat uses the backup electric heat by itself, for when the heat pump itself isn\'t working.'},
+  {q:'Which is a reliable tell that a unit is a heat pump?',o:['It has a single bare refrigerant line','The outdoor unit runs during the heating season','It has no thermostat','It uses a gas burner'],a:1,e:'A plain AC is idle in winter; a heat pump runs to heat. Both lines insulated, a reversing valve, and an emergency-heat setting are other tells.'},
+  {q:'Northern-climate heat pumps are almost always:',o:['Oversized for heating','Undersized for the heating load, often needing auxiliary heat','Unable to cool','Larger than the house needs'],a:1,e:'They rarely meet the full heating demand from cold air, so they rely on auxiliary heat. Describe sizing as suspect and recommend evaluation.'},
+ ]},
+/*LESSONS*/
+ {id:'scenarios',kind:'Apply it',label:'Inspector\'s Call',type:'scenario'},
+ {id:'assess',kind:'Assessment',label:'Mastery check',type:'assess'},
+ {id:'glossary',kind:'Reference',label:'Glossary',type:'glossary'},
+ {id:'source',kind:'Deep reading',label:'Full source chapter',type:'source'},
+];
+(async()=>{await load();render();})();
+</script>

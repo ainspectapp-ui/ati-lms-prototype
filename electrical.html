@@ -1,0 +1,821 @@
+<!-- ATI · Module II · Electrical Systems — full interactive section -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#cbc6b8;--surf:#edebe2;--surf-2:#e3e0d6;--surf-3:#d7d3c7;
+    --line:#b8b2a2;--line-2:#cbc6b8;--line-brass:rgba(168,109,16,.3);
+    --ink:#29271f;--ink-2:#6a6557;--ink-3:#918c7d;
+    --brass:#a86d10;--brass-2:#c2841c;--brass-deep:#7f520a;--brass-soft:#e7ddc8;
+    --slate:#3c5870;--slate-2:#4d6982;--slate-soft:#d3dadf;--slate-deep:#2c4153;
+    --pass:#3d7d50;--pass-soft:#d9e6dc;--fail:#b85436;--fail-soft:#edddd4;
+    --r:16px;--display:'Bricolage Grotesque',sans-serif;--body:'Hanken Grotesk',sans-serif;--mono:'JetBrains Mono',monospace;
+    --sh-1:0 1px 2px rgba(41,39,31,.06),0 2px 5px rgba(41,39,31,.05);--sh-2:0 2px 8px rgba(41,39,31,.07),0 16px 44px rgba(41,39,31,.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.55;background-image:radial-gradient(120% 80% at 88% -8%,rgba(168,109,16,.05),transparent 52%),radial-gradient(90% 60% at -8% 108%,rgba(60,88,112,.06),transparent 52%)}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  .mono{font-family:var(--mono)}
+  ::selection{background:var(--brass);color:#fff}
+  ::-webkit-scrollbar{width:11px;height:11px}::-webkit-scrollbar-thumb{background:#b3ad9d;border-radius:11px;border:3px solid var(--bg)}
+
+  .top{position:sticky;top:0;z-index:30;background:rgba(203,198,184,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  .top .row{max-width:1150px;margin:0 auto;padding:13px 24px;display:flex;align-items:center;gap:14px}
+  .mark{width:36px;height:36px;border-radius:10px;flex:none;display:grid;place-items:center;background:linear-gradient(150deg,var(--brass-2),var(--brass-deep));box-shadow:0 3px 12px rgba(168,109,16,.3),inset 0 1px 0 rgba(255,255,255,.35)}
+  .mark svg{width:20px;height:20px;color:#fff}
+  .top .tt{font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:-.01em;line-height:1.1}.top .tt b{color:var(--brass-deep)}
+  .top .sub{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);display:block;margin-top:2px}
+  .top .prog{margin-left:auto;display:flex;align-items:center;gap:12px}
+  .top .prog .bar{width:150px;height:7px;background:var(--surf-3);border-radius:7px;overflow:hidden;border:1px solid var(--line)}
+  .top .prog .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--brass-deep),var(--brass));border-radius:7px;transition:width .5s cubic-bezier(.2,.7,.2,1)}
+  .top .prog .pc{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--brass-deep);min-width:34px;text-align:right}
+
+  .wrap{max-width:1150px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:250px 1fr;gap:32px;align-items:start}
+  .rail{position:sticky;top:88px;margin-top:28px;max-height:calc(100vh - 110px);overflow-y:auto;padding-right:4px}
+  .rail .h{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);padding:0 8px 10px}
+  .step{display:flex;align-items:center;gap:11px;padding:9px 10px;border-radius:10px;width:100%;text-align:left;transition:.13s;color:var(--ink-2);font-size:12.5px;font-weight:500;position:relative}
+  .step:hover{background:var(--surf-2)}
+  .step.active{background:var(--surf);box-shadow:var(--sh-1);color:var(--ink)}
+  .step.active::before{content:"";position:absolute;left:-8px;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--brass)}
+  .step .dot{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);flex:none;display:grid;place-items:center;font-family:var(--mono);font-size:10px;color:var(--ink-3);background:var(--bg);transition:.2s}
+  .step.done .dot{background:var(--brass);border-color:var(--brass);color:#fff}.step.done .dot svg{width:11px;height:11px}
+  .step .lbl{flex:1;line-height:1.2}
+  .step .kind{font-family:var(--mono);font-size:8.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);display:block;margin-top:1px}
+  .step.locked{opacity:.42;pointer-events:none}
+
+  .view{min-width:0;margin-top:28px;animation:rise .38s cubic-bezier(.2,.7,.2,1);padding-bottom:40px}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--brass-deep);font-weight:600}
+  h1{font-family:var(--display);font-weight:800;font-size:31px;letter-spacing:-.02em;line-height:1.08;margin:8px 0 0}
+  h2{font-family:var(--display);font-weight:700;font-size:21px;letter-spacing:-.01em;margin:32px 0 10px}
+  h3{font-family:var(--display);font-weight:700;font-size:16px;margin:24px 0 8px}
+  p{font-size:15.5px;color:#33312a;margin-bottom:14px;line-height:1.74}
+  p b,li b{color:var(--ink);font-weight:700}
+  .lead{font-size:16.5px;color:var(--ink-2);margin-top:12px;max-width:64ch}
+  ul.clean{list-style:none;margin:2px 0 16px}
+  ul.clean li{font-size:14.5px;color:#33312a;padding-left:22px;position:relative;margin-bottom:9px;line-height:1.6}
+  ul.clean li::before{content:"";position:absolute;left:2px;top:8px;width:7px;height:7px;border-radius:2px;background:var(--brass);transform:rotate(45deg)}
+  ul.num{margin:0 0 16px 20px}ul.num li{font-size:14.5px;color:#33312a;margin-bottom:7px;line-height:1.6}
+
+  .field{background:var(--slate-deep);color:#e9edf0;border-radius:13px;padding:18px 20px;margin:22px 0;display:flex;gap:14px}
+  .field.brass{background:linear-gradient(135deg,#3a3526,#2c2818)}
+  .field .ic{flex:none;color:var(--brass-2)}.field .ic svg{width:20px;height:20px}
+  .field .t{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-2);margin-bottom:5px}
+  .field p{color:#c4cdd4;font-size:14px;margin:0 0 8px;line-height:1.65}.field p:last-child{margin-bottom:0}.field p b{color:#fff}
+
+  .story{background:var(--surf);border:1px solid var(--line);border-left:4px solid var(--brass);border-radius:0 13px 13px 0;padding:16px 19px;margin:22px 0;box-shadow:var(--sh-1)}
+  .story .st{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-deep);display:flex;align-items:center;gap:8px;margin-bottom:7px}
+  .story .st svg{width:14px;height:14px}
+  .story p{font-size:14.5px;color:#403d33;font-style:italic;margin:0;line-height:1.7}
+  .story p b{font-style:normal}
+
+  .loop{display:flex;align-items:stretch;background:var(--surf);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin:18px 0 8px;box-shadow:var(--sh-1)}
+  .loop .seg{flex:1;padding:13px 10px;text-align:center;border-right:1px solid var(--line-2)}.loop .seg:last-child{border-right:none}
+  .loop .seg .n{font-family:var(--mono);font-size:9px;color:var(--ink-3);letter-spacing:.1em}
+  .loop .seg .w{font-family:var(--display);font-weight:700;font-size:12.5px;margin-top:3px}
+  .loop .seg.on{background:var(--brass-soft)}.loop .seg.on .w{color:var(--brass-deep)}
+
+  .dgm{background:#bdb8a8;border:1px solid var(--line);border-radius:var(--r);padding:8px;margin:20px 0;box-shadow:var(--sh-1);position:relative;overflow:hidden}
+  .dgm::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(44,65,83,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(44,65,83,.1) 1px,transparent 1px);background-size:26px 26px;pointer-events:none}
+  .dgm svg{display:block;width:100%;height:auto;position:relative}
+  .dgm .cap{position:relative;text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:.04em;color:var(--slate-deep);padding:4px 6px 8px}
+
+  .defect{background:var(--surf);border:1px solid var(--line);border-radius:13px;padding:16px 18px;box-shadow:var(--sh-1);margin:12px 0}
+  .defect .dh{display:flex;align-items:center;gap:11px;margin-bottom:8px}
+  .defect .dh .n{width:26px;height:26px;border-radius:8px;background:var(--fail-soft);color:var(--fail);display:grid;place-items:center;flex:none;font-family:var(--mono);font-weight:600;font-size:12px}
+  .defect .dh .nm{font-family:var(--display);font-weight:700;font-size:15px}
+  .defect p{font-size:14px;margin-bottom:9px}
+  .defect .meta{display:grid;grid-template-columns:auto 1fr;gap:5px 12px;font-size:13px;align-items:start}
+  .defect .meta .lab{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);padding-top:3px;white-space:nowrap}
+  .defect .meta .val{color:#33312a;line-height:1.5}
+  .defect .rep{font-family:var(--mono);font-size:11px;background:var(--slate-soft);border-radius:8px;padding:8px 11px;color:var(--slate-deep);line-height:1.5;margin-top:8px}.defect .rep b{color:var(--slate-deep)}
+
+  .pills{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 6px}
+  .pill{font-family:var(--mono);font-size:11.5px;background:var(--surf);border:1px solid var(--line);color:var(--ink-2);padding:6px 12px;border-radius:20px}.pill b{color:var(--brass-deep)}
+  .tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px;background:var(--surf);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .tbl th{background:var(--slate-deep);color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;text-align:left;padding:9px 12px;font-weight:600}
+  .tbl td{padding:9px 12px;border-top:1px solid var(--line-2);color:#33312a}
+  .tbl td:first-child{font-family:var(--mono);font-weight:600;color:var(--brass-deep);white-space:nowrap}
+
+  /* ---- quiz (multi-question) ---- */
+  .quiz{background:var(--surf);border:1.5px solid var(--line-brass);border-radius:var(--r);padding:24px;margin:30px 0 0;box-shadow:var(--sh-1)}
+  .quiz .qh{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-deep);display:flex;align-items:center;gap:8px;margin-bottom:4px}.quiz .qh svg{width:15px;height:15px}
+  .quiz .qt{font-family:var(--display);font-weight:700;font-size:18px}.quiz .qsub{font-size:13.5px;color:var(--ink-2);margin:4px 0 4px}
+  .qblock{border-top:1px solid var(--line-2);padding-top:18px;margin-top:18px}.qblock:first-of-type{border-top:none;padding-top:14px}
+  .qnum{font-family:var(--mono);font-size:11px;color:var(--brass-deep);font-weight:600;margin-bottom:6px}
+  .q{font-family:var(--display);font-weight:600;font-size:15.5px;margin-bottom:13px;line-height:1.4}
+  .opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:11px 14px;border:1.5px solid var(--line);border-radius:10px;margin-bottom:8px;transition:.13s;font-size:14px;font-weight:500;background:var(--surf-2)}
+  .opt:hover:not(.lk){border-color:var(--brass);background:var(--surf)}
+  .opt .k{font-family:var(--mono);font-weight:600;width:23px;height:23px;border-radius:6px;background:var(--surf-3);display:grid;place-items:center;font-size:11px;flex:none;color:var(--ink-2)}
+  .opt.correct{border-color:var(--pass);background:var(--pass-soft)}.opt.correct .k{background:var(--pass);color:#fff}
+  .opt.wrong{border-color:var(--fail);background:var(--fail-soft)}.opt.wrong .k{background:var(--fail);color:#fff}
+  .opt .mk{margin-left:auto}.opt .mk svg{width:16px;height:16px}.opt.lk{cursor:default}
+  .exp{font-size:13px;color:var(--ink-2);line-height:1.62;padding:11px 13px;background:var(--surf-2);border-left:3px solid var(--brass);border-radius:0 9px 9px 0;margin-top:4px}.exp b{color:var(--ink)}
+  .qscore{margin-top:20px;padding-top:18px;border-top:1px solid var(--line-2);font-family:var(--mono);font-size:13px;color:var(--ink-2);display:flex;align-items:center;gap:10px}.qscore svg{width:18px;height:18px;flex:none}.qscore b{font-size:15px}
+
+  .foot{display:flex;align-items:center;gap:12px;margin:30px 0 10px;padding-top:22px;border-top:1px solid var(--line)}.foot .sp{flex:1}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:14px;padding:12px 18px;border-radius:11px;transition:.15s;font-family:var(--body)}.btn svg{width:16px;height:16px}
+  .btn.brass{background:linear-gradient(150deg,var(--brass-2),var(--brass));color:#fff;box-shadow:0 5px 14px rgba(168,109,16,.28)}.btn.brass:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(168,109,16,.36)}
+  .btn.brass:disabled{opacity:.5;filter:grayscale(.3);cursor:not-allowed;transform:none;box-shadow:none}
+  .btn.ghost{background:var(--surf);border:1px solid var(--line);color:var(--ink-2)}.btn.ghost:hover{color:var(--ink);border-color:var(--ink-3)}
+  .btn.slate{background:var(--slate);color:#fff}.btn.slate:hover{background:var(--slate-deep)}
+
+  /* ---- WIDGETS ---- */
+  .wlabel{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:var(--brass);padding:4px 9px;border-radius:20px;display:inline-block;margin-bottom:6px}
+  .wtitle{font-family:var(--display);font-weight:700;font-size:16px;margin-bottom:3px}
+  .wsub{font-size:13.5px;color:var(--ink-2);margin-bottom:14px}
+  .widget{background:var(--surf-2);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;margin:24px 0;box-shadow:var(--sh-1)}
+
+  .sd-wrap{display:grid;grid-template-columns:1fr 260px;gap:16px}@media(max-width:760px){.sd-wrap{grid-template-columns:1fr}}
+  .sd-stage{background:#bdb8a8;border:1px solid var(--line);border-radius:13px;padding:8px;position:relative;overflow:hidden}
+  .sd-stage::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(44,65,83,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(44,65,83,.09) 1px,transparent 1px);background-size:24px 24px;pointer-events:none}
+  .sd-stage svg{display:block;width:100%;height:auto;position:relative}
+  .hot{cursor:pointer}.hot circle.zone{fill:transparent;stroke:transparent}
+  .hot.found circle.zone{fill:rgba(61,125,80,.16);stroke:var(--pass);stroke-width:2.5;stroke-dasharray:4 3}
+  .sd-side{display:flex;flex-direction:column;gap:11px}
+  .sd-count{background:var(--slate-deep);color:#fff;border-radius:12px;padding:13px 15px;text-align:center}
+  .sd-count .big{font-family:var(--mono);font-weight:600;font-size:28px;line-height:1}.sd-count .lbl{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-2);margin-top:5px}
+  .sd-found{display:flex;flex-direction:column;gap:7px;max-height:280px;overflow-y:auto}
+  .fcard{background:var(--surf);border:1px solid var(--line);border-left:3px solid var(--pass);border-radius:9px;padding:9px 11px;animation:pop .3s}@keyframes pop{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:none}}
+  .fcard .fn{font-family:var(--display);font-weight:700;font-size:13px;color:var(--pass)}.fcard .fd{font-size:12px;color:var(--ink-2);margin-top:2px;line-height:1.45}
+  .sd-empty{font-size:12.5px;color:var(--ink-3);font-style:italic;text-align:center;padding:18px 8px}
+  .sd-done{background:var(--pass-soft);border:1px solid var(--pass);border-radius:11px;padding:12px;text-align:center;font-size:13px;color:var(--pass);font-weight:600}
+
+  .gfi-stage{background:var(--slate-deep);border-radius:13px;padding:20px;position:relative;overflow:hidden;height:220px}
+  .lane{position:absolute;left:120px;right:120px;height:3px;background:rgba(255,255,255,.18);border-radius:3px}.lane.hot{top:66px}.lane.neu{top:146px}
+  .lane .lab{position:absolute;top:-19px;left:0;font-family:var(--mono);font-size:10px;color:#9fb0bd}
+  .dot{position:absolute;width:9px;height:9px;border-radius:50%;top:-3px}
+  .dot.h{background:var(--brass-2);animation:flowR 2.4s linear infinite}.dot.n{background:#7fa8c4;animation:flowL 2.4s linear infinite}
+  @keyframes flowR{from{left:0}to{left:100%}}@keyframes flowL{from{left:100%}to{left:0}}
+  .gbox{position:absolute;left:28px;top:66px;width:68px;height:80px;border:2px solid #9fb0bd;border-radius:8px;display:grid;place-items:center;text-align:center}
+  .gbox .gt{font-family:var(--mono);font-size:10px;color:#fff}.gbox .gs{font-family:var(--mono);font-size:8px;color:#7fa8c4;margin-top:3px}
+  .load{position:absolute;right:28px;top:66px;width:68px;height:80px;border:2px solid #9fb0bd;border-radius:8px;display:grid;place-items:center}.load .lt{font-family:var(--mono);font-size:10px;color:#fff}
+  .leak{position:absolute;left:50%;top:69px;width:2px;height:88px;background:repeating-linear-gradient(180deg,var(--fail),var(--fail) 5px,transparent 5px,transparent 10px);opacity:0;transition:.3s}.leak.on{opacity:1}
+  .person{position:absolute;left:calc(50% - 13px);top:160px;font-size:22px;opacity:0;transition:.3s}.person.on{opacity:1}
+  .trip{position:absolute;inset:0;background:rgba(184,84,54,.92);display:grid;place-items:center;opacity:0;pointer-events:none;transition:.3s}.trip.on{opacity:1}
+  .trip .tw{text-align:center;color:#fff}.trip .tw .b{font-family:var(--display);font-weight:800;font-size:25px}.trip .tw .s{font-family:var(--mono);font-size:11px;letter-spacing:.1em;margin-top:6px;opacity:.9}
+  .gfi-status{display:flex;align-items:center;gap:10px;margin-top:14px;font-size:14px;font-weight:600}.gfi-status .pip{width:11px;height:11px;border-radius:50%;background:var(--pass)}.gfi-status.fault .pip{background:var(--fail)}
+  .gfi-controls{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}.gfi-read{font-family:var(--mono);font-size:12px;color:var(--ink-2);margin-top:10px}.gfi-read b{color:var(--brass-deep)}
+
+  .match{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:600px){.match{grid-template-columns:1fr}}
+  .mcol{display:flex;flex-direction:column;gap:9px}.mcol .ch{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);text-align:center;margin-bottom:2px}
+  .chip{padding:13px;border:1.5px solid var(--line);border-radius:11px;background:var(--surf);font-family:var(--mono);font-weight:600;font-size:14px;text-align:center;transition:.13s;color:var(--ink)}
+  .chip:hover:not(.locked){border-color:var(--brass)}.chip.sel{border-color:var(--brass);background:var(--brass-soft);color:var(--brass-deep)}
+  .chip.locked{border-color:var(--pass);background:var(--pass-soft);color:var(--pass);cursor:default;opacity:.85}
+  .chip.miss{border-color:var(--fail);background:var(--fail-soft);animation:shake .3s}@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+  .w-done{margin-top:14px;background:var(--pass-soft);border:1px solid var(--pass);border-radius:11px;padding:12px;text-align:center;font-size:13px;color:var(--pass);font-weight:600}
+
+  .est{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:600px){.est{grid-template-columns:1fr}}
+  .est label{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:6px}
+  .est select{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--surf);font-family:var(--mono);font-size:14px;color:var(--ink);font-weight:600}
+  .est-out{grid-column:1/-1;margin-top:4px;border-radius:12px;padding:15px 17px;border:1px solid var(--line);background:var(--surf);transition:.2s}
+  .est-out.ok{border-color:var(--pass);background:var(--pass-soft)}.est-out.bad{border-color:var(--fail);background:var(--fail-soft)}
+  .est-out .ev{font-family:var(--display);font-weight:800;font-size:19px}.est-out .ed{font-size:13px;color:var(--ink-2);margin-top:5px;line-height:1.5}
+  .est-out.ok .ev{color:var(--pass)}.est-out.bad .ev{color:var(--fail)}
+
+  .sort{display:grid;gap:14px}
+  .sort-items{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;min-height:20px}
+  .sitem{padding:10px 14px;border:1.5px solid var(--line);border-radius:10px;background:var(--surf);font-size:13.5px;font-weight:500;transition:.13s}.sitem:hover:not(.placed){border-color:var(--brass)}.sitem.sel{border-color:var(--brass);background:var(--brass-soft);color:var(--brass-deep)}.sitem.placed{display:none}
+  .bins{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:600px){.bins{grid-template-columns:1fr}}
+  .bin{border:1.5px dashed var(--line);border-radius:12px;padding:14px;min-height:90px;background:var(--surf)}
+  .bin.activeb{border-color:var(--brass);background:var(--brass-soft)}
+  .bin .bt{font-family:var(--display);font-weight:700;font-size:14px;text-align:center;margin-bottom:10px}
+  .bin .drop{font-size:11px;color:var(--ink-3);text-align:center;font-style:italic}
+  .binitem{padding:8px 11px;border-radius:8px;font-size:13px;font-weight:500;margin-bottom:6px;display:flex;align-items:center;gap:7px}.binitem svg{width:13px;height:13px;flex:none}
+  .binitem.right{background:var(--pass-soft);color:var(--pass)}.binitem.wrong{background:var(--fail-soft);color:var(--fail)}
+
+  .era{display:flex;flex-direction:column;gap:0;position:relative;margin:6px 0 4px;padding-left:8px}
+  .era .line{position:absolute;left:14px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .erow{display:flex;align-items:flex-start;gap:14px;padding:9px 0;position:relative;cursor:pointer}
+  .erow .ed{width:12px;height:12px;border-radius:50%;background:var(--surf-3);border:2px solid var(--line);flex:none;margin-top:3px;z-index:1;transition:.15s}
+  .erow:hover .ed,.erow.open .ed{background:var(--brass);border-color:var(--brass)}
+  .erow .et{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--brass-deep);width:130px;flex:none}
+  .erow .en{font-size:14px;color:#33312a;font-weight:600}
+  .erow .ex{font-size:13px;color:var(--ink-2);line-height:1.5;margin-top:4px;display:none}.erow.open .ex{display:block}
+
+  .panelcard{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-2);padding:34px;text-align:center}
+  .panelcard .ic{width:56px;height:56px;border-radius:14px;background:var(--brass-soft);color:var(--brass-deep);display:grid;place-items:center;margin:0 auto 16px}.panelcard .ic svg{width:27px;height:27px}
+  .panelcard h2{margin:0 0 8px}.panelcard p{max-width:48ch;margin:0 auto 22px}
+  .ring{width:150px;height:150px;margin:0 auto 18px;position:relative}.ring .rv{position:absolute;inset:0;display:grid;place-items:center}.ring .rv .n{font-family:var(--mono);font-weight:600;font-size:38px;line-height:1}.ring .rv .p{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-top:4px}
+  .verdict{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;display:inline-block;padding:5px 13px;border-radius:20px;margin-bottom:16px}.verdict.pass{background:var(--pass-soft);color:var(--pass)}.verdict.fail{background:var(--fail-soft);color:var(--fail)}
+
+  .scen{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-2);margin-bottom:16px}
+  .scen .sh{background:linear-gradient(120deg,#3c5870,#2c4153);color:#fff;padding:16px 20px}.scen .sh .t{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-2)}.scen .sh .n{font-family:var(--display);font-weight:700;font-size:17px;margin-top:3px}
+  .scen .body{padding:20px 22px}.scen .situation{font-size:15.5px;color:#33312a;line-height:1.7;margin-bottom:6px}.scen .ask{font-family:var(--display);font-weight:600;font-size:15px;margin:16px 0 14px;color:var(--ink)}
+  .scount{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-bottom:10px}
+
+  .gloss{display:grid;gap:10px}.term{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:13px 16px;box-shadow:var(--sh-1)}
+  .term .tw{font-family:var(--display);font-weight:700;font-size:14.5px;color:var(--brass-deep)}.term .td{font-size:13.5px;color:var(--ink-2);margin-top:3px;line-height:1.55}
+  .srcframe{width:100%;height:78vh;border:1px solid var(--line);border-radius:var(--r);background:var(--surf);box-shadow:var(--sh-1)}
+  .srcnote{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:14px 17px;font-size:13.5px;color:var(--ink-2);margin:14px 0;line-height:1.6}.srcnote a{color:var(--brass-deep);font-weight:600}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--slate-deep);color:#fff;padding:12px 18px;border-radius:11px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;box-shadow:var(--sh-2);z-index:100;opacity:0;transition:.3s}.toast.show{transform:translateX(-50%) translateY(0);opacity:1}.toast svg{width:16px;height:16px;color:var(--brass-2)}
+  @media(max-width:880px){.wrap{grid-template-columns:1fr}.rail{display:none}.top .prog .bar{width:90px}}
+  em{font-style:italic;color:inherit}
+</style>
+
+<div class="top"><div class="row">
+  <a href="index.html" class="mark" style="text-decoration:none" title="Back to Module II"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg></a>
+  <div><div class="tt">ATI · Module II — <b>Electrical Systems</b></div><span class="sub">Property &amp; Building Inspection · interactive</span></div>
+  <div class="prog"><a href="index.html" style="font-family:var(--mono);font-size:11px;font-weight:600;color:var(--brass-deep);text-decoration:none;margin-right:2px" title="All systems">↩ Systems</a><div class="bar"><i id="pbar"></i></div><span class="pc" id="ppc">0%</span></div>
+</div></div>
+<div class="wrap"><aside class="rail"><div class="h">Section contents</div><div id="rail"></div></aside><main class="view" id="view"></main></div>
+<div class="toast" id="toast"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span id="tmsg"></span></div>
+
+<script>
+/* ---- storage adapter: native window.storage in Claude; localStorage when deployed (GitHub Pages); memory as last resort ---- */
+(function(){if(typeof window==='undefined')return;if(window.storage&&window.storage.get)return;var mem={};window.storage={get:function(k){try{var v=window.localStorage.getItem(k);return Promise.resolve(v!=null?{value:v}:null);}catch(e){return Promise.resolve(mem[k]!=null?{value:mem[k]}:null);}},set:function(k,v){try{window.localStorage.setItem(k,v);}catch(e){mem[k]=v;}return Promise.resolve({value:v});},delete:function(k){try{window.localStorage.removeItem(k);}catch(e){delete mem[k];}return Promise.resolve({deleted:true});}};})();
+
+const ic={check:'<path d="M20 6 9 17l-5-5"/>',x:'<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',arrow:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',back:'<path d="M19 12H5"/><path d="m12 19-7-7 7-7"/>',brain:'<path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44A2.5 2.5 0 0 1 4 17.5a2.5 2.5 0 0 1-.5-4.9 2.5 2.5 0 0 1 0-4.2A2.5 2.5 0 0 1 5 3.5 2.5 2.5 0 0 1 9.5 2z"/>',flag:'<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>',alert:'<path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="9"/>',bolt:'<path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/>',book:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',open:'<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/>',award:'<circle cx="12" cy="8" r="6"/><path d="M15.5 12.9 17 22l-5-3-5 3 1.5-9.1"/>',retake:'<path d="M3 12a9 9 0 1 0 9-9 9 9 0 0 0-6.4 2.6L3 8"/><path d="M3 3v5h5"/>',coffee:'<path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/><line x1="6" y1="2" x2="6" y2="5"/><line x1="10" y1="2" x2="10" y2="5"/><line x1="14" y1="2" x2="14" y2="5"/>'};
+const sv=(p,w=2)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+function conds(title,items){return `<h3>${title}</h3><ul class="clean">${items.map(([n,d])=>`<li><b>${n}</b> — ${d}</li>`).join('')}</ul>`;}
+function story(title,text){return `<div class="story"><div class="st">${sv(ic.coffee)} ${title}</div><p>${text}</p></div>`;}
+
+/* ================= WIDGET LIBRARY ================= */
+const SPOT={}, MATCH={}, SORT={}, ERA={};
+const WID={
+  spot(el,k){const c=SPOT[k];let found=new Set();
+    el.innerHTML=`<span class="wlabel">Spot the defect</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div>
+     <div class="sd-wrap"><div class="sd-stage"><svg viewBox="${c.vb}" class="hot">${c.svg}<g class="hsg"></g></svg></div>
+     <div class="sd-side"><div class="sd-count"><div class="big"><span class="sdn">0</span>/${c.defects.length}</div><div class="lbl">defects found</div></div><div class="sd-found"><div class="sd-empty">Click a defect to log it…</div></div></div></div>`;
+    const g=el.querySelector('.hsg'),cnt=el.querySelector('.sdn'),fw=el.querySelector('.sd-found');
+    c.defects.forEach((d,i)=>{const gg=document.createElementNS('http://www.w3.org/2000/svg','g');gg.setAttribute('class','hot');gg.innerHTML=`<circle class="zone" cx="${d.x}" cy="${d.y}" r="${d.r}"/>`;gg.style.cursor='pointer';
+      gg.addEventListener('click',()=>{if(found.has(i))return;found.add(i);gg.classList.add('found');cnt.textContent=found.size;if(fw.querySelector('.sd-empty'))fw.innerHTML='';
+        const card=document.createElement('div');card.className='fcard';card.innerHTML=`<div class="fn">${found.size}. ${d.n}</div><div class="fd">${d.d}</div>`;fw.appendChild(card);
+        if(found.size===c.defects.length){const dn=document.createElement('div');dn.className='sd-done';dn.textContent='All found — that\'s the scan. Nicely done.';fw.appendChild(dn);}});
+      g.appendChild(gg);});},
+  gfi(el){el.innerHTML=`<span class="wlabel">Animated diagram</span><div class="wtitle">Watch the GFI work</div><div class="wsub">Current flows out the hot and back on the neutral — equal. Introduce a leak and see what happens.</div>
+    <div class="gfi-stage"><div class="gbox"><div><div class="gt">GFI</div><div class="gs">in vs out</div></div></div><div class="load"><div class="lt">LOAD</div></div><div class="lane hot"><span class="lab">hot — out</span></div><div class="lane neu"><span class="lab">neutral — back</span></div><div class="leak"></div><div class="person">🧍</div><div class="trip"><div class="tw"><div class="b">⚡ GFI TRIPPED</div><div class="s">imbalance &gt; 5 mA — cut in milliseconds</div></div></div></div>
+    <div class="gfi-status"><span class="pip"></span><span class="gtxt">Balanced — out equals back. Holding.</span></div>
+    <div class="gfi-read">Hot out: <b>15.000 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b>0 mA</b></div>
+    <div class="gfi-controls"><button class="btn brass gflt">Introduce a ground fault</button><button class="btn ghost grst">Reset</button></div>`;
+    const stage=el.querySelector('.gfi-stage'),st=el.querySelector('.gfi-status'),txt=el.querySelector('.gtxt'),read=el.querySelector('.gfi-read'),trip=el.querySelector('.trip'),fbtn=el.querySelector('.gflt');let f=false,to;
+    function dots(){stage.querySelectorAll('.dot').forEach(d=>d.remove());for(let i=0;i<5;i++){const d=document.createElement('span');d.className='dot h';d.style.animationDelay=(-i*0.48)+'s';stage.querySelector('.lane.hot').appendChild(d);}const nc=f?2:5;for(let i=0;i<nc;i++){const d=document.createElement('span');d.className='dot n';d.style.animationDelay=(-i*0.48)+'s';stage.querySelector('.lane.neu').appendChild(d);}}
+    function reset(){f=false;clearTimeout(to);el.querySelector('.leak').classList.remove('on');el.querySelector('.person').classList.remove('on');trip.classList.remove('on');st.classList.remove('fault');txt.textContent='Balanced — out equals back. Holding.';read.innerHTML='Hot out: <b>15.000 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b>0 mA</b>';fbtn.textContent='Introduce a ground fault';dots();}
+    fbtn.onclick=()=>{f=!f;if(f){el.querySelector('.leak').classList.add('on');el.querySelector('.person').classList.add('on');st.classList.add('fault');txt.textContent='Imbalance — current is leaking to ground.';read.innerHTML='Hot out: <b>15.006 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b style="color:var(--fail)">6 mA</b>';fbtn.textContent='Clear the fault';dots();to=setTimeout(()=>trip.classList.add('on'),650);}else reset();};
+    el.querySelector('.grst').onclick=reset;dots();},
+  match(el,k){const c=MATCH[k];const sh=a=>a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v[1]);let sel=null,locked=0;
+    el.innerHTML=`<span class="wlabel">Match drill</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="match"><div class="mcol"><div class="ch">${c.left}</div><div class=" L"></div></div><div class="mcol"><div class="ch">${c.right}</div><div class="R"></div></div></div><div class="md"></div>`;
+    const L=el.querySelector('.L'),R=el.querySelector('.R'),done=el.querySelector('.md');
+    c.pairs.forEach(p=>{const b=document.createElement('button');b.className='chip';b.textContent=p[0];b.dataset.a=p[0];b.dataset.s='L';L.appendChild(b);});
+    sh(c.pairs.map(p=>p[1])).forEach(v=>{const b=document.createElement('button');b.className='chip';b.textContent=v;b.dataset.b=v;b.dataset.s='R';R.appendChild(b);});
+    el.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{if(b.classList.contains('locked'))return;
+      if(!sel){sel=b;b.classList.add('sel');return;}if(sel===b){b.classList.remove('sel');sel=null;return;}if(sel.dataset.s===b.dataset.s){sel.classList.remove('sel');sel=b;b.classList.add('sel');return;}
+      const left=sel.dataset.s==='L'?sel:b,right=sel.dataset.s==='R'?sel:b,ok=c.pairs.find(p=>p[0]===left.dataset.a)[1]===right.dataset.b;
+      if(ok){[left,right].forEach(x=>{x.classList.remove('sel');x.classList.add('locked');});locked++;if(locked===c.pairs.length)done.innerHTML=`<div class="w-done">${c.done}</div>`;}
+      else{[left,right].forEach(x=>{x.classList.add('miss');setTimeout(()=>x.classList.remove('miss','sel'),350);});}sel=null;});},
+  sort(el,k){const c=SORT[k];let sel=null,placed=0;
+    el.innerHTML=`<span class="wlabel">Sort it</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="sort"><div class="sort-items">${c.items.map((it,i)=>`<button class="sitem" data-i="${i}">${it.t}</button>`).join('')}</div><div class="bins">${c.bins.map((b,bi)=>`<div class="bin" data-bin="${bi}"><div class="bt">${b}</div><div class="drop">tap an item, then tap here</div></div>`).join('')}</div></div><div class="md"></div>`;
+    const items=el.querySelectorAll('.sitem'),bins=el.querySelectorAll('.bin'),done=el.querySelector('.md');
+    items.forEach(it=>it.onclick=()=>{if(it.classList.contains('placed'))return;el.querySelectorAll('.sitem').forEach(x=>x.classList.remove('sel'));sel=it;it.classList.add('sel');});
+    bins.forEach(bin=>bin.onclick=()=>{if(!sel)return;const i=+sel.dataset.i,bi=+bin.dataset.bin,ok=c.items[i].bin===bi;
+      const row=document.createElement('div');row.className='binitem '+(ok?'right':'wrong');row.innerHTML=(ok?sv(ic.check,2.6):sv(ic.x,2.6))+' '+c.items[i].t;bin.querySelector('.drop').remove?bin.querySelector('.drop')&&(bin.querySelector('.drop').style.display='none'):0;bin.appendChild(row);
+      sel.classList.add('placed');sel=null;placed++;if(placed===c.items.length)done.innerHTML=`<div class="w-done">${c.done}</div>`;});},
+  est(el){el.innerHTML=`<span class="wlabel">Field tool</span><div class="wtitle">Service-size estimator</div><div class="wsub">Set what you'd read on site; it calls the size and flags an unsafe mismatch — your on-site logic.</div>
+    <div class="est"><div><label>Service-entrance conductor (copper)</label><select class="sew"><option value="6">#6 AWG</option><option value="4">#4 AWG</option><option value="2" selected>2/0 AWG</option><option value="0">4/0 AWG</option></select></div><div><label>Main breaker rating</label><select class="mbk"><option value="60">60 A</option><option value="100">100 A</option><option value="200" selected>200 A</option><option value="400">400 A</option></select></div><div class="est-out"></div></div>`;
+    const WA={'6':60,'4':100,'2':200,'0':400},WL={'6':'#6 AWG','4':'#4 AWG','2':'2/0 AWG','0':'4/0 AWG'},sew=el.querySelector('.sew'),mbk=el.querySelector('.mbk'),out=el.querySelector('.est-out');
+    function go(){const w=sew.value,b=+mbk.value,sup=WA[w];if(b>sup){out.className='est-out bad';out.innerHTML=`<div class="ev">⚠ Overfused — unsafe</div><div class="ed">A ${b} A main on ${WL[w]} copper (good for ~${sup} A) won't shut off before the conductor overheats. Report: overcurrent device oversized for the service-entrance conductor.</div>`;}else{const ap=Math.min(b,sup);out.className='est-out ok';out.innerHTML=`<div class="ev">${ap} A service</div><div class="ed">${WL[w]} copper supports ~${sup} A and the main is ${b} A — conductor protected. Report the service size as ${ap} A${b<sup?' (limited by the main breaker)':''}.</div>`;}}
+    sew.onchange=go;mbk.onchange=go;go();},
+  era(el,k){const c=ERA[k];el.innerHTML=`<span class="wlabel">Explore</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="era"><div class="line"></div>${c.rows.map((r,i)=>`<div class="erow" data-i="${i}"><span class="ed"></span><span class="et">${r.d}</span><div><div class="en">${r.n}</div><div class="ex">${r.x}</div></div></div>`).join('')}</div>`;
+    el.querySelectorAll('.erow').forEach(r=>r.onclick=()=>r.classList.toggle('open'));}
+};
+function wireWidgets(root){root.querySelectorAll('.wmount').forEach(el=>{const w=el.dataset.w,k=el.dataset.k;if(WID[w])WID[w](el,k);});}
+function W(w,k){return `<div class="widget wmount" data-w="${w}" data-k="${k||''}"></div>`;}
+
+/* ================= ENGINE ================= */
+const KEY='ati_electrical_ix_v1';
+let S={done:{},quiz:{},assessBest:0,cur:0};
+async function load(){try{const r=await window.storage.get(KEY,false);if(r&&r.value)S=JSON.parse(r.value);}catch(e){}S.done=S.done||{};S.quiz=S.quiz||{};}
+async function save(){try{await window.storage.set(KEY,JSON.stringify(S),false);}catch(e){}}
+const stepDone=i=>!!S.done[STEPS[i].id];
+const pct=()=>Math.round(Object.keys(S.done).length/STEPS.length*100);
+const unlocked=i=>i===0?true:stepDone(i-1);
+const view=document.getElementById('view');
+function updTop(){const p=pct();document.getElementById('pbar').style.width=p+'%';document.getElementById('ppc').textContent=p+'%';}
+function rail(){document.getElementById('rail').innerHTML=STEPS.map((s,i)=>{const d=stepDone(i),u=unlocked(i),a=i===S.cur;return `<button class="step ${d?'done':''} ${a?'active':''} ${u?'':'locked'}" ${u?`onclick="goStep(${i})"`:''}><span class="dot">${d?sv(ic.check,3):(i+1)}</span><span class="lbl">${s.label}<span class="kind">${s.kind}</span></span></button>`;}).join('');}
+function goStep(i){if(!unlocked(i))return;S.cur=i;save();render();window.scrollTo({top:0,behavior:'smooth'});}
+function markDoneAndNext(){S.done[STEPS[S.cur].id]=true;save();updTop();rail();if(S.cur<STEPS.length-1)goStep(S.cur+1);else render();}
+function render(){updTop();rail();const s=STEPS[S.cur];({lesson:renderLesson,scenario:renderScenarios,assess:renderAssess,glossary:renderGlossary,source:renderSource}[s.type])(s);}
+function navFoot(label,gated){const last=S.cur===STEPS.length-1;return `<div class="foot">${S.cur>0?`<button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button>`:''}<div class="sp"></div><button class="btn brass" id="nextBtn" ${gated?'disabled':''} onclick="markDoneAndNext()">${label||(last?'Finish section':'Mark complete & continue')} ${sv(ic.arrow)}</button></div>`;}
+
+function renderLesson(s){
+  let h=(typeof s.body==='function'?s.body():s.body);
+  if(s.quiz&&s.quiz.length){
+    h+=`<div class="quiz"><div class="qh">${sv(ic.brain)} Check your understanding</div><div class="qt">${s.label}</div><div class="qsub">${s.quiz.length} questions covering the lesson — answer each to see the reasoning.</div><div class="qbody">${
+      s.quiz.map((q,qi)=>`<div class="qblock"><div class="qnum">Question ${qi+1} of ${s.quiz.length}</div><div class="q">${q.q}</div><div class="opts" data-qi="${qi}">${q.o.map((o,k)=>`<button class="opt" onclick="qAns(${qi},${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="qexp" data-qi="${qi}"></div></div>`).join('')
+    }</div><div class="qscore" style="display:none"></div></div>`;
+  }
+  const gated=!!(s.quiz&&s.quiz.length&&!S.quiz[s.id]);
+  view.innerHTML=h+navFoot(null,gated);
+  wireWidgets(view);
+  window._ql={answered:{},total:s.quiz?s.quiz.length:0};
+}
+function qAns(qi,k){const s=STEPS[S.cur],q=s.quiz[qi];if(window._ql.answered[qi]!==undefined)return;window._ql.answered[qi]=k;
+  const opts=view.querySelector('.opts[data-qi="'+qi+'"]');opts.querySelectorAll('.opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===q.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});
+  view.querySelector('.qexp[data-qi="'+qi+'"]').innerHTML=`<div class="exp"><b>${k===q.a?'Correct.':'Review:'}</b> ${q.e}</div>`;
+  if(Object.keys(window._ql.answered).length===window._ql.total){
+    const right=s.quiz.filter((q,i)=>window._ql.answered[i]===q.a).length,sc=view.querySelector('.qscore');sc.style.display='flex';
+    sc.innerHTML=`${sv(ic.check,2.4)}<span>You scored <b style="color:${right>=Math.ceil(s.quiz.length*0.8)?'var(--pass)':'var(--fail)'}">${right}/${s.quiz.length}</b> on this lesson.</span>`;
+    sc.querySelector('svg').style.color=right>=Math.ceil(s.quiz.length*0.8)?'var(--pass)':'var(--fail)';
+    S.quiz[s.id]=true;save();const b=document.getElementById('nextBtn');if(b)b.disabled=false;}
+}
+
+let SC={i:0,answered:false};
+function renderScenarios(){SC={i:0,answered:false};paintScen();}
+function paintScen(){const sc=SCEN[SC.i];view.innerHTML=`<span class="eyebrow">Apply it · Inspector's Call</span><h1>Make the call</h1><p class="lead">The decisions you'll actually make standing in front of the system. Read it, choose, see the reasoning.</p><div class="scount mono">Scenario ${SC.i+1} of ${SCEN.length}</div><div class="scen"><div class="sh"><div class="t">${sc.t}</div><div class="n">${sc.n}</div></div><div class="body"><div class="situation">${sc.s}</div><div class="ask">${sc.ask}</div><div class="scopts">${sc.o.map((o,k)=>`<button class="opt" onclick="scAns(${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="scexp"></div></div></div><div class="foot"><button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button><div class="sp"></div><div class="scnext"></div></div>`;}
+function scAns(k){if(SC.answered)return;SC.answered=true;const sc=SCEN[SC.i];view.querySelectorAll('.scopts .opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===sc.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});view.querySelector('.scexp').innerHTML=`<div class="exp"><b>${k===sc.a?'Right call.':'Here\'s the call:'}</b> ${sc.e}</div>`;const last=SC.i===SCEN.length-1;view.querySelector('.scnext').innerHTML=`<button class="btn brass" onclick="${last?'markDoneAndNext()':'scNext()'}">${last?'Mark complete & continue':'Next scenario'} ${sv(ic.arrow)}</button>`;}
+function scNext(){SC.i++;SC.answered=false;paintScen();window.scrollTo({top:0,behavior:'smooth'});}
+
+let AS=null;
+function renderAssess(){if(!AS||AS.done)AS={i:0,answers:[],done:false};view.innerHTML=`<span class="eyebrow">Assessment</span><h1>Mastery check — Electrical</h1><p class="lead">${ASSESS.length} application questions across the whole chapter. 80% to pass; reasoning shown on every answer.</p><div class="panelcard" style="text-align:left;padding:0;overflow:hidden"><div style="background:linear-gradient(120deg,#3c5870,#2c4153);color:#fff;padding:18px 22px;display:flex;justify-content:space-between;align-items:center"><div><div style="font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-2)">Electrical Systems</div><div style="font-family:var(--display);font-weight:700;font-size:17px;margin-top:3px">${ASSESS.length} questions · 80% to pass</div></div><div style="color:var(--brass-2)">${sv(ic.award)}</div></div><div style="padding:26px 22px;text-align:center">${S.assessBest?`<div class="mono" style="font-size:13px;color:var(--ink-2);margin-bottom:16px">Best score: <b style="color:${S.assessBest>=80?'var(--pass)':'var(--fail)'}">${S.assessBest}%</b></div>`:''}<button class="btn brass" style="margin:0 auto" onclick="asStart()">${S.assessBest?'Retake assessment':'Begin assessment'} ${sv(ic.arrow)}</button></div></div>`;}
+function asStart(){AS={i:0,answers:[],done:false};asPaint();window.scrollTo({top:0,behavior:'smooth'});}
+function asPaint(){const q=ASSESS[AS.i];view.innerHTML=`<span class="eyebrow">Assessment · Electrical</span><h1 style="font-size:24px">Question ${AS.i+1} <span style="color:var(--ink-3)">/ ${ASSESS.length}</span></h1><div style="margin:14px 0 0"><div style="width:100%;height:6px;background:var(--surf-3);border-radius:6px;overflow:hidden;border:1px solid var(--line)"><i style="display:block;height:100%;width:${AS.i/ASSESS.length*100}%;background:var(--brass)"></i></div></div><div class="quiz" style="border-color:var(--line);margin-top:22px"><div class="q">${q.q}</div><div class="opts">${q.o.map((o,k)=>`<button class="opt" onclick="asAns(${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="asexp"></div></div><div class="foot"><div class="sp"></div><div class="asnext"></div></div>`;}
+function asAns(k){if(AS.answers[AS.i]!==undefined)return;AS.answers[AS.i]=k;const q=ASSESS[AS.i];view.querySelectorAll('.opts .opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===q.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});view.querySelector('.asexp').innerHTML=`<div class="exp"><b>${k===q.a?'Correct.':'Review:'}</b> ${q.e}</div>`;const last=AS.i===ASSESS.length-1;view.querySelector('.asnext').innerHTML=`<button class="btn brass" onclick="${last?'asFinish()':'asNext()'}">${last?'See results':'Next'} ${sv(ic.arrow)}</button>`;}
+function asNext(){AS.i++;asPaint();window.scrollTo({top:0,behavior:'smooth'});}
+function asFinish(){const correct=AS.answers.filter((a,i)=>a===ASSESS[i].a).length,p=Math.round(correct/ASSESS.length*100),pass=p>=80;S.assessBest=Math.max(S.assessBest||0,p);AS.done=true;if(pass)S.done['assess']=true;save();updTop();rail();const circ=2*Math.PI*62;
+  view.innerHTML=`<span class="eyebrow">Assessment · Result</span><h1 style="margin-bottom:18px">${pass?'Section mastered':'Not quite there'}</h1><div class="panelcard"><div class="ring"><svg width="150" height="150" viewBox="0 0 150 150" style="transform:rotate(-90deg)"><circle cx="75" cy="75" r="62" fill="none" stroke="var(--surf-3)" stroke-width="11"/><circle cx="75" cy="75" r="62" fill="none" stroke="${pass?'var(--pass)':'var(--fail)'}" stroke-width="11" stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${circ}"><animate attributeName="stroke-dashoffset" from="${circ}" to="${circ-circ*p/100}" dur=".8s" fill="freeze" calcMode="spline" keySplines=".2 .7 .2 1"/></circle></svg><div class="rv"><div><div class="n" style="color:${pass?'var(--pass)':'var(--fail)'}">${p}%</div><div class="p">${correct}/${ASSESS.length} correct</div></div></div></div><span class="verdict ${pass?'pass':'fail'}">${pass?'Passed':'Below 80%'}</span><p>${pass?'You\'ve cleared Electrical with real depth. The same five-step loop carries into Cooling, Heating, Insulation, and Plumbing.':'You need 80% to pass. Revisit the lessons and explanations, then retake — your best score counts.'}</p><div style="display:flex;gap:12px;justify-content:center"><button class="btn ghost" onclick="asStart()">${sv(ic.retake)} Retake</button>${pass?`<button class="btn brass" onclick="goStep(${STEPS.length-1})">Continue ${sv(ic.arrow)}</button>`:`<button class="btn brass" onclick="goStep(1)">Review lessons ${sv(ic.arrow)}</button>`}</div></div><div style="height:30px"></div>`;}
+
+function renderGlossary(){view.innerHTML=`<span class="eyebrow">Reference</span><h1>Electrical glossary</h1><p class="lead">Every key term in one place — quick reference for a real inspection.</p><div class="gloss" style="margin-top:20px">${GLOSSARY.map(([w,d])=>`<div class="term"><div class="tw">${w}</div><div class="td">${d}</div></div>`).join('')}</div>${navFoot('Continue')}`;}
+function renderSource(){view.innerHTML=`<span class="eyebrow">Deep reading · optional</span><h1>The full source chapter</h1><p class="lead">Everything required is taught in the lessons — the complete original chapter is here for the deepest dive.</p><div class="srcnote">${sv(ic.book,2)} <b>Chapter 7 — Electrical Systems</b> · <i>Principles of Home Inspection: Systems and Standards</i>. If the viewer is blank, the PDF needs to sit alongside this file — <a href="electrical-chapter.pdf" target="_blank">open it in a new tab</a>.</div><iframe class="srcframe" src="electrical-chapter.pdf"></iframe><div style="margin-top:14px"><a class="btn slate" href="electrical-chapter.pdf" target="_blank">${sv(ic.open)} Open full chapter (PDF)</a></div><div class="foot"><button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button><div class="sp"></div><a class="btn slate" href="index.html" style="text-decoration:none;margin-right:10px">${sv(ic.back)} Module II</a><button class="btn brass" onclick="finishAll()">${sv(ic.check)} Complete section</button></div>`;}
+function finishAll(){S.done['source']=true;save();updTop();rail();toast('Electrical Systems section complete');}
+let tT;function toast(m){const t=document.getElementById('toast');document.getElementById('tmsg').textContent=m;t.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('show'),2400);}
+
+/* ================= DATA: scenarios / assessment / glossary ================= */
+const SCEN=[
+ {t:'In the panel',n:'The mismatched breaker',s:'You remove the dead-front of a 200-amp panel. On a circuit feeding bedroom receptacles, a 30-amp breaker protects a 14-gauge copper conductor.',ask:'What do you write up?',o:['Nothing — it\'s a 200-amp panel so 30 amps is fine','Overfusing: 14 AWG is rated 15 A; a 30 A breaker won\'t trip before the wire overheats — fire hazard. Recommend correction.','A grounding defect requiring a new electrode','Recommend a full panel replacement'],a:1,e:'The breaker protects the conductor, not the panel. 14 AWG = 15 A; a 30 A breaker is overfusing — the most common defect. Report it and recommend correction.'},
+ {t:'At the subpanel',n:'Bonded where it shouldn\'t be',s:'A garage subpanel has its neutral bus and ground bus joined by a green bonding screw, fed by a 4-wire feeder from the main.',ask:'Is there a problem, and what\'s the implication?',o:['No problem — bonding is always safer','Yes — bonding at a subpanel puts everyday neutral current on the grounds and enclosures. Shock hazard; recommend correction.','Only a problem without a ground rod at the garage','The 4-wire feeder is the defect'],a:1,e:'Neutral-to-ground bonding happens at the service ONLY. The bonding screw energizes bare grounds and metal cases.'},
+ {t:'Outside',n:'Too close for comfort',s:'The overhead service drop passes about two feet from an openable second-story window.',ask:'Your call?',o:['Acceptable — drops can be routed anywhere','Clearance appears inadequate (~3 ft wanted at windows) — contact/shock hazard. Document and recommend utility/electrician evaluation.','Out of scope for a home inspection','Recommend sealing the window shut'],a:1,e:'Modern practice wants ~3 ft from windows/doors. Two feet from an openable window is a contact hazard; the utility is the authority on the final clearance.'},
+ {t:'Reading the service',n:'Two big fuses',s:'You can\'t read the SE conductors, but the main is a fused disconnect with two 100-amp cartridge fuses.',ask:'Service size, and how do you phrase it?',o:['200 A — add the two fuses','100 A — written "apparent 100-amp service" since you sized it from the fuses','60 A — fuses are always conservative','Can\'t be determined'],a:1,e:'You never add the two fuses; each protects one hot. Two 100 A fuses = 100 A. Read from fuses, not conductors, so say "apparent 100-amp service."'},
+ {t:'At a receptacle',n:'The phantom ground',s:'A three-prong receptacle in an older living room with two-wire branch circuits tests "open ground."',ask:'How do you handle it?',o:['Pass it — three prongs means grounded','Report the open ground and recommend correction; note GFI protection is an accepted remedy','Reverse the wires to fix it','Ignore it outside kitchens/baths'],a:1,e:'A three-prong outlet on an ungrounded circuit is a false sense of safety. GFI protection (labeled) is the accepted remedy where rewiring isn\'t practical.'},
+ {t:'In the attic',n:'Knobs under the blanket',s:'Single cloth-insulated conductors on porcelain knobs, now buried under blown-in insulation.',ask:'The biggest concern?',o:['It looks old — replace for appearance','Knob-and-tube buried in insulation can overheat — flag the buried condition, recommend evaluation','Aluminum oxidation at terminations','Nothing — it works'],a:1,e:'K&T relies on open air to shed heat. Buried, it can overheat — a fire concern. Flag the buried sections specifically and recommend a licensed electrician.'},
+ {t:'At the GFI',n:'Trips but stays hot',s:'You press the test button on a bathroom GFI; it "trips," but your circuit tester plugged into it still shows power.',ask:'What\'s going on?',o:['Normal GFI behavior','Line and load are reversed — protection is defeated at this outlet even though it trips','The GFI is on a multi-wire circuit','The outlet is overfused'],a:1,e:'Reversed line/load lets the GFI trip while leaving this outlet live (downstream outlets are protected, this one isn\'t). Keep a tester plugged in when testing.'},
+];
+const ASSESS=[
+ {q:'Service-entrance conductors run from the ____ to the ____.',o:['Panel; branch circuits','Service drop; the service box/panel','Meter; the utility pole','Ground rod; the neutral bus'],a:1,e:'SE conductors run from the service drop down to the service equipment, meter usually partway.'},
+ {q:'Which is the most reliable way to identify service size?',o:['The service-drop wire size','The distribution panel rating','The service-entrance conductor size','The conduit diameter'],a:2,e:'SE conductor size is best; drop wires sit in open air (unreliable), ratings only need to be ≥ the service size.'},
+ {q:'The implication of an undersized service is:',o:['Shock hazard','Fire hazard','Nuisance tripping/blowing of the main under simultaneous heavy use','Melting insulation'],a:2,e:'Undersized = inconvenience, not a safety hazard. Overfusing is the actual hazard.'},
+ {q:'A 14-gauge copper conductor should be protected by no more than a:',o:['15-amp device','20-amp device','30-amp device','40-amp device'],a:0,e:'14→15, 12→20, 10→30, 8→40, 6→60.'},
+ {q:'You may ground the electrical system to the gas piping.',o:['True','False — gas piping must be BONDED, never used as the ground','True if the pipe is metal','Only above 100 amps'],a:1,e:'Gas piping is bonded so it can\'t arc, but never used as the ground — much underground gas pipe is plastic.'},
+ {q:'Neutral and ground should be bonded together:',o:['At every panel and subpanel','At the service equipment only','Never','At subpanels only'],a:1,e:'Bond at the service only; downstream bonding energizes the grounds and enclosures.'},
+ {q:'The most common electrical defect found in panels is:',o:['Missing knockouts','Overfusing — device too large for the wire','A locked box','An upside-down panel'],a:1,e:'Overfusing lets the conductor overheat before the device trips — the single most common problem.'},
+ {q:'The two hot legs of a multi-wire (or 240 V) circuit must be:',o:['On the same bus bar','On opposite bus bars, and linked','On a twin breaker','Sharing one handle only'],a:1,e:'Opposite buses keep the shared neutral from overloading; the devices must also be linked. Twin breakers sit on one pole — don\'t use them.'},
+ {q:'Do inspectors normally shut off house power to inspect the panel?',o:['Yes, always','No — usually impractical when occupied; test with a voltage detector and report limitations','Yes, and pull the main fuses','Only for aluminum'],a:1,e:'You don\'t kill power in an occupied home; use a voltage detector, ask the occupant, document limitations.'},
+ {q:'Knob-and-tube wiring is identified by:',o:['Bare aluminum conductors','Two separate conductors on ceramic knobs and through ceramic tubes, no ground','Three-conductor plastic cable','A T-shaped receptacle slot'],a:1,e:'Separate hot and neutral on porcelain knobs/tubes, no equipment ground — ~1920–1950.'},
+ {q:'The real failure point of aluminum branch wiring is:',o:['The middle of the run','The terminations — outlets, switches, splices','The panel bus bars only','The insulation color'],a:1,e:'Aluminum conducts fine; oxidation/creep at connections loosens and overheats them. Receptacles are the worst spot.'},
+ {q:'A GFI protects you by:',o:['Shutting off on overload like a fuse','Comparing current out (hot) vs back (neutral) and tripping on a ~5 mA imbalance','Providing an equipment ground','Limiting voltage drop'],a:1,e:'It detects leakage by comparing the two currents. It won\'t trip on a hot-to-neutral short and isn\'t a substitute for grounding.'},
+ {q:'GFCI protection is required in all of these EXCEPT:',o:['Bathrooms and outdoors within 6½ ft of grade','Garages and unfinished basements','Above kitchen counters near a sink','General bedrooms and hallways'],a:3,e:'Required in baths, outdoors near grade, garages, kitchen counters near sinks, unfinished basements/crawlspaces, pools/whirlpools — not general bedrooms.'},
+ {q:'A fused neutral is dangerous because:',o:['It undersizes the service','If the neutral fuse blows first, the circuit appears dead but stays energized to that fuse','It causes reversed polarity','It only affects 240 V circuits'],a:1,e:'Only the hots should be fused; a blown neutral fuse leaves the circuit live back to the fuse — a shock hazard.'},
+ {q:'Reversed polarity at a receptacle means:',o:['Hot and neutral are swapped (white acts hot)','The ground is open','There is no GFI','The breaker is too large'],a:0,e:'White hot, black neutral; switched appliances can have a live case even when "off." Report for rewiring.'},
+];
+const GLOSSARY=[
+ ['Service drop','Overhead utility conductors from the pole to the house connection (underground = service lateral).'],
+ ['Drip loop','U-shaped bend at the service point that sheds water before it enters the conduit; also shows the wires aren\'t under tension.'],
+ ['Masthead / weatherhead','The weather-tight cap atop the mast/conduit where the drop connects (also service cap, pothead, entrance cap).'],
+ ['Service-entrance (SE) conductors','Conductors from the meter/cap down to the service box.'],
+ ['Service mast','Pipe extending the service up through the roof to support the drop; flashed, ≥ 3 ft above the roof.'],
+ ['Ampacity / service size','Current the service can carry (60/100/200 A); voltage is ~always 240 V.'],
+ ['AWG','American Wire Gauge — runs backwards (smaller number = bigger wire); 0, 2/0, 3/0, 4/0 for the largest.'],
+ ['Overfusing','A fuse/breaker rated larger than the conductor it protects — a fire hazard and the most common panel defect.'],
+ ['Service box','Main control center — single disconnect plus main overcurrent protection.'],
+ ['Combination panel','Service box and distribution panel in one cabinet (a "service panel").'],
+ ['Grounding (earth)','Connecting the system to earth via a grounding electrode so it sits at zero potential.'],
+ ['Bonding','Joining conductors/metal parts to the same potential, creating a low-impedance fault path.'],
+ ['Grounding electrode conductor','The bare wire from the box to the rod/pipe/UFER electrode.'],
+ ['Equipment grounding conductor','The bare ground wire running with each branch circuit; normally idle.'],
+ ['UFER ground','A grounding electrode formed by rebar in the concrete footing.'],
+ ['Distribution panel','Where branch circuits attach — the fuse/breaker box.'],
+ ['Subpanel','A downstream panel; neutrals isolated, grounds separate, fed/protected from the main.'],
+ ['Double tap (double-lug)','Two conductors under one terminal not listed for two; fix by pigtailing.'],
+ ['Multi-wire branch circuit','Two hots sharing a neutral; hots must be on opposite buses and linked.'],
+ ['NM / UF / BX cable','Indoor non-metallic (Romex); underground feeder; armored metal-jacketed (AC-90).'],
+ ['Insulation vs sheathing','Insulation wraps each conductor; sheathing is the outer cable jacket.'],
+ ['Knob-and-tube','Pre-1950 ungrounded wiring on porcelain knobs/tubes; concern when buried in insulation or modified.'],
+ ['Aluminum branch wiring','~1965–late 1970s; failure risk at terminations — use CUAL / CO/ALR devices.'],
+ ['GFI / GFCI','Ground-fault device that trips on a ~5 mA imbalance between hot and neutral; outlet or breaker form.'],
+ ['Reversed polarity','Hot and neutral swapped (white acts hot) — a shock hazard with switched appliances.'],
+ ['Open ground / open neutral','A grounding or neutral path that isn\'t connected.'],
+];
+
+/* ================= WIDGET CONTENT REGISTRIES ================= */
+const _gs='fill="none" stroke="#3c5870" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"';
+const _mono=(x,y,s,t,c='#2c4153',a='middle')=>`<text x="${x}" y="${y}" text-anchor="${a}" font-family="JetBrains Mono" font-size="${s}" fill="${c}">${t}</text>`;
+
+SPOT.box={title:'Open the service box',sub:'Five problems on this service equipment — click each one you spot.',vb:'0 0 480 360',
+ svg:`<g ${_gs}>
+   <rect x="120" y="30" width="240" height="300" rx="7"/>
+   <rect x="150" y="46" width="180" height="30" rx="3"/>${_mono(240,66,11,'MAIN DISCONNECT')}
+   <rect x="150" y="92" width="80" height="60" rx="3"/><rect x="250" y="92" width="80" height="60" rx="3"/>${_mono(190,126,10,'FUSE')}${_mono(290,126,10,'FUSE')}
+   <line x1="160" y1="40" x2="160" y2="20" stroke="#7f520a"/><line x1="200" y1="40" x2="200" y2="20" stroke="#7f520a"/><line x1="280" y1="40" x2="280" y2="20" stroke="#7f520a"/>
+   <rect x="150" y="280" width="180" height="20" rx="2"/>${_mono(240,294,9,'NEUTRAL BAR')}
+   <!-- D1 fused neutral: a fuse on the white/neutral run -->
+   <line x1="280" y1="40" x2="280" y2="92" stroke="#9a9588" stroke-width="1.4"/><rect x="270" y="160" width="20" height="34" rx="3" stroke="#b85436"/>${_mono(280,182,8,'N','#b85436')}<line x1="280" y1="194" x2="280" y2="280" stroke="#9a9588" stroke-width="1.4"/>
+   <!-- D2 missing knockout -->
+   <circle cx="352" cy="200" r="9" fill="#bdb8a8" stroke="#2c4153"/><circle cx="352" cy="200" r="3" fill="#8a8475"/>
+   <!-- D3 improper tap upstream -->
+   <line x1="160" y1="40" x2="160" y2="92" stroke="#6a6557" stroke-width="1.4"/><path d="M160 60 H 120 H 96" stroke="#6a6557" stroke-width="1.4"/>${_mono(80,64,8,'tap','#b85436','middle')}
+   <!-- D4 rust/water bottom -->
+   <ellipse cx="180" cy="312" rx="32" ry="14" fill="#9c6b3a" opacity="0.42"/><ellipse cx="180" cy="312" rx="18" ry="8" fill="#7d4f24" opacity="0.42"/>
+   <!-- D5 gas meter too close -->
+   <circle cx="430" cy="120" r="26"/><circle cx="430" cy="120" r="9"/>${_mono(430,162,9,'GAS METER')}<path d="M430 146 V 170 H 360" stroke="#6a6557" stroke-width="1.4"/>
+ </g>`,
+ defects:[
+  {x:280,y:177,r:16,n:'Fused neutral',d:'A fuse sits on the neutral run. If it blows first, the circuit looks dead but stays live back to the fuse — a shock hazard. Only the hots should be fused.'},
+  {x:352,y:200,r:14,n:'Missing knockout',d:'An open hole lets fingers and rodents reach energized parts, and won\'t contain a fire. Install a filler.'},
+  {x:108,y:60,r:20,n:'Improper tap (upstream of meter)',d:'A conductor tapped off the box ahead of the meter is unmetered — effectively stolen power. The box isn\'t designed for multiple taps.'},
+  {x:180,y:312,r:26,n:'Rust / water in the box',d:'Water conducts and corrodes connections — a shock hazard. Find the source and recommend evaluation.'},
+  {x:430,y:120,r:28,n:'Too close to the gas meter',d:'Electrical equipment must be ≥ 3 ft from gas meters/vents — a spark near gas is an explosion risk.'},
+ ]};
+
+SPOT.panel={title:'Inside the distribution panel',sub:'Six conditions hiding in this panel — find them all.',vb:'0 0 460 380',
+ svg:`<g ${_gs}>
+   <rect x="60" y="20" width="340" height="340" rx="7"/><rect x="150" y="34" width="160" height="26" rx="3"/>${_mono(230,51,11,'MAIN 200A')}
+   <line x1="226" y1="66" x2="226" y2="330" stroke="#7f520a" stroke-width="2"/><line x1="232" y1="66" x2="232" y2="330" stroke="#7f520a" stroke-width="2"/>
+   <g stroke-width="1.3"><rect x="92" y="74" width="118" height="18" rx="2"/><rect x="92" y="98" width="118" height="18" rx="2"/><rect x="92" y="122" width="118" height="18" rx="2"/><rect x="92" y="146" width="118" height="18" rx="2"/><rect x="92" y="170" width="118" height="18" rx="2"/><rect x="92" y="194" width="118" height="18" rx="2"/><rect x="248" y="74" width="118" height="18" rx="2"/><rect x="248" y="98" width="118" height="18" rx="2"/><rect x="248" y="122" width="118" height="18" rx="2"/><rect x="248" y="146" width="118" height="18" rx="2"/><rect x="248" y="170" width="118" height="18" rx="2"/><rect x="248" y="194" width="118" height="18" rx="2"/></g>
+   <g stroke="#6a6557" stroke-width="1.4"><path d="M92 83 H 60"/><path d="M92 107 H 60"/><path d="M92 179 H 60"/><path d="M366 107 H 400"/><path d="M366 155 H 400"/></g>
+   <g stroke="#6a6557" stroke-width="1.4"><path d="M92 128 H 62 M92 134 H 62"/></g>
+   ${_mono(307,87,10,'30A','#b85436')}<path d="M366 83 H 404" stroke="#6a6557" stroke-width="0.8"/>
+   <circle cx="392" cy="250" r="9" fill="#bdb8a8" stroke="#2c4153"/><circle cx="392" cy="250" r="3" fill="#8a8475"/>
+   <ellipse cx="118" cy="322" rx="34" ry="15" fill="#9c6b3a" opacity="0.4"/><ellipse cx="118" cy="322" rx="20" ry="9" fill="#7d4f24" opacity="0.4"/>
+   <path d="M150 70 C 162 56, 184 58, 184 44" stroke="#6a6557" stroke-width="1.6"/><circle cx="184" cy="44" r="3" fill="#6a6557"/>
+   <path d="M366 203 H 430" stroke="#fff" stroke-width="1.6"/>${_mono(444,207,8,'white','#b85436','middle')}
+   <rect x="92" y="314" width="274" height="14" rx="2"/>${_mono(229,324,8,'NEUTRAL / GROUND BUS')}
+ </g>`,
+ defects:[
+  {x:55,y:131,r:22,n:'Double-tapped breaker',d:'Two conductors under one lug not listed for two — a loose, overheating connection. Pigtail to fix.'},
+  {x:307,y:83,r:20,n:'Overfused breaker',d:'A 30 A breaker on a thin conductor. The wire overheats before it trips — the most common defect there is.'},
+  {x:392,y:250,r:16,n:'Missing knockout / open slot',d:'Open holes let fingers and rodents reach live parts. Cover them.'},
+  {x:118,y:322,r:26,n:'Rust / water in the panel',d:'Moisture corrodes connections and is a shock hazard. Find the source; recommend evaluation.'},
+  {x:160,y:54,r:22,n:'Abandoned wire',d:'You can\'t tell if it\'s live — abandoned wire should be removed from the panel.'},
+  {x:410,y:203,r:18,n:'Untaped white wire on a breaker',d:'A white conductor acting as a hot must be taped black/red at both ends. Untaped, it\'s suspect — call for checking.'},
+ ]};
+
+SPOT.branch={title:'Follow the wiring',sub:'You trace branch cable through an unfinished basement. Click the five problems.',vb:'0 0 520 320',
+ svg:`<g ${_gs}>
+   <line x1="20" y1="60" x2="500" y2="60"/><line x1="20" y1="64" x2="500" y2="64" stroke-width="1"/>
+   <g stroke-width="1.2"><line x1="80" y1="64" x2="80" y2="300"/><line x1="200" y1="64" x2="200" y2="300"/><line x1="320" y1="64" x2="320" y2="300"/><line x1="440" y1="64" x2="440" y2="300"/></g>
+   ${_mono(60,52,9,'joists','#918c7d','start')}
+   <!-- normal supported cable through joists -->
+   <path d="M20 100 H 80" stroke="#6a6557" stroke-width="1.6"/><circle cx="80" cy="100" r="3" fill="none" stroke="#6a6557"/>
+   <!-- D1 open splice no box -->
+   <path d="M80 100 H 150" stroke="#6a6557" stroke-width="1.6"/><path d="M150 100 L 158 96 M150 100 L 158 104" stroke="#6a6557" stroke-width="1.6"/><path d="M158 100 H 200" stroke="#6a6557" stroke-width="1.6"/>${_mono(150,86,8,'splice','#b85436')}
+   <!-- D2 cable too close to flue -->
+   <line x1="300" y1="64" x2="300" y2="300" stroke="#8a8475" stroke-width="7"/>${_mono(300,316,9,'flue / vent','#918c7d')}<path d="M200 100 H 308" stroke="#6a6557" stroke-width="1.6"/>
+   <!-- D3 unsupported sagging cable -->
+   <path d="M320 150 C 360 200, 400 200, 440 150" stroke="#6a6557" stroke-width="1.6"/>${_mono(380,210,8,'sag','#b85436')}
+   <!-- D4 cable along the floor/baseboard exposed -->
+   <path d="M20 280 H 460" stroke="#6a6557" stroke-width="1.8"/>${_mono(120,296,9,'run along floor','#918c7d','start')}
+   <!-- D5 damaged / chewed cable -->
+   <path d="M200 200 H 250" stroke="#6a6557" stroke-width="1.6"/><path d="M250 200 l4 -5 l4 8 l4 -8 l4 8 l4 -5" stroke="#b85436" stroke-width="1.6" fill="none"/><path d="M270 200 H 320" stroke="#6a6557" stroke-width="1.6"/>
+ </g>`,
+ defects:[
+  {x:153,y:99,r:18,n:'Open splice (no box)',d:'Connections must be inside an accessible, covered junction box. The only exception is original knob-and-tube.'},
+  {x:300,y:110,r:22,n:'Cable too close to the flue/vent',d:'Wires must clear a metal vent connector — 6 in (gas), 9–18 in (oil), 18 in (wood). Heat will damage the insulation.'},
+  {x:380,y:185,r:30,n:'Unsupported / sagging cable',d:'Cable must be secured within 12 in of a box and every 4½ ft along the run. Sag = improper support.'},
+  {x:230,y:280,r:40,n:'Exposed cable along the floor',d:'Wiring shouldn\'t run where it\'s exposed to damage — along baseboards, floors, or within ~5–7 ft of the floor. Relocate or protect.'},
+  {x:262,y:196,r:18,n:'Damaged / chewed cable',d:'Pests, staples, and abrasion damage conductors. Attics and basements are the usual spots — repair or replace.'},
+ ]};
+
+SPOT.recep={title:'Scan the kitchen wall',sub:'Five receptacle/device problems above this counter. Click them.',vb:'0 0 520 300',
+ svg:`<g ${_gs}>
+   <line x1="20" y1="210" x2="500" y2="210" stroke-width="2"/><line x1="20" y1="214" x2="500" y2="214" stroke-width="1"/>${_mono(40,232,9,'counter','#918c7d','start')}
+   <path d="M250 210 q 35 50 70 0" /> ${_mono(285,200,9,'sink')}
+   <!-- normal receptacle -->
+   <rect x="90" y="150" width="34" height="42" rx="4"/><line x1="103" y1="160" x2="103" y2="170"/><line x1="111" y1="160" x2="111" y2="170"/><circle cx="107" cy="182" r="2"/>
+   <!-- D1 no GFI near sink (plain outlet right by sink) -->
+   <rect x="200" y="150" width="34" height="42" rx="4"/><line x1="213" y1="160" x2="213" y2="170"/><line x1="221" y1="160" x2="221" y2="170"/>
+   <!-- D2 missing cover plate -->
+   <rect x="340" y="150" width="34" height="42" rx="4" stroke-dasharray="4 3"/><line x1="346" y1="158" x2="368" y2="184" stroke="#b85436"/><line x1="368" y1="158" x2="346" y2="184" stroke="#b85436"/>
+   <!-- D3 outlet directly above basin -->
+   <rect x="278" y="150" width="30" height="38" rx="4"/><line x1="289" y1="159" x2="289" y2="167"/><line x1="297" y1="159" x2="297" y2="167"/>
+   <!-- D4 damaged/broken outlet -->
+   <rect x="430" y="150" width="34" height="42" rx="4"/><path d="M438 156 l18 14 M438 170 l10 -8" stroke="#b85436" stroke-width="1.4"/>
+   <!-- D5 loose/hanging outlet -->
+   <rect x="150" y="150" width="34" height="42" rx="4" transform="rotate(14 167 171)"/><path d="M167 192 v 14" stroke="#6a6557" stroke-width="1.4"/>${_mono(167,220,8,'loose','#b85436')}
+ </g>`,
+ defects:[
+  {x:217,y:171,r:22,n:'No GFI beside the sink',d:'Receptacles above a kitchen counter near a sink (and in baths, garages, outdoors, unfinished basements) require GFCI protection.'},
+  {x:357,y:171,r:20,n:'Missing cover plate',d:'An open device box leaves energized terminals exposed to contact. Replace the plate.'},
+  {x:293,y:169,r:18,n:'Receptacle directly above the basin',d:'Outlets belong beside a basin, not over it — a cord can droop into the water.'},
+  {x:447,y:171,r:20,n:'Damaged receptacle',d:'A broken or burned outlet is a shock/fire hazard — replace it.'},
+  {x:167,y:171,r:22,n:'Loose / hanging receptacle',d:'A receptacle not secured to its box can let a side hot terminal touch a metal box — dangerous. Re-secure or replace.'},
+ ]};
+
+MATCH.wirebrk={title:'Wire gauge ↔ breaker',sub:'Tap a copper gauge, then its maximum breaker size. Correct pairs lock green.',left:'Copper wire',right:'Max breaker',
+ pairs:[['14 AWG','15 A'],['12 AWG','20 A'],['10 AWG','30 A'],['8 AWG','40 A'],['6 AWG','60 A']],done:'Locked in — that\'s the wire-to-breaker table in muscle memory.'};
+MATCH.fuse={title:'Fuse color ↔ amperage',sub:'The color codes you\'ll read at a glance in the field. Tap to pair.',left:'Fuse color',right:'Rating',
+ pairs:[['Blue','15 A'],['Orange','20 A'],['Red','25 A'],['Green','30 A']],done:'That\'s the color code — blue/orange/red/green = 15/20/25/30.'};
+MATCH.alwire={title:'Aluminum gauge ↔ breaker',sub:'Aluminum is one size up from copper for the same job. Pair the gauge to its device.',left:'Aluminum wire',right:'Breaker/fuse',
+ pairs:[['12 ga','15 A'],['10 ga','25 A'],['8 ga','30 A'],['6 ga','40 A'],['4 ga','55 A']],done:'Matched — note how each aluminum size carries less than the same copper gauge.'};
+
+SORT.whofixes={title:'Who do you refer it to?',sub:'Each finding routes to the utility or to an electrician. Tap an item, then a bin.',bins:['Refer to the UTILITY','Refer to an ELECTRICIAN'],
+ items:[{t:'Service drop hangs too low over the driveway',bin:0},{t:'Tree branch abrading the drop',bin:0},{t:'Frayed service-drop conductor',bin:0},{t:'Overfused breaker in the panel',bin:1},{t:'Double-tapped breaker',bin:1},{t:'Open ground at a receptacle',bin:1}],
+ done:'Right — the overhead drop is the utility\'s; everything inside the service is the electrician\'s.'};
+SORT.groundbond={title:'Grounding or bonding?',sub:'Sort each action into the right idea. Tap an item, then a bin.',bins:['GROUNDING — to earth','BONDING — joining metal'],
+ items:[{t:'Drive an 8-ft ground rod',bin:0},{t:'Concrete-encased rebar (UFER)',bin:0},{t:'Connect the service to a metal water pipe',bin:0},{t:'Tie the gas piping to the system',bin:1},{t:'Join two metal boxes with a wire',bin:1},{t:'Connect ductwork so it can\'t go live',bin:1}],
+ done:'Exactly — grounding reaches earth; bonding ties metal parts to the same potential.'};
+
+ERA.wire={title:'Wiring through the decades',sub:'Tap each era to see what you\'re looking at — and what it means on an inspection.',
+ rows:[
+  {d:'1920 – 1950',n:'Knob-and-tube',x:'Two separate conductors on porcelain knobs and through tubes. No equipment ground. Concern when buried in insulation or amateurishly modified.'},
+  {d:'1945 – early 60s',n:'Cloth-sheathed, no ground',x:'Two- or three-wire cloth cable with no ground wire. Ungrounded outlets are the norm here.'},
+  {d:'early 60s – early 70s',n:'Cloth + ground',x:'Cloth-sheathed cable that now includes an integral ground wire — the start of whole-house grounding.'},
+  {d:'1964 – 1978',n:'Cloth aluminum + ground',x:'Aluminum branch wiring era begins. Failure risk is at terminations — look for CUAL / CO/ALR devices.'},
+  {d:'1974 – 1978',n:'Plastic aluminum + ground',x:'Plastic-sheathed aluminum. Same termination concerns; receptacles are the worst spot.'},
+  {d:'1974 – today',n:'Plastic copper + ground',x:'Modern NM (Romex) — plastic-sheathed copper with a ground. What you\'ll see in most homes built since.'},
+ ]};
+
+/* ================= STEPS ================= */
+const STEPS=[
+/* ===== ORIENTATION ===== */
+{id:'intro',kind:'Start here',label:'How inspectors read a system',type:'lesson',
+ body:()=>`<span class="eyebrow">Electrical Systems · Orientation</span><h1>You're not an electrician. You're an inspector.</h1>
+ <p class="lead">Your job isn't to fix, certify, or bring anything up to code. It's to <b>observe what's accessible, recognize the conditions that matter, and report them clearly</b> — with the implication spelled out so your client can decide what to do. This section covers the entire ATI electrical chapter; nothing is skipped, and the reading is broken up with things to <em>do</em>.</p>
+ <p>Electricity has its own language. Know the technical terms, but translate for clients — "the wires from the street" lands better than "service drop," and "breakers or fuses" beats "overcurrent protection devices." One precise distinction: a <b>wire</b> is a single conductor; a <b>cable</b> is a group of conductors.</p>
+ <p>Every component in this chapter runs through the same five-step loop. Learn it once and it works anywhere:</p>
+ <div class="loop"><div class="seg on"><div class="n">01</div><div class="w">Component</div></div><div class="seg"><div class="n">02</div><div class="w">Function</div></div><div class="seg"><div class="n">03</div><div class="w">Common defect</div></div><div class="seg"><div class="n">04</div><div class="w">Implication</div></div><div class="seg"><div class="n">05</div><div class="w">How you report</div></div></div>
+ <h2>The systems you'll inspect</h2>
+ <ul class="num"><li>Service drop &amp; entrance</li><li>The grounding system</li><li>The service box (main disconnect, fuses/breakers)</li><li>Distribution panels</li><li>Branch-circuit wiring</li><li>Lights, outlets, switches, junction boxes (plus smoke detectors)</li></ul>
+ <div class="field"><div class="ic">${sv(ic.alert)}</div><div><div class="t">Safety — non-negotiable</div><p>Checking panels is one of the most dangerous parts of the job. Before you touch anything: <b>(1)</b> wear rubber-soled shoes; <b>(2)</b> don't stand in water or wet areas; <b>(3)</b> use insulated tools to remove covers; <b>(4)</b> keep clients away from an open panel; <b>(5)</b> use a voltage detector to confirm equipment is de-energized. Even with house power off, the service-entrance conductors and a miswired fuse can be live.</p></div></div>
+ <p>The complete original chapter is embedded at the end as optional deep-reading — but everything you need to pass is taught right here.</p>`,
+ quiz:[
+  {q:'The home inspector\'s role with the electrical system is best described as:',o:['Repair the defects found','Certify the system meets current code','Observe accessible components, recognize conditions, and report implications','Calculate and redesign the service load'],a:2,e:'Inspectors observe and report — they don\'t repair, certify, or engineer.'},
+  {q:'Which is the correct technical distinction?',o:['Wire and cable mean the same thing','A wire is a single conductor; a cable is a group of conductors','A cable is a single conductor; a wire is a group','Neither term applies to residential work'],a:1,e:'A wire is one conductor; a cable bundles several. Small distinction, but it matters when you describe what you see.'},
+  {q:'Before touching equipment in a panel you should:',o:['Assume it\'s safe if the main is off','Use a voltage detector to confirm it\'s de-energized','Pull the main fuses first','Have the client hold the cover'],a:1,e:'Always verify with a voltage detector — SE conductors and miswired fuses can stay live even with house power off. And keep clients clear of an open panel.'},
+  {q:'When talking to a client, the better phrasing is:',o:['"The service drop terminates at the weatherhead"','"The wires from the street connect up at the top here"','"Overcurrent protection devices are present"','"The grounded conductor carries the load"'],a:1,e:'Use plain language with clients and save the technical terms for the report. Clear communication is part of the job.'},
+  {q:'The five-step loop this section teaches is:',o:['Inspect, photograph, bill, leave, repeat','Component → Function → Common defect → Implication → How you report','Test, repair, certify, document, warranty','Drop, entrance, panel, branch, ground'],a:1,e:'Every component is read the same way — what it is, what it does, what goes wrong, why that matters, and how you write it up.'},
+ ]},
+
+/* ===== L1 SERVICE DROP ===== */
+{id:'l1',kind:'Lesson 1',label:'Service Drop',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 1 · §7.1 Service Drop</span><h1>Getting power to the house</h1>
+ <p class="lead">Before electricity does anything useful inside a home, it has to cross the gap from the utility to the building — safely, and out of everyone's way. Get the vocabulary and the geometry right here and the rest of the service makes sense.</p>
+ <h2>What it is, and what to call it</h2>
+ <p>The <b>service drop</b> is the bundle of overhead conductors running from the utility pole — usually at the street — to the point where they connect to the house. Clients call these "the overhead wires"; electricians and the utility say "service drop." When the conductors are buried instead, the utility calls them <b>service laterals</b>: they run underground and surface at a meter or head straight inside.</p>
+ <p>Wherever the drop ends, it splices to the home's wiring at the <b>service point</b> — the spot where the utility's responsibility hands off to the homeowner's. On an overhead service, this happens at the <b>drip loop</b>: a deliberate U-shaped sag that does two jobs at once. It gives water a low point to <b>drip off</b> before it can travel into the conduit, and its very presence proves the conductors are <b>secured and relaxed</b> — a drip loop can only exist if the wires aren't pulled tight. So a missing drip loop is a tension warning, not just a water issue.</p>
+ <p>The drip loop sits at the top of the <b>masthead</b> (also called the service cap, entrance cap, pothead, weatherhead, or servicehead — all the same fitting). From there, the wires down into the box are the <b>service-entrance conductors</b> (Lesson 2). The <b>utility</b> usually owns and maintains the drop; the <b>homeowner</b> owns the entrance — which is why so many drop defects get referred to the utility, not an electrician.</p>
+ <div class="dgm"><svg viewBox="0 0 720 240"><defs><marker id="a1" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="none" stroke="#7f520a" stroke-width="1.4"/></marker></defs><g fill="none" stroke="#3c5870" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+   <line x1="70" y1="34" x2="70" y2="200"/><line x1="48" y1="200" x2="92" y2="200"/><rect x="52" y="56" width="36" height="24" rx="2"/><text x="70" y="100" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#2c4153">UTILITY POLE</text>
+   <path d="M72 62 C 180 70, 250 104, 296 104" stroke="#7f520a"/><text x="180" y="58" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#7f520a">service drop (overhead)</text>
+   <path d="M296 104 c 9 0 9 16 -2 16 c -9 0 -7 -11 2 -11" stroke="#7f520a"/><text x="300" y="138" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#7f520a">drip loop / service point</text>
+   <line x1="360" y1="40" x2="360" y2="120"/><circle cx="360" cy="58" r="7"/><text x="398" y="55" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#2c4153">masthead</text>
+   <line x1="318" y1="108" x2="352" y2="64" marker-end="url(#a1)" stroke="#7f520a"/>
+   <rect x="330" y="120" width="60" height="100" rx="4"/><text x="360" y="172" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#2c4153" transform="rotate(-90 360 172)">SE conductors</text>
+   <rect x="470" y="120" width="70" height="100" rx="5"/><rect x="482" y="132" width="46" height="13" rx="2"/><text x="505" y="142" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#2c4153">MAIN</text><text x="505" y="236" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#2c4153">SERVICE BOX</text>
+   <line x1="392" y1="170" x2="468" y2="170" marker-end="url(#a1)" stroke="#7f520a"/>
+   <text x="630" y="120" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#918c7d">utility owns →</text><text x="628" y="206" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#918c7d">← homeowner owns</text>
+ </g></svg><div class="cap">Pole → drop → drip loop / service point → masthead → service-entrance conductors → service box</div></div>
+ <h2>Reading the drop — and the trap of sizing by it</h2>
+ <p>A mistake that catches new inspectors: judging the <b>service size</b> from the thickness of the drop wires. Don't. They hang in open air, shed heat easily, and can be <b>smaller</b> than same-ampacity wires inside the house — our ampacity tables assume an enclosed conductor. Size the service from the SE conductors or main disconnect (Lesson 3), never the drop.</p>
+ <p>What the drop tells you reliably is the <b>configuration</b>, by conductor count: <b>three wires</b> (black, red, white-neutral) = a standard 240-volt single-phase residential service; <b>two wires</b> = a 120-volt service (rare, inadequate today); <b>four wires</b> = three-phase commercial, beyond a home inspection. The neutral is often bare and doubles as the support cable for the two hots.</p>
+ <div class="dgm"><svg viewBox="0 0 720 230"><g fill="none" stroke="#3c5870" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+   <line x1="40" y1="210" x2="700" y2="210"/><line x1="110" y1="210" x2="110" y2="34"/><text x="110" y="26" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#2c4153">pole</text>
+   <path d="M112 54 C 250 62, 360 112, 460 112" stroke="#7f520a"/>
+   <g stroke="#b85436" stroke-dasharray="4 3"><line x1="190" y1="210" x2="190" y2="138"/><line x1="310" y1="210" x2="310" y2="108"/><line x1="450" y1="210" x2="450" y2="80"/><line x1="600" y1="210" x2="600" y2="96"/></g>
+   <text x="190" y="225" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#7f520a">walking surface</text><text x="190" y="133" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#b85436">10 ft</text>
+   <text x="310" y="225" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#7f520a">driveway</text><text x="310" y="103" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#b85436">12 ft</text>
+   <text x="450" y="225" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#7f520a">roadway</text><text x="450" y="75" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#b85436">18 ft</text>
+   <text x="600" y="225" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#7f520a">pool (any direction)</text><text x="600" y="91" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#b85436">22.5 ft</text>
+ </g></svg><div class="cap">Clearances scale with what's underneath — keep conductors out of reach of people, vehicles, and ladders</div></div>
+ <h2>The seven conditions you'll write up</h2>
+ <p>The clearance numbers above cover the first one. Over a <b>roof</b>: 8 ft above a roof / 10 ft over a walk-out deck, just 3 ft where the slope exceeds 4-in-12 (nobody walks there), and 18 in where the wires project only ~4 ft onto the roof. Run each condition through the loop:</p>
+ <div class="defect"><div class="dh"><span class="n">1</span><span class="nm">Overhead wires too low</span></div><p>The clearances are the test; the failure is contact by a person, vehicle, ladder, or equipment.</p><div class="meta"><span class="lab">Implication</span><span class="val">Shock to people; danger to roofers; snow/ice damage in cold climates.</span><span class="lab">Strategy</span><span class="val">Check heights and apply the common-sense reach test. The utility is the authority.</span></div></div>
+ <div class="defect"><div class="dh"><span class="n">2</span><span class="nm">Damaged or frayed wires</span></div><p>Sun, abrasion, and age break down the covering — usually the utility's responsibility.</p><div class="meta"><span class="lab">Implication</span><span class="val">Short circuit, loss of service, shock if a wire falls.</span><span class="lab">Strategy</span><span class="val">Examine from the ground, ideally with binoculars.</span></div></div>
+ <div class="defect"><div class="dh"><span class="n">3</span><span class="nm">Trees or vines interfering</span></div><p>Anything rubbing the drop causes trouble two ways.</p><div class="meta"><span class="lab">Implication</span><span class="val">Mechanical abrasion plus reduced heat dissipation where foliage wraps the wire.</span><span class="lab">Strategy</span><span class="val">Inform the client; the utility often clears it.</span></div></div>
+ <div class="defect"><div class="dh"><span class="n">4</span><span class="nm">Wires too close to doors or windows</span></div><p>Modern practice wants ~3 ft from the sides/bottoms of windows, doors, and fire escapes — some jurisdictions even for fixed windows (they may be replaced with operable ones).</p><div class="meta"><span class="lab">Implication</span><span class="val">Contact/shock wherever a wire is reachable from an opening.</span><span class="lab">Strategy</span><span class="val">Note it; the utility may have accepted it — point out the common-sense issue.</span></div></div>
+ <div class="defect"><div class="dh"><span class="n">5</span><span class="nm">Wires not well secured to the house</span></div><p>The neutral usually carries the mechanical load. Confirm a sound connection.</p><div class="meta"><span class="lab">Implication</span><span class="val">Loose wires can fall — cutting power and dropping live conductors.</span><span class="lab">Strategy</span><span class="val">Look for movement, excess sag, or — the key tell — an absent drip loop (wires under tension).</span></div></div>
+ <div class="defect"><div class="dh"><span class="n">6</span><span class="nm">Poor connection between drop and entrance</span></div><p>The splice belongs at the drip loop, not its low point (where water collects).</p><div class="meta"><span class="lab">Implication</span><span class="val">Loss of power and a hazard if wires fall.</span><span class="lab">Strategy</span><span class="val"><b>Electrical tape on the splice signals amateur work</b> — utilities use heat-shrink.</span></div><div class="rep"><b>Report:</b> "Service-drop splice shows strain / amateur repair. Recommend evaluation by the utility."</div></div>
+ <div class="defect"><div class="dh"><span class="n">7</span><span class="nm">Inadequate clearance from the roof</span></div><p>The roof figures above are the standard.</p><div class="meta"><span class="lab">Implication</span><span class="val">Mechanical damage and shock during roof repair/maintenance.</span><span class="lab">Strategy</span><span class="val">Know what your utility accepts and advise the client of the risk.</span></div></div>
+ ${W('sort','whofixes')}
+ ${story('Inspector in the house',`A drop sagged low across the back yard, well under the 10 feet a walking surface calls for — but the homeowner insisted "the power company put it there, so it's fine." Maybe so. <b>The utility is the authority</b>, and you won't win that argument. The move isn't to cite code chapter and verse; it's to write the plain truth — "these wires are within reach of people; this should be checked by the utility and may need to be moved" — and let the experts settle it.`)}`,
+ quiz:[
+  {q:'You count three conductors entering the service drop. What does that tell you — and what does it NOT?',o:['A 240-volt single-phase residential service; it does not reliably tell you the amperage','A 120-volt service; it tells you the exact amperage','A three-phase commercial service; nothing about voltage','That the service is undersized'],a:0,e:'Three wires = standard 240 V single-phase residential. The wire count is reliable for configuration; the drop-wire size is not reliable for amperage (open-air conductors can be smaller).'},
+  {q:'Why is it a mistake to judge service size from the thickness of the drop conductors?',o:['They\'re always aluminum','They hang in open air and shed heat, so they can be smaller than enclosed conductors of the same ampacity','They\'re always larger than in-house wires','The gauge markings are hidden'],a:1,e:'Ampacity tables assume an enclosed conductor; a free-air wire can safely be smaller. Size from the SE conductors or the main disconnect instead.'},
+  {q:'Minimum clearance over a residential driveway?',o:['10 feet','12 feet','18 feet','22½ feet'],a:1,e:'Driveway = 12 ft. The ladder: 10 ft walking surface, 12 ft driveway, 18 ft roadway, 22½ ft from a pool in any direction.'},
+  {q:'A steep roof (slope > 4-in-12) only needs 3 ft of clearance instead of the higher walkable-roof figure. Why?',o:['Steep roofs are stronger','Nobody walks on it, so contact risk is lower','The wires weigh less up high','It\'s always near a pole'],a:1,e:'Clearances keep conductors out of reach. A roof too steep to stand on carries far less contact risk — so 3 ft, vs. 10 ft over a walkable roof and 18 in where wires project only ~4 ft onto it.'},
+  {q:'The drop-to-entrance splice is wrapped in black electrical tape and there\'s no visible drip loop. What do these suggest, and what do you do?',o:['Both normal; note nothing','Tape suggests amateur work (utilities use heat-shrink) and a missing drip loop suggests wires under tension — document both and recommend the utility evaluate','Reseal it and add a drip loop yourself','They indicate an undersized service needing an upgrade'],a:1,e:'Tape = amateur (utilities use heat-shrink); a missing drip loop = wires likely strained. Both are on the utility-owned drop, so document and refer to the utility — never DIY.'},
+ ]},
+
+/* ===== L2 SERVICE ENTRANCE WIRES ===== */
+{id:'l2',kind:'Lesson 2',label:'Service Entrance Wires',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 2 · §7.2 Service Entrance Wires</span><h1>From the drop down to the equipment</h1>
+ <p class="lead">The service-entrance (SE) wires pick up where the drop ends and run down to the service equipment, with the meter usually partway along. This is the homeowner's hardware — and a magnet for water, which is the theme running through nearly every defect here.</p>
+ <p>The SE conductors include a black and red (hot) and a white (neutral). Many jurisdictions require them to extend at least <b>30 inches</b> out of the service cap so the utility can make connections and form a drip loop. They may run in a <b>conduit</b> or be a self-protected <b>SE cable</b> — both are permitted. Where SE cable is used without a masthead, the cable is bent into a <b>gooseneck</b> (like a candy cane) to keep water out.</p>
+ <p>Where the drop arrives above the roofline, a <b>service mast</b> is required: it extends through the roof, supports the drop, and must be flashed where it penetrates. Good practice attaches the drop within ~12 in of the top, keeps wires ~2 ft above the roof (so the mast usually rises ≥ 3 ft), and adds <b>guy wires</b> on masts taller than 5 ft. For support: secure cable every 30 in–5 ft, conduit every 5–6 ft.</p>
+ <div class="field brass"><div class="ic">${sv(ic.alert)}</div><div><div class="t">The through-line: keep water out</div><p>Almost every SE defect is really a <b>water-entry</b> problem. The four spots to scrutinize: <b>conduit joints, the service cap, the roof flashing, and the meter base.</b> Water in the system can shut it down, shock someone, or start a fire.</p></div></div>
+ <h2>The eleven service-entrance conditions</h2>
+ <div class="defect"><div class="dh"><span class="n">1</span><span class="nm">No drip loop</span></div><p>The slack low point at the splice that sheds water and relieves tension is missing.</p><div class="meta"><span class="lab">Implication</span><span class="val">Water entry and mechanical stress on wires/splices.</span></div></div>
+ ${conds('Conditions 2–11 (run the loop on each)',[
+   ['No masthead / service cap','Water into the system. Wires should enter the underside of a weather-tight cap.'],
+   ['Masthead not weather-tight','Cap loose or wrong angle — water in.'],
+   ['SE wires too close to the roof','Mechanical damage and shock during roof work.'],
+   ['Mast or conduit bent','Sagging/falling wires, lost clearance, lost weather-tightness. Masts > 5 ft need guy wires; check the flashing.'],
+   ['Mast or conduit rusted','Mechanical failure and water entry — worst at horizontal surfaces and cut threads.'],
+   ['Mast rotted (wood)','Loss of strength and collapse; wood masts are banned on new work in many areas.'],
+   ['Not well secured to the building','Cable every 30 in–5 ft, conduit every 5–6 ft. Look for movement, not numbers.'],
+   ['Not weather-tight','The four water-entry points: conduit joints, service cap, roof flashing, meter base.'],
+   ['Not sealed at the wall penetration','Water into the system (shock), into the basement (nuisance), and rusting equipment. If below grade, check from inside.'],
+   ['SE cable frayed, damaged, or covered by siding','Touching it can shock; live cable against metal siding can energize the whole building skin. Cable must stay accessible — never buried (conduit behind brick is sometimes allowed).'],
+ ])}
+ ${W('sort','whofixes')}
+ <p class="lead" style="font-size:14px;margin-top:6px">Notice how the same routing logic from Lesson 1 still holds — the overhead drop is the utility's, the entrance hardware is the homeowner's/electrician's.</p>`,
+ quiz:[
+  {q:'Which is NOT one of the four common water-entry points on a service entrance?',o:['Conduit joints','The service cap (masthead)','The roof flashing','The grounding electrode'],a:3,e:'The four are conduit joints, service cap, roof flashing, and meter base. The grounding electrode belongs to the grounding system.'},
+  {q:'A service mast taller than 5 feet should have:',o:['A larger meter base','Guy wires for support','A second drip loop','A plastic gooseneck'],a:1,e:'Tall masts carry significant drop-wire load; guy wires keep them from bending or breaking.'},
+  {q:'On SE cable used without a masthead, the cable is bent into a gooseneck to:',o:['Increase clearance','Discourage water from entering the cable','Support the drop','Mark the service size'],a:1,e:'The downward "candy-cane" bend keeps water from tracking between the conductors and the sheathing.'},
+  {q:'SE cable must be:',o:['Buried where possible to protect it','Kept accessible and visible — never buried','Painted to match the siding','Run inside the living space'],a:1,e:'Cable must stay accessible and visible over its length and is never buried (conduit behind brick is sometimes allowed; cable is not).'},
+  {q:'Live SE cable contacting metal siding is dangerous because:',o:['It looks unprofessional','The entire building skin can become electrically charged','It voids the warranty','It increases the service size'],a:1,e:'If a damaged live conductor touches metal siding, the whole metal skin can energize — a serious shock hazard.'},
+ ]},
+
+/* ===== L3 SERVICE SIZE ===== */
+{id:'l3',kind:'Lesson 3',label:'Service Size',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 3 · §7.3 Service Size</span><h1>How much current the house can carry</h1>
+ <p class="lead">Two numbers define a service: voltage and amperage. For ~999 of 1,000 homes the voltage is 240 V, so the real question is ampacity — and the single most important idea in this lesson is which size problems are dangerous and which are merely annoying.</p>
+ <p>Common sizes: <b>60 A</b> (obsolete, not allowed on new work), <b>100 A</b> (typical average home), <b>125/150 A</b> (small homes with electric heat or larger ones without), <b>200 A</b> (electric heat or large homes), and rarely <b>400 A</b> (the largest single-phase service, ~6,000+ sq ft). Inspectors don't do load calculations — we use general rules and explain that lifestyle drives demand.</p>
+ <div class="field brass"><div class="ic">${sv(ic.alert)}</div><div><div class="t">The distinction that\'s on the exam — and the job</div><p>An <b>undersized service is NOT a safety hazard</b> — it's an inconvenience. Run too much at once and the main simply trips or blows. The problem only appears with simultaneous use. <b>Overfusing</b> (a device too large for the wire) <b>is</b> the hazard, because it won't shut off before the conductor overheats.</p></div></div>
+ <h2>Wire gauge runs backwards</h2>
+ <p>In <b>AWG</b>, a smaller number is a bigger wire. The sizes used: 14, 12, 10, 8, 6, 4, 3, 2, 1, 0 — then 1/0, 2/0, 3/0, and 4/0 (the largest you'll see in homes, used for aluminum 200 A service entrances).</p>
+ <table class="tbl"><tr><th>Service</th><th>Min. copper</th><th>Min. aluminum</th></tr><tr><td>60 A</td><td>#6</td><td>#4</td></tr><tr><td>100 A</td><td>#4</td><td>#2</td></tr><tr><td>200 A</td><td>2/0</td><td>4/0</td></tr></table>
+ <h2>Determining the size — in order of reliability</h2>
+ <ul class="clean">
+  <li><b>Best: the SE conductor size.</b> Read it at the cap or where it enters the box. Aluminum is marked <b>AL / ALUM / ALUMINUM</b>. Don't judge by bare-wire diameter or cable OD. Size the <b>red and black</b>, never the neutral.</li>
+  <li><b>Next: the main disconnect.</b> If fused, two fuses (one per hot) — a 100 A service = two 100 A fuses; <b>never add them</b>. If breakered, a <b>double-pole</b> breaker (200 A service = 200 A double-pole). Both fuses must match. Read breaker size off the handle without removing the cover.</li>
+  <li><b>The box and panel rating</b> must be ≥ the service size.</li>
+  <li><b>No single main?</b> Up to <b>six throws</b> can kill all power; don't add the disconnects — use the SE conductors.</li>
+ </ul>
+ <p>If you can only read the device, write "<b>apparent</b> 100-amp service." Never remove main fuses or shut house power to read them. Slightly oversized devices can be fine (200 A breakers on 180 A wire, since no 180 A breaker exists). Try the estimator below — change the conductor and the breaker and watch the logic:</p>
+ ${W('est')}
+ <h2>Advising your client</h2>
+ <ul class="clean">
+  <li><b>Adequate:</b> report the size; say it suits a typical home of this size (don't promise it fits their lifestyle).</li>
+  <li><b>Undersized:</b> report and recommend increasing it — the drop/laterals, SE conductors, box, grounding conductor, and usually the panel.</li>
+  <li><b>Marginal:</b> report and suggest a trial basis; it's a convenience improvement, not a necessity. Breakers trip (both); fuses blow (one or both — one blown fuse leaves half the house dead and no 240 V appliances working). Never tell a client to change main fuses.</li>
+ </ul>
+ ${W('match','wirebrk')}`,
+ quiz:[
+  {q:'A 200-amp fused service has how many main fuses, of what rating each?',o:['One 200 A fuse','Two 100 A fuses (they add to 200)','Two 200 A fuses','Four 50 A fuses'],a:2,e:'Each hot gets its own fuse, and you never add them. 200 A service = two 200 A fuses; with breakers, a double-pole 200 A.'},
+  {q:'An undersized service is best described as:',o:['A fire hazard','A shock hazard','An inconvenience — the main trips/blows under simultaneous heavy use','A code violation requiring immediate replacement'],a:2,e:'Undersized = inconvenience. Overfusing is the genuine hazard.'},
+  {q:'The most reliable way to determine service size is:',o:['The drop-wire size','The SE conductor size','The panel rating','The conduit diameter'],a:1,e:'SE conductor size is best; size the red and black, not the neutral. The main disconnect is the next-best indicator.'},
+  {q:'In AWG, which is the largest conductor?',o:['#14','#6','#2','4/0'],a:3,e:'AWG runs backwards: smaller number = bigger wire, and after 1/0, 2/0, 3/0, the biggest residential size is 4/0.'},
+  {q:'You can read the main breaker but not the SE conductors. How do you phrase the service size?',o:['"Confirmed 100-amp service"','"Apparent 100-amp service"','"Service size unknown"','"200-amp service" (double it)'],a:1,e:'When you size from the device rather than the conductors, hedge it: "apparent 100-amp service." Never pull fuses or kill power just to read them.'},
+ ]},
+{id:'l4',kind:'Lesson 4',label:'Service Box',type:'lesson',
+ body:()=>`<span class=\"eyebrow\">Lesson 4 · §7.4 Service Box</span><h1>The one place that shuts it all off</h1>
+ <p class=\"lead\">The service box — also called the service equipment or service panel — is where the incoming power first lands inside the house and where it can be switched off entirely. It is the most safety-critical thing you will open all day, and several of its defects can kill someone who doesn't understand them. Read this one slowly.</p>
+ <p>Most homes have a metal service box holding a <b>main disconnect</b> and the main overcurrent protection. It may be a stand-alone box, or a <b>combination panel</b> that builds the main disconnect together with the distribution panel and all its branch breakers or fuses. The rule you're checking against: there should be one clear way to kill all the power. Where there's no single main, up to <b>six throws</b> (switches or fuse pulls) are allowed to shut everything off — but if it takes more than six, or there's no organized disconnect at all, recommend a proper service box with a single main.</p>
+ ${W('spot','box')}
+ <h2>Location, access, and the gas-meter rule</h2>
+ <p>Service boxes live indoors, outdoors, or in garages. An exterior box must be <b>weather-tight</b>. You'll sometimes find exterior boxes <b>locked</b> for security — which is a problem, because you can't shut the power off fast in an emergency; if that's common in your area, learn the utility's position (they may want the lock removed or a key staged). A <b>distribution panel should never be locked.</b> Keep one more number in your head: electrical equipment should sit at least <b>three feet from indoor gas meters and outdoor gas relief vents</b> — you don't want an electrical spark next to a gas leak. And there should be clear working space in front of the box; a panel buried behind storage or boxed into a finished closet is a defect worth noting.</p>
+ <h2>The four conditions that are genuinely dangerous</h2>
+ <p>Most service-box problems imply shock or fire. But four of them are special — they leave equipment <b>live when it looks dead</b>, which is how people get hurt. Understand the mechanism, not just the name:</p>
+ ${conds('Memorize these — they defeat the off switch', [['Fused neutral','A fuse or switch placed in the neutral. If that fuse opens, the circuit goes dead — but the equipment downstream can stay energized through the hot, so it looks off and isn\'t. The neutral must never be fused or switched.'],['Fuses upstream of the disconnect','Fuses ahead of the main switch stay energized even with the main off. You cannot make the box safe to work in, because killing the main doesn\'t kill those fuses.'],['Neutral bypasses the service box','The neutral has to land in the box — that\'s the single point where neutral and ground are bonded. A neutral routed around the box defeats the whole grounding scheme.'],['Improper taps','Unauthorized connections made ahead of the main are unprotected — no breaker or fuse stands between them and the incoming power.']])}
+ <div class=\"field brass\"><div class=\"ic\">${sv(ic.alert)}</div><div><div class=\"t\">Why \"the power is off\" can be a lie</div><p>Even with the house main switched off, the <b>service-entrance conductors</b> entering the box are still live, and any of the four conditions above can keep parts energized. This is exactly why you confirm de-energization with a voltage detector and never assume. \"Off\" is something you verify, not something you trust.</p></div></div>
+ <h2>The rest of the service-box checklist</h2>
+ ${conds('The full list of 16 conditions', [['Poor access or location','Blocked, too high, behind finished walls, or locked. Note it; recommend safe access.'],['Loose','The box should be firmly mounted. Movement stresses conductors and connections.'],['Rust or water in the box','Moisture corrodes connections and is a shock hazard. Find the source; recommend evaluation.'],['Unprotected openings','Missing cover, missing knockouts, or open slots let fingers and rodents reach live parts. Install fillers.'],['Damaged parts','Cracked fuse holders, broken switches, damaged enclosure.'],['Overheating','Discoloration, melted insulation, or the smell of hot plastic — an immediate, serious problem.'],['Incorrect fuse/breaker size; box rating too small','The box and its overcurrent devices must be rated at or above the service size.'],['Service-entrance wires exposed in the house','SE conductors have no overcurrent device ahead of them, so they must be enclosed and kept as short as possible inside.'],['Poor connections','Loose lugs and corroded terminals overheat. A frequent finding.'],['Obsolete box','Certain older panels with known failure histories, or any switch not enclosed in a box, should be treated as obsolete.'],['Exterior box not weather-tight','Outdoor boxes must keep water out.']])}
+ ${story('Inspector in the House', 'On an older home I found the fuses mounted facing the back of the box, labels turned away — unreadable without pulling them, which you never do. The right move isn\'t to force it. I reported that the service size could not be confirmed from accessible information and recommended evaluation. \"I couldn\'t safely verify it\" is a complete, professional finding.')}`,
+ quiz:[
+  {q:'Why is a fused neutral dangerous?',o:['It makes the lights flicker','If the neutral fuse opens, downstream equipment can remain energized through the hot while appearing dead','It doubles the available amperage','It is required on all modern services'],a:1,e:'A fuse in the neutral can open while the equipment stays live through the hot conductor — it looks off but isn\'t. The neutral must never be fused or switched.'},
+  {q:'Fuses located upstream of the main disconnect are a problem because:',o:['They blow too easily','They remain energized even when the main is switched off, so the box can\'t be made safe','They are always the wrong amperage','They prevent the meter from reading'],a:1,e:'Anything ahead of the main stays live when the main is off — you can\'t safely service the box.'},
+  {q:'The minimum clearance between electrical equipment and an indoor gas meter is:',o:['1 foot','3 feet','6 feet','No requirement'],a:1,e:'At least three feet — an electrical spark near a gas leak is an explosion risk.'},
+  {q:'You find an exterior service box secured with a padlock. The concern is:',o:['It looks unprofessional','Power can\'t be shut off quickly in an emergency; learn the utility\'s position','Locks cause rust','It voids the warranty'],a:1,e:'A locked service box blocks emergency shutoff. Find out the utility\'s policy — and note that distribution panels should never be locked.'},
+  {q:'With the house main switched off, which statement is true?',o:['Everything in the box is safe to touch','The service-entrance conductors entering the box are still live','Only the neutral is live','The box is fully de-energized after 30 seconds'],a:1,e:'The SE conductors are always live, and several miswiring conditions can keep other parts energized. Always verify with a voltage detector.'},
+ ]},
+{id:'l5',kind:'Lesson 5',label:'Grounding & Bonding',type:'lesson',
+ body:()=>`<span class=\"eyebrow\">Lesson 5 · §7.5 System Grounding</span><h1>The wires that do nothing — until they save a life</h1>
+ <p class=\"lead\">Grounding and bonding confuse almost everyone, because they involve wires that normally carry no current at all. Get three distinctions straight and the mystery disappears: the two grounding systems, grounding versus the grounded neutral, and grounding versus bonding.</p>
+ <h2>Two different grounding systems</h2>
+ <p>The <b>equipment grounding system</b> is the network of bare wires running through the house alongside the branch-circuit wiring. It normally does nothing. Its job is to be a ready <b>emergency path</b>: if electricity gets somewhere it shouldn't — say a hot wire contacts a metal appliance case — the bare ground gives that current an easy route back, which trips the breaker or blows the fuse and keeps the charge off of <em>you</em>. This system connects to the neutral at the service box and rides the neutral service conductor back out to the transformer at the street.</p>
+ <p>The <b>earth grounding system</b> is a separate idea: a single conductor — the <b>grounding electrode conductor</b> — running from the service box out to the earth, by way of electrodes like a driven rod or a metal water pipe. It stabilizes the system voltage relative to the ground you stand on.</p>
+ <h2>Grounding vs. the grounded neutral — don't mix them up</h2>
+ <p>The <b>white neutral (grounded) wire</b> carries current every day. It's the normal return path: power flows out a hot, through the load, and back on the neutral to the bus bar, to the service box, and out to the transformer. That's electricity doing its job. The <b>bare grounding wire</b> is the opposite — it sits idle, carrying nothing, available only for a fault. One is a working road; the other is an emergency shoulder.</p>
+ <div class=\"field brass\"><div class=\"ic\">${sv(ic.bolt)}</div><div><div class=\"t\">The single most testable fact about grounding</div><p>The neutral and the ground are tied together at <b>exactly one place — the service box.</b> Nowhere else. In a downstream subpanel they must be kept <b>separate</b>. A neutral and ground bonded together in a subpanel is a real defect, because it puts normal return current onto the bare grounding wires and the metal they touch.</p></div></div>
+ <h2>The electrodes — how the system reaches earth</h2>
+ ${conds('Where the grounding electrode conductor terminates', [['Metal underground water pipe','A classic electrode — but a jumper must bridge around the water meter, because a plumber can remove the meter and break the ground.'],['Driven ground rod','A rod at least 8 feet long. Since the late 1980s a single rod usually must be supplemented by a second rod unless it can be proven to have low enough resistance — so two rods is common.'],['Concrete-encased electrode (UFER)','Rebar or wire encased in the foundation concrete — an excellent, modern electrode.']])}
+ <h2>Bonding — and the gas-piping trap</h2>
+ <p><b>Bonding</b> is simply joining two conductors so they sit at the same electrical potential — two wires, a wire and a pipe, even two boxes. By itself bonding protects nothing. It earns its keep when one of the bonded parts is grounded: then a stray charge has somewhere to go instead of building up. Tie the gas line, the ductwork, and the metal boxes to the same system and no piece can quietly go live relative to another.</p>
+ <p>Gas piping is where people get it backwards. You are <b>not allowed to use gas piping to ground</b> the electrical system — much of the underground gas line is plastic, so it can't be relied on to reach earth. But the gas piping <b>must be bonded</b> to the electrical grounding system in most areas, so it can't develop a charge that arcs to something nearby — a spark next to gas vapor is an explosion. Bonding the gas line usually bonds the furnace and ductwork too, since the piping touches them. It's often done with a wire clamped to the water supply pipe near the water heater. Sort the actions below to lock the distinction in:</p>
+ ${W('sort','groundbond')}
+ ${conds('Conditions you\'ll report', [['No grounding / no earth ground','An ungrounded system or a missing electrode connection — recommend evaluation and correction.'],['Undersized grounding conductor','Too small for the service it protects.'],['Loose or corroded ground connections','At the rod, the pipe clamp, or the box — corrosion defeats the path.'],['Missing jumper at the water meter','Breaks the ground the moment the meter is pulled.'],['Gas piping not bonded','A genuine explosion-risk finding in most jurisdictions.'],['Grounding and neutral bonded in a subpanel','Return current ends up on the grounding wires and the metal they touch.']])}`,
+ quiz:[
+  {q:'The equipment grounding system (the bare wires) normally:',o:['Carries the everyday return current','Carries nothing — it\'s an emergency path that lets breakers trip and fuses blow','Powers the lights','Replaces the neutral'],a:1,e:'The bare ground sits idle until a fault, then gives current an easy path back so the overcurrent device opens — keeping the charge off people.'},
+  {q:'Neutral and ground are bonded together at how many places?',o:['At every receptacle','At every subpanel','At exactly one place — the service box','Never'],a:2,e:'Only at the service box. In subpanels they must be separated, or normal current ends up on the grounding wires.'},
+  {q:'Regarding the gas piping, the rule is:',o:['Use it to ground the electrical system','Bond it to the grounding system, but never use it to ground the system','Leave it completely isolated','Connect it only to the neutral'],a:1,e:'Gas piping must be bonded (so it can\'t develop a charge and spark), but it can\'t be used as the grounding electrode — underground gas line is often plastic.'},
+  {q:'A driven ground rod must be at least how long?',o:['4 feet','6 feet','8 feet','12 feet'],a:2,e:'8 feet — and since the late 1980s a single rod usually has to be supplemented by a second unless its resistance is proven low enough.'},
+  {q:'Why must a jumper bridge around the water meter?',o:['To improve water pressure','So removing the meter doesn\'t break the ground path','To bond the gas line','To meter electrical usage'],a:1,e:'If the meter is the ground path and a plumber pulls it, the ground is lost. The jumper keeps the path intact.'},
+ ]},
+{id:'l6',kind:'Lesson 6',label:'Distribution Panels',type:'lesson',
+ body:()=>`<span class=\"eyebrow\">Lesson 6 · §7.6 Distribution Panels</span><h1>Where the house circuits begin</h1>
+ <p class=\"lead\">The distribution panel is where the two incoming hot legs get split into the dozens of branch circuits that feed the house, each protected by its own fuse or breaker. In a combination panel it shares an enclosure with the main disconnect; in older homes it may be a separate box fed from the service box.</p>
+ <h2>120 volts, 240 volts, and how to tell</h2>
+ <p>Residential power arrives as two 120-volt hot legs plus a neutral. How a circuit taps them sets its voltage:</p>
+ ${conds('Reading a circuit by its conductors', [['One hot + neutral = 120 V','Lights, general receptacles, most small loads.'],['Two hots = 240 V','Straight 240-volt loads — water heater, baseboard heat, central air.'],['Two hots + neutral = 120/240 V','Ranges and dryers, which run heating elements at 240 V and clocks, lights, and controls at 120 V.']])}
+ <h2>The wire-to-breaker pairing is the whole game</h2>
+ <p>Each branch breaker must match the wire it protects, because the breaker exists to shut off before that wire overheats. This is the table you'll use more than any other in the field. Drill it until it's automatic:</p>
+ <table class=\"tbl\"><tr><th>Copper wire</th><th>Max breaker / fuse</th><th>Typical use</th></tr><tr><td>14 AWG</td><td>15 A</td><td>Lighting, general outlets</td></tr><tr><td>12 AWG</td><td>20 A</td><td>Kitchen, laundry, garage</td></tr><tr><td>10 AWG</td><td>30 A</td><td>Water heater, dryer</td></tr><tr><td>8 AWG</td><td>40 A</td><td>Range, sub-feeds</td></tr><tr><td>6 AWG</td><td>60 A</td><td>Large appliances, subpanels</td></tr></table>
+ ${W('match','wirebrk')}
+ <p>A breaker <b>larger</b> than its wire allows is <b>overfusing</b> — the dangerous direction, because the wire can overheat before the breaker ever trips. A breaker <b>smaller</b> than the wire is merely conservative and trips early. Direction matters.</p>
+ <h2>Subpanels — where neutral and ground must part ways</h2>
+ <p>A subpanel is a distribution panel fed from the main. The rule from Lesson 5 comes home here: in a subpanel the neutral and the grounding conductors must land on <b>separate, isolated buses</b> — they are only bonded back at the service box. The tells of a correct subpanel feed are a <b>four-wire feeder</b> (two hots, an insulated neutral, and a separate ground) and a neutral bus that is isolated from the enclosure. A subpanel with neutral and ground sharing one bus, or a bonding screw left in, is a defect.</p>
+ ${story('Inspector in the House', 'A homeowner once told me, half-joking, that dinner is always late on holidays — the oven, the microwave, and a space heater on the same kitchen run keep tripping the breaker. That\'s not a hazard; it\'s the breaker doing its job on an overloaded or undersized circuit. I explained the difference: a tripping breaker is protection working, not a fire waiting to happen. The fix is load management or another circuit — not a bigger breaker on the same wire.')}`,
+ quiz:[
+  {q:'A circuit with two hot conductors and a neutral is typically:',o:['120 V only','240 V only','120/240 V — like a range or dryer','Low-voltage'],a:2,e:'Two hots give 240 V for the heating element; the neutral allows 120 V for clocks, lights, and controls — classic range/dryer wiring.'},
+  {q:'12-gauge copper wire should be protected by a breaker no larger than:',o:['15 A','20 A','30 A','40 A'],a:1,e:'12 AWG → 20 A. The ladder: 14→15, 12→20, 10→30, 8→40, 6→60.'},
+  {q:'Overfusing means:',o:['A breaker smaller than the wire allows','A breaker larger than the wire allows — the dangerous direction','Two breakers on one circuit','A blown fuse'],a:1,e:'A breaker too big for its wire won\'t trip before the wire overheats. A breaker smaller than the wire just trips early — conservative, not dangerous.'},
+  {q:'In a subpanel, the neutral and grounding conductors should be:',o:['Bonded together on one bus','On separate, isolated buses — bonded only back at the service box','Connected to the gas line','Left disconnected'],a:1,e:'They\'re bonded at exactly one place, the service box. In a subpanel they must be separated, which is why a proper feed is four wires.'},
+  {q:'A breaker that keeps tripping when several appliances run at once indicates:',o:['A fire hazard requiring a larger breaker','The overcurrent device doing its job on an overloaded/undersized circuit','A grounding fault','A bonding error'],a:1,e:'Tripping is protection working. The remedy is managing the load or adding a circuit — never a bigger breaker on the same wire.'},
+ ]},
+{id:'l7',kind:'Lesson 7',label:'Conditions in Panels',type:'lesson',
+ body:()=>`<span class=\"eyebrow\">Lesson 7 · §7.7 Conditions Found in Panels</span><h1>The hunt — what's actually wrong in this panel</h1>
+ <p class=\"lead\">This is where the job gets real. With the dead-front off, you're scanning a crowded box for a long list of specific conditions. They group into six families: things that apply to any panel, things specific to subpanels, to fuses, to breakers, and to the wires inside. Learn the families and the hunt gets organized instead of overwhelming.</p>
+ <p>Start with the scene below — open the panel and find every condition before you read the lists. This is the exact visual scan you'll run on site.</p>
+ ${W('spot','panel')}
+ <h2>Conditions in any panel</h2>
+ ${conds('Applies to all panels', [['Loose mounting','The panel should be firmly fixed; movement stresses every connection.'],['Rust or water','Moisture corrodes terminals and is a shock hazard; trace the source.'],['Damaged components','Cracked breakers, broken buses, burned insulation.'],['Overheating','Discoloration, melted plastic, or a hot-plastic smell — act on it immediately.'],['Unprotected openings','Missing dead-front, missing knockout fillers, open breaker slots.'],['Double-tapped terminals','Two conductors under one lug not listed for two — a loose, overheating joint. Pigtail to fix.'],['Improper or loose wire connections','Stray strands, under-torqued lugs, wrong terminals.'],['Abandoned wires in the panel','You can\'t tell if they\'re live — they should be removed.'],['Too many conductors / panel overfilled','More circuits crammed in than the panel is designed for.']])}
+ <h2>Subpanel-specific, fuse-specific, breaker-specific</h2>
+ ${conds('Subpanels', [['Neutral and ground bonded in the subpanel','Should be separated; bonding belongs at the service box only.'],['Bonding screw left in','Ties the neutral bus to the enclosure where it shouldn\'t be.'],['No equipment ground run to the subpanel','A three-wire feed where four is needed.']])}
+ ${conds('Fuses', [['Oversized / wrong-rated fuse','Overfusing — the wire overheats before the fuse blows.'],['Bridged or defeated fuse','A coin behind a fuse, or a bypass — extremely dangerous, removes all protection.'],['Corroded or loose fuse contacts','Overheating at the holder.']])}
+ ${conds('Breakers', [['Wrong-brand breaker in the panel','A breaker not listed for that panel may not seat or trip correctly.'],['Double-tapped breaker','Two wires on a breaker built for one.'],['Oversized breaker','Larger than the conductor allows — overfusing.'],['Loose or unsecured breaker','Not properly clipped to the bus.']])}
+ <h2>And the panel wires themselves</h2>
+ ${conds('Panel conductors', [['Overheated or discolored','Often at a loose lug.'],['Undersized for the breaker','The wrong end of the wire-to-breaker pairing.'],['Damaged insulation','Nicks at terminations or where pulled over edges.'],['Sheathing run too far in, or stripped too far back','Cable jacket should enter the box a short, correct distance.'],['Conductors not secured / cable not clamped','Strain transfers to the terminals.']])}
+ <p>One more field skill: <b>reading fuse color at a glance</b>. The cartridge and plug-fuse colors map to amperage, and knowing them saves you squinting at fine print. Pair them up:</p>
+ ${W('match','fuse')}`,
+ quiz:[
+  {q:'A coin found behind a blown fuse is:',o:['A clever temporary fix','Extremely dangerous — it defeats all overcurrent protection on that circuit','Acceptable if the coin is copper','Only a problem on 240 V circuits'],a:1,e:'Bridging a fuse removes its protection entirely; the circuit can overheat with nothing to stop it. Report it as a serious hazard.'},
+  {q:'A neutral and a grounding conductor bonded together inside a subpanel is:',o:['Correct and required','A defect — bonding belongs only at the service box','Required only outdoors','Harmless'],a:1,e:'Bonding happens at exactly one place, the service box. In a subpanel they must be on separate isolated buses.'},
+  {q:'A double-tapped breaker is:',o:['Two breakers stacked together','Two conductors under one breaker terminal built for a single wire','A breaker rated for 240 V','A GFCI breaker'],a:1,e:'Two wires under a single-rated lug make a loose, overheating connection. The fix is to pigtail or use a breaker listed for two.'},
+  {q:'Installing a breaker of a different brand than the panel is a concern because:',o:['It voids the paint warranty','It may not seat or trip correctly in that panel','It\'s always a 30 A breaker','It changes the service size'],a:1,e:'Breakers are listed for specific panels; a mismatched breaker may not make proper contact or trip as designed.'},
+  {q:'Abandoned wires left in a panel should be:',o:['Taped and left in place','Removed — you can\'t verify whether they\'re live','Connected to the nearest breaker','Bonded to the neutral'],a:1,e:'An abandoned conductor of unknown status is a hazard; it should be removed from the panel.'},
+ ]},
+{id:'l8',kind:'Lesson 8',label:'Branch-Circuit Wiring',type:'lesson',
+ body:()=>`<span class=\"eyebrow\">Lesson 8 · §7.8 Branch-Circuit Wiring</span><h1>The wiring that fans out through the house</h1>
+ <p class=\"lead\">Branch circuits are the conductors running from the panel out to every light, outlet, and appliance. Most of what you'll see is cable — grouped conductors in a single sheath — and the first skill is recognizing the type and roughly when it was installed, because age tells you what problems to expect.</p>
+ <h2>Cable types you'll identify</h2>
+ ${conds('Know these on sight', [['NM cable (\"Romex\")','Plastic-sheathed cable for dry, protected interior locations — the modern standard. Hot, neutral, and a ground inside a flat or round plastic jacket.'],['UF cable','Underground feeder — a tougher sheath rated for damp and direct burial.'],['Armored cable (BX / AC)','Flexible spiral-metal jacket over the conductors; common in older homes and where mechanical protection is needed.'],['Conduit','Conductors pulled through metal or plastic tube — used where wiring is exposed or extra protection is required.']])}
+ <p>The era of the wiring is itself a finding. Tap through the timeline — it tells you at a glance whether to expect no ground, cloth insulation, aluminum, or modern copper:</p>
+ ${W('era','wire')}
+ <h2>Now trace it</h2>
+ <p>Follow a run through an unfinished basement and click the problems. Damaged sheath, unsupported cable, open splices, missing connectors — this is the scan.</p>
+ ${W('spot','branch')}
+ <h2>The conditions — fifteen of them</h2>
+ ${conds('Branch-wiring conditions and why they matter', [['Undersized conductor for the breaker','The wire can overheat before the breaker trips.'],['Overfused circuit','The same problem from the breaker\'s side — protection too large for the wire.'],['Damaged insulation','Nicks, cracks, rodent damage, or heat damage expose conductors.'],['Open splices outside a box','Every connection must be inside an accessible junction box, never buried in a wall or ceiling.'],['Splices made improperly','Loose twists, no connectors, or taped-only joints.'],['Cable not secured / not stapled','Cable should be stapled near boxes and supported along its run so strain stays off terminations.'],['Run through framing without protection','Where cable passes through studs near the face, a nail plate must guard it from screws and nails.'],['Too close to heat or plumbing','Contact with flues, hot pipes, or sharp metal degrades the cable.'],['Missing connectors at boxes','Cable entering a box without a clamp chafes on the metal edge.'],['Conductors exposed in living space','Branch wiring run on the surface where it can be damaged should be protected.'],['Wrong cable type for the location','NM used where moisture or burial demands UF, for example.'],['Abandoned cable left energized','Dead-ended runs of unknown status.']])}
+ ${story('Inspector in the House', 'In one finished basement the receptacles barely ran a phone charger and a lamp dimmed when the furnace kicked on. Behind the cover plate the \"branch wiring\" turned out to be light-gauge bell-and-telephone wire someone had pressed into service for 120-volt outlets. It looked like wiring and worked just enough to fool a buyer. The lesson: don\'t assume the conductor is what it should be — when outlets behave oddly, look at what\'s actually feeding them, and report undersized or improvised wiring plainly.')}`,
+ quiz:[
+  {q:'NM cable (\"Romex\") is intended for:',o:['Direct burial in soil','Dry, protected interior locations','Submerged use','High-temperature flue penetrations'],a:1,e:'NM is the plastic-sheathed cable for dry interior runs. Damp or buried locations call for UF; mechanical protection may call for armored cable or conduit.'},
+  {q:'Electrical splices must be:',o:['Buried in the wall for a clean look','Made inside an accessible junction box','Wrapped in tape and left in the ceiling','Soldered only'],a:1,e:'Every splice must be in an accessible box — open splices hidden in walls or ceilings are a defect and a fire risk.'},
+  {q:'Where cable passes through a stud close to the face, you should find:',o:['Nothing extra is needed','A nail plate protecting it from screws and nails','The cable doubled','A fuse'],a:1,e:'A metal nail plate guards the cable where a future fastener could pierce it.'},
+  {q:'Outlets that barely power small loads and cause lights to dim suggest:',o:['A perfectly normal circuit','Possibly undersized or improvised conductors feeding them — investigate','A 240 V circuit','Too many GFIs'],a:1,e:'Odd outlet behavior is a cue to look at what\'s actually feeding them; improvised or undersized wire is a real and reportable finding.'},
+  {q:'A cable entering a metal box without a connector or clamp is a problem because:',o:['It looks untidy','The sheath and conductors chafe on the sharp box edge and strain isn\'t relieved','It changes the voltage','Connectors are only decorative'],a:1,e:'The clamp protects the cable from the metal edge and keeps strain off the terminations.'},
+ ]},
+{id:'l9',kind:'Lesson 9',label:'Knob-and-Tube & Aluminum',type:'lesson',
+ body:()=>`<span class=\"eyebrow\">Lesson 9 · §7.8 Older Wiring Systems</span><h1>Two legacy systems that need a careful eye</h1>
+ <p class=\"lead\">Two wiring types deserve their own lesson because they're widely misunderstood and easy to mishandle in a report — one from the early 20th century, one from a specific window in the 1960s and 70s. Neither is automatically a disaster, and overstating them is as much a mistake as missing them.</p>
+ <h2>Knob-and-tube</h2>
+ <p>Installed roughly <b>1920–1950</b>, knob-and-tube runs the hot and neutral as <b>two separate conductors</b>, held off the framing by porcelain <b>knobs</b> and passed through joists in porcelain <b>tubes</b>. Spacing the conductors apart and away from wood was the safety design — and there is <b>no equipment ground</b>, so it predates modern grounding entirely. Undisturbed and intact, it can still function; the trouble is almost always what has happened to it since.</p>
+ ${conds('Knob-and-tube conditions', [['Buried in thermal insulation','The original design relied on open air to shed heat. Pack insulation around it and heat can build — the central controversy with K&T. Note it and recommend evaluation.'],['Amateur modifications and extensions','Decades of splices and add-ons, often ungrounded and improperly joined.'],['Brittle or deteriorated insulation','The conductor insulation ages, cracks, and falls away, exposing bare wire.'],['Compromised connections','Loose or corroded original splices.']])}
+ <div class=\"field\"><div class=\"ic\">${sv(ic.flag)}</div><div><div class=\"t\">How to report K&T without overstating</div><p>Don\'t declare it unsafe on sight. Report that the home has knob-and-tube, that it lacks an equipment ground, and that any portions <b>buried in insulation, modified, or deteriorated</b> warrant evaluation by an electrician. Insurers often have their own position — let the client know it may affect coverage.</p></div></div>
+ <h2>Aluminum branch wiring</h2>
+ <p>For a window of roughly <b>1965–1973</b>, single-strand <b>aluminum</b> was widely used for ordinary 15- and 20-amp branch circuits. The aluminum itself isn't the hazard — the <b>terminations</b> are. Aluminum expands and contracts more than copper, can <b>creep</b> out from under a screw over years of heating and cooling, and oxidizes into a resistive film; at devices not designed for it, the connection loosens and overheats. The receptacle is the worst spot.</p>
+ ${conds('Aluminum branch-wiring conditions', [['Terminated on devices not rated for aluminum','Standard devices loosen and overheat. Devices must be marked CO/ALR (receptacles/switches) or the connection corrected.'],['Signs of overheating at terminations','Discoloration, warmth, or the smell of hot plastic at outlets and switches.'],['Improper \"repairs\"','Aluminum pigtailed to copper with ordinary wire nuts not listed for the joint — itself a failure point. The accepted fixes are listed connectors (such as COPALUM or AlumiConn) or CO/ALR devices.']])}
+ <p>One key distinction so you don't over-call it: aluminum is perfectly normal and acceptable for <b>service-entrance conductors and large 240-volt feeders</b> (those are multi-strand). The concern is specifically <b>single-strand aluminum on small branch circuits.</b> Match aluminum gauges to their devices — note they run one size larger than copper for the same job:</p>
+ ${W('match','alwire')}`,
+ quiz:[
+  {q:'Knob-and-tube wiring is best characterized by:',o:['A modern equipment ground','Two separate conductors on porcelain supports, with no equipment ground','Aluminum conductors','A plastic outer sheath'],a:1,e:'K&T spaces a separate hot and neutral on knobs and through tubes, and has no ground — it predates modern grounding.'},
+  {q:'The central concern with knob-and-tube buried in insulation is:',o:['It looks dated','The design relied on open air to dissipate heat, so buried runs can overheat','Insulation causes short circuits','The porcelain melts'],a:1,e:'K&T was designed to shed heat into open air; packing insulation around it can let heat build up. Report it for evaluation.'},
+  {q:'With aluminum branch wiring, the actual hazard is at:',o:['The middle of the wire runs','The terminations, which loosen and overheat over time','The panel bus only','The neutral bar'],a:1,e:'Aluminum creeps and oxidizes at connections; on devices not rated for it, the joint loosens and overheats. Receptacles are the worst spot.'},
+  {q:'A receptacle suitable for direct connection to aluminum branch wire is marked:',o:['GFCI','CO/ALR','NM','UFER'],a:1,e:'CO/ALR-marked devices are listed for aluminum. Otherwise the accepted fixes are listed connectors like COPALUM or AlumiConn.'},
+  {q:'Single-strand aluminum branch wiring was most common during which window?',o:['1920–1950','Roughly 1965–1973','1990s','Today'],a:1,e:'Roughly 1965–1973. Note that multi-strand aluminum remains fine for service-entrance conductors and large 240 V feeders.'},
+ ]},
+{id:'l10',kind:'Lesson 10',label:'Devices & Smoke Detectors',type:'lesson',
+ body:()=>`<span class=\"eyebrow\">Lesson 10 · §7.9–7.10 Devices &amp; Detectors</span><h1>The parts your client actually touches</h1>
+ <p class=\"lead\">Lights, receptacles, switches, junction boxes, GFIs, and smoke detectors — the visible end of the system, and the part homeowners interact with daily. Two big ideas anchor this lesson: how a GFI actually protects people, and what the Standards ask of you on smoke detectors.</p>
+ <p>Begin with the scan — a kitchen wall with several device problems above the counter. Click each one.</p>
+ ${W('spot','recep')}
+ <h2>The conditions, by device</h2>
+ ${conds('Lights', [['Missing or damaged fixtures','Open lampholders, broken lenses, hanging fixtures.'],['Open boxes / missing covers','Live connections exposed.'],['Improper closet fixtures','Too close to combustible storage — clearance matters.'],['Recessed cans in insulation without an IC rating','A non-IC can buried in insulation is a fire risk.'],['Inoperative on test','Report fixtures that don\'t respond.']])}
+ ${conds('Receptacles', [['Open ground','No equipment ground present at a three-prong outlet — a false sense of safety.'],['Reversed polarity','Hot and neutral swapped — energizes parts that should be neutral.'],['No GFI where required','Missing protection near water or grade (see below).'],['Wrong type for the circuit','A 20-amp receptacle on a 15-amp circuit, for instance — check the wire gauge.'],['Loose, damaged, or painted-over','Worn contacts, broken faces, painted slots.'],['Open or missing box','Connections must be enclosed.']])}
+ ${conds('Switches & junction boxes', [['Inoperative or no cover plate','Exposed terminals.'],['Overheating switch','Discoloration or warmth.'],['Open splices outside a box','Every joint belongs in an accessible box.'],['Overfilled or buried junction box','Boxes must stay accessible and not overcrowded.']])}
+ <h2>How a GFI actually works — and why it isn't a breaker</h2>
+ <p>A <b>GFI</b> is a receptacle with ground-fault protection; a <b>GFCI</b> is the breaker-mounted version that protects the whole circuit. It works by comparing the current going out the hot to the current coming back on the neutral. In a healthy circuit those are equal. If even a small amount — about <b>5 milliamps</b> — leaks off somewhere else (say, through a person to ground), the GFI senses the imbalance and cuts power in milliseconds. Run the simulator and introduce a fault to see it:</p>
+ ${W('gfi')}
+ <div class=\"field brass\"><div class=\"ic\">${sv(ic.alert)}</div><div><div class=\"t\">A GFI doesn\'t replace a fuse — they catch different things</div><p>A fuse or breaker watches the <b>total</b> current and shuts off on an <b>overload or short</b>. A GFI watches the <b>balance</b> and shuts off on a <b>leak</b> too small to ever trip a breaker. You need both. One useful consequence: because a GFI senses imbalance rather than needing a ground, it can legitimately protect an <b>ungrounded</b> receptacle — labeled \"GFCI protected, no equipment ground.\"</p></div></div>
+ <p><b>Where GFI protection is required:</b> close to grade or water — outdoors, bathrooms, kitchen counters, garages, unfinished basements, crawl spaces, and around pools and whirlpool baths.</p>
+ ${story('Inspector in the House', 'A seller swore the garage outlets were \"dead\" and had written off the wiring. Before condemning anything I checked the bathroom and found a tripped GFI receptacle — the garage and exterior outlets were wired downstream of it. One reset button and everything came back to life. The lesson for clients: a single GFI often protects several outlets down the line, so a \"dead\" receptacle is frequently just a tripped GFI somewhere upstream, not a wiring failure.')}
+ <h2>Smoke detectors</h2>
+ <p>The Standards ask you to <b>report the absence</b> of smoke detectors; they don't require you to test them — and you should make clear to your client whether or not you did. Beyond the bare requirement, the sound advice to give: detectors on <b>every floor level</b> and <b>near all sleeping areas</b>, one near the kitchen, with <b>interconnection</b> being ideal (so one alarm sounds them all) though costly to retrofit. Stress that testing and maintenance of these devices is the homeowner's ongoing job.</p>`,
+ quiz:[
+  {q:'A GFI protects people by:',o:['Watching total current and tripping on an overload','Comparing current out vs. back and tripping on a small imbalance (a leak)','Grounding the neutral','Boosting the voltage'],a:1,e:'It senses a ~5 mA imbalance between hot and neutral — current leaking off elsewhere — and cuts power in milliseconds. That\'s a different job than a breaker.'},
+  {q:'Why do you still need fuses or breakers on a GFCI-protected circuit?',o:['You don\'t — the GFCI replaces them','GFIs catch leaks but not overloads or shorts; breakers handle those','To make the GFI reset','For 240 V only'],a:1,e:'A GFI watches balance and catches leaks; a breaker watches total current and catches overloads and shorts. They protect against different failures.'},
+  {q:'A GFI can legitimately be used on an ungrounded receptacle because:',o:['It creates a ground','It senses imbalance and doesn\'t require a ground to function','It lowers the amperage','Ungrounded outlets are illegal'],a:1,e:'Because it works on imbalance rather than a ground path, a GFI can protect an ungrounded outlet — labeled \"GFCI protected, no equipment ground.\"'},
+  {q:'A client reports several \"dead\" garage and exterior outlets. A likely first check is:',o:['Replace the whole circuit','Look for a tripped GFI upstream (e.g., in a bathroom) protecting those outlets','Add a larger breaker','Bond the gas line'],a:1,e:'One GFI often protects several downstream outlets; a tripped GFI elsewhere commonly explains a string of \"dead\" receptacles.'},
+  {q:'Regarding smoke detectors, the Standards require you to:',o:['Test every detector','Report the absence of smoke detectors','Replace missing detectors','Certify the alarm system'],a:1,e:'You must report their absence, not test them — and you should tell the client whether you tested. Best-practice advice: one per floor, near sleeping areas, interconnected if possible.'},
+ ]},
+/*LESSONS*/
+ {id:'scenarios',kind:'Apply it',label:'Inspector\'s Call',type:'scenario'},
+ {id:'assess',kind:'Assessment',label:'Mastery check',type:'assess'},
+ {id:'glossary',kind:'Reference',label:'Glossary',type:'glossary'},
+ {id:'source',kind:'Deep reading',label:'Full source chapter',type:'source'},
+];
+(async()=>{await load();render();})();
+</script>

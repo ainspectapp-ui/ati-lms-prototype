@@ -1,0 +1,684 @@
+<!-- ATI · Module VI · Texas Standards of Practice — full interactive section -->
+<title>ATI · Module VI — Texas Standards of Practice</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..900&family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#f4f2ea;--surf:#fffdf8;--surf-2:#faf7ef;--surf-3:#efeae0;
+    --line:#e6e1d4;--line-2:#efeae0;--line-brass:rgba(197,129,42,.32);
+    --ink:#21242b;--ink-2:#5b616b;--ink-3:#8b909a;
+    --brass:#c5812a;--brass-2:#e0a043;--brass-deep:#9a6214;--brass-soft:#f4e7cd;
+    --slate:#1f6f73;--slate-2:#2f8a8d;--slate-soft:#dde9e9;--slate-deep:#123f43;
+    --pass:#2f7a4e;--pass-soft:#e2efe5;--fail:#bd4a31;--fail-soft:#f6e6df;
+    --r:16px;--display:'Fraunces',Georgia,serif;--body:'Hanken Grotesk',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;
+    --sh-1:0 1px 2px rgba(25,28,34,.05),0 1px 3px rgba(25,28,34,.05);--sh-2:0 4px 14px rgba(25,28,34,.06),0 12px 32px rgba(25,28,34,.09);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.55;background-image:radial-gradient(120% 80% at 88% -8%,rgba(197,129,42,.06),transparent 52%),radial-gradient(90% 60% at -8% 108%,rgba(31,111,115,.06),transparent 52%)}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  .mono{font-family:var(--mono)}
+  ::selection{background:var(--brass);color:#fff}
+  ::-webkit-scrollbar{width:11px;height:11px}::-webkit-scrollbar-thumb{background:#d2ccbd;border-radius:11px;border:3px solid var(--bg)}
+
+  .top{position:sticky;top:0;z-index:30;background:rgba(244,242,234,.82);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid var(--line)}
+  .top .row{max-width:1150px;margin:0 auto;padding:13px 24px;display:flex;align-items:center;gap:14px}
+  .mark{width:36px;height:36px;border-radius:10px;flex:none;display:grid;place-items:center;background:linear-gradient(150deg,var(--brass-2),var(--brass-deep));box-shadow:0 3px 12px rgba(168,109,16,.3),inset 0 1px 0 rgba(255,255,255,.35)}
+  .mark svg{width:20px;height:20px;color:#fff}
+  .top .tt{font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:-.01em;line-height:1.1}.top .tt b{color:var(--brass-deep)}
+  .top .sub{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);display:block;margin-top:2px}
+  .top .prog{margin-left:auto;display:flex;align-items:center;gap:12px}
+  .top .prog .bar{width:150px;height:7px;background:var(--surf-3);border-radius:7px;overflow:hidden;border:1px solid var(--line)}
+  .top .prog .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--brass-deep),var(--brass));border-radius:7px;transition:width .5s cubic-bezier(.2,.7,.2,1)}
+  .top .prog .pc{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--brass-deep);min-width:34px;text-align:right}
+
+  .wrap{max-width:1150px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:250px 1fr;gap:32px;align-items:start}
+  .rail{position:sticky;top:88px;margin-top:28px;max-height:calc(100vh - 110px);overflow-y:auto;padding-right:4px}
+  .rail .h{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);padding:0 8px 10px}
+  .step{display:block;padding:9px 10px 9px 43px;border-radius:10px;width:100%;text-align:left;transition:.13s;color:var(--ink-2);font-size:12.5px;font-weight:500;position:relative}
+  .step:hover{background:var(--surf-2)}
+  .step.active{background:var(--surf);box-shadow:var(--sh-1);color:var(--ink)}
+  .step.active::before{content:"";position:absolute;left:-8px;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--brass)}
+  .step .dot{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-family:var(--mono);font-size:10px;color:var(--ink-3);background:var(--bg);transition:.2s}
+  .step.done .dot{background:var(--brass);border-color:var(--brass);color:#fff}.step.done .dot svg{width:11px;height:11px}
+  .step .lbl{flex:1;line-height:1.2}
+  .step .kind{font-family:var(--mono);font-size:8.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);display:block;margin-top:1px}
+  .step.locked{opacity:.42;pointer-events:none}
+
+  .view{min-width:0;margin-top:28px;animation:rise .38s cubic-bezier(.2,.7,.2,1);padding-bottom:40px}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--brass-deep);font-weight:600}
+  h1{font-family:var(--display);font-weight:800;font-size:31px;letter-spacing:-.02em;line-height:1.08;margin:8px 0 0}
+  h2{font-family:var(--display);font-weight:700;font-size:21px;letter-spacing:-.01em;margin:32px 0 10px}
+  h3{font-family:var(--display);font-weight:700;font-size:16px;margin:24px 0 8px}
+  p{font-size:15.5px;color:#33312a;margin-bottom:14px;line-height:1.74}
+  p b,li b{color:var(--ink);font-weight:700}
+  .lead{font-size:16.5px;color:var(--ink-2);margin-top:12px;max-width:64ch}
+  ul.clean{list-style:none;margin:2px 0 16px}
+  ul.clean li{font-size:14.5px;color:#33312a;padding-left:22px;position:relative;margin-bottom:9px;line-height:1.6}
+  ul.clean li::before{content:"";position:absolute;left:2px;top:8px;width:7px;height:7px;border-radius:2px;background:var(--brass);transform:rotate(45deg)}
+  ul.num{margin:0 0 16px 20px}ul.num li{font-size:14.5px;color:#33312a;margin-bottom:7px;line-height:1.6}
+
+  .field{background:var(--slate-deep);color:#e9edf0;border-radius:13px;padding:18px 20px;margin:22px 0;display:flex;gap:14px}
+  .field.brass{background:linear-gradient(135deg,#3a3526,#2c2818)}
+  .field .ic{flex:none;color:var(--brass-2)}.field .ic svg{width:20px;height:20px}
+  .field .t{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-2);margin-bottom:5px}
+  .field p{color:#c4cdd4;font-size:14px;margin:0 0 8px;line-height:1.65}.field p:last-child{margin-bottom:0}.field p b{color:#fff}
+
+  .story{background:var(--surf);border:1px solid var(--line);border-left:4px solid var(--brass);border-radius:0 13px 13px 0;padding:16px 19px;margin:22px 0;box-shadow:var(--sh-1)}
+  .story .st{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-deep);display:flex;align-items:center;gap:8px;margin-bottom:7px}
+  .story .st svg{width:14px;height:14px}
+  .story p{font-size:14.5px;color:#403d33;font-style:italic;margin:0;line-height:1.7}
+  .story p b{font-style:normal}
+
+  .loop{display:flex;align-items:stretch;background:var(--surf);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin:18px 0 8px;box-shadow:var(--sh-1)}
+  .loop .seg{flex:1;padding:13px 10px;text-align:center;border-right:1px solid var(--line-2)}.loop .seg:last-child{border-right:none}
+  .loop .seg .n{font-family:var(--mono);font-size:9px;color:var(--ink-3);letter-spacing:.1em}
+  .loop .seg .w{font-family:var(--display);font-weight:700;font-size:12.5px;margin-top:3px}
+  .loop .seg.on{background:var(--brass-soft)}.loop .seg.on .w{color:var(--brass-deep)}
+
+  .dgm{background:#bdb8a8;border:1px solid var(--line);border-radius:var(--r);padding:8px;margin:20px 0;box-shadow:var(--sh-1);position:relative;overflow:hidden}
+  .dgm::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(44,65,83,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(44,65,83,.1) 1px,transparent 1px);background-size:26px 26px;pointer-events:none}
+  .dgm svg{display:block;width:100%;height:auto;position:relative}
+  .dgm .cap{position:relative;text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:.04em;color:var(--slate-deep);padding:4px 6px 8px}
+
+  .defect{background:var(--surf);border:1px solid var(--line);border-radius:13px;padding:16px 18px;box-shadow:var(--sh-1);margin:12px 0}
+  .defect .dh{display:flex;align-items:center;gap:11px;margin-bottom:8px}
+  .defect .dh .n{width:26px;height:26px;border-radius:8px;background:var(--fail-soft);color:var(--fail);display:grid;place-items:center;flex:none;font-family:var(--mono);font-weight:600;font-size:12px}
+  .defect .dh .nm{font-family:var(--display);font-weight:700;font-size:15px}
+  .defect p{font-size:14px;margin-bottom:9px}
+  .defect .meta{display:grid;grid-template-columns:auto 1fr;gap:5px 12px;font-size:13px;align-items:start}
+  .defect .meta .lab{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);padding-top:3px;white-space:nowrap}
+  .defect .meta .val{color:#33312a;line-height:1.5}
+  .defect .rep{font-family:var(--mono);font-size:11px;background:var(--slate-soft);border-radius:8px;padding:8px 11px;color:var(--slate-deep);line-height:1.5;margin-top:8px}.defect .rep b{color:var(--slate-deep)}
+
+  .pills{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 6px}
+  .pill{font-family:var(--mono);font-size:11.5px;background:var(--surf);border:1px solid var(--line);color:var(--ink-2);padding:6px 12px;border-radius:20px}.pill b{color:var(--brass-deep)}
+  .tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px;background:var(--surf);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .tbl th{background:var(--slate-deep);color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;text-align:left;padding:9px 12px;font-weight:600}
+  .tbl td{padding:9px 12px;border-top:1px solid var(--line-2);color:#33312a}
+  .tbl td:first-child{font-family:var(--mono);font-weight:600;color:var(--brass-deep);white-space:nowrap}
+
+  /* ---- quiz (multi-question) ---- */
+  .quiz{background:var(--surf);border:1.5px solid var(--line-brass);border-radius:var(--r);padding:24px;margin:30px 0 0;box-shadow:var(--sh-1)}
+  .quiz .qh{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-deep);display:flex;align-items:center;gap:8px;margin-bottom:4px}.quiz .qh svg{width:15px;height:15px}
+  .quiz .qt{font-family:var(--display);font-weight:700;font-size:18px}.quiz .qsub{font-size:13.5px;color:var(--ink-2);margin:4px 0 4px}
+  .qblock{border-top:1px solid var(--line-2);padding-top:18px;margin-top:18px}.qblock:first-of-type{border-top:none;padding-top:14px}
+  .qnum{font-family:var(--mono);font-size:11px;color:var(--brass-deep);font-weight:600;margin-bottom:6px}
+  .q{font-family:var(--display);font-weight:600;font-size:15.5px;margin-bottom:13px;line-height:1.4}
+  .opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:11px 14px;border:1.5px solid var(--line);border-radius:10px;margin-bottom:8px;transition:.13s;font-size:14px;font-weight:500;background:var(--surf-2)}
+  .opt:hover:not(.lk){border-color:var(--brass);background:var(--surf)}
+  .opt .k{font-family:var(--mono);font-weight:600;width:23px;height:23px;border-radius:6px;background:var(--surf-3);display:grid;place-items:center;font-size:11px;flex:none;color:var(--ink-2)}
+  .opt.correct{border-color:var(--pass);background:var(--pass-soft)}.opt.correct .k{background:var(--pass);color:#fff}
+  .opt.wrong{border-color:var(--fail);background:var(--fail-soft)}.opt.wrong .k{background:var(--fail);color:#fff}
+  .opt .mk{margin-left:auto}.opt .mk svg{width:16px;height:16px}.opt.lk{cursor:default}
+  .exp{font-size:13px;color:var(--ink-2);line-height:1.62;padding:11px 13px;background:var(--surf-2);border-left:3px solid var(--brass);border-radius:0 9px 9px 0;margin-top:4px}.exp b{color:var(--ink)}
+  .qscore{margin-top:20px;padding-top:18px;border-top:1px solid var(--line-2);font-family:var(--mono);font-size:13px;color:var(--ink-2);display:flex;align-items:center;gap:10px}.qscore svg{width:18px;height:18px;flex:none}.qscore b{font-size:15px}
+
+  .foot{display:flex;align-items:center;gap:12px;margin:30px 0 10px;padding-top:22px;border-top:1px solid var(--line)}.foot .sp{flex:1}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:14px;padding:12px 18px;border-radius:11px;transition:.15s;font-family:var(--body)}.btn svg{width:16px;height:16px}
+  .btn.brass{background:linear-gradient(150deg,var(--brass-2),var(--brass));color:#fff;box-shadow:0 5px 14px rgba(168,109,16,.28)}.btn.brass:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(168,109,16,.36)}
+  .btn.brass:disabled{opacity:.5;filter:grayscale(.3);cursor:not-allowed;transform:none;box-shadow:none}
+  .btn.ghost{background:var(--surf);border:1px solid var(--line);color:var(--ink-2)}.btn.ghost:hover{color:var(--ink);border-color:var(--ink-3)}
+  .btn.slate{background:var(--slate);color:#fff}.btn.slate:hover{background:var(--slate-deep)}
+
+  /* ---- WIDGETS ---- */
+  .wlabel{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:var(--brass);padding:4px 9px;border-radius:20px;display:inline-block;margin-bottom:6px}
+  .wtitle{font-family:var(--display);font-weight:700;font-size:16px;margin-bottom:3px}
+  .wsub{font-size:13.5px;color:var(--ink-2);margin-bottom:14px}
+  .widget{background:var(--surf-2);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;margin:24px 0;box-shadow:var(--sh-1)}
+
+  .sd-wrap{display:grid;grid-template-columns:1fr 260px;gap:16px}@media(max-width:760px){.sd-wrap{grid-template-columns:1fr}}
+  .sd-stage{background:#bdb8a8;border:1px solid var(--line);border-radius:13px;padding:8px;position:relative;overflow:hidden}
+  .sd-stage::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(44,65,83,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(44,65,83,.09) 1px,transparent 1px);background-size:24px 24px;pointer-events:none}
+  .sd-stage svg{display:block;width:100%;height:auto;position:relative}
+  .hot{cursor:pointer}.hot circle.zone{fill:transparent;stroke:transparent}
+  .hot.found circle.zone{fill:rgba(61,125,80,.16);stroke:var(--pass);stroke-width:2.5;stroke-dasharray:4 3}
+  .sd-side{display:flex;flex-direction:column;gap:11px}
+  .sd-count{background:var(--slate-deep);color:#fff;border-radius:12px;padding:13px 15px;text-align:center}
+  .sd-count .big{font-family:var(--mono);font-weight:600;font-size:28px;line-height:1}.sd-count .lbl{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-2);margin-top:5px}
+  .sd-found{display:flex;flex-direction:column;gap:7px;max-height:280px;overflow-y:auto}
+  .fcard{background:var(--surf);border:1px solid var(--line);border-left:3px solid var(--pass);border-radius:9px;padding:9px 11px;animation:pop .3s}@keyframes pop{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:none}}
+  .fcard .fn{font-family:var(--display);font-weight:700;font-size:13px;color:var(--pass)}.fcard .fd{font-size:12px;color:var(--ink-2);margin-top:2px;line-height:1.45}
+  .sd-empty{font-size:12.5px;color:var(--ink-3);font-style:italic;text-align:center;padding:18px 8px}
+  .sd-done{background:var(--pass-soft);border:1px solid var(--pass);border-radius:11px;padding:12px;text-align:center;font-size:13px;color:var(--pass);font-weight:600}
+
+  .gfi-stage{background:var(--slate-deep);border-radius:13px;padding:20px;position:relative;overflow:hidden;height:220px}
+  .lane{position:absolute;left:120px;right:120px;height:3px;background:rgba(255,255,255,.18);border-radius:3px}.lane.hot{top:66px}.lane.neu{top:146px}
+  .lane .lab{position:absolute;top:-19px;left:0;font-family:var(--mono);font-size:10px;color:#9fb0bd}
+  .dot{position:absolute;width:9px;height:9px;border-radius:50%;top:-3px}
+  .dot.h{background:var(--brass-2);animation:flowR 2.4s linear infinite}.dot.n{background:#7fa8c4;animation:flowL 2.4s linear infinite}
+  @keyframes flowR{from{left:0}to{left:100%}}@keyframes flowL{from{left:100%}to{left:0}}
+  .gbox{position:absolute;left:28px;top:66px;width:68px;height:80px;border:2px solid #9fb0bd;border-radius:8px;display:grid;place-items:center;text-align:center}
+  .gbox .gt{font-family:var(--mono);font-size:10px;color:#fff}.gbox .gs{font-family:var(--mono);font-size:8px;color:#7fa8c4;margin-top:3px}
+  .load{position:absolute;right:28px;top:66px;width:68px;height:80px;border:2px solid #9fb0bd;border-radius:8px;display:grid;place-items:center}.load .lt{font-family:var(--mono);font-size:10px;color:#fff}
+  .leak{position:absolute;left:50%;top:69px;width:2px;height:88px;background:repeating-linear-gradient(180deg,var(--fail),var(--fail) 5px,transparent 5px,transparent 10px);opacity:0;transition:.3s}.leak.on{opacity:1}
+  .person{position:absolute;left:calc(50% - 13px);top:160px;font-size:22px;opacity:0;transition:.3s}.person.on{opacity:1}
+  .trip{position:absolute;inset:0;background:rgba(184,84,54,.92);display:grid;place-items:center;opacity:0;pointer-events:none;transition:.3s}.trip.on{opacity:1}
+  .trip .tw{text-align:center;color:#fff}.trip .tw .b{font-family:var(--display);font-weight:800;font-size:25px}.trip .tw .s{font-family:var(--mono);font-size:11px;letter-spacing:.1em;margin-top:6px;opacity:.9}
+  .gfi-status{display:flex;align-items:center;gap:10px;margin-top:14px;font-size:14px;font-weight:600}.gfi-status .pip{width:11px;height:11px;border-radius:50%;background:var(--pass)}.gfi-status.fault .pip{background:var(--fail)}
+  .gfi-controls{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}.gfi-read{font-family:var(--mono);font-size:12px;color:var(--ink-2);margin-top:10px}.gfi-read b{color:var(--brass-deep)}
+
+  .match{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:600px){.match{grid-template-columns:1fr}}
+  .mcol{display:flex;flex-direction:column;gap:9px}.mcol .ch{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);text-align:center;margin-bottom:2px}
+  .chip{padding:13px;border:1.5px solid var(--line);border-radius:11px;background:var(--surf);font-family:var(--mono);font-weight:600;font-size:14px;text-align:center;transition:.13s;color:var(--ink)}
+  .chip:hover:not(.locked){border-color:var(--brass)}.chip.sel{border-color:var(--brass);background:var(--brass-soft);color:var(--brass-deep)}
+  .chip.locked{border-color:var(--pass);background:var(--pass-soft);color:var(--pass);cursor:default;opacity:.85}
+  .chip.miss{border-color:var(--fail);background:var(--fail-soft);animation:shake .3s}@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+  .w-done{margin-top:14px;background:var(--pass-soft);border:1px solid var(--pass);border-radius:11px;padding:12px;text-align:center;font-size:13px;color:var(--pass);font-weight:600}
+
+  .est{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:600px){.est{grid-template-columns:1fr}}
+  .est label{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:6px}
+  .est select{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--surf);font-family:var(--mono);font-size:14px;color:var(--ink);font-weight:600}
+  .est-out{grid-column:1/-1;margin-top:4px;border-radius:12px;padding:15px 17px;border:1px solid var(--line);background:var(--surf);transition:.2s}
+  .est-out.ok{border-color:var(--pass);background:var(--pass-soft)}.est-out.bad{border-color:var(--fail);background:var(--fail-soft)}
+  .est-out .ev{font-family:var(--display);font-weight:800;font-size:19px}.est-out .ed{font-size:13px;color:var(--ink-2);margin-top:5px;line-height:1.5}
+  .est-out.ok .ev{color:var(--pass)}.est-out.bad .ev{color:var(--fail)}
+
+  .sort{display:grid;gap:14px}
+  .sort-items{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;min-height:20px}
+  .sitem{padding:10px 14px;border:1.5px solid var(--line);border-radius:10px;background:var(--surf);font-size:13.5px;font-weight:500;transition:.13s}.sitem:hover:not(.placed){border-color:var(--brass)}.sitem.sel{border-color:var(--brass);background:var(--brass-soft);color:var(--brass-deep)}.sitem.placed{display:none}
+  .bins{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:600px){.bins{grid-template-columns:1fr}}
+  .bin{border:1.5px dashed var(--line);border-radius:12px;padding:14px;min-height:90px;background:var(--surf)}
+  .bin.activeb{border-color:var(--brass);background:var(--brass-soft)}
+  .bin .bt{font-family:var(--display);font-weight:700;font-size:14px;text-align:center;margin-bottom:10px}
+  .bin .drop{font-size:11px;color:var(--ink-3);text-align:center;font-style:italic}
+  .binitem{padding:8px 11px;border-radius:8px;font-size:13px;font-weight:500;margin-bottom:6px;display:flex;align-items:center;gap:7px}.binitem svg{width:13px;height:13px;flex:none}
+  .binitem.right{background:var(--pass-soft);color:var(--pass)}.binitem.wrong{background:var(--fail-soft);color:var(--fail)}
+
+  .era{display:flex;flex-direction:column;gap:0;position:relative;margin:6px 0 4px;padding-left:8px}
+  .era .line{position:absolute;left:14px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .erow{display:flex;align-items:flex-start;gap:14px;padding:9px 0;position:relative;cursor:pointer}
+  .erow .ed{width:12px;height:12px;border-radius:50%;background:var(--surf-3);border:2px solid var(--line);flex:none;margin-top:3px;z-index:1;transition:.15s}
+  .erow:hover .ed,.erow.open .ed{background:var(--brass);border-color:var(--brass)}
+  .erow .et{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--brass-deep);width:130px;flex:none}
+  .erow .en{font-size:14px;color:#33312a;font-weight:600}
+  .erow .ex{font-size:13px;color:var(--ink-2);line-height:1.5;margin-top:4px;display:none}.erow.open .ex{display:block}
+
+  .panelcard{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-2);padding:34px;text-align:center}
+  .panelcard .ic{width:56px;height:56px;border-radius:14px;background:var(--brass-soft);color:var(--brass-deep);display:grid;place-items:center;margin:0 auto 16px}.panelcard .ic svg{width:27px;height:27px}
+  .panelcard h2{margin:0 0 8px}.panelcard p{max-width:48ch;margin:0 auto 22px}
+  .ring{width:150px;height:150px;margin:0 auto 18px;position:relative}.ring .rv{position:absolute;inset:0;display:grid;place-items:center}.ring .rv .n{font-family:var(--mono);font-weight:600;font-size:38px;line-height:1}.ring .rv .p{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-top:4px}
+  .verdict{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;display:inline-block;padding:5px 13px;border-radius:20px;margin-bottom:16px}.verdict.pass{background:var(--pass-soft);color:var(--pass)}.verdict.fail{background:var(--fail-soft);color:var(--fail)}
+
+  .scen{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-2);margin-bottom:16px}
+  .scen .sh{background:linear-gradient(120deg,#1f6f73,#123f43);color:#fff;padding:16px 20px}.scen .sh .t{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-2)}.scen .sh .n{font-family:var(--display);font-weight:700;font-size:17px;margin-top:3px}
+  .scen .body{padding:20px 22px}.scen .situation{font-size:15.5px;color:#33312a;line-height:1.7;margin-bottom:6px}.scen .ask{font-family:var(--display);font-weight:600;font-size:15px;margin:16px 0 14px;color:var(--ink)}
+  .scount{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-bottom:10px}
+
+  .gloss{display:grid;gap:10px}.term{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:13px 16px;box-shadow:var(--sh-1)}
+  .term .tw{font-family:var(--display);font-weight:700;font-size:14.5px;color:var(--brass-deep)}.term .td{font-size:13.5px;color:var(--ink-2);margin-top:3px;line-height:1.55}
+  .srcframe{width:100%;height:78vh;border:1px solid var(--line);border-radius:var(--r);background:var(--surf);box-shadow:var(--sh-1)}
+  .srcnote{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:14px 17px;font-size:13.5px;color:var(--ink-2);margin:14px 0;line-height:1.6}.srcnote a{color:var(--brass-deep);font-weight:600}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--slate-deep);color:#fff;padding:12px 18px;border-radius:11px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;box-shadow:var(--sh-2);z-index:100;opacity:0;transition:.3s}.toast.show{transform:translateX(-50%) translateY(0);opacity:1}.toast svg{width:16px;height:16px;color:var(--brass-2)}
+  @media(max-width:880px){.wrap{grid-template-columns:1fr}.rail{display:none}.top .prog .bar{width:90px}}
+  em{font-style:italic;color:inherit}
+</style>
+
+<div class="top"><div class="row">
+  <a href="index.html" class="mark" style="text-decoration:none" title="Back to Module VI"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8c2.2 0 2.2-2 4.5-2S9.7 8 12 8s2.2-2 4.5-2S18.7 8 21 8"/><path d="M3 13c2.2 0 2.2-2 4.5-2S9.7 13 12 13s2.2-2 4.5-2S18.7 13 21 13"/><path d="M3 18c2.2 0 2.2-2 4.5-2S9.7 18 12 18s2.2-2 4.5-2S18.7 18 21 18"/></svg></a>
+  <div><div class="tt">ATI · Module VI — <b>Texas Standards of Practice</b></div><span class="sub">Texas qualifying education · interactive</span></div>
+  <div class="prog"><a href="index.html" style="font-family:var(--mono);font-size:11px;font-weight:600;color:var(--brass-deep);text-decoration:none;margin-right:2px" title="All systems">↩ Systems</a><div class="bar"><i id="pbar"></i></div><span class="pc" id="ppc">0%</span></div>
+</div></div>
+<div class="wrap"><aside class="rail"><div class="h">Section contents</div><div id="rail"></div></aside><main class="view" id="view"></main></div>
+<div class="toast" id="toast"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span id="tmsg"></span></div>
+
+<script src="/storage.js"></script>
+<script>
+/* ---- storage adapter: native window.storage in Claude; localStorage when deployed (GitHub Pages); memory as last resort ---- */
+(function(){if(typeof window==='undefined')return;if(window.storage&&window.storage.get)return;var mem={};window.storage={get:function(k){try{var v=window.localStorage.getItem(k);return Promise.resolve(v!=null?{value:v}:null);}catch(e){return Promise.resolve(mem[k]!=null?{value:mem[k]}:null);}},set:function(k,v){try{window.localStorage.setItem(k,v);}catch(e){mem[k]=v;}return Promise.resolve({value:v});},delete:function(k){try{window.localStorage.removeItem(k);}catch(e){delete mem[k];}return Promise.resolve({deleted:true});}};})();
+
+const ic={check:'<path d="M20 6 9 17l-5-5"/>',x:'<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',arrow:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',back:'<path d="M19 12H5"/><path d="m12 19-7-7 7-7"/>',brain:'<path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44A2.5 2.5 0 0 1 4 17.5a2.5 2.5 0 0 1-.5-4.9 2.5 2.5 0 0 1 0-4.2A2.5 2.5 0 0 1 5 3.5 2.5 2.5 0 0 1 9.5 2z"/>',flag:'<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>',alert:'<path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="9"/>',bolt:'<path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/>',book:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',open:'<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/>',award:'<circle cx="12" cy="8" r="6"/><path d="M15.5 12.9 17 22l-5-3-5 3 1.5-9.1"/>',retake:'<path d="M3 12a9 9 0 1 0 9-9 9 9 0 0 0-6.4 2.6L3 8"/><path d="M3 3v5h5"/>',coffee:'<path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/><line x1="6" y1="2" x2="6" y2="5"/><line x1="10" y1="2" x2="10" y2="5"/><line x1="14" y1="2" x2="14" y2="5"/>'};
+const sv=(p,w=2)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+function conds(title,items){return `<h3>${title}</h3><ul class="clean">${items.map(([n,d])=>`<li><b>${n}</b> — ${d}</li>`).join('')}</ul>`;}
+function story(title,text){return `<div class="story"><div class="st">${sv(ic.coffee)} ${title}</div><p>${text}</p></div>`;}
+
+/* ================= WIDGET LIBRARY ================= */
+const SPOT={}, MATCH={}, SORT={}, ERA={};
+const WID={
+  spot(el,k){const c=SPOT[k];let found=new Set();
+    el.innerHTML=`<span class="wlabel">Spot the defect</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div>
+     <div class="sd-wrap"><div class="sd-stage"><svg viewBox="${c.vb}" class="hot">${c.svg}<g class="hsg"></g></svg></div>
+     <div class="sd-side"><div class="sd-count"><div class="big"><span class="sdn">0</span>/${c.defects.length}</div><div class="lbl">defects found</div></div><div class="sd-found"><div class="sd-empty">Click a defect to log it…</div></div></div></div>`;
+    const g=el.querySelector('.hsg'),cnt=el.querySelector('.sdn'),fw=el.querySelector('.sd-found');
+    c.defects.forEach((d,i)=>{const gg=document.createElementNS('http://www.w3.org/2000/svg','g');gg.setAttribute('class','hot');gg.innerHTML=`<circle class="zone" cx="${d.x}" cy="${d.y}" r="${d.r}"/>`;gg.style.cursor='pointer';
+      gg.addEventListener('click',()=>{if(found.has(i))return;found.add(i);gg.classList.add('found');cnt.textContent=found.size;if(fw.querySelector('.sd-empty'))fw.innerHTML='';
+        const card=document.createElement('div');card.className='fcard';card.innerHTML=`<div class="fn">${found.size}. ${d.n}</div><div class="fd">${d.d}</div>`;fw.appendChild(card);
+        if(found.size===c.defects.length){const dn=document.createElement('div');dn.className='sd-done';dn.textContent='All found — that\'s the scan. Nicely done.';fw.appendChild(dn);}});
+      g.appendChild(gg);});},
+  gfi(el){el.innerHTML=`<span class="wlabel">Animated diagram</span><div class="wtitle">Watch the GFI work</div><div class="wsub">Current flows out the hot and back on the neutral — equal. Introduce a leak and see what happens.</div>
+    <div class="gfi-stage"><div class="gbox"><div><div class="gt">GFI</div><div class="gs">in vs out</div></div></div><div class="load"><div class="lt">LOAD</div></div><div class="lane hot"><span class="lab">hot — out</span></div><div class="lane neu"><span class="lab">neutral — back</span></div><div class="leak"></div><div class="person">🧍</div><div class="trip"><div class="tw"><div class="b">⚡ GFI TRIPPED</div><div class="s">imbalance &gt; 5 mA — cut in milliseconds</div></div></div></div>
+    <div class="gfi-status"><span class="pip"></span><span class="gtxt">Balanced — out equals back. Holding.</span></div>
+    <div class="gfi-read">Hot out: <b>15.000 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b>0 mA</b></div>
+    <div class="gfi-controls"><button class="btn brass gflt">Introduce a ground fault</button><button class="btn ghost grst">Reset</button></div>`;
+    const stage=el.querySelector('.gfi-stage'),st=el.querySelector('.gfi-status'),txt=el.querySelector('.gtxt'),read=el.querySelector('.gfi-read'),trip=el.querySelector('.trip'),fbtn=el.querySelector('.gflt');let f=false,to;
+    function dots(){stage.querySelectorAll('.dot').forEach(d=>d.remove());for(let i=0;i<5;i++){const d=document.createElement('span');d.className='dot h';d.style.animationDelay=(-i*0.48)+'s';stage.querySelector('.lane.hot').appendChild(d);}const nc=f?2:5;for(let i=0;i<nc;i++){const d=document.createElement('span');d.className='dot n';d.style.animationDelay=(-i*0.48)+'s';stage.querySelector('.lane.neu').appendChild(d);}}
+    function reset(){f=false;clearTimeout(to);el.querySelector('.leak').classList.remove('on');el.querySelector('.person').classList.remove('on');trip.classList.remove('on');st.classList.remove('fault');txt.textContent='Balanced — out equals back. Holding.';read.innerHTML='Hot out: <b>15.000 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b>0 mA</b>';fbtn.textContent='Introduce a ground fault';dots();}
+    fbtn.onclick=()=>{f=!f;if(f){el.querySelector('.leak').classList.add('on');el.querySelector('.person').classList.add('on');st.classList.add('fault');txt.textContent='Imbalance — current is leaking to ground.';read.innerHTML='Hot out: <b>15.006 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b style="color:var(--fail)">6 mA</b>';fbtn.textContent='Clear the fault';dots();to=setTimeout(()=>trip.classList.add('on'),650);}else reset();};
+    el.querySelector('.grst').onclick=reset;dots();},
+  match(el,k){const c=MATCH[k];const sh=a=>a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v[1]);let sel=null,locked=0;
+    el.innerHTML=`<span class="wlabel">Match drill</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="match"><div class="mcol"><div class="ch">${c.left}</div><div class=" L"></div></div><div class="mcol"><div class="ch">${c.right}</div><div class="R"></div></div></div><div class="md"></div>`;
+    const L=el.querySelector('.L'),R=el.querySelector('.R'),done=el.querySelector('.md');
+    c.pairs.forEach(p=>{const b=document.createElement('button');b.className='chip';b.textContent=p[0];b.dataset.a=p[0];b.dataset.s='L';L.appendChild(b);});
+    sh(c.pairs.map(p=>p[1])).forEach(v=>{const b=document.createElement('button');b.className='chip';b.textContent=v;b.dataset.b=v;b.dataset.s='R';R.appendChild(b);});
+    el.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{if(b.classList.contains('locked'))return;
+      if(!sel){sel=b;b.classList.add('sel');return;}if(sel===b){b.classList.remove('sel');sel=null;return;}if(sel.dataset.s===b.dataset.s){sel.classList.remove('sel');sel=b;b.classList.add('sel');return;}
+      const left=sel.dataset.s==='L'?sel:b,right=sel.dataset.s==='R'?sel:b,ok=c.pairs.find(p=>p[0]===left.dataset.a)[1]===right.dataset.b;
+      if(ok){[left,right].forEach(x=>{x.classList.remove('sel');x.classList.add('locked');});locked++;if(locked===c.pairs.length)done.innerHTML=`<div class="w-done">${c.done}</div>`;}
+      else{[left,right].forEach(x=>{x.classList.add('miss');setTimeout(()=>x.classList.remove('miss','sel'),350);});}sel=null;});},
+  sort(el,k){const c=SORT[k];let sel=null,placed=0;
+    el.innerHTML=`<span class="wlabel">Sort it</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="sort"><div class="sort-items">${c.items.map((it,i)=>`<button class="sitem" data-i="${i}">${it.t}</button>`).join('')}</div><div class="bins">${c.bins.map((b,bi)=>`<div class="bin" data-bin="${bi}"><div class="bt">${b}</div><div class="drop">tap an item, then tap here</div></div>`).join('')}</div></div><div class="md"></div>`;
+    const items=el.querySelectorAll('.sitem'),bins=el.querySelectorAll('.bin'),done=el.querySelector('.md');
+    items.forEach(it=>it.onclick=()=>{if(it.classList.contains('placed'))return;el.querySelectorAll('.sitem').forEach(x=>x.classList.remove('sel'));sel=it;it.classList.add('sel');});
+    bins.forEach(bin=>bin.onclick=()=>{if(!sel)return;const i=+sel.dataset.i,bi=+bin.dataset.bin,ok=c.items[i].bin===bi;
+      const row=document.createElement('div');row.className='binitem '+(ok?'right':'wrong');row.innerHTML=(ok?sv(ic.check,2.6):sv(ic.x,2.6))+' '+c.items[i].t;bin.querySelector('.drop').remove?bin.querySelector('.drop')&&(bin.querySelector('.drop').style.display='none'):0;bin.appendChild(row);
+      sel.classList.add('placed');sel=null;placed++;if(placed===c.items.length)done.innerHTML=`<div class="w-done">${c.done}</div>`;});},
+  est(el){el.innerHTML=`<span class="wlabel">Field tool</span><div class="wtitle">Service-size estimator</div><div class="wsub">Set what you'd read on site; it calls the size and flags an unsafe mismatch — your on-site logic.</div>
+    <div class="est"><div><label>Service-entrance conductor (copper)</label><select class="sew"><option value="6">#6 AWG</option><option value="4">#4 AWG</option><option value="2" selected>2/0 AWG</option><option value="0">4/0 AWG</option></select></div><div><label>Main breaker rating</label><select class="mbk"><option value="60">60 A</option><option value="100">100 A</option><option value="200" selected>200 A</option><option value="400">400 A</option></select></div><div class="est-out"></div></div>`;
+    const WA={'6':60,'4':100,'2':200,'0':400},WL={'6':'#6 AWG','4':'#4 AWG','2':'2/0 AWG','0':'4/0 AWG'},sew=el.querySelector('.sew'),mbk=el.querySelector('.mbk'),out=el.querySelector('.est-out');
+    function go(){const w=sew.value,b=+mbk.value,sup=WA[w];if(b>sup){out.className='est-out bad';out.innerHTML=`<div class="ev">⚠ Overfused — unsafe</div><div class="ed">A ${b} A main on ${WL[w]} copper (good for ~${sup} A) won't shut off before the conductor overheats. Report: overcurrent device oversized for the service-entrance conductor.</div>`;}else{const ap=Math.min(b,sup);out.className='est-out ok';out.innerHTML=`<div class="ev">${ap} A service</div><div class="ed">${WL[w]} copper supports ~${sup} A and the main is ${b} A — conductor protected. Report the service size as ${ap} A${b<sup?' (limited by the main breaker)':''}.</div>`;}}
+    sew.onchange=go;mbk.onchange=go;go();},
+  era(el,k){const c=ERA[k];el.innerHTML=`<span class="wlabel">Explore</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="era"><div class="line"></div>${c.rows.map((r,i)=>`<div class="erow" data-i="${i}"><span class="ed"></span><span class="et">${r.d}</span><div><div class="en">${r.n}</div><div class="ex">${r.x}</div></div></div>`).join('')}</div>`;
+    el.querySelectorAll('.erow').forEach(r=>r.onclick=()=>r.classList.toggle('open'));}
+};
+function wireWidgets(root){root.querySelectorAll('.wmount').forEach(el=>{const w=el.dataset.w,k=el.dataset.k;if(WID[w])WID[w](el,k);});}
+function W(w,k){return `<div class="widget wmount" data-w="${w}" data-k="${k||''}"></div>`;}
+
+/* ================= ENGINE ================= */
+const KEY='ati_txsop_ix_v1';
+let S={done:{},quiz:{},assessBest:0,cur:0};
+async function load(){try{const r=await window.storage.get(KEY,false);if(r&&r.value)S=JSON.parse(r.value);}catch(e){}S.done=S.done||{};S.quiz=S.quiz||{};}
+async function save(){try{await window.storage.set(KEY,JSON.stringify(S),false);}catch(e){}}
+const stepDone=i=>!!S.done[STEPS[i].id];
+const pct=()=>Math.round(Object.keys(S.done).length/STEPS.length*100);
+const unlocked=i=>i===0?true:stepDone(i-1);
+const view=document.getElementById('view');
+function updTop(){const p=pct();document.getElementById('pbar').style.width=p+'%';document.getElementById('ppc').textContent=p+'%';}
+function rail(){document.getElementById('rail').innerHTML=STEPS.map((s,i)=>{const d=stepDone(i),u=unlocked(i),a=i===S.cur;return `<button class="step ${d?'done':''} ${a?'active':''} ${u?'':'locked'}" ${u?`onclick="goStep(${i})"`:''}><span class="dot">${d?sv(ic.check,3):(i+1)}</span><span class="lbl">${s.label}<span class="kind">${s.kind}</span></span></button>`;}).join('');}
+function goStep(i){if(!unlocked(i))return;S.cur=i;save();render();window.scrollTo({top:0,behavior:'smooth'});}
+function markDoneAndNext(){S.done[STEPS[S.cur].id]=true;save();updTop();rail();if(S.cur<STEPS.length-1)goStep(S.cur+1);else render();}
+function render(){updTop();rail();const s=STEPS[S.cur];({lesson:renderLesson,scenario:renderScenarios,assess:renderAssess,glossary:renderGlossary,source:renderSource}[s.type])(s);}
+function navFoot(label,gated){const last=S.cur===STEPS.length-1;return `<div class="foot">${S.cur>0?`<button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button>`:''}<div class="sp"></div><button class="btn brass" id="nextBtn" ${gated?'disabled':''} onclick="markDoneAndNext()">${label||(last?'Finish section':'Mark complete & continue')} ${sv(ic.arrow)}</button></div>`;}
+
+function renderLesson(s){
+  let h=(typeof s.body==='function'?s.body():s.body);
+  if(s.quiz&&s.quiz.length){
+    h+=`<div class="quiz"><div class="qh">${sv(ic.brain)} Check your understanding</div><div class="qt">${s.label}</div><div class="qsub">${s.quiz.length} questions covering the lesson — answer each to see the reasoning.</div><div class="qbody">${
+      s.quiz.map((q,qi)=>`<div class="qblock"><div class="qnum">Question ${qi+1} of ${s.quiz.length}</div><div class="q">${q.q}</div><div class="opts" data-qi="${qi}">${q.o.map((o,k)=>`<button class="opt" onclick="qAns(${qi},${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="qexp" data-qi="${qi}"></div></div>`).join('')
+    }</div><div class="qscore" style="display:none"></div></div>`;
+  }
+  const gated=!!(s.quiz&&s.quiz.length&&!S.quiz[s.id]);
+  view.innerHTML=h+navFoot(null,gated);
+  wireWidgets(view);
+  window._ql={answered:{},total:s.quiz?s.quiz.length:0};
+}
+function qAns(qi,k){const s=STEPS[S.cur],q=s.quiz[qi];if(window._ql.answered[qi]!==undefined)return;window._ql.answered[qi]=k;
+  const opts=view.querySelector('.opts[data-qi="'+qi+'"]');opts.querySelectorAll('.opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===q.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});
+  view.querySelector('.qexp[data-qi="'+qi+'"]').innerHTML=`<div class="exp"><b>${k===q.a?'Correct.':'Review:'}</b> ${q.e}</div>`;
+  if(Object.keys(window._ql.answered).length===window._ql.total){
+    const right=s.quiz.filter((q,i)=>window._ql.answered[i]===q.a).length,sc=view.querySelector('.qscore');sc.style.display='flex';
+    sc.innerHTML=`${sv(ic.check,2.4)}<span>You scored <b style="color:${right>=Math.ceil(s.quiz.length*0.8)?'var(--pass)':'var(--fail)'}">${right}/${s.quiz.length}</b> on this lesson.</span>`;
+    sc.querySelector('svg').style.color=right>=Math.ceil(s.quiz.length*0.8)?'var(--pass)':'var(--fail)';
+    S.quiz[s.id]=true;save();const b=document.getElementById('nextBtn');if(b)b.disabled=false;}
+}
+
+let SC={i:0,answered:false};
+function renderScenarios(){SC={i:0,answered:false};paintScen();}
+function paintScen(){const sc=SCEN[SC.i];view.innerHTML=`<span class="eyebrow">Apply it · Inspector's Call</span><h1>Make the call</h1><p class="lead">The decisions you'll actually make standing in front of the system. Read it, choose, see the reasoning.</p><div class="scount mono">Scenario ${SC.i+1} of ${SCEN.length}</div><div class="scen"><div class="sh"><div class="t">${sc.t}</div><div class="n">${sc.n}</div></div><div class="body"><div class="situation">${sc.s}</div><div class="ask">${sc.ask}</div><div class="scopts">${sc.o.map((o,k)=>`<button class="opt" onclick="scAns(${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="scexp"></div></div></div><div class="foot"><button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button><div class="sp"></div><div class="scnext"></div></div>`;}
+function scAns(k){if(SC.answered)return;SC.answered=true;const sc=SCEN[SC.i];view.querySelectorAll('.scopts .opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===sc.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});view.querySelector('.scexp').innerHTML=`<div class="exp"><b>${k===sc.a?'Right call.':'Here\'s the call:'}</b> ${sc.e}</div>`;const last=SC.i===SCEN.length-1;view.querySelector('.scnext').innerHTML=`<button class="btn brass" onclick="${last?'markDoneAndNext()':'scNext()'}">${last?'Mark complete & continue':'Next scenario'} ${sv(ic.arrow)}</button>`;}
+function scNext(){SC.i++;SC.answered=false;paintScen();window.scrollTo({top:0,behavior:'smooth'});}
+
+let AS=null;
+function renderAssess(){if(!AS||AS.done)AS={i:0,answers:[],done:false};view.innerHTML=`<span class="eyebrow">Assessment</span><h1>Mastery check — Texas Standards of Practice</h1><p class="lead">${ASSESS.length} application questions across the whole chapter. 80% to pass; reasoning shown on every answer.</p><div class="panelcard" style="text-align:left;padding:0;overflow:hidden"><div style="background:linear-gradient(120deg,#1f6f73,#123f43);color:#fff;padding:18px 22px;display:flex;justify-content:space-between;align-items:center"><div><div style="font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-2)">Texas Standards of Practice</div><div style="font-family:var(--display);font-weight:700;font-size:17px;margin-top:3px">${ASSESS.length} questions · 80% to pass</div></div><div style="color:var(--brass-2)">${sv(ic.award)}</div></div><div style="padding:26px 22px;text-align:center">${S.assessBest?`<div class="mono" style="font-size:13px;color:var(--ink-2);margin-bottom:16px">Best score: <b style="color:${S.assessBest>=80?'var(--pass)':'var(--fail)'}">${S.assessBest}%</b></div>`:''}<button class="btn brass" style="margin:0 auto" onclick="asStart()">${S.assessBest?'Retake assessment':'Begin assessment'} ${sv(ic.arrow)}</button></div></div>`;}
+function asStart(){AS={i:0,answers:[],done:false};asPaint();window.scrollTo({top:0,behavior:'smooth'});}
+function asPaint(){const q=ASSESS[AS.i];view.innerHTML=`<span class="eyebrow">Assessment · Texas SOP</span><h1 style="font-size:24px">Question ${AS.i+1} <span style="color:var(--ink-3)">/ ${ASSESS.length}</span></h1><div style="margin:14px 0 0"><div style="width:100%;height:6px;background:var(--surf-3);border-radius:6px;overflow:hidden;border:1px solid var(--line)"><i style="display:block;height:100%;width:${AS.i/ASSESS.length*100}%;background:var(--brass)"></i></div></div><div class="quiz" style="border-color:var(--line);margin-top:22px"><div class="q">${q.q}</div><div class="opts">${q.o.map((o,k)=>`<button class="opt" onclick="asAns(${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="asexp"></div></div><div class="foot"><div class="sp"></div><div class="asnext"></div></div>`;}
+function asAns(k){if(AS.answers[AS.i]!==undefined)return;AS.answers[AS.i]=k;const q=ASSESS[AS.i];view.querySelectorAll('.opts .opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===q.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});view.querySelector('.asexp').innerHTML=`<div class="exp"><b>${k===q.a?'Correct.':'Review:'}</b> ${q.e}</div>`;const last=AS.i===ASSESS.length-1;view.querySelector('.asnext').innerHTML=`<button class="btn brass" onclick="${last?'asFinish()':'asNext()'}">${last?'See results':'Next'} ${sv(ic.arrow)}</button>`;}
+function asNext(){AS.i++;asPaint();window.scrollTo({top:0,behavior:'smooth'});}
+function asFinish(){const correct=AS.answers.filter((a,i)=>a===ASSESS[i].a).length,p=Math.round(correct/ASSESS.length*100),pass=p>=80;S.assessBest=Math.max(S.assessBest||0,p);AS.done=true;if(pass)S.done['assess']=true;save();updTop();rail();const circ=2*Math.PI*62;
+  view.innerHTML=`<span class="eyebrow">Assessment · Result</span><h1 style="margin-bottom:18px">${pass?'Section mastered':'Not quite there'}</h1><div class="panelcard"><div class="ring"><svg width="150" height="150" viewBox="0 0 150 150" style="transform:rotate(-90deg)"><circle cx="75" cy="75" r="62" fill="none" stroke="var(--surf-3)" stroke-width="11"/><circle cx="75" cy="75" r="62" fill="none" stroke="${pass?'var(--pass)':'var(--fail)'}" stroke-width="11" stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${circ}"><animate attributeName="stroke-dashoffset" from="${circ}" to="${circ-circ*p/100}" dur=".8s" fill="freeze" calcMode="spline" keySplines=".2 .7 .2 1"/></circle></svg><div class="rv"><div><div class="n" style="color:${pass?'var(--pass)':'var(--fail)'}">${p}%</div><div class="p">${correct}/${ASSESS.length} correct</div></div></div></div><span class="verdict ${pass?'pass':'fail'}">${pass?'Passed':'Below 80%'}</span><p>${pass?'You\'ve mastered the Texas Standards of Practice — that read of scope, the departure provision, and the system-by-system duties is what keeps every Texas report defensible.':'You need 80% to pass. Revisit the lessons and explanations, then retake — your best score counts.'}</p><div style="display:flex;gap:12px;justify-content:center"><button class="btn ghost" onclick="asStart()">${sv(ic.retake)} Retake</button>${pass?`<button class="btn brass" onclick="goStep(${STEPS.length-1})">Continue ${sv(ic.arrow)}</button>`:`<button class="btn brass" onclick="goStep(1)">Review lessons ${sv(ic.arrow)}</button>`}</div></div><div style="height:30px"></div>`;}
+
+function renderGlossary(){view.innerHTML=`<span class="eyebrow">Reference</span><h1>Texas SOP glossary</h1><p class="lead">Every key term in one place — quick reference for a real Texas inspection.</p><div class="gloss" style="margin-top:20px">${GLOSSARY.map(([w,d])=>`<div class="term"><div class="tw">${w}</div><div class="td">${d}</div></div>`).join('')}</div>${navFoot('Continue')}`;}
+function renderSource(){view.innerHTML=`<span class="eyebrow">Reference · sources</span><h1>Reference &amp; sources</h1><p class="lead">This section is built on the TREC Standards of Practice, 22 Texas Administrative Code §535.227–535.233. Read the authoritative rule text directly at the links below before relying on any point for licensure or a real inspection.</p>
+  <div class="srcnote" style="border-color:var(--fail);background:var(--fail-soft);color:#7a3624">${sv(ic.alert,2)} <b>⚠ DRAFT — verify against the current TREC SOP before relying on for licensure.</b> The rules are amended periodically; this material is a teaching aid, not a substitute for the official text or your license law. Always confirm the current effective version on the TREC site.</div>
+  <div class="gloss" style="margin-top:18px">
+   <div class="term"><div class="tw">§535.227 — General Provisions</div><div class="td">Scope, the definition of an inspection (a limited visual survey, non-invasive), the departure provision, and the general limitations and exclusions. <a href="https://www.law.cornell.edu/regulations/texas/22-Tex-Admin-Code-SS-535-227" target="_blank" rel="noopener">law.cornell.edu/…/535-227</a></div></div>
+   <div class="term"><div class="tw">§535.228 — Structural Systems</div><div class="td">Foundations, grading &amp; drainage, roof coverings, roof structure &amp; attics, walls/ceilings/floors, doors, windows, stairways, fireplaces &amp; chimneys, porches/decks/balconies/carports. <a href="https://www.law.cornell.edu/regulations/texas/22-Tex-Admin-Code-SS-535-228" target="_blank" rel="noopener">law.cornell.edu/…/535-228</a></div></div>
+   <div class="term"><div class="tw">§535.229 — Electrical Systems</div><div class="td">Service entrance &amp; panels; branch circuits, connected devices &amp; fixtures (GFCI/AFCI, smoke &amp; CO alarms). <a href="https://www.law.cornell.edu/regulations/texas/22-Tex-Admin-Code-SS-535-229" target="_blank" rel="noopener">law.cornell.edu/…/535-229</a></div></div>
+   <div class="term"><div class="tw">§535.230 — Heating, Ventilation &amp; Air Conditioning</div><div class="td">Heating equipment, cooling equipment, and duct systems, chases &amp; vents. <a href="https://www.law.cornell.edu/regulations/texas/22-Tex-Admin-Code-SS-535-230" target="_blank" rel="noopener">law.cornell.edu/…/535-230</a></div></div>
+   <div class="term"><div class="tw">§535.231 — Plumbing Systems</div><div class="td">Supply/distribution &amp; fixtures, drains/wastes/vents, water heating, hydro-massage equipment, gas distribution. <a href="https://www.law.cornell.edu/regulations/texas/22-Tex-Admin-Code-SS-535-231" target="_blank" rel="noopener">law.cornell.edu/…/535-231</a></div></div>
+   <div class="term"><div class="tw">§535.232 — Appliances</div><div class="td">Dishwashers, disposers, range hoods, ranges/ovens, microwaves, exhaust/bath heaters, garage door operators, dryer exhaust systems. <a href="https://www.law.cornell.edu/regulations/texas/22-Tex-Admin-Code-SS-535-232" target="_blank" rel="noopener">law.cornell.edu/…/535-232</a></div></div>
+   <div class="term"><div class="tw">§535.233 — Optional Systems</div><div class="td">Irrigation, pools/spas, outbuildings, private water wells, private sewage (septic), other built-ins — inspected only if the inspector agrees to do so. <a href="https://www.law.cornell.edu/regulations/texas/22-Tex-Admin-Code-SS-535-233" target="_blank" rel="noopener">law.cornell.edu/…/535-233</a></div></div>
+   <div class="term"><div class="tw">Report form — §535.222–223 (REI 7-6)</div><div class="td">Inspections of one-to-four family residences are reported on TREC Form REI 7-6; software reports must reproduce the standard form verbatim. <a href="https://www.trec.texas.gov/forms/inspection-report-form" target="_blank" rel="noopener">trec.texas.gov/forms/inspection-report-form</a> · <a href="https://www.trec.texas.gov/online-sops" target="_blank" rel="noopener">TREC online SOP</a></div></div>
+  </div>
+  <div class="foot"><button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button><div class="sp"></div><a class="btn slate" href="index.html" style="text-decoration:none;margin-right:10px">${sv(ic.back)} Module VI</a><button class="btn brass" onclick="finishAll()">${sv(ic.check)} Complete section</button></div>`;}
+function finishAll(){S.done['source']=true;save();updTop();rail();toast('Texas Standards of Practice section complete');}
+let tT;function toast(m){const t=document.getElementById('toast');document.getElementById('tmsg').textContent=m;t.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('show'),2400);}
+
+/* ================= DATA: scenarios / assessment / glossary ================= */
+const SCEN=[
+ {t:'Setting scope',n:'The buyer wants a pass/fail',s:'A buyer asks you, on the standard one-to-four family inspection, to "just tell me if the house passes or fails, and how long the roof will last."',ask:'How do you frame it?',o:['Tell them it passes — the roof looks fine','Explain the TREC inspection is a limited visual survey reporting present condition and deficiencies — not a pass/fail, code-compliance, or remaining-life determination, which the SOP does not require.','Promise a 10-year roof life','Refuse the inspection'],a:1,e:'Under §535.227 an inspection is a limited visual survey and basic performance evaluation of present condition. You report items as inspected, not inspected, not present, or deficient — you do not grade pass/fail, determine code compliance, insurability, or remaining life.'},
+ {t:'Departure provision',n:'The attic you can\'t enter',s:'The only attic access is a 20-inch by 28-inch scuttle, and the headroom past it is about 24 inches with stored boxes blocking the path.',ask:'What does the SOP require of you?',o:['Crawl in anyway — you must inspect the attic','You are not required to enter where the opening is less than 22"×30" or headroom is under 30". Report the limitation under the departure provision and inspect what is visible.','Skip the attic and say nothing','Charge extra to enter'],a:1,e:'§535.228(d) does not require entering attics through openings smaller than 22"×30" or with headroom under 30". When you can\'t access a required item, the departure provision (§535.227) requires you to advise the client and report the resulting limitation.'},
+ {t:'Electrical',n:'Bathroom receptacle, no GFCI',s:'A receptacle within a few feet of the bathroom sink is a standard outlet with no GFCI protection, and the kitchen-counter receptacles have none either.',ask:'Your call?',o:['Note it as a code violation and cite the NEC article','Report the absence of GFCI protection where required (bathrooms, kitchen counters) as deficient — without citing code; the SOP requires reporting the deficiency, not code citations.','Ignore it — GFCIs are optional','Test the breaker amperage'],a:1,e:'§535.229(b) requires reporting missing GFCI protection in bathrooms, kitchen countertops, garages, outdoors, and similar locations as deficient. You report the deficiency in plain terms; the SOP does not require (and TREC discourages) citing specific code sections.'},
+ {t:'HVAC',n:'95° August afternoon',s:'It is 96°F outside. The furnace is a gas unit; testing the heat now could damage the heat exchanger, and the buyer wants everything "tested."',ask:'What do you do?',o:['Run the furnace at full heat anyway','Operate the cooling normally; do not operate the heat when outdoor conditions could damage the equipment — note it was not operated and why. The SOP does not require operating equipment under damaging conditions.','Refuse to inspect the HVAC','Estimate the system\'s efficiency rating'],a:1,e:'§535.230 requires operating HVAC using normal controls, but you are not required to operate a unit when weather or other conditions could damage it, nor to determine sizing, efficiency, or adequacy. Document that it wasn\'t operated and the reason.'},
+ {t:'Plumbing',n:'Water heater, no TPR discharge',s:'A gas water heater\'s temperature-and-pressure-relief valve has no discharge (drain) piping — the valve port is open to the room a few feet off the floor.',ask:'How is this reported?',o:['Operate the TPR valve to "test" it fully','Report the missing/improper TPR discharge piping as deficient. You may operate the relief valve manually but are not required to operate other valves or determine the valve\'s effectiveness.','Determine the exact PSI it relieves at','Nothing — TPR piping is optional'],a:1,e:'§535.231 requires reporting deficiencies in the water heater\'s relief valve and its discharge piping. You test the TPR manually where appropriate, but you do not determine its effectiveness, and you are not required to operate shutoff or safety valves generally.'},
+ {t:'Appliances',n:'Garage door won\'t reverse',s:'You place a 2x4 flat under the closing garage door; the door contacts it and keeps pushing rather than reversing, and the photo-eye sensors sit about 10 inches off the floor.',ask:'What goes in the report?',o:['Nothing — the door closes, so it works','Report the failed auto-reverse and the photoelectric sensors mounted higher than ~6 inches as deficient. Operating the opener and checking the safety features is required.','Recommend a new motor only','Determine the door\'s lifting capacity'],a:1,e:'§535.232 requires operating garage door operators and reporting deficiencies in the auto-reverse/contact-reversal feature and photoelectric sensors mounted higher than about 6 inches above the floor. The failed reversal is exactly the kind of safety deficiency you must report.'},
+ {t:'Optional systems',n:'A pool and a sprinkler system',s:'The property has an in-ground pool and a lawn irrigation system. Your agreement with the client did not include either one.',ask:'What is your obligation?',o:['You must inspect both — they\'re on the property','Optional systems (pool, irrigation) are inspected only if you agree to inspect them; if you didn\'t agree, you are not required to. If you do inspect, the §535.233 standards then apply.','You must inspect the pool but never the sprinklers','You must inspect neither, ever'],a:1,e:'§535.233 makes pools/spas and landscape irrigation optional — the inspector is not required to inspect them. If you agree to inspect an optional system, the specific standards (e.g., reporting a single blockable main drain, missing GFCI, or a missing backflow device) apply.'},
+];
+const ASSESS=[
+ {q:'Under the TREC SOP, a real estate inspection is best described as:',o:['A comprehensive, exploratory investigation of all systems','A limited visual survey and basic performance evaluation of present condition','A code-compliance audit','An appraisal of value'],a:1,e:'§535.227 defines the inspection as a limited visual survey and basic performance evaluation using normal controls — not a comprehensive or exploratory investigation.'},
+ {q:'On the standard report form, each applicable item must be marked as:',o:['Pass or fail','Excellent, good, fair, or poor','Inspected, not inspected, not present, or deficient','A numeric score'],a:2,e:'Per §535.223 the inspector checks Inspected, Not Inspected, Not Present, or Deficient for each item, and explains any deficiency. There is no pass/fail or condition-grade scale.'},
+ {q:'The departure provision allows an inspector to omit a required item when:',o:['The inspector simply chooses to','It is raining outside','The client agrees, the inspector lacks the qualification, conditions are hazardous, or it is a non-contacting common element — and the limitation is reported','The seller objects'],a:2,e:'§535.227\'s departure provision lists those limited grounds and requires advising the client and noting the resulting limitation on the report.'},
+ {q:'Which is the inspector NOT required to do under the general provisions?',o:['Report items as deficient','Determine code compliance, insurability, or remaining life','Use the standard report form','Note inspection limitations'],a:1,e:'§535.227 excludes determining code compliance, insurability, market value, life expectancy, and the cause of conditions. The other three are required.'},
+ {q:'For foundations, the inspector must:',o:['Guarantee the foundation will not move','Render a written opinion on performance and report related deficiencies','Excavate to inspect footings','Calculate soil bearing capacity'],a:1,e:'§535.228(a) requires a written opinion on the foundation\'s performance and reporting visible deficiencies — not a guarantee or sub-surface investigation.'},
+ {q:'An inspector is NOT required to enter an attic when:',o:['The opening is smaller than 22"×30" or headroom is under 30"','It is a hot day','The home is occupied','There is any insulation present'],a:0,e:'§535.228(d) sets those access thresholds; below them, entry is not required. Report the limitation under the departure provision.'},
+ {q:'Regarding roof coverings, the inspector is NOT required to:',o:['Report the roof covering type','Determine remaining roof life or identify hail damage','Report evidence of water penetration','Report previous repairs'],a:1,e:'§535.228(c) excludes determining remaining life and identifying hail/wind damage; the inspector reports type, vantage point, water-penetration evidence, and visible deficiencies.'},
+ {q:'A garage-to-residence door without a self-closing device is:',o:['Acceptable','Reported as deficient under structural systems','Only the electrician\'s concern','Outside the SOP'],a:1,e:'§535.228(f) requires reporting a missing self-closing device on the door between the garage and residence, plus improper door type and other fire-separation deficiencies.'},
+ {q:'For the electrical service, the inspector must report as deficient:',o:['The exact service capacity in amps','Insufficient working clearance, missing dead fronts, and deficient grounding/bonding','The brand of the panel only','The kilowatt-hour usage'],a:1,e:'§535.229(a) requires reporting clearance, dead-front/cover, grounding, bonding, overcurrent, and connection deficiencies. The inspector is not required to determine service-capacity adequacy.'},
+ {q:'GFCI and AFCI protection under §535.229(b):',o:['Are not addressed by the SOP','Must be reported as deficient where the SOP says they are required and are absent','Must be verified for effectiveness with special meters','Apply only to new homes'],a:1,e:'The inspector reports the absence of GFCI (baths, kitchen counters, garages, outdoors, etc.) and AFCI (bedrooms, living areas, etc.) where required — without verifying effectiveness or citing code.'},
+ {q:'For HVAC, the inspector is NOT required to:',o:['Operate the system with normal controls','Determine sizing, efficiency, or adequacy','Report the energy source','Report inadequate cooling performance'],a:1,e:'§535.230 excludes determining sizing, efficiency, or adequacy, programming thermostats, and operating equipment when conditions could damage it. Normal operation and reporting deficiencies are required.'},
+ {q:'When cooling is operated, the SOP method is to assess performance by:',o:['Reading the SEER label','Measuring the supply-to-return air temperature differential (or another industry method)','Weighing the refrigerant','Timing the compressor'],a:1,e:'§535.230 has the inspector evaluate cooling via the temperature differential across the system (commonly ~15–22°F) or another recognized method — not by rating efficiency.'},
+ {q:'On a water heater, the inspector must report a deficiency in the:',o:['Manufacturer\'s warranty','Temperature-and-pressure-relief (TPR) valve and its discharge piping','Brand and model number','Expected resale value'],a:1,e:'§535.231 requires reporting deficiencies in the TPR valve and discharge piping, leaks, corrosion, missing shutoff, pan/drain, and clearances. The inspector does not determine the valve\'s effectiveness.'},
+ {q:'Functional flow under the plumbing standard is checked by:',o:['Measuring exact PSI at every fixture','Operating two fixtures simultaneously to observe a drop in flow','Determining water potability','Testing the well yield'],a:1,e:'§535.231 has the inspector operate fixtures and check functional flow/drainage (e.g., two fixtures at once). Water quality, quantity, and potability are excluded.'},
+ {q:'A built-in microwave and dishwasher fall under which standard?',o:['Optional systems (§535.233)','Appliances (§535.232)','Plumbing (§535.231)','They are outside the SOP'],a:1,e:'§535.232 covers built-in appliances — dishwasher, disposer, range/oven, microwave, range hood, exhaust/bath heaters, garage door operators, and dryer exhaust — requiring operation and reporting of deficiencies.'},
+ {q:'A swimming pool or a lawn-irrigation system is:',o:['Always required to be inspected','An optional system the inspector inspects only if agreed — then §535.233 applies','Never permitted to be inspected','Part of the plumbing standard'],a:1,e:'§535.233 lists pools/spas, irrigation, outbuildings, wells, and private sewage as optional. They are inspected only by agreement; when inspected, the specific reporting standards apply.'},
+];
+const GLOSSARY=[
+ ['TREC','The Texas Real Estate Commission — the state agency that licenses real estate inspectors and adopts the Standards of Practice (22 TAC §535.227–535.233).'],
+ ['Standards of Practice (SOP)','The minimum requirements for inspecting one-to-four family residences in Texas, set out in 22 TAC §535.227–535.233.'],
+ ['Limited visual survey','The defining scope of a TREC inspection — a non-invasive look at present, visible, accessible condition; not a comprehensive or exploratory investigation.'],
+ ['Basic performance evaluation','Operating systems and components with their normal controls to observe whether they function at the time of inspection.'],
+ ['Departure provision','§535.227(b)(5): the limited grounds (client agreement, lack of qualification, hazardous conditions, non-contacting common elements) on which an inspector may omit a required item — and the duty to report the limitation.'],
+ ['Deficient','The report status meaning a component is not functioning as intended, is unsafe, or warrants further evaluation — the core thing the SOP requires you to identify.'],
+ ['Inspected / Not Inspected / Not Present','The other three report-form statuses, checked for each item; "Not Inspected" requires an explanation of why.'],
+ ['REI 7-6','The current TREC standard Property Inspection Report form used for one-to-four family residences; software reports must reproduce its text and layout verbatim.'],
+ ['§535.222 / §535.223','The rules requiring use of the standard report form and governing how items are marked and explained.'],
+ ['§535.227','General Provisions — scope, the inspection definition, the departure provision, and the general limitations and exclusions.'],
+ ['§535.228','Structural Systems — foundations, grading/drainage, roof coverings, roof structure/attics, walls/ceilings/floors, doors, windows, stairs, fireplaces/chimneys, porches/decks.'],
+ ['§535.229','Electrical Systems — service entrance and panels; branch circuits, connected devices, and fixtures (including GFCI/AFCI, smoke and CO alarms).'],
+ ['§535.230','HVAC — heating equipment, cooling equipment, and duct systems, chases and vents.'],
+ ['§535.231','Plumbing Systems — supply/distribution and fixtures, drains/wastes/vents, water heating, hydro-massage equipment, and gas distribution.'],
+ ['§535.232','Appliances — built-in appliances such as dishwasher, disposer, range/oven, microwave, range hood, exhaust/bath heaters, garage door operators, and dryer exhaust.'],
+ ['§535.233','Optional Systems — irrigation, pools/spas, outbuildings, wells, private sewage; inspected only if the inspector agrees to inspect them.'],
+ ['Dead front','The protective cover plate over an electrical panel\'s energized parts; a missing or damaged dead front is reported as deficient.'],
+ ['GFCI','Ground-fault circuit interrupter — required protection in baths, kitchen counters, garages, outdoors, and similar locations; absence where required is deficient.'],
+ ['AFCI','Arc-fault circuit interrupter — protection the SOP expects in areas such as bedrooms and living spaces; absence where required is reported.'],
+ ['TPR valve','Temperature-and-pressure-relief valve on a water heater; the SOP requires reporting deficiencies in the valve and its discharge piping.'],
+ ['Functional flow / functional drainage','The performance check for plumbing — observing whether supply flow and drainage work, e.g., operating two fixtures at once.'],
+ ['Anti-tip device','The bracket that keeps a freestanding range from tipping; its absence, where applicable, is reported under the appliance standard.'],
+ ['Not required to','SOP language listing what an inspector may decline to do (e.g., determine code compliance, life expectancy, sizing, efficiency, or operate certain valves).'],
+];
+
+/* ================= WIDGET CONTENT REGISTRIES ================= */
+const _gs='fill="none" stroke="#3c5870" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"';
+const _mono=(x,y,s,t,c='#2c4153',a='middle')=>`<text x="${x}" y="${y}" text-anchor="${a}" font-family="JetBrains Mono" font-size="${s}" fill="${c}">${t}</text>`;
+
+SPOT.report={title:'Read the report form',sub:'Five SOP reporting problems on this filled-in REI 7-6 page — click each one you spot.',vb:'0 0 540 340',
+ svg:`<g ${_gs}>
+   <rect x="40" y="24" width="460" height="296" rx="4" fill="#ece7da" stroke="#6a6557"/>
+   <line x1="40" y1="58" x2="500" y2="58"/>${_mono(56,46,10,'PROPERTY INSPECTION REPORT — REI 7-6','#2c4153','start')}
+   <!-- column headers I NI NP D -->
+   ${_mono(330,74,9,'I','#3c5870')}${_mono(370,74,9,'NI','#3c5870')}${_mono(412,74,9,'NP','#3c5870')}${_mono(452,74,9,'D','#3c5870')}
+   <line x1="40" y1="82" x2="500" y2="82" stroke-width="1"/>
+   <!-- row 1 foundations: deficient checked, no explanation -->
+   ${_mono(56,100,9,'A. Foundations','#2c4153','start')}<rect x="324" y="92" width="12" height="12"/><rect x="366" y="92" width="12" height="12"/><rect x="408" y="92" width="12" height="12"/><rect x="448" y="92" width="12" height="12"/><path d="M449 98 l4 4 l7 -9" stroke="#b85436" stroke-width="1.8"/>${_mono(110,116,8,'(no written opinion / no explanation)','#b85436','start')}
+   <line x1="40" y1="124" x2="500" y2="124" stroke-width="1"/>
+   <!-- row 2 roof: remaining life written in -->
+   ${_mono(56,142,9,'B. Roof Covering','#2c4153','start')}<rect x="324" y="134" width="12" height="12"/><path d="M325 140 l4 4 l7 -9" stroke="#3c5870" stroke-width="1.6"/><rect x="366" y="134" width="12" height="12"/><rect x="408" y="134" width="12" height="12"/><rect x="448" y="134" width="12" height="12"/>${_mono(110,158,8,'"approx. 8 years of life remaining"','#b85436','start')}
+   <line x1="40" y1="166" x2="500" y2="166" stroke-width="1"/>
+   <!-- row 3 electrical: multiple boxes, no note -->
+   ${_mono(56,184,9,'C. Electrical','#2c4153','start')}<rect x="324" y="176" width="12" height="12"/><path d="M325 182 l4 4 l7 -9" stroke="#3c5870" stroke-width="1.6"/><rect x="366" y="176" width="12" height="12"/><rect x="408" y="176" width="12" height="12"/><rect x="448" y="176" width="12" height="12"/><path d="M449 182 l4 4 l7 -9" stroke="#b85436" stroke-width="1.8"/>${_mono(110,200,8,'I + D both checked, no explanation','#b85436','start')}
+   <line x1="40" y1="208" x2="500" y2="208" stroke-width="1"/>
+   <!-- row 4 HVAC: code citation -->
+   ${_mono(56,226,9,'D. HVAC','#2c4153','start')}<rect x="324" y="218" width="12" height="12"/><rect x="366" y="218" width="12" height="12"/><rect x="408" y="218" width="12" height="12"/><rect x="448" y="218" width="12" height="12"/><path d="M449 224 l4 4 l7 -9" stroke="#b85436" stroke-width="1.8"/>${_mono(110,242,8,'"violates NEC 210.8 / IRC M1411"','#b85436','start')}
+   <line x1="40" y1="250" x2="500" y2="250" stroke-width="1"/>
+   <!-- row 5 appliances: pass/fail grade -->
+   ${_mono(56,268,9,'E. Appliances','#2c4153','start')}<rect x="324" y="260" width="12" height="12"/><path d="M325 266 l4 4 l7 -9" stroke="#3c5870" stroke-width="1.6"/><rect x="366" y="260" width="12" height="12"/><rect x="408" y="260" width="12" height="12"/><rect x="448" y="260" width="12" height="12"/>${_mono(110,284,8,'graded "PASS — good condition"','#b85436','start')}
+   <line x1="40" y1="292" x2="500" y2="292" stroke-width="1"/>
+ </g>`,
+ defects:[
+  {x:130,y:113,r:30,n:'Deficiency checked with no explanation',d:'§535.223 requires explaining any item marked Deficient — and §535.228(a) requires a written opinion on the foundation. A bare check mark with no narrative is non-compliant.'},
+  {x:150,y:155,r:32,n:'Remaining-life estimate for the roof',d:'The SOP (§535.228(c)) does not require — and the general provisions exclude — determining remaining life. Don\'t predict how long the roof will last.'},
+  {x:150,y:197,r:32,n:'Multiple boxes checked with no note',d:'§535.223 allows multiple boxes only with an explanation of why. Checking both Inspected and Deficient without a reason is improper.'},
+  {x:150,y:239,r:32,n:'Specific code citation',d:'The SOP requires reporting the deficiency, not its code section. Citing NEC/IRC articles invites a code-compliance claim the inspection does not make.'},
+  {x:150,y:281,r:32,n:'Pass/fail or condition grade',d:'There is no pass/fail or "good/fair/poor" grade on REI 7-6. Each item is Inspected, Not Inspected, Not Present, or Deficient — nothing more.'},
+ ]};
+
+SPOT.water={title:'At the water heater',sub:'Five SOP-reportable deficiencies on this gas water heater — click each one.',vb:'0 0 540 320',
+ svg:`<g ${_gs}>
+   <line x1="40" y1="290" x2="500" y2="290"/>${_mono(56,284,8,'floor','#918c7d','start')}
+   <!-- tank -->
+   <rect x="200" y="80" width="120" height="190" rx="10" fill="#d8d2c4" stroke="#6a6557"/>${_mono(260,180,9,'WATER HEATER','#2c4153')}
+   <!-- TPR valve, no discharge pipe -->
+   <rect x="320" y="110" width="22" height="12" stroke="#6a6557"/><path d="M342 116 h16" stroke="#b85436" stroke-dasharray="3 2"/>${_mono(362,114,8,'TPR — no pipe','#b85436','start')}
+   <!-- gas line, no sediment trap / shutoff far -->
+   <path d="M200 250 h-70 v-30" stroke="#6a6557"/>${_mono(120,212,8,'gas — no shutoff','#b85436','end')}
+   <!-- flue / vent backpitched -->
+   <path d="M260 80 v-26 l40 -14" stroke="#6a6557"/>${_mono(316,44,8,'vent slopes down','#b85436','start')}
+   <!-- no drip pan -->
+   <line x1="190" y1="270" x2="330" y2="270" stroke="#b85436" stroke-dasharray="4 3"/>${_mono(260,300,8,'no pan / drain','#b85436')}
+   <!-- combustibles too close -->
+   <rect x="150" y="230" width="34" height="40" rx="2" stroke="#6a6557"/>${_mono(167,224,8,'boxes','#918c7d')}<path d="M186 250 h12" stroke="#b85436"/>${_mono(140,256,8,'too close','#b85436','end')}
+ </g>`,
+ defects:[
+  {x:350,y:116,r:24,n:'Missing TPR discharge piping',d:'§535.231 requires reporting deficiencies in the relief valve and its discharge piping. A TPR port with no drain line, terminating high off the floor, is reported as deficient.'},
+  {x:125,y:235,r:22,n:'No accessible gas shutoff valve',d:'The SOP requires reporting a missing shutoff valve (within ~6 ft) for the gas appliance, plus connector deficiencies. Note the absent/again improper shutoff.'},
+  {x:295,y:54,r:22,n:'Vent/flue back-pitched',d:'A combustion vent that slopes downward instead of rising can spill flue gases. Combustion-venting deficiencies on gas units are reported under both plumbing and structural standards.'},
+  {x:260,y:272,r:26,n:'No drip pan / drain',d:'§535.231 requires reporting deficiencies in the water heater\'s pan and drain system where required. Note the missing pan and drain.'},
+  {x:170,y:250,r:22,n:'Combustibles too close to a gas unit',d:'The SOP requires reporting inadequate clearance from combustibles for gas water heaters. Stored boxes against the unit are a reportable clearance deficiency.'},
+ ]};
+
+MATCH.section={title:'System ↔ TREC SOP section',sub:'Tap a system, then the rule that governs it. Correct pairs lock green.',left:'System',right:'TREC rule',
+ pairs:[['Structural','§535.228'],['Electrical','§535.229'],['HVAC','§535.230'],['Plumbing','§535.231'],['Appliances','§535.232'],['Optional','§535.233']],done:'That\'s the map — §535.227 sets the scope, then each system has its own rule from §535.228 through §535.233.'};
+MATCH.duty={title:'Deficiency ↔ governing rule','sub':'','left':'Reportable deficiency','right':'Where it lives',
+ pairs:[['Missing GFCI at kitchen counter','§535.229 Electrical'],['Failed garage-door auto-reverse','§535.232 Appliances'],['Missing TPR discharge piping','§535.231 Plumbing'],['Foundation written-opinion','§535.228 Structural'],['Single blockable pool main drain','§535.233 Optional']],done:'Good — knowing which rule a deficiency falls under is what keeps your narrative organized on the form.'};
+
+SORT.scope={title:'In scope, or not required by the SOP?',sub:'Each task is either required by the Standards of Practice or expressly not required. Tap an item, then the right bin.',bins:['REQUIRED by the SOP','NOT required by the SOP'],
+ items:[{t:'Report a deficient, exposed electrical conductor',bin:0},{t:'Render a written opinion on the foundation',bin:0},{t:'Operate the cooling and check the temperature split',bin:0},{t:'Report missing GFCI where required',bin:0},{t:'Determine code compliance or insurability',bin:1},{t:'Estimate remaining life of the roof',bin:1},{t:'Determine HVAC sizing, efficiency, or adequacy',bin:1},{t:'Enter an attic with a 20-inch opening',bin:1}],
+ done:'Right — the SOP requires observing and reporting present condition and deficiencies; it excludes code, insurability, life expectancy, efficiency, and inaccessible spaces.'};
+SORT.report={title:'Which report status applies?',sub:'On REI 7-6 every item gets one of four statuses. Tap a situation, then the correct status.',bins:['DEFICIENT','NOT PRESENT'],
+ items:[{t:'Bathroom receptacle with no GFCI protection',bin:0},{t:'Water heater TPR valve with no discharge pipe',bin:0},{t:'Garage door that fails to auto-reverse',bin:0},{t:'Home has no fireplace at all',bin:1},{t:'Property has no dishwasher installed',bin:1},{t:'There is no irrigation system on the lot',bin:1}],
+ done:'Exactly — a missing-but-expected safety feature is Deficient; a component that simply isn\'t part of this house is Not Present.'};
+
+ERA.sop={title:'How a Texas inspection runs',sub:'Tap each phase to see what the SOP asks of you at that step.',
+ rows:[
+  {d:'Before the visit',n:'Agreement & scope',x:'Confirm the standard inspection and any optional systems (§535.233) you\'ve agreed to inspect. The SOP sets the minimum; you may exceed it only with the competency to do so.'},
+  {d:'On site',n:'Limited visual survey',x:'A non-invasive look using normal controls (§535.227). You observe present, visible, accessible condition — you don\'t probe destructively, move stored items, or dismantle equipment.'},
+  {d:'System by system',n:'§535.228–535.232',x:'Work each required system — structural, electrical, HVAC, plumbing, appliances — inspecting what the rule requires and identifying deficiencies as you go.'},
+  {d:'When access fails',n:'Departure provision',x:'Where a required item is hazardous or inaccessible (small attic opening, no clearance), advise the client and report the limitation rather than guessing.'},
+  {d:'Reporting',n:'REI 7-6 form',x:'Mark each item Inspected, Not Inspected, Not Present, or Deficient, and explain every deficiency in plain language — no pass/fail, no code citations, no remaining-life calls.'},
+  {d:'Stay current',n:'Rules change',x:'TREC amends the SOP periodically. The version you rely on must be the current one on the TREC site — confirm before each cycle and before licensure.'},
+ ]};
+
+/* ================= STEPS ================= */
+const STEPS=[
+/* ===== ORIENTATION ===== */
+{id:'intro',kind:'Start here',label:'What the SOP is',type:'lesson',
+ body:()=>`<span class="eyebrow">Texas Standards of Practice · Orientation</span><h1>The rulebook that defines a Texas inspection.</h1>
+ <p class="lead">In Texas, what you must inspect, what you may skip, and how you report it are not up to you — they're set by the <b>TREC Standards of Practice</b>, 22 Texas Administrative Code <b>§535.227–535.233</b>. Master these and every report you write is defensible; ignore them and you're exposed.</p>
+ <p>The SOP is the <b>minimum</b> standard for inspecting a substantially completed one-to-four family residence. It does two jobs at once:</p>
+ <ul class="num"><li><b>Defines the scope</b> — an inspection is a <em>limited visual survey and basic performance evaluation</em>, not a comprehensive or exploratory investigation.</li><li><b>Lists the duties system by system</b> — what you must inspect and what you must report as <em>deficient</em>, from structural through optional systems.</li></ul>
+ <p>You report on the TREC <b>standard form, REI 7-6</b>, marking each item <em>Inspected, Not Inspected, Not Present, or Deficient</em> — and explaining every deficiency. There is no pass/fail, no letter grade, and no code citation.</p>
+ <div class="loop"><div class="seg on"><div class="n">01</div><div class="w">Scope</div></div><div class="seg"><div class="n">02</div><div class="w">Departure</div></div><div class="seg"><div class="n">03</div><div class="w">Inspect</div></div><div class="seg"><div class="n">04</div><div class="w">Report deficient</div></div><div class="seg"><div class="n">05</div><div class="w">REI 7-6 form</div></div></div>
+ <h2>What this section covers</h2>
+ <ul class="clean"><li><b>§535.227</b> — general provisions, scope, the departure provision, limitations &amp; exclusions</li><li><b>§535.228</b> — structural systems</li><li><b>§535.229</b> — electrical systems</li><li><b>§535.230</b> — heating, ventilation &amp; air conditioning</li><li><b>§535.231</b> — plumbing systems</li><li><b>§535.232</b> — appliances</li><li><b>§535.233</b> — optional systems &amp; the report form</li></ul>
+ ${W('match','section')}
+ <div class="field"><div class="ic">${sv(ic.alert)}</div><div><div class="t">Accuracy &amp; this material</div><p>This is a teaching aid built from the published TREC rules. The SOP is <b>amended periodically</b> — always verify the <em>current</em> text at <b>trec.texas.gov</b> before relying on any point for an exam, a license, or a real inspection. When unsure of a specific, state the principle and confirm the rule.</p></div></div>`,
+ quiz:[
+  {q:'The TREC Standards of Practice set:',o:['The maximum an inspector may inspect','The minimum requirements for inspecting one-to-four family residences','Property values','Contractor licensing rules'],a:1,e:'§535.227 frames the SOP as minimum requirements. You may exceed them — but only with the competency to do so.'},
+  {q:'A TREC inspection is fundamentally:',o:['A comprehensive, exploratory investigation','A limited visual survey and basic performance evaluation of present condition','A code-compliance audit','An appraisal'],a:1,e:'The SOP defines the inspection as a limited visual, non-invasive survey using normal controls — not exhaustive or exploratory.'},
+  {q:'Inspections of one-to-four family residences are reported on:',o:['Any form the inspector prefers','TREC standard form REI 7-6','A bank\'s appraisal form','No form is required'],a:1,e:'§535.222–223 require the standard form (currently REI 7-6); software versions must reproduce it verbatim.'},
+  {q:'Each item on the report form is marked:',o:['Pass or fail','Excellent / good / fair / poor','Inspected, Not Inspected, Not Present, or Deficient','A 1–10 score'],a:2,e:'Those four statuses are the only ones on REI 7-6 — and every deficiency must be explained.'},
+ ]},
+
+/* ===== L1 GENERAL PROVISIONS & SCOPE ===== */
+{id:'l1',kind:'Lesson 1',label:'General Provisions & Scope',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 1 · §535.227</span><h1>What an inspection is — and what it is not.</h1>
+ <p class="lead">Everything else in the SOP sits on top of §535.227. It tells you the kind of survey you're performing, what you may exceed, and the long list of things you are <em>not required</em> to do.</p>
+ <h2>The defining scope</h2>
+ <p>The SOP defines an inspection as a <b>limited visual survey and basic performance evaluation</b> of the systems and components of a building using <b>normal controls</b>, giving general-condition information at the time of inspection. It is expressly <b>not</b> a comprehensive investigation or an exploratory probe to determine the cause or effect of deficiencies. You don't need specialized equipment (thermal cameras, moisture meters) or specialized procedures (destructive testing, calculations).</p>
+ ${conds('You MAY exceed the SOP — if competent',[['Higher level of performance','Nothing prohibits inspecting beyond the minimum, or inspecting systems not listed — but you must possess the competency to do so.'],['Specific over general','Where the general provisions conflict with a specific system provision, the specific provision controls.']])}
+ <h2>The departure provision</h2>
+ <p>You may <b>depart</b> from a required inspection only on limited grounds — and you must tell the client and note it on the report:</p>
+ <ul class="clean"><li>The <b>client agrees</b> the item need not be inspected</li><li>You <b>lack the qualification</b> to inspect that item</li><li><b>Hazardous conditions</b> prevent the inspection</li><li>It's a <b>common element</b> in a multi-family building not physically contacting the inspected unit</li></ul>
+ <h2>General limitations &amp; exclusions</h2>
+ <p>This is the heart of "not required." Under §535.227 you are <b>not</b> required to:</p>
+ <ul class="clean"><li>Inspect items not listed, or items that are inaccessible, concealed, or buried</li><li>Report cosmetic conditions, ordinary wear and tear, or previously made effective repairs</li><li>Determine <b>code compliance, insurability, market value, life expectancy</b>, or the <b>cause</b> of a condition</li><li>Determine the presence of <b>asbestos, lead, mold, radon</b> or other environmental hazards</li><li>Operate shutoff/safety valves, anticipate future failure, or provide <b>repair estimates</b> or engineering services</li></ul>
+ ${W('sort','scope')}
+ ${story('Inspector in the field',`A buyer leaned on me to "just tell me it'll pass and how long the roof's got." I didn't. **A TREC inspection reports present condition and deficiencies — it isn't a pass/fail, a code audit, or a crystal ball.** I marked the items, explained the deficiencies, and told her the rest is outside the standard. That answer protects her *and* my license.`)}`,
+ quiz:[
+  {q:'Under §535.227, an inspection is a:',o:['Comprehensive, exploratory investigation','Limited visual survey and basic performance evaluation','Test of every component to destruction','Code-compliance certification'],a:1,e:'The SOP defines it as a limited, non-invasive visual survey using normal controls — not exhaustive or exploratory.'},
+  {q:'When the general provisions conflict with a specific system provision:',o:['The general provision wins','The specific provision takes precedence','The inspector chooses','The report is void'],a:1,e:'§535.227 states that where they conflict, the specific provisions control.'},
+  {q:'Which is a valid ground to depart from a required inspection?',o:['The inspector is in a hurry','Hazardous conditions prevent the inspection','The seller doesn\'t want it reported','It would be more profitable'],a:1,e:'Valid grounds: client agreement, lack of qualification, hazardous conditions, or a non-contacting common element — and the limitation must be reported.'},
+  {q:'The SOP does NOT require the inspector to determine:',o:['Whether a component is deficient','Code compliance, insurability, or life expectancy','The location of a deficiency','Evidence of water penetration'],a:1,e:'§535.227 excludes code compliance, insurability, market value, life expectancy, and the cause of conditions.'},
+  {q:'Specialized equipment such as a thermal camera or moisture meter is:',o:['Required on every inspection','Not required by the SOP','Banned by the SOP','Required only for new homes'],a:1,e:'The SOP does not require specialized equipment or procedures; using them is optional and beyond the minimum standard.'},
+ ]},
+
+/* ===== L2 DEPARTURE & LIMITATIONS ===== */
+{id:'l2',kind:'Lesson 2',label:'Departure & Limitations',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 2 · §535.227 in practice</span><h1>Knowing where the line is — and reporting it honestly.</h1>
+ <p class="lead">The fastest way to a complaint is inspecting something you shouldn't have, or skipping something without saying so. This lesson turns the departure provision and the exclusions into field habits.</p>
+ <h2>Report the limitation, don't fake the inspection</h2>
+ <p>When a required item is hazardous or inaccessible, the SOP doesn't ask you to guess — it asks you to <b>advise the client and report the limitation</b>. A few common thresholds where you are <em>not required</em> to go:</p>
+ ${conds('Access limits built into the SOP',[['Attics','Not required to enter where the opening is less than <b>22" × 30"</b> or headroom is under <b>30"</b>.'],['Crawl spaces','Not required to enter where headroom is less than <b>18"</b> or access is otherwise inadequate.'],['Roofs','Not required to walk a roof that is unsafe to reach or stay on, or where access could damage it.'],['Concealed areas','Not required to inspect anything buried, concealed, or behind stored personal property.']])}
+ <h2>Inspected vs. Not Inspected vs. Not Present</h2>
+ <p>On the form, the difference matters. A component that exists but you couldn't access is <b>Not Inspected</b> — with an explanation. A component the house simply doesn't have is <b>Not Present</b>. A component that exists, that you inspected, and that fails to perform or is unsafe is <b>Deficient</b>.</p>
+ <div class="field brass"><div class="ic">${sv(ic.alert)}</div><div><div class="t">Two habits that keep you safe</div><p><b>Don't over-report.</b> Cosmetic blemishes, ordinary wear, and previously made effective repairs are excluded — reporting them as defects invites argument. <b>Don't under-document.</b> Every skipped required item needs a stated reason on the form.</p></div></div>
+ ${W('sort','report')}
+ ${story('Inspector in the field',`The only attic hatch was a 20-inch square with two feet of headroom and boxes stacked under it. I didn't squeeze in and I didn't pretend I had. **I marked the attic Not Inspected, wrote exactly why, and invoked the departure provision.** The buyer knew precisely what wasn't covered — and I never claimed to have seen something I couldn't.`)}`,
+ quiz:[
+  {q:'You are NOT required to enter an attic when:',o:['It is summer','The opening is smaller than 22"×30" or headroom is under 30"','The home is over 20 years old','Insulation is present'],a:1,e:'§535.228(d) sets those access thresholds; below them entry is not required — report the limitation.'},
+  {q:'A required component you could not access should be marked:',o:['Deficient','Not Present','Not Inspected, with an explanation','Inspected'],a:2,e:'It exists but you couldn\'t reach it — Not Inspected, and the SOP/form require you to explain why.'},
+  {q:'A house with no fireplace: the fireplace row is:',o:['Deficient','Not Present','Not Inspected','Left blank'],a:1,e:'A component the home doesn\'t have is Not Present — distinct from a missing-but-expected safety feature, which is Deficient.'},
+  {q:'Cosmetic blemishes and previously made effective repairs are:',o:['Always reported as deficient','Excluded — not required to be reported','Reported only on new homes','Reported as Not Inspected'],a:1,e:'§535.227 excludes cosmetic conditions, ordinary wear, and effective prior repairs. Reporting them as defects invites needless dispute.'},
+  {q:'The crawl-space headroom threshold below which entry is not required is about:',o:['6 inches','18 inches','30 inches','48 inches'],a:1,e:'§535.228(a) does not require entering a crawl space with less than ~18 inches of headroom or inadequate access.'},
+ ]},
+
+/* ===== L3 STRUCTURAL SYSTEMS ===== */
+{id:'l3',kind:'Lesson 3',label:'Structural · §535.228',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 3 · §535.228</span><h1>Structural systems — the longest rule in the SOP.</h1>
+ <p class="lead">§535.228 covers the bones and shell of the house: foundations, drainage, the roof, walls, openings, stairs, fireplaces, and attached structures. The signature requirement here is a <b>written opinion on the foundation's performance</b>.</p>
+ <h2>What you must inspect</h2>
+ ${conds('',[['Foundations','Render a <b>written opinion</b> on present performance; report the type and visible indicators of poor performance (binding doors, separations, cracks). Not required to enter a crawl space under ~18" headroom.'],['Grading &amp; drainage','Report deficient grade slope, non-performing drainage, and gutter/downspout deficiencies. Not required to evaluate underground drains or hydrology.'],['Roof covering','Report the covering type, vantage point, water-penetration evidence, and previous repairs; report fastener, flashing, and penetration deficiencies. Not required to determine remaining life or identify hail damage.'],['Roof structure &amp; attic','Report the vantage point, approximate insulation depth, water penetration, deflection, and ventilation deficiencies. Not required to enter attics under the 22"×30"/30" thresholds.']])}
+ ${conds('',[['Walls, ceilings, floors, doors','Report water penetration and deficiencies in performance — including <b>absent or deficient fire separation</b> between garage and living/attic space. Not required to report cosmetic damage, coverings, or paint.'],['Exterior walls, doors, windows','Report missing emergency escape openings in bedrooms, a garage-to-residence door without a <b>self-closing device</b>, improper door type, damaged screens, and weather/cladding/flashing deficiencies.'],['Glazing','Report fogged (failed-seal) insulated units, absent <b>safety glass</b> in hazardous locations, and missing fall protection at low windows.'],['Stairways','Report guard/handrail deficiencies and baluster spacing that passes a 4-inch sphere. Not required to exhaustively measure every component.'],['Fireplaces &amp; chimneys','Report creosote build-up, combustibles near the firebox, missing fireblocking, and damper/firebox deficiencies. Not required to verify flue integrity or perform smoke tests.'],['Porches, decks, balconies, carports','Report accessible component deficiencies and, on decks 30"+ high, baluster spacing passing a 4-inch sphere.']])}
+ ${W('spot','report')}
+ ${story('Inspector in the field',`Doors stuck at the corners, a stair-step crack in the brick, and a gap opening at a window header. I didn't engineer it — but I owed the buyer a **written opinion on performance**, and I gave one: visible indicators of foundation movement, recommend evaluation by a licensed engineer. That opinion, with the specifics, is exactly what §535.228(a) demands.`)}`,
+ quiz:[
+  {q:'For foundations, §535.228 requires the inspector to:',o:['Guarantee no future movement','Render a written opinion on performance and report visible deficiencies','Excavate the footings','Calculate soil capacity'],a:1,e:'A written opinion on present performance plus reporting visible indicators — not a guarantee or sub-surface work.'},
+  {q:'Regarding the roof covering, the inspector is NOT required to:',o:['Report the covering type','Report water-penetration evidence','Determine remaining life or identify hail damage','Report previous repairs'],a:2,e:'§535.228(c) excludes remaining-life and hail/wind-damage determinations.'},
+  {q:'A garage-to-residence door is reported as deficient if it:',o:['Is painted','Lacks a self-closing device or is an improper type','Has a window','Is more than 5 years old'],a:1,e:'§535.228(f) requires reporting a missing self-closer and improper door type — a fire-separation issue.'},
+  {q:'On a stairway, balusters are deficient when the spacing:',o:['Allows a 4-inch sphere to pass','Is less than 2 inches','Matches the treads','Is painted a dark color'],a:0,e:'§535.228(h) flags guard/baluster spacing that passes a 4-inch sphere (with the noted open-tread exception).'},
+  {q:'For fireplaces and chimneys, the inspector is NOT required to:',o:['Report creosote build-up','Verify flue integrity or perform a smoke test','Report combustibles near the firebox','Report a missing damper'],a:1,e:'§535.228(i) does not require verifying flue integrity, smoke testing, or determining draft.'},
+ ]},
+
+/* ===== L4 ELECTRICAL SYSTEMS ===== */
+{id:'l4',kind:'Lesson 4',label:'Electrical · §535.229',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 4 · §535.229</span><h1>Electrical — service and panels, then everything downstream.</h1>
+ <p class="lead">§535.229 splits the electrical system in two: <b>(a)</b> the service entrance and panels, and <b>(b)</b> branch circuits, connected devices, and fixtures. Safety items — clearances, dead fronts, and GFCI/AFCI — dominate what you must report.</p>
+ <h2>(a) Service entrance &amp; panels</h2>
+ ${conds('Report as deficient',[['Drops &amp; masts','Unsecured service drops, weatherheads, or masts.'],['Dead fronts &amp; covers','Missing or damaged dead fronts and cover plates; conductors exposed at the cabinet edge.'],['Location &amp; clearance','Panels in closets, bathrooms, or damage-prone spots; insufficient working clearance (minimum ~36" in front).'],['Grounding &amp; bonding','Deficiencies in grounding, bonding, overcurrent devices, and connections; a missing main disconnect; no anti-oxidant on aluminum terminations.']])}
+ <p>You are <b>not required</b> to evaluate service-capacity adequacy, perform voltage-drop calculations, remove a cover that is hazardous to remove, or verify an overcurrent device's effectiveness.</p>
+ <h2>(b) Branch circuits, devices &amp; fixtures</h2>
+ ${conds('Report as deficient',[['GFCI protection','Absent where required — bathrooms, kitchen countertops, garages, outdoors, crawl spaces, within ~6 ft of sinks, laundry, and other damp/wet locations.'],['AFCI protection','Absent where required — areas such as bedrooms, living rooms, kitchens, hallways, and similar.'],['Covers &amp; devices','Missing or damaged outlet, switch, and junction-box covers; deficient receptacles, switches, and terminations; improper wiring.'],['Life-safety alarms','Missing smoke alarms (each bedroom and each story) and carbon-monoxide alarms near sleeping areas where fuel appliances or an attached garage are present.']])}
+ ${W('gfi')}
+ <p>You are <b>not required</b> to inspect low-voltage wiring, dismantle equipment, verify alarm effectiveness or interconnection, or activate alarms that may be monitored.</p>
+ ${story('Inspector in the field',`Bathroom and kitchen-counter receptacles, none GFCI-protected; a missing panel dead front with a hot bus edge exposed. I wrote each as **deficient — in plain language, no NEC article numbers.** The SOP wants the hazard named and reported; quoting code turns my report into a compliance opinion I'm not making.`)}`,
+ quiz:[
+  {q:'GFCI protection must be reported as deficient when absent at:',o:['Only outdoor outlets','Bathrooms, kitchen counters, garages, and similar wet/damp locations','Only bedrooms','Only the panel'],a:1,e:'§535.229(b) lists baths, kitchen counters, garages, outdoors, laundry, and similar locations.'},
+  {q:'A missing or damaged panel dead front is:',o:['Cosmetic only','Reported as deficient','Outside the SOP','Reported only if rusty'],a:1,e:'§535.229(a) requires reporting missing/damaged dead fronts and exposed conductors.'},
+  {q:'The inspector is NOT required to:',o:['Report insufficient panel clearance','Evaluate service-capacity adequacy or perform voltage-drop calculations','Report a missing main disconnect','Report exposed conductors'],a:1,e:'Service-capacity adequacy and voltage-drop calculations are excluded; the listed deficiencies are required.'},
+  {q:'Smoke and carbon-monoxide alarms under §535.229(b):',o:['Are outside the electrical standard','Are reported as deficient when missing where required, but the inspector need not verify effectiveness','Must be activated even if monitored','Are graded pass/fail'],a:1,e:'Report missing alarms where required; you are not required to verify effectiveness/interconnection or trigger monitored alarms.'},
+  {q:'When reporting an electrical deficiency, you should:',o:['Cite the exact NEC article','Describe the deficiency in plain language without code citations','Estimate the repair cost','Determine code compliance'],a:1,e:'The SOP requires reporting the deficiency, not citing code or determining compliance.'},
+ ]},
+
+/* ===== L5 HVAC ===== */
+{id:'l5',kind:'Lesson 5',label:'HVAC · §535.230',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 5 · §535.230</span><h1>HVAC — operate with normal controls, judge performance.</h1>
+ <p class="lead">§535.230 covers heating equipment, cooling equipment, and the ducts/chases/vents that move the air. You operate the systems with their normal controls and report deficiencies — but you do not rate sizing or efficiency.</p>
+ <h2>Heating equipment</h2>
+ ${conds('',[['Inspect','Type and energy source; operate with the thermostat; check placement, protection, and service access.'],['Report deficient','Non-functioning units; gas leaks, flame/ignition or combustion-vent deficiencies; burners or ignition below ~18" in a garage (unless listed for that use); missing service access.']])}
+ <h2>Cooling equipment</h2>
+ ${conds('',[['Inspect','Type and performance — by the <b>supply-to-return temperature differential</b> (commonly ~15–22°F) or another industry method; condensate drainage, coil condition, refrigerant-line insulation, clearances.'],['Report deficient','Inoperative units or inadequate cooling; missing drain pan or blocked primary drain; dirty coils; poor clearances; deficient mounting or thermostat.']])}
+ <h2>Ducts, chases &amp; vents</h2>
+ <p>Report damaged ducts, improper materials, missing insulation, and airflow obstructions — and, notably, <b>gas piping or sewer vents concealed in ducts, plenums, or chases</b>.</p>
+ <div class="field"><div class="ic">${sv(ic.alert)}</div><div><div class="t">What you are NOT required to do</div><p>You are <b>not required</b> to program thermostats, inspect for refrigerant pressure or leaks, operate the system when <b>weather or other conditions could damage it</b>, inspect electronic air filters, or <b>determine sizing, efficiency, or adequacy</b> of the system.</p></div></div>
+ ${W('match','duty')}
+ ${story('Inspector in the field',`Ninety-six degrees out, and the buyer wanted "everything tested," furnace included. Running gas heat in that heat can crack a heat exchanger — so I ran the cooling, measured the split, and **noted the furnace was not operated and exactly why.** The SOP never asks me to risk damaging the equipment, or to call out an efficiency rating I'm not qualified to give.`)}`,
+ quiz:[
+  {q:'Cooling performance under §535.230 is evaluated by:',o:['Reading the SEER sticker','The supply-to-return air temperature differential or another industry method','Weighing the refrigerant charge','Timing the compressor cycle'],a:1,e:'The inspector uses the temperature differential (commonly ~15–22°F) or another recognized method.'},
+  {q:'The inspector is NOT required to:',o:['Operate the heat with normal controls','Determine the system\'s sizing, efficiency, or adequacy','Report a non-functioning unit','Report a blocked condensate drain'],a:1,e:'§535.230 excludes determining sizing, efficiency, and adequacy.'},
+  {q:'You may decline to operate a unit when:',o:['You are running late','Weather or conditions could damage the equipment','The home is occupied','The unit is over 10 years old'],a:1,e:'The SOP does not require operating equipment when conditions could damage it — note it wasn\'t operated and why.'},
+  {q:'Gas piping or a sewer vent concealed in a duct or plenum is:',o:['Acceptable','Reported as deficient','Outside the HVAC standard','Only a plumbing issue'],a:1,e:'§535.230 specifically calls out reporting gas piping and sewer vents concealed in ducts, plenums, and chases.'},
+  {q:'A garage furnace with burners about 12 inches off the floor is:',o:['Always fine','Reported as deficient unless the unit is listed for that location','Outside the SOP','Reported only if gas-fired and new'],a:1,e:'§535.230 flags burners/ignition below ~18" in a garage unless the unit is listed for such use.'},
+ ]},
+
+/* ===== L6 PLUMBING ===== */
+{id:'l6',kind:'Lesson 6',label:'Plumbing · §535.231',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 6 · §535.231</span><h1>Plumbing — supply, waste, water heating, and gas.</h1>
+ <p class="lead">§535.231 covers the supply/distribution and fixtures, the drain-waste-vent system, water heating, hydro-massage equipment, and gas distribution. The marquee items: <b>functional flow</b>, the water-heater <b>TPR valve and discharge piping</b>, and visible <b>gas leaks</b>.</p>
+ <h2>Supply, fixtures &amp; drainage</h2>
+ ${conds('Report as deficient',[['Pressure &amp; leaks','Active leaks; static pressure over <b>80 PSI</b>; a missing pressure-reducing valve where needed; missing fixture shutoffs.'],['Functional flow / drainage','Reduced flow when <b>two fixtures run at once</b>; poor fixture drainage; deficient drain stops; hot/cold reversed at a faucet.'],['DWV','Deficiencies in the installation and termination of the vent system.']])}
+ <h2>Water heating equipment</h2>
+ ${conds('Report as deficient',[['Tank &amp; fittings','Inoperative units; leaking or corroded tanks/fittings; a missing cold-water shutoff.'],['TPR valve','A missing or deficient <b>temperature-and-pressure-relief valve</b> or its <b>discharge piping</b> (you may test the TPR manually).'],['Pan, access &amp; clearance','Deficient pan/drain; inadequate access; on gas units, inadequate clearance from combustibles and combustion-vent deficiencies.']])}
+ ${W('spot','water')}
+ <h2>Gas distribution</h2>
+ <p>Report a <b>noticeable gas leak</b>, a missing shutoff within ~6 ft of an appliance, connector deficiencies, missing CSST bonding, and missing sediment traps.</p>
+ <div class="field brass"><div class="ic">${sv(ic.alert)}</div><div><div class="t">Not required</div><p>You are <b>not required</b> to operate any shutoff/safety valve or sump pump, determine <b>water quality, quantity, or potability</b>, locate or inspect sewer cleanouts or private sewage, pressurize or test gas systems, light pilots, or determine the TPR valve's effectiveness.</p></div></div>
+ ${story('Inspector in the field',`A gas water heater with a TPR valve dumping straight to open air — no discharge pipe — a few feet off the floor. I reported the **missing/improper TPR discharge piping as deficient.** I tested the valve manually, but I didn't claim it would relieve at a certain pressure or operate the house gas shutoff. The deficiency is named; the effectiveness call isn't mine to make.`)}`,
+ quiz:[
+  {q:'Functional flow is checked by:',o:['Measuring exact PSI at each fixture','Operating two fixtures simultaneously and watching for a drop','Determining water potability','Testing the well yield'],a:1,e:'§535.231 evaluates functional flow/drainage by operating fixtures (e.g., two at once) — not by lab-grade measurement.'},
+  {q:'On a water heater, the inspector must report a deficiency in the:',o:['Warranty card','TPR valve and its discharge piping','Brand name','Resale value'],a:1,e:'The relief valve and its discharge piping are core reportable items; the inspector does not determine effectiveness.'},
+  {q:'Static water pressure is reported as deficient when it exceeds about:',o:['40 PSI','60 PSI','80 PSI','120 PSI'],a:2,e:'§535.231 flags static pressure over ~80 PSI (and a missing PRV where needed).'},
+  {q:'The inspector is NOT required to:',o:['Report active leaks','Determine water quality, quantity, or potability','Report a missing fixture shutoff','Report a noticeable gas leak'],a:1,e:'Water quality/quantity/potability, sewer cleanouts, and operating valves are excluded.'},
+  {q:'A noticeable gas leak at an appliance connector is:',o:['Ignored unless severe','Reported as deficient','Tested by pressurizing the system','Outside the SOP'],a:1,e:'§535.231 requires reporting noticeable gas leaks and connector deficiencies — but you do not pressurize or test the gas system.'},
+ ]},
+
+/* ===== L7 APPLIANCES ===== */
+{id:'l7',kind:'Lesson 7',label:'Appliances · §535.232',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 7 · §535.232</span><h1>Appliances — operate the built-ins, check the safety features.</h1>
+ <p class="lead">§535.232 covers the built-in appliances: dishwasher, disposer, range hood, ranges/cooktops/ovens, microwave, exhaust and bath heaters, garage-door operators, and dryer exhaust. You <b>operate</b> them and report deficiencies in operation and safety.</p>
+ <h2>Kitchen &amp; built-ins</h2>
+ ${conds('Inspect &amp; report deficient',[['Dishwasher','Operate it; report performance/mounting, component, active-leak, and backflow-prevention deficiencies.'],['Food waste disposer','Operate it; report performance/mounting, components, and active leaks.'],['Range hood / exhaust','Operate it; report mounting and a duct that does not <b>terminate outside</b> or uses improper material.'],['Range / cooktop / oven','Operate it; report combustibles within <b>30"</b> above the burners, a missing <b>anti-tip device</b> (where applicable), gas leaks, and thermostat accuracy (~±25°F at 350°F).'],['Built-in microwave','Operate it; report performance/mounting and component deficiencies.']])}
+ <h2>Exhaust, garage doors &amp; dryer vent</h2>
+ ${conds('Inspect &amp; report deficient',[['Mechanical exhaust / bath heater','Presence where there\'s no operable window; operation; gas heater venting to the exterior unless a listed unvented type.'],['Garage door operator','Operate it; report a failed <b>auto-reverse</b>, and <b>photoelectric sensors mounted higher than ~6"</b> above the floor.'],['Dryer exhaust','Report a duct that does not terminate outside, improper (non-metal / ridged) material, or a screened termination.']])}
+ ${W('match','duty')}
+ <p>You are <b>not required</b> to disassemble appliances, test for microwave radiation leaks, operate self-cleaning cycles, or operate a clothes washer, dryer, or refrigerator.</p>
+ ${story('Inspector in the field',`I laid a board under the closing garage door — it pressed on and never reversed — and the photo-eyes were a good ten inches up. Both went in as **deficient: failed auto-reverse and sensors mounted too high.** Operating the opener and verifying its safety features isn't optional under §535.232; it's exactly what the appliance standard puts on me.`)}`,
+ quiz:[
+  {q:'A garage door operator is reported as deficient when:',o:['It is loud','It fails to auto-reverse or its photo-eyes are mounted too high','It is more than 5 years old','It has a wall button'],a:1,e:'§535.232 requires reporting a failed contact-reversal/auto-reverse and photoelectric sensors higher than ~6" above the floor.'},
+  {q:'A range hood or dryer exhaust duct must:',o:['Terminate in the attic','Terminate outside the building with proper material','Terminate in the crawl space','Be screened at the end'],a:1,e:'§535.232 requires exterior termination and proper duct material; a screened dryer termination is itself a deficiency.'},
+  {q:'On a freestanding range, the inspector reports a missing:',o:['Clock','Anti-tip device (where applicable)','Warranty','Backsplash'],a:1,e:'A missing anti-tip device, where applicable, is reported under the appliance standard.'},
+  {q:'The inspector is NOT required to:',o:['Operate the dishwasher','Test for microwave-oven radiation leaks or run self-cleaning cycles','Report a range-hood duct ending in the attic','Operate a built-in microwave'],a:1,e:'§535.232 excludes microwave radiation testing, self-cleaning operation, and operating clothes washers/dryers/refrigerators.'},
+  {q:'Combustibles are reported as a deficiency when located within how far above the burners?',o:['6 inches','12 inches','30 inches','48 inches'],a:2,e:'§535.232 flags combustible materials within ~30 inches above cooktop/range burners.'},
+ ]},
+
+/* ===== L8 OPTIONAL SYSTEMS & THE REPORT FORM ===== */
+{id:'l8',kind:'Lesson 8',label:'Optional Systems & the Form',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 8 · §535.233 &amp; REI 7-6</span><h1>Optional systems — and putting it on the form.</h1>
+ <p class="lead">§535.233 lists systems you inspect <b>only if you agree to</b>. And whatever you inspect, it all lands on the same standard form — so this lesson closes the loop on reporting.</p>
+ <h2>Optional means by agreement</h2>
+ <p>The rule opens by stating the inspector is <b>not required to inspect</b> these. But if you <em>agree</em> to inspect an optional system, the specific standards apply:</p>
+ ${conds('',[['Landscape irrigation','Report a missing rain/moisture sensor, non-functional zone valves, surface leaks, an absent backflow device, and controller/component deficiencies. Not required to determine coverage or controller effectiveness.'],['Pools, spas &amp; hot tubs','Report a <b>single blockable main drain</b> (entrapment hazard), unbonded pump motors, a missing/deficient safety barrier, missing <b>GFCI</b>, and surface/deck/equipment leaks. Not required to disassemble, operate valves, or fill the pool.'],['Outbuildings','Report missing GFCI in grade-level unfinished/work areas and boathouses, plus structural, electrical, plumbing, and mechanical deficiencies.'],['Private water wells','Report pump/storage type, pressure/flow and pressure-switch issues, and well-head deficiencies; recommend coliform testing. Not required to determine supply reliability.'],['Private sewage (septic)','Report the system type and location, surface <b>effluent seepage</b>, non-functional aerators/dosing pumps, and drainage/clearance deficiencies. Not required to excavate or determine adequacy.']])}
+ <h2>The report form — REI 7-6</h2>
+ <p>Inspections of one-to-four family residences are reported on TREC <b>Form REI 7-6</b> (§535.222–223). If you use software, it must <b>reproduce the standard form's text and layout verbatim</b>. For each item you check <b>Inspected, Not Inspected, Not Present, or Deficient</b>, and explain any deficiency. If you check more than one box for an item, you must explain why.</p>
+ <ul class="clean"><li><b>No pass/fail</b> and no condition grade — only the four statuses</li><li><b>No code citations</b> — report the deficiency, not the rule it might violate</li><li><b>Explain every deficiency</b> in the matching section of the form</li></ul>
+ ${W('era','sop')}
+ <div class="field"><div class="ic">${sv(ic.alert)}</div><div><div class="t">The inspector's through-line</div><p>Scope first (<b>§535.227</b>), then work each system (<b>§535.228–.232</b>) and any optional systems you agreed to (<b>§535.233</b>), report the limitation whenever access fails, and put it all on <b>REI 7-6</b> — four statuses, every deficiency explained, no pass/fail and no code. That's a defensible Texas inspection.</p></div></div>
+ ${story('Inspector in the field',`The lot had a pool and a sprinkler system neither of which were in my agreement. I told the client they're **optional under §535.233 and outside what we contracted** — and offered to add them. When I do inspect a pool, the first thing I look for is a single blockable main drain; that entrapment hazard is precisely what the optional standard makes me report.`)}`,
+ quiz:[
+  {q:'A swimming pool or lawn-irrigation system is:',o:['Always required to be inspected','Optional — inspected only if the inspector agrees, then §535.233 applies','Never permitted to be inspected','Part of the plumbing standard'],a:1,e:'§535.233 makes these optional; the standards apply only when the inspector agrees to inspect them.'},
+  {q:'When inspecting a pool, a reportable safety deficiency is:',o:['A solar cover','A single blockable main drain (entrapment hazard)','A diving board','A pool light'],a:1,e:'§535.233 specifically calls out a single blockable main drain, unbonded equipment, missing barriers, and missing GFCI.'},
+  {q:'Software-generated reports must:',o:['Use any clear format','Reproduce the standard REI 7-6 form\'s text and layout verbatim','Omit the deficiency boxes','Add a letter grade'],a:1,e:'§535.223 requires software reports to reproduce the standard form verbatim in text and layout.'},
+  {q:'If you check both Inspected and Deficient for one item, you must:',o:['Leave it as-is','Include an explanation of why multiple boxes are checked','Erase one box','Mark it Not Present instead'],a:1,e:'§535.223 permits multiple boxes only with an explanation in the applicable section.'},
+  {q:'The report form does NOT include:',o:['A Deficient status','A Not Present status','A pass/fail or condition grade','A Not Inspected status'],a:2,e:'REI 7-6 has only the four statuses — there is no pass/fail or good/fair/poor grade.'},
+ ]},
+/*LESSONS*/
+ {id:'scenarios',kind:'Apply it',label:'Inspector\'s Call',type:'scenario'},
+ {id:'assess',kind:'Assessment',label:'Mastery check',type:'assess'},
+ {id:'glossary',kind:'Reference',label:'Glossary',type:'glossary'},
+ {id:'source',kind:'Reference',label:'Reference & sources',type:'source'},
+];
+(async()=>{await load();render();})();
+</script>

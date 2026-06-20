@@ -1,0 +1,815 @@
+<!-- ATI · Module I · Exterior & Site — full interactive section -->
+<title>ATI · Module I — Exterior &amp; Site</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..900&family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#f4f2ea;--surf:#fffdf8;--surf-2:#faf7ef;--surf-3:#efeae0;
+    --line:#e6e1d4;--line-2:#efeae0;--line-brass:rgba(197,129,42,.32);
+    --ink:#21242b;--ink-2:#5b616b;--ink-3:#8b909a;
+    --brass:#c5812a;--brass-2:#e0a043;--brass-deep:#9a6214;--brass-soft:#f4e7cd;
+    --slate:#1f6f73;--slate-2:#2f8a8d;--slate-soft:#dde9e9;--slate-deep:#123f43;
+    --pass:#2f7a4e;--pass-soft:#e2efe5;--fail:#bd4a31;--fail-soft:#f6e6df;
+    --r:16px;--display:'Fraunces',Georgia,serif;--body:'Hanken Grotesk',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;
+    --sh-1:0 1px 2px rgba(25,28,34,.05),0 1px 3px rgba(25,28,34,.05);--sh-2:0 4px 14px rgba(25,28,34,.06),0 12px 32px rgba(25,28,34,.09);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.55;background-image:radial-gradient(120% 80% at 88% -8%,rgba(197,129,42,.06),transparent 52%),radial-gradient(90% 60% at -8% 108%,rgba(31,111,115,.06),transparent 52%)}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  .mono{font-family:var(--mono)}
+  ::selection{background:var(--brass);color:#fff}
+  ::-webkit-scrollbar{width:11px;height:11px}::-webkit-scrollbar-thumb{background:#d2ccbd;border-radius:11px;border:3px solid var(--bg)}
+
+  .top{position:sticky;top:0;z-index:30;background:rgba(244,242,234,.82);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid var(--line)}
+  .top .row{max-width:1150px;margin:0 auto;padding:13px 24px;display:flex;align-items:center;gap:14px}
+  .mark{width:36px;height:36px;border-radius:10px;flex:none;display:grid;place-items:center;background:linear-gradient(150deg,var(--brass-2),var(--brass-deep));box-shadow:0 3px 12px rgba(168,109,16,.3),inset 0 1px 0 rgba(255,255,255,.35)}
+  .mark svg{width:20px;height:20px;color:#fff}
+  .top .tt{font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:-.01em;line-height:1.1}.top .tt b{color:var(--brass-deep)}
+  .top .sub{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);display:block;margin-top:2px}
+  .top .prog{margin-left:auto;display:flex;align-items:center;gap:12px}
+  .top .prog .bar{width:150px;height:7px;background:var(--surf-3);border-radius:7px;overflow:hidden;border:1px solid var(--line)}
+  .top .prog .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--brass-deep),var(--brass));border-radius:7px;transition:width .5s cubic-bezier(.2,.7,.2,1)}
+  .top .prog .pc{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--brass-deep);min-width:34px;text-align:right}
+
+  .wrap{max-width:1150px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:250px 1fr;gap:32px;align-items:start}
+  .rail{position:sticky;top:88px;margin-top:28px;max-height:calc(100vh - 110px);overflow-y:auto;padding-right:4px}
+  .rail .h{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);padding:0 8px 10px}
+  .step{display:block;padding:9px 10px 9px 43px;border-radius:10px;width:100%;text-align:left;transition:.13s;color:var(--ink-2);font-size:12.5px;font-weight:500;position:relative}
+  .step:hover{background:var(--surf-2)}
+  .step.active{background:var(--surf);box-shadow:var(--sh-1);color:var(--ink)}
+  .step.active::before{content:"";position:absolute;left:-8px;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--brass)}
+  .step .dot{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-family:var(--mono);font-size:10px;color:var(--ink-3);background:var(--bg);transition:.2s}
+  .step.done .dot{background:var(--brass);border-color:var(--brass);color:#fff}.step.done .dot svg{width:11px;height:11px}
+  .step .lbl{flex:1;line-height:1.2}
+  .step .kind{font-family:var(--mono);font-size:8.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);display:block;margin-top:1px}
+  .step.locked{opacity:.42;pointer-events:none}
+
+  .view{min-width:0;margin-top:28px;animation:rise .38s cubic-bezier(.2,.7,.2,1);padding-bottom:40px}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--brass-deep);font-weight:600}
+  h1{font-family:var(--display);font-weight:800;font-size:31px;letter-spacing:-.02em;line-height:1.08;margin:8px 0 0}
+  h2{font-family:var(--display);font-weight:700;font-size:21px;letter-spacing:-.01em;margin:32px 0 10px}
+  h3{font-family:var(--display);font-weight:700;font-size:16px;margin:24px 0 8px}
+  p{font-size:15.5px;color:#33312a;margin-bottom:14px;line-height:1.74}
+  p b,li b{color:var(--ink);font-weight:700}
+  .lead{font-size:16.5px;color:var(--ink-2);margin-top:12px;max-width:64ch}
+  ul.clean{list-style:none;margin:2px 0 16px}
+  ul.clean li{font-size:14.5px;color:#33312a;padding-left:22px;position:relative;margin-bottom:9px;line-height:1.6}
+  ul.clean li::before{content:"";position:absolute;left:2px;top:8px;width:7px;height:7px;border-radius:2px;background:var(--brass);transform:rotate(45deg)}
+  ul.num{margin:0 0 16px 20px}ul.num li{font-size:14.5px;color:#33312a;margin-bottom:7px;line-height:1.6}
+
+  .field{background:var(--slate-deep);color:#e9edf0;border-radius:13px;padding:18px 20px;margin:22px 0;display:flex;gap:14px}
+  .field.brass{background:linear-gradient(135deg,#3a3526,#2c2818)}
+  .field .ic{flex:none;color:var(--brass-2)}.field .ic svg{width:20px;height:20px}
+  .field .t{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-2);margin-bottom:5px}
+  .field p{color:#c4cdd4;font-size:14px;margin:0 0 8px;line-height:1.65}.field p:last-child{margin-bottom:0}.field p b{color:#fff}
+
+  .story{background:var(--surf);border:1px solid var(--line);border-left:4px solid var(--brass);border-radius:0 13px 13px 0;padding:16px 19px;margin:22px 0;box-shadow:var(--sh-1)}
+  .story .st{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-deep);display:flex;align-items:center;gap:8px;margin-bottom:7px}
+  .story .st svg{width:14px;height:14px}
+  .story p{font-size:14.5px;color:#403d33;font-style:italic;margin:0;line-height:1.7}
+  .story p b{font-style:normal}
+
+  .loop{display:flex;align-items:stretch;background:var(--surf);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin:18px 0 8px;box-shadow:var(--sh-1)}
+  .loop .seg{flex:1;padding:13px 10px;text-align:center;border-right:1px solid var(--line-2)}.loop .seg:last-child{border-right:none}
+  .loop .seg .n{font-family:var(--mono);font-size:9px;color:var(--ink-3);letter-spacing:.1em}
+  .loop .seg .w{font-family:var(--display);font-weight:700;font-size:12.5px;margin-top:3px}
+  .loop .seg.on{background:var(--brass-soft)}.loop .seg.on .w{color:var(--brass-deep)}
+
+  .dgm{background:#bdb8a8;border:1px solid var(--line);border-radius:var(--r);padding:8px;margin:20px 0;box-shadow:var(--sh-1);position:relative;overflow:hidden}
+  .dgm::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(44,65,83,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(44,65,83,.1) 1px,transparent 1px);background-size:26px 26px;pointer-events:none}
+  .dgm svg{display:block;width:100%;height:auto;position:relative}
+  .dgm .cap{position:relative;text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:.04em;color:var(--slate-deep);padding:4px 6px 8px}
+
+  .defect{background:var(--surf);border:1px solid var(--line);border-radius:13px;padding:16px 18px;box-shadow:var(--sh-1);margin:12px 0}
+  .defect .dh{display:flex;align-items:center;gap:11px;margin-bottom:8px}
+  .defect .dh .n{width:26px;height:26px;border-radius:8px;background:var(--fail-soft);color:var(--fail);display:grid;place-items:center;flex:none;font-family:var(--mono);font-weight:600;font-size:12px}
+  .defect .dh .nm{font-family:var(--display);font-weight:700;font-size:15px}
+  .defect p{font-size:14px;margin-bottom:9px}
+  .defect .meta{display:grid;grid-template-columns:auto 1fr;gap:5px 12px;font-size:13px;align-items:start}
+  .defect .meta .lab{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);padding-top:3px;white-space:nowrap}
+  .defect .meta .val{color:#33312a;line-height:1.5}
+  .defect .rep{font-family:var(--mono);font-size:11px;background:var(--slate-soft);border-radius:8px;padding:8px 11px;color:var(--slate-deep);line-height:1.5;margin-top:8px}.defect .rep b{color:var(--slate-deep)}
+
+  .pills{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 6px}
+  .pill{font-family:var(--mono);font-size:11.5px;background:var(--surf);border:1px solid var(--line);color:var(--ink-2);padding:6px 12px;border-radius:20px}.pill b{color:var(--brass-deep)}
+  .tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px;background:var(--surf);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .tbl th{background:var(--slate-deep);color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;text-align:left;padding:9px 12px;font-weight:600}
+  .tbl td{padding:9px 12px;border-top:1px solid var(--line-2);color:#33312a}
+  .tbl td:first-child{font-family:var(--mono);font-weight:600;color:var(--brass-deep);white-space:nowrap}
+
+  /* ---- quiz (multi-question) ---- */
+  .quiz{background:var(--surf);border:1.5px solid var(--line-brass);border-radius:var(--r);padding:24px;margin:30px 0 0;box-shadow:var(--sh-1)}
+  .quiz .qh{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-deep);display:flex;align-items:center;gap:8px;margin-bottom:4px}.quiz .qh svg{width:15px;height:15px}
+  .quiz .qt{font-family:var(--display);font-weight:700;font-size:18px}.quiz .qsub{font-size:13.5px;color:var(--ink-2);margin:4px 0 4px}
+  .qblock{border-top:1px solid var(--line-2);padding-top:18px;margin-top:18px}.qblock:first-of-type{border-top:none;padding-top:14px}
+  .qnum{font-family:var(--mono);font-size:11px;color:var(--brass-deep);font-weight:600;margin-bottom:6px}
+  .q{font-family:var(--display);font-weight:600;font-size:15.5px;margin-bottom:13px;line-height:1.4}
+  .opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:11px 14px;border:1.5px solid var(--line);border-radius:10px;margin-bottom:8px;transition:.13s;font-size:14px;font-weight:500;background:var(--surf-2)}
+  .opt:hover:not(.lk){border-color:var(--brass);background:var(--surf)}
+  .opt .k{font-family:var(--mono);font-weight:600;width:23px;height:23px;border-radius:6px;background:var(--surf-3);display:grid;place-items:center;font-size:11px;flex:none;color:var(--ink-2)}
+  .opt.correct{border-color:var(--pass);background:var(--pass-soft)}.opt.correct .k{background:var(--pass);color:#fff}
+  .opt.wrong{border-color:var(--fail);background:var(--fail-soft)}.opt.wrong .k{background:var(--fail);color:#fff}
+  .opt .mk{margin-left:auto}.opt .mk svg{width:16px;height:16px}.opt.lk{cursor:default}
+  .exp{font-size:13px;color:var(--ink-2);line-height:1.62;padding:11px 13px;background:var(--surf-2);border-left:3px solid var(--brass);border-radius:0 9px 9px 0;margin-top:4px}.exp b{color:var(--ink)}
+  .qscore{margin-top:20px;padding-top:18px;border-top:1px solid var(--line-2);font-family:var(--mono);font-size:13px;color:var(--ink-2);display:flex;align-items:center;gap:10px}.qscore svg{width:18px;height:18px;flex:none}.qscore b{font-size:15px}
+
+  .foot{display:flex;align-items:center;gap:12px;margin:30px 0 10px;padding-top:22px;border-top:1px solid var(--line)}.foot .sp{flex:1}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:14px;padding:12px 18px;border-radius:11px;transition:.15s;font-family:var(--body)}.btn svg{width:16px;height:16px}
+  .btn.brass{background:linear-gradient(150deg,var(--brass-2),var(--brass));color:#fff;box-shadow:0 5px 14px rgba(168,109,16,.28)}.btn.brass:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(168,109,16,.36)}
+  .btn.brass:disabled{opacity:.5;filter:grayscale(.3);cursor:not-allowed;transform:none;box-shadow:none}
+  .btn.ghost{background:var(--surf);border:1px solid var(--line);color:var(--ink-2)}.btn.ghost:hover{color:var(--ink);border-color:var(--ink-3)}
+  .btn.slate{background:var(--slate);color:#fff}.btn.slate:hover{background:var(--slate-deep)}
+
+  /* ---- WIDGETS ---- */
+  .wlabel{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:var(--brass);padding:4px 9px;border-radius:20px;display:inline-block;margin-bottom:6px}
+  .wtitle{font-family:var(--display);font-weight:700;font-size:16px;margin-bottom:3px}
+  .wsub{font-size:13.5px;color:var(--ink-2);margin-bottom:14px}
+  .widget{background:var(--surf-2);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;margin:24px 0;box-shadow:var(--sh-1)}
+
+  .sd-wrap{display:grid;grid-template-columns:1fr 260px;gap:16px}@media(max-width:760px){.sd-wrap{grid-template-columns:1fr}}
+  .sd-stage{background:#bdb8a8;border:1px solid var(--line);border-radius:13px;padding:8px;position:relative;overflow:hidden}
+  .sd-stage::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(44,65,83,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(44,65,83,.09) 1px,transparent 1px);background-size:24px 24px;pointer-events:none}
+  .sd-stage svg{display:block;width:100%;height:auto;position:relative}
+  .hot{cursor:pointer}.hot circle.zone{fill:transparent;stroke:transparent}
+  .hot.found circle.zone{fill:rgba(61,125,80,.16);stroke:var(--pass);stroke-width:2.5;stroke-dasharray:4 3}
+  .sd-side{display:flex;flex-direction:column;gap:11px}
+  .sd-count{background:var(--slate-deep);color:#fff;border-radius:12px;padding:13px 15px;text-align:center}
+  .sd-count .big{font-family:var(--mono);font-weight:600;font-size:28px;line-height:1}.sd-count .lbl{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-2);margin-top:5px}
+  .sd-found{display:flex;flex-direction:column;gap:7px;max-height:280px;overflow-y:auto}
+  .fcard{background:var(--surf);border:1px solid var(--line);border-left:3px solid var(--pass);border-radius:9px;padding:9px 11px;animation:pop .3s}@keyframes pop{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:none}}
+  .fcard .fn{font-family:var(--display);font-weight:700;font-size:13px;color:var(--pass)}.fcard .fd{font-size:12px;color:var(--ink-2);margin-top:2px;line-height:1.45}
+  .sd-empty{font-size:12.5px;color:var(--ink-3);font-style:italic;text-align:center;padding:18px 8px}
+  .sd-done{background:var(--pass-soft);border:1px solid var(--pass);border-radius:11px;padding:12px;text-align:center;font-size:13px;color:var(--pass);font-weight:600}
+
+  .gfi-stage{background:var(--slate-deep);border-radius:13px;padding:20px;position:relative;overflow:hidden;height:220px}
+  .lane{position:absolute;left:120px;right:120px;height:3px;background:rgba(255,255,255,.18);border-radius:3px}.lane.hot{top:66px}.lane.neu{top:146px}
+  .lane .lab{position:absolute;top:-19px;left:0;font-family:var(--mono);font-size:10px;color:#9fb0bd}
+  .dot{position:absolute;width:9px;height:9px;border-radius:50%;top:-3px}
+  .dot.h{background:var(--brass-2);animation:flowR 2.4s linear infinite}.dot.n{background:#7fa8c4;animation:flowL 2.4s linear infinite}
+  @keyframes flowR{from{left:0}to{left:100%}}@keyframes flowL{from{left:100%}to{left:0}}
+  .gbox{position:absolute;left:28px;top:66px;width:68px;height:80px;border:2px solid #9fb0bd;border-radius:8px;display:grid;place-items:center;text-align:center}
+  .gbox .gt{font-family:var(--mono);font-size:10px;color:#fff}.gbox .gs{font-family:var(--mono);font-size:8px;color:#7fa8c4;margin-top:3px}
+  .load{position:absolute;right:28px;top:66px;width:68px;height:80px;border:2px solid #9fb0bd;border-radius:8px;display:grid;place-items:center}.load .lt{font-family:var(--mono);font-size:10px;color:#fff}
+  .leak{position:absolute;left:50%;top:69px;width:2px;height:88px;background:repeating-linear-gradient(180deg,var(--fail),var(--fail) 5px,transparent 5px,transparent 10px);opacity:0;transition:.3s}.leak.on{opacity:1}
+  .person{position:absolute;left:calc(50% - 13px);top:160px;font-size:22px;opacity:0;transition:.3s}.person.on{opacity:1}
+  .trip{position:absolute;inset:0;background:rgba(184,84,54,.92);display:grid;place-items:center;opacity:0;pointer-events:none;transition:.3s}.trip.on{opacity:1}
+  .trip .tw{text-align:center;color:#fff}.trip .tw .b{font-family:var(--display);font-weight:800;font-size:25px}.trip .tw .s{font-family:var(--mono);font-size:11px;letter-spacing:.1em;margin-top:6px;opacity:.9}
+  .gfi-status{display:flex;align-items:center;gap:10px;margin-top:14px;font-size:14px;font-weight:600}.gfi-status .pip{width:11px;height:11px;border-radius:50%;background:var(--pass)}.gfi-status.fault .pip{background:var(--fail)}
+  .gfi-controls{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}.gfi-read{font-family:var(--mono);font-size:12px;color:var(--ink-2);margin-top:10px}.gfi-read b{color:var(--brass-deep)}
+
+  .match{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:600px){.match{grid-template-columns:1fr}}
+  .mcol{display:flex;flex-direction:column;gap:9px}.mcol .ch{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);text-align:center;margin-bottom:2px}
+  .chip{padding:13px;border:1.5px solid var(--line);border-radius:11px;background:var(--surf);font-family:var(--mono);font-weight:600;font-size:14px;text-align:center;transition:.13s;color:var(--ink)}
+  .chip:hover:not(.locked){border-color:var(--brass)}.chip.sel{border-color:var(--brass);background:var(--brass-soft);color:var(--brass-deep)}
+  .chip.locked{border-color:var(--pass);background:var(--pass-soft);color:var(--pass);cursor:default;opacity:.85}
+  .chip.miss{border-color:var(--fail);background:var(--fail-soft);animation:shake .3s}@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+  .w-done{margin-top:14px;background:var(--pass-soft);border:1px solid var(--pass);border-radius:11px;padding:12px;text-align:center;font-size:13px;color:var(--pass);font-weight:600}
+
+  .est{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:600px){.est{grid-template-columns:1fr}}
+  .est label{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:6px}
+  .est select{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--surf);font-family:var(--mono);font-size:14px;color:var(--ink);font-weight:600}
+  .est-out{grid-column:1/-1;margin-top:4px;border-radius:12px;padding:15px 17px;border:1px solid var(--line);background:var(--surf);transition:.2s}
+  .est-out.ok{border-color:var(--pass);background:var(--pass-soft)}.est-out.bad{border-color:var(--fail);background:var(--fail-soft)}
+  .est-out .ev{font-family:var(--display);font-weight:800;font-size:19px}.est-out .ed{font-size:13px;color:var(--ink-2);margin-top:5px;line-height:1.5}
+  .est-out.ok .ev{color:var(--pass)}.est-out.bad .ev{color:var(--fail)}
+
+  .sort{display:grid;gap:14px}
+  .sort-items{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;min-height:20px}
+  .sitem{padding:10px 14px;border:1.5px solid var(--line);border-radius:10px;background:var(--surf);font-size:13.5px;font-weight:500;transition:.13s}.sitem:hover:not(.placed){border-color:var(--brass)}.sitem.sel{border-color:var(--brass);background:var(--brass-soft);color:var(--brass-deep)}.sitem.placed{display:none}
+  .bins{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:600px){.bins{grid-template-columns:1fr}}
+  .bin{border:1.5px dashed var(--line);border-radius:12px;padding:14px;min-height:90px;background:var(--surf)}
+  .bin.activeb{border-color:var(--brass);background:var(--brass-soft)}
+  .bin .bt{font-family:var(--display);font-weight:700;font-size:14px;text-align:center;margin-bottom:10px}
+  .bin .drop{font-size:11px;color:var(--ink-3);text-align:center;font-style:italic}
+  .binitem{padding:8px 11px;border-radius:8px;font-size:13px;font-weight:500;margin-bottom:6px;display:flex;align-items:center;gap:7px}.binitem svg{width:13px;height:13px;flex:none}
+  .binitem.right{background:var(--pass-soft);color:var(--pass)}.binitem.wrong{background:var(--fail-soft);color:var(--fail)}
+
+  .era{display:flex;flex-direction:column;gap:0;position:relative;margin:6px 0 4px;padding-left:8px}
+  .era .line{position:absolute;left:14px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .erow{display:flex;align-items:flex-start;gap:14px;padding:9px 0;position:relative;cursor:pointer}
+  .erow .ed{width:12px;height:12px;border-radius:50%;background:var(--surf-3);border:2px solid var(--line);flex:none;margin-top:3px;z-index:1;transition:.15s}
+  .erow:hover .ed,.erow.open .ed{background:var(--brass);border-color:var(--brass)}
+  .erow .et{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--brass-deep);width:130px;flex:none}
+  .erow .en{font-size:14px;color:#33312a;font-weight:600}
+  .erow .ex{font-size:13px;color:var(--ink-2);line-height:1.5;margin-top:4px;display:none}.erow.open .ex{display:block}
+
+  .panelcard{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-2);padding:34px;text-align:center}
+  .panelcard .ic{width:56px;height:56px;border-radius:14px;background:var(--brass-soft);color:var(--brass-deep);display:grid;place-items:center;margin:0 auto 16px}.panelcard .ic svg{width:27px;height:27px}
+  .panelcard h2{margin:0 0 8px}.panelcard p{max-width:48ch;margin:0 auto 22px}
+  .ring{width:150px;height:150px;margin:0 auto 18px;position:relative}.ring .rv{position:absolute;inset:0;display:grid;place-items:center}.ring .rv .n{font-family:var(--mono);font-weight:600;font-size:38px;line-height:1}.ring .rv .p{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-top:4px}
+  .verdict{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;display:inline-block;padding:5px 13px;border-radius:20px;margin-bottom:16px}.verdict.pass{background:var(--pass-soft);color:var(--pass)}.verdict.fail{background:var(--fail-soft);color:var(--fail)}
+
+  .scen{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-2);margin-bottom:16px}
+  .scen .sh{background:linear-gradient(120deg,#1f6f73,#123f43);color:#fff;padding:16px 20px}.scen .sh .t{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-2)}.scen .sh .n{font-family:var(--display);font-weight:700;font-size:17px;margin-top:3px}
+  .scen .body{padding:20px 22px}.scen .situation{font-size:15.5px;color:#33312a;line-height:1.7;margin-bottom:6px}.scen .ask{font-family:var(--display);font-weight:600;font-size:15px;margin:16px 0 14px;color:var(--ink)}
+  .scount{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-bottom:10px}
+
+  .gloss{display:grid;gap:10px}.term{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:13px 16px;box-shadow:var(--sh-1)}
+  .term .tw{font-family:var(--display);font-weight:700;font-size:14.5px;color:var(--brass-deep)}.term .td{font-size:13.5px;color:var(--ink-2);margin-top:3px;line-height:1.55}
+  .srcframe{width:100%;height:78vh;border:1px solid var(--line);border-radius:var(--r);background:var(--surf);box-shadow:var(--sh-1)}
+  .srcnote{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:14px 17px;font-size:13.5px;color:var(--ink-2);margin:14px 0;line-height:1.6}.srcnote a{color:var(--brass-deep);font-weight:600}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--slate-deep);color:#fff;padding:12px 18px;border-radius:11px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;box-shadow:var(--sh-2);z-index:100;opacity:0;transition:.3s}.toast.show{transform:translateX(-50%) translateY(0);opacity:1}.toast svg{width:16px;height:16px;color:var(--brass-2)}
+  @media(max-width:880px){.wrap{grid-template-columns:1fr}.rail{display:none}.top .prog .bar{width:90px}}
+  em{font-style:italic;color:inherit}
+</style>
+
+<div class="top"><div class="row">
+  <a href="index.html" class="mark" style="text-decoration:none" title="Back to Module I"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8c2.2 0 2.2-2 4.5-2S9.7 8 12 8s2.2-2 4.5-2S18.7 8 21 8"/><path d="M3 13c2.2 0 2.2-2 4.5-2S9.7 13 12 13s2.2-2 4.5-2S18.7 13 21 13"/><path d="M3 18c2.2 0 2.2-2 4.5-2S9.7 18 12 18s2.2-2 4.5-2S18.7 18 21 18"/></svg></a>
+  <div><div class="tt">ATI · Module I — <b>Exterior &amp; Site</b></div><span class="sub">Property &amp; Building Inspection · interactive</span></div>
+  <div class="prog"><a href="index.html" style="font-family:var(--mono);font-size:11px;font-weight:600;color:var(--brass-deep);text-decoration:none;margin-right:2px" title="All systems">↩ Systems</a><div class="bar"><i id="pbar"></i></div><span class="pc" id="ppc">0%</span></div>
+</div></div>
+<div class="wrap"><aside class="rail"><div class="h">Section contents</div><div id="rail"></div></aside><main class="view" id="view"></main></div>
+<div class="toast" id="toast"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span id="tmsg"></span></div>
+
+<script src="/storage.js"></script>
+<script>
+/* ---- storage adapter: native window.storage in Claude; localStorage when deployed (GitHub Pages); memory as last resort ---- */
+(function(){if(typeof window==='undefined')return;if(window.storage&&window.storage.get)return;var mem={};window.storage={get:function(k){try{var v=window.localStorage.getItem(k);return Promise.resolve(v!=null?{value:v}:null);}catch(e){return Promise.resolve(mem[k]!=null?{value:mem[k]}:null);}},set:function(k,v){try{window.localStorage.setItem(k,v);}catch(e){mem[k]=v;}return Promise.resolve({value:v});},delete:function(k){try{window.localStorage.removeItem(k);}catch(e){delete mem[k];}return Promise.resolve({deleted:true});}};})();
+
+const ic={check:'<path d="M20 6 9 17l-5-5"/>',x:'<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',arrow:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',back:'<path d="M19 12H5"/><path d="m12 19-7-7 7-7"/>',brain:'<path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44A2.5 2.5 0 0 1 4 17.5a2.5 2.5 0 0 1-.5-4.9 2.5 2.5 0 0 1 0-4.2A2.5 2.5 0 0 1 5 3.5 2.5 2.5 0 0 1 9.5 2z"/>',flag:'<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>',alert:'<path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="9"/>',bolt:'<path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/>',book:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',open:'<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/>',award:'<circle cx="12" cy="8" r="6"/><path d="M15.5 12.9 17 22l-5-3-5 3 1.5-9.1"/>',retake:'<path d="M3 12a9 9 0 1 0 9-9 9 9 0 0 0-6.4 2.6L3 8"/><path d="M3 3v5h5"/>',coffee:'<path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/><line x1="6" y1="2" x2="6" y2="5"/><line x1="10" y1="2" x2="10" y2="5"/><line x1="14" y1="2" x2="14" y2="5"/>'};
+const sv=(p,w=2)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+function conds(title,items){return `<h3>${title}</h3><ul class="clean">${items.map(([n,d])=>`<li><b>${n}</b> — ${d}</li>`).join('')}</ul>`;}
+function story(title,text){return `<div class="story"><div class="st">${sv(ic.coffee)} ${title}</div><p>${text}</p></div>`;}
+
+/* ================= WIDGET LIBRARY ================= */
+const SPOT={}, MATCH={}, SORT={}, ERA={};
+const WID={
+  spot(el,k){const c=SPOT[k];let found=new Set();
+    el.innerHTML=`<span class="wlabel">Spot the defect</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div>
+     <div class="sd-wrap"><div class="sd-stage"><svg viewBox="${c.vb}" class="hot">${c.svg}<g class="hsg"></g></svg></div>
+     <div class="sd-side"><div class="sd-count"><div class="big"><span class="sdn">0</span>/${c.defects.length}</div><div class="lbl">defects found</div></div><div class="sd-found"><div class="sd-empty">Click a defect to log it…</div></div></div></div>`;
+    const g=el.querySelector('.hsg'),cnt=el.querySelector('.sdn'),fw=el.querySelector('.sd-found');
+    c.defects.forEach((d,i)=>{const gg=document.createElementNS('http://www.w3.org/2000/svg','g');gg.setAttribute('class','hot');gg.innerHTML=`<circle class="zone" cx="${d.x}" cy="${d.y}" r="${d.r}"/>`;gg.style.cursor='pointer';
+      gg.addEventListener('click',()=>{if(found.has(i))return;found.add(i);gg.classList.add('found');cnt.textContent=found.size;if(fw.querySelector('.sd-empty'))fw.innerHTML='';
+        const card=document.createElement('div');card.className='fcard';card.innerHTML=`<div class="fn">${found.size}. ${d.n}</div><div class="fd">${d.d}</div>`;fw.appendChild(card);
+        if(found.size===c.defects.length){const dn=document.createElement('div');dn.className='sd-done';dn.textContent='All found — that\'s the scan. Nicely done.';fw.appendChild(dn);}});
+      g.appendChild(gg);});},
+  gfi(el){el.innerHTML=`<span class="wlabel">Animated diagram</span><div class="wtitle">Watch the GFI work</div><div class="wsub">Current flows out the hot and back on the neutral — equal. Introduce a leak and see what happens.</div>
+    <div class="gfi-stage"><div class="gbox"><div><div class="gt">GFI</div><div class="gs">in vs out</div></div></div><div class="load"><div class="lt">LOAD</div></div><div class="lane hot"><span class="lab">hot — out</span></div><div class="lane neu"><span class="lab">neutral — back</span></div><div class="leak"></div><div class="person">🧍</div><div class="trip"><div class="tw"><div class="b">⚡ GFI TRIPPED</div><div class="s">imbalance &gt; 5 mA — cut in milliseconds</div></div></div></div>
+    <div class="gfi-status"><span class="pip"></span><span class="gtxt">Balanced — out equals back. Holding.</span></div>
+    <div class="gfi-read">Hot out: <b>15.000 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b>0 mA</b></div>
+    <div class="gfi-controls"><button class="btn brass gflt">Introduce a ground fault</button><button class="btn ghost grst">Reset</button></div>`;
+    const stage=el.querySelector('.gfi-stage'),st=el.querySelector('.gfi-status'),txt=el.querySelector('.gtxt'),read=el.querySelector('.gfi-read'),trip=el.querySelector('.trip'),fbtn=el.querySelector('.gflt');let f=false,to;
+    function dots(){stage.querySelectorAll('.dot').forEach(d=>d.remove());for(let i=0;i<5;i++){const d=document.createElement('span');d.className='dot h';d.style.animationDelay=(-i*0.48)+'s';stage.querySelector('.lane.hot').appendChild(d);}const nc=f?2:5;for(let i=0;i<nc;i++){const d=document.createElement('span');d.className='dot n';d.style.animationDelay=(-i*0.48)+'s';stage.querySelector('.lane.neu').appendChild(d);}}
+    function reset(){f=false;clearTimeout(to);el.querySelector('.leak').classList.remove('on');el.querySelector('.person').classList.remove('on');trip.classList.remove('on');st.classList.remove('fault');txt.textContent='Balanced — out equals back. Holding.';read.innerHTML='Hot out: <b>15.000 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b>0 mA</b>';fbtn.textContent='Introduce a ground fault';dots();}
+    fbtn.onclick=()=>{f=!f;if(f){el.querySelector('.leak').classList.add('on');el.querySelector('.person').classList.add('on');st.classList.add('fault');txt.textContent='Imbalance — current is leaking to ground.';read.innerHTML='Hot out: <b>15.006 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b style="color:var(--fail)">6 mA</b>';fbtn.textContent='Clear the fault';dots();to=setTimeout(()=>trip.classList.add('on'),650);}else reset();};
+    el.querySelector('.grst').onclick=reset;dots();},
+  match(el,k){const c=MATCH[k];const sh=a=>a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v[1]);let sel=null,locked=0;
+    el.innerHTML=`<span class="wlabel">Match drill</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="match"><div class="mcol"><div class="ch">${c.left}</div><div class=" L"></div></div><div class="mcol"><div class="ch">${c.right}</div><div class="R"></div></div></div><div class="md"></div>`;
+    const L=el.querySelector('.L'),R=el.querySelector('.R'),done=el.querySelector('.md');
+    c.pairs.forEach(p=>{const b=document.createElement('button');b.className='chip';b.textContent=p[0];b.dataset.a=p[0];b.dataset.s='L';L.appendChild(b);});
+    sh(c.pairs.map(p=>p[1])).forEach(v=>{const b=document.createElement('button');b.className='chip';b.textContent=v;b.dataset.b=v;b.dataset.s='R';R.appendChild(b);});
+    el.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{if(b.classList.contains('locked'))return;
+      if(!sel){sel=b;b.classList.add('sel');return;}if(sel===b){b.classList.remove('sel');sel=null;return;}if(sel.dataset.s===b.dataset.s){sel.classList.remove('sel');sel=b;b.classList.add('sel');return;}
+      const left=sel.dataset.s==='L'?sel:b,right=sel.dataset.s==='R'?sel:b,ok=c.pairs.find(p=>p[0]===left.dataset.a)[1]===right.dataset.b;
+      if(ok){[left,right].forEach(x=>{x.classList.remove('sel');x.classList.add('locked');});locked++;if(locked===c.pairs.length)done.innerHTML=`<div class="w-done">${c.done}</div>`;}
+      else{[left,right].forEach(x=>{x.classList.add('miss');setTimeout(()=>x.classList.remove('miss','sel'),350);});}sel=null;});},
+  sort(el,k){const c=SORT[k];let sel=null,placed=0;
+    el.innerHTML=`<span class="wlabel">Sort it</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="sort"><div class="sort-items">${c.items.map((it,i)=>`<button class="sitem" data-i="${i}">${it.t}</button>`).join('')}</div><div class="bins">${c.bins.map((b,bi)=>`<div class="bin" data-bin="${bi}"><div class="bt">${b}</div><div class="drop">tap an item, then tap here</div></div>`).join('')}</div></div><div class="md"></div>`;
+    const items=el.querySelectorAll('.sitem'),bins=el.querySelectorAll('.bin'),done=el.querySelector('.md');
+    items.forEach(it=>it.onclick=()=>{if(it.classList.contains('placed'))return;el.querySelectorAll('.sitem').forEach(x=>x.classList.remove('sel'));sel=it;it.classList.add('sel');});
+    bins.forEach(bin=>bin.onclick=()=>{if(!sel)return;const i=+sel.dataset.i,bi=+bin.dataset.bin,ok=c.items[i].bin===bi;
+      const row=document.createElement('div');row.className='binitem '+(ok?'right':'wrong');row.innerHTML=(ok?sv(ic.check,2.6):sv(ic.x,2.6))+' '+c.items[i].t;bin.querySelector('.drop').remove?bin.querySelector('.drop')&&(bin.querySelector('.drop').style.display='none'):0;bin.appendChild(row);
+      sel.classList.add('placed');sel=null;placed++;if(placed===c.items.length)done.innerHTML=`<div class="w-done">${c.done}</div>`;});},
+  est(el){el.innerHTML=`<span class="wlabel">Field tool</span><div class="wtitle">Service-size estimator</div><div class="wsub">Set what you'd read on site; it calls the size and flags an unsafe mismatch — your on-site logic.</div>
+    <div class="est"><div><label>Service-entrance conductor (copper)</label><select class="sew"><option value="6">#6 AWG</option><option value="4">#4 AWG</option><option value="2" selected>2/0 AWG</option><option value="0">4/0 AWG</option></select></div><div><label>Main breaker rating</label><select class="mbk"><option value="60">60 A</option><option value="100">100 A</option><option value="200" selected>200 A</option><option value="400">400 A</option></select></div><div class="est-out"></div></div>`;
+    const WA={'6':60,'4':100,'2':200,'0':400},WL={'6':'#6 AWG','4':'#4 AWG','2':'2/0 AWG','0':'4/0 AWG'},sew=el.querySelector('.sew'),mbk=el.querySelector('.mbk'),out=el.querySelector('.est-out');
+    function go(){const w=sew.value,b=+mbk.value,sup=WA[w];if(b>sup){out.className='est-out bad';out.innerHTML=`<div class="ev">⚠ Overfused — unsafe</div><div class="ed">A ${b} A main on ${WL[w]} copper (good for ~${sup} A) won't shut off before the conductor overheats. Report: overcurrent device oversized for the service-entrance conductor.</div>`;}else{const ap=Math.min(b,sup);out.className='est-out ok';out.innerHTML=`<div class="ev">${ap} A service</div><div class="ed">${WL[w]} copper supports ~${sup} A and the main is ${b} A — conductor protected. Report the service size as ${ap} A${b<sup?' (limited by the main breaker)':''}.</div>`;}}
+    sew.onchange=go;mbk.onchange=go;go();},
+  era(el,k){const c=ERA[k];el.innerHTML=`<span class="wlabel">Explore</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="era"><div class="line"></div>${c.rows.map((r,i)=>`<div class="erow" data-i="${i}"><span class="ed"></span><span class="et">${r.d}</span><div><div class="en">${r.n}</div><div class="ex">${r.x}</div></div></div>`).join('')}</div>`;
+    el.querySelectorAll('.erow').forEach(r=>r.onclick=()=>r.classList.toggle('open'));}
+};
+function wireWidgets(root){root.querySelectorAll('.wmount').forEach(el=>{const w=el.dataset.w,k=el.dataset.k;if(WID[w])WID[w](el,k);});}
+function W(w,k){return `<div class="widget wmount" data-w="${w}" data-k="${k||''}"></div>`;}
+
+/* ================= ENGINE ================= */
+const KEY='ati_exterior_ix_v1';
+let S={done:{},quiz:{},assessBest:0,cur:0};
+async function load(){try{const r=await window.storage.get(KEY,false);if(r&&r.value)S=JSON.parse(r.value);}catch(e){}S.done=S.done||{};S.quiz=S.quiz||{};}
+async function save(){try{await window.storage.set(KEY,JSON.stringify(S),false);}catch(e){}}
+const stepDone=i=>!!S.done[STEPS[i].id];
+const pct=()=>Math.round(Object.keys(S.done).length/STEPS.length*100);
+const unlocked=i=>i===0?true:stepDone(i-1);
+const view=document.getElementById('view');
+function updTop(){const p=pct();document.getElementById('pbar').style.width=p+'%';document.getElementById('ppc').textContent=p+'%';}
+function rail(){document.getElementById('rail').innerHTML=STEPS.map((s,i)=>{const d=stepDone(i),u=unlocked(i),a=i===S.cur;return `<button class="step ${d?'done':''} ${a?'active':''} ${u?'':'locked'}" ${u?`onclick="goStep(${i})"`:''}><span class="dot">${d?sv(ic.check,3):(i+1)}</span><span class="lbl">${s.label}<span class="kind">${s.kind}</span></span></button>`;}).join('');}
+function goStep(i){if(!unlocked(i))return;S.cur=i;save();render();window.scrollTo({top:0,behavior:'smooth'});}
+function markDoneAndNext(){S.done[STEPS[S.cur].id]=true;save();updTop();rail();if(S.cur<STEPS.length-1)goStep(S.cur+1);else render();}
+function render(){updTop();rail();const s=STEPS[S.cur];({lesson:renderLesson,scenario:renderScenarios,assess:renderAssess,glossary:renderGlossary,source:renderSource}[s.type])(s);}
+function navFoot(label,gated){const last=S.cur===STEPS.length-1;return `<div class="foot">${S.cur>0?`<button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button>`:''}<div class="sp"></div><button class="btn brass" id="nextBtn" ${gated?'disabled':''} onclick="markDoneAndNext()">${label||(last?'Finish section':'Mark complete & continue')} ${sv(ic.arrow)}</button></div>`;}
+
+function renderLesson(s){
+  let h=(typeof s.body==='function'?s.body():s.body);
+  if(s.quiz&&s.quiz.length){
+    h+=`<div class="quiz"><div class="qh">${sv(ic.brain)} Check your understanding</div><div class="qt">${s.label}</div><div class="qsub">${s.quiz.length} questions covering the lesson — answer each to see the reasoning.</div><div class="qbody">${
+      s.quiz.map((q,qi)=>`<div class="qblock"><div class="qnum">Question ${qi+1} of ${s.quiz.length}</div><div class="q">${q.q}</div><div class="opts" data-qi="${qi}">${q.o.map((o,k)=>`<button class="opt" onclick="qAns(${qi},${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="qexp" data-qi="${qi}"></div></div>`).join('')
+    }</div><div class="qscore" style="display:none"></div></div>`;
+  }
+  const gated=!!(s.quiz&&s.quiz.length&&!S.quiz[s.id]);
+  view.innerHTML=h+navFoot(null,gated);
+  wireWidgets(view);
+  window._ql={answered:{},total:s.quiz?s.quiz.length:0};
+}
+function qAns(qi,k){const s=STEPS[S.cur],q=s.quiz[qi];if(window._ql.answered[qi]!==undefined)return;window._ql.answered[qi]=k;
+  const opts=view.querySelector('.opts[data-qi="'+qi+'"]');opts.querySelectorAll('.opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===q.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});
+  view.querySelector('.qexp[data-qi="'+qi+'"]').innerHTML=`<div class="exp"><b>${k===q.a?'Correct.':'Review:'}</b> ${q.e}</div>`;
+  if(Object.keys(window._ql.answered).length===window._ql.total){
+    const right=s.quiz.filter((q,i)=>window._ql.answered[i]===q.a).length,sc=view.querySelector('.qscore');sc.style.display='flex';
+    sc.innerHTML=`${sv(ic.check,2.4)}<span>You scored <b style="color:${right>=Math.ceil(s.quiz.length*0.8)?'var(--pass)':'var(--fail)'}">${right}/${s.quiz.length}</b> on this lesson.</span>`;
+    sc.querySelector('svg').style.color=right>=Math.ceil(s.quiz.length*0.8)?'var(--pass)':'var(--fail)';
+    S.quiz[s.id]=true;save();const b=document.getElementById('nextBtn');if(b)b.disabled=false;}
+}
+
+let SC={i:0,answered:false};
+function renderScenarios(){SC={i:0,answered:false};paintScen();}
+function paintScen(){const sc=SCEN[SC.i];view.innerHTML=`<span class="eyebrow">Apply it · Inspector's Call</span><h1>Make the call</h1><p class="lead">The decisions you'll actually make standing in front of the system. Read it, choose, see the reasoning.</p><div class="scount mono">Scenario ${SC.i+1} of ${SCEN.length}</div><div class="scen"><div class="sh"><div class="t">${sc.t}</div><div class="n">${sc.n}</div></div><div class="body"><div class="situation">${sc.s}</div><div class="ask">${sc.ask}</div><div class="scopts">${sc.o.map((o,k)=>`<button class="opt" onclick="scAns(${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="scexp"></div></div></div><div class="foot"><button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button><div class="sp"></div><div class="scnext"></div></div>`;}
+function scAns(k){if(SC.answered)return;SC.answered=true;const sc=SCEN[SC.i];view.querySelectorAll('.scopts .opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===sc.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});view.querySelector('.scexp').innerHTML=`<div class="exp"><b>${k===sc.a?'Right call.':'Here\'s the call:'}</b> ${sc.e}</div>`;const last=SC.i===SCEN.length-1;view.querySelector('.scnext').innerHTML=`<button class="btn brass" onclick="${last?'markDoneAndNext()':'scNext()'}">${last?'Mark complete & continue':'Next scenario'} ${sv(ic.arrow)}</button>`;}
+function scNext(){SC.i++;SC.answered=false;paintScen();window.scrollTo({top:0,behavior:'smooth'});}
+
+let AS=null;
+function renderAssess(){if(!AS||AS.done)AS={i:0,answers:[],done:false};view.innerHTML=`<span class="eyebrow">Assessment</span><h1>Mastery check — Exterior &amp; Site</h1><p class="lead">${ASSESS.length} application questions across the whole chapter. 80% to pass; reasoning shown on every answer.</p><div class="panelcard" style="text-align:left;padding:0;overflow:hidden"><div style="background:linear-gradient(120deg,#1f6f73,#123f43);color:#fff;padding:18px 22px;display:flex;justify-content:space-between;align-items:center"><div><div style="font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-2)">Exterior &amp; Site</div><div style="font-family:var(--display);font-weight:700;font-size:17px;margin-top:3px">${ASSESS.length} questions · 80% to pass</div></div><div style="color:var(--brass-2)">${sv(ic.award)}</div></div><div style="padding:26px 22px;text-align:center">${S.assessBest?`<div class="mono" style="font-size:13px;color:var(--ink-2);margin-bottom:16px">Best score: <b style="color:${S.assessBest>=80?'var(--pass)':'var(--fail)'}">${S.assessBest}%</b></div>`:''}<button class="btn brass" style="margin:0 auto" onclick="asStart()">${S.assessBest?'Retake assessment':'Begin assessment'} ${sv(ic.arrow)}</button></div></div>`;}
+function asStart(){AS={i:0,answers:[],done:false};asPaint();window.scrollTo({top:0,behavior:'smooth'});}
+function asPaint(){const q=ASSESS[AS.i];view.innerHTML=`<span class="eyebrow">Assessment · Exterior &amp; Site</span><h1 style="font-size:24px">Question ${AS.i+1} <span style="color:var(--ink-3)">/ ${ASSESS.length}</span></h1><div style="margin:14px 0 0"><div style="width:100%;height:6px;background:var(--surf-3);border-radius:6px;overflow:hidden;border:1px solid var(--line)"><i style="display:block;height:100%;width:${AS.i/ASSESS.length*100}%;background:var(--brass)"></i></div></div><div class="quiz" style="border-color:var(--line);margin-top:22px"><div class="q">${q.q}</div><div class="opts">${q.o.map((o,k)=>`<button class="opt" onclick="asAns(${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="asexp"></div></div><div class="foot"><div class="sp"></div><div class="asnext"></div></div>`;}
+function asAns(k){if(AS.answers[AS.i]!==undefined)return;AS.answers[AS.i]=k;const q=ASSESS[AS.i];view.querySelectorAll('.opts .opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===q.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});view.querySelector('.asexp').innerHTML=`<div class="exp"><b>${k===q.a?'Correct.':'Review:'}</b> ${q.e}</div>`;const last=AS.i===ASSESS.length-1;view.querySelector('.asnext').innerHTML=`<button class="btn brass" onclick="${last?'asFinish()':'asNext()'}">${last?'See results':'Next'} ${sv(ic.arrow)}</button>`;}
+function asNext(){AS.i++;asPaint();window.scrollTo({top:0,behavior:'smooth'});}
+function asFinish(){const correct=AS.answers.filter((a,i)=>a===ASSESS[i].a).length,p=Math.round(correct/ASSESS.length*100),pass=p>=80;S.assessBest=Math.max(S.assessBest||0,p);AS.done=true;if(pass)S.done['assess']=true;save();updTop();rail();const circ=2*Math.PI*62;
+  view.innerHTML=`<span class="eyebrow">Assessment · Result</span><h1 style="margin-bottom:18px">${pass?'Section mastered':'Not quite there'}</h1><div class="panelcard"><div class="ring"><svg width="150" height="150" viewBox="0 0 150 150" style="transform:rotate(-90deg)"><circle cx="75" cy="75" r="62" fill="none" stroke="var(--surf-3)" stroke-width="11"/><circle cx="75" cy="75" r="62" fill="none" stroke="${pass?'var(--pass)':'var(--fail)'}" stroke-width="11" stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${circ}"><animate attributeName="stroke-dashoffset" from="${circ}" to="${circ-circ*p/100}" dur=".8s" fill="freeze" calcMode="spline" keySplines=".2 .7 .2 1"/></circle></svg><div class="rv"><div><div class="n" style="color:${pass?'var(--pass)':'var(--fail)'}">${p}%</div><div class="p">${correct}/${ASSESS.length} correct</div></div></div></div><span class="verdict ${pass?'pass':'fail'}">${pass?'Passed':'Below 80%'}</span><p>${pass?'You\'ve mastered Exterior &amp; Site — that read of cladding, water management, and walking-surface safety is the first thing you size up on every property you inspect.':'You need 80% to pass. Revisit the lessons and explanations, then retake — your best score counts.'}</p><div style="display:flex;gap:12px;justify-content:center"><button class="btn ghost" onclick="asStart()">${sv(ic.retake)} Retake</button>${pass?`<button class="btn brass" onclick="goStep(${STEPS.length-1})">Continue ${sv(ic.arrow)}</button>`:`<button class="btn brass" onclick="goStep(1)">Review lessons ${sv(ic.arrow)}</button>`}</div></div><div style="height:30px"></div>`;}
+
+function renderGlossary(){view.innerHTML=`<span class="eyebrow">Reference</span><h1>Exterior &amp; Site glossary</h1><p class="lead">Every key term in one place — quick reference for a real inspection.</p><div class="gloss" style="margin-top:20px">${GLOSSARY.map(([w,d])=>`<div class="term"><div class="tw">${w}</div><div class="td">${d}</div></div>`).join('')}</div>${navFoot('Continue')}`;}
+function renderSource(){view.innerHTML=`<span class="eyebrow">Reference · wrap-up</span><h1>Reference &amp; summary</h1><p class="lead">Everything required is taught in the lessons above. This is the one-screen recap to carry into the field — the way water moves around a building, the cladding read, and the walking-surface safety calls.</p><div class="srcnote">${sv(ic.book,2)} Built on the Exterior &amp; Site chapters of the TREC Standards of Practice and <i>Principles of Home Inspection: Systems and Standards</i>. There's no separate PDF for this system — the interactive lessons are the complete reference.</div><div class="gloss" style="margin-top:18px"><div class="term"><div class="tw">1 · Cladding &amp; trim — keep the wall dry</div><div class="td">Every system manages water differently. Brick/stone veneer needs weep holes and lintels; fiber-cement and wood need gaps and caulked joints; EIFS needs drainage and intact sealant. Report damage, missing weeps, and trapped moisture.</div></div><div class="term"><div class="tw">2 · Doors &amp; windows — flash, seal, operate</div><div class="td">Check operation, glazing, weatherstripping, and head flashing. Confirm bedroom egress sizing. Report unflashed openings, failed seals (fogged panes), and sticking or non-latching units.</div></div><div class="term"><div class="tw">3 · Grade &amp; drainage — move water away</div><div class="td">Positive slope away from the foundation (about 6 in over the first 10 ft), swales to redirect runoff, and downspouts that discharge well clear of the wall. Negative grade is the root cause of most foundation and basement complaints.</div></div><div class="term"><div class="tw">4 · Walking surfaces — find the safety defects</div><div class="td">Decks, porches, balconies, and stairs are where life-safety lives: unflashed or under-attached ledgers, missing or loose guardrails, balusters more than 4 inches apart, bad rise/run, and missing graspable handrails.</div></div><div class="term"><div class="tw">Flag, don't engineer</div><div class="td">You report deficiencies and their implications — you don't design the fix or specify the lag bolts. Call the unflashed ledger or the negative grade; recommend evaluation and correction by a qualified contractor.</div></div></div><div class="foot"><button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button><div class="sp"></div><a class="btn slate" href="index.html" style="text-decoration:none;margin-right:10px">${sv(ic.back)} Module I</a><button class="btn brass" onclick="finishAll()">${sv(ic.check)} Complete section</button></div>`;}
+function finishAll(){S.done['source']=true;save();updTop();rail();toast('Exterior & Site section complete');}
+let tT;function toast(m){const t=document.getElementById('toast');document.getElementById('tmsg').textContent=m;t.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('show'),2400);}
+
+/* ================= DATA: scenarios / assessment / glossary ================= */
+const SCEN=[
+ {t:'Walking the walls',n:'Brick with no escape',s:'A brick-veneer home has crisp mortar joints, but along the entire bottom course — just above the foundation — there is not a single open head joint. You probe and the cavity behind feels damp.',ask:'What do you write up?',o:['Nothing — solid mortar is a sign of quality work','Missing weep holes: the drainage cavity behind brick veneer has no way to drain or breathe. Recommend evaluation and weeps installed at the base course.','Recommend repointing the whole wall','Recommend painting the brick to seal it'],a:1,e:'Brick veneer is a drainage wall, not a watertight one. Water gets behind it and must escape through weep holes (open head joints, every ~24–33 in) at the base and over openings. No weeps means trapped water, efflorescence, and eventual deterioration. You report the missing weeps and the damp cavity.'},
+ {t:'Walking the walls',n:'The synthetic-stucco question',s:'A 1990s home is clad in stucco that sounds hollow when you tap it and has no visible weep screed at the base. Caulk at the windows is cracked, and the siding meets the grade with no clearance. A moisture meter spikes below several windows.',ask:'Your call?',o:['Cosmetic caulk repair and move on','Likely barrier EIFS (synthetic stucco). With failed sealant and no drainage, it is prone to hidden moisture intrusion and rot — recommend evaluation by an EIFS specialist with moisture testing.','Recommend a fresh coat of stucco over the top','It is real three-coat stucco — note hairline cracks only'],a:1,e:'Hollow sound and no weep screed point to EIFS over foam. Barrier (non-drainable) EIFS traps any water that gets past the cladding — typically at unsealed windows and penetrations — causing concealed rot you cannot see from outside. This is a known high-liability defect: flag it and refer to a specialist for invasive moisture testing.'},
+ {t:'At the foundation',n:'Which way does it run?',s:'After a rain, you notice the soil along the back wall is darker and slightly sunken, and a downspout dumps right at the corner of the house onto that low spot. There is standing water against the foundation.',ask:'The primary recommendation?',o:['Add gutters to the front of the house','Negative grade plus a downspout discharging at the foundation is driving water against the wall. Recommend re-grading to a positive slope away from the house and extending the downspout to discharge well clear.','Seal the foundation crack from inside','Nothing — soil settles, that is normal'],a:1,e:'Water against a foundation is the number-one cause of basement leaks, crawlspace moisture, and differential settlement. The fix is to manage water at the surface: positive grade (roughly 6 in of fall over the first 10 ft) and downspouts extended to discharge several feet from the wall. Always the first, highest-value recommendation.'},
+ {t:'On the deck',n:'Nailed to the house',s:'A second-story deck is fastened to the rim of the house with a neat row of nails through the ledger. There is no Z-flashing where the ledger meets the siding, and you see dark staining on the band joist below.',ask:'What is the concern?',o:['None — the nails look new and tight','A nailed, unflashed ledger is a top deck-collapse hazard: nails pull out under load and the unflashed joint rots the band joist. Recommend evaluation — proper lag/through-bolts and flashing.','Recommend more nails','Recommend painting the ledger'],a:1,e:'Ledger failure is the single most common cause of catastrophic deck collapses, and it is a life-safety defect. Ledgers must be lag-screwed or through-bolted to the structure (not nailed) and flashed so water cannot get behind them and rot the band joist. Nails plus no flashing plus staining is a clear, serious write-up.'},
+ {t:'On the deck',n:'A gap you can pass a ball through',s:'A raised porch about 40 inches above grade has a guardrail, but the vertical balusters are spaced so a 4-inch ball passes between them easily, and when you push on the rail it flexes noticeably.',ask:'Your write-up?',o:['Fine — there is a guardrail present','Two defects: balusters spaced more than 4 inches apart (a child can pass through) and a loose, under-secured guardrail. Both are life-safety items — recommend correction.','Only note the loose rail; spacing is cosmetic','Recommend a higher rail and ignore the spacing'],a:1,e:'A guardrail is required where a walking surface is more than ~30 in above grade, must resist roughly 200 lb of lateral force, and must not allow a 4-inch sphere to pass between balusters (so a child cannot slip through or get a head stuck). Wide spacing and a loose rail are both reportable safety defects.'},
+ {t:'On the stairs',n:'Uneven and nothing to hold',s:'Exterior stairs to a porch have risers that vary visibly in height — one is noticeably taller than the rest — and the only handrail is a flat 2×6 laid on top of the posts that you cannot wrap your hand around.',ask:'The call?',o:['Acceptable — there is a rail and steps','Inconsistent riser heights are a trip hazard and the flat-top rail is not graspable. Recommend uniform rise/run and a graspable handrail.','Only the rail matters; risers are fine','Recommend a ramp instead'],a:1,e:'Stairs need uniform rise and run (the variation between risers should be small — about 3/8 in max) because the foot expects the next step to match the last; an odd riser is a classic fall. A handrail must be graspable — a rounded profile or graspable shape — not a flat 2×6 you cannot close your hand around.'},
+ {t:'At the lot',n:'The tree at the corner',s:'A large tree is growing about two feet from the foundation, its limbs rest on the roof, and one surface root has lifted the adjacent walkway into a raised lip you nearly trip on.',ask:'What do you note?',o:['Nothing — trees are landscaping, not your scope','Vegetation too close to the structure: limbs on the roof abrade shingles and trap moisture, roots threaten the foundation and have heaved the walkway into a trip hazard. Recommend trimming and evaluation.','Recommend removing the tree immediately','Only note the walkway; the tree is fine'],a:1,e:'Trees and shrubs against a building are within the exterior inspection: overhanging limbs damage roofing and hold moisture against the wall, and roots can damage foundations, walks, and drains. The heaved walkway is also a trip hazard. You report the conditions and recommend trimming back and professional evaluation — you do not decide whether the tree must come down.'},
+];
+const ASSESS=[
+ {q:'The home inspector\'s job on the exterior and site is to:',o:['Certify the cladding meets the building code','Observe accessible conditions, recognize deficiencies, and report the implications','Repair the damaged siding and re-grade the lot','Calculate the property\'s drainage capacity'],a:1,e:'You observe and report — water management, cladding condition, and walking-surface safety — you don\'t certify, repair, or engineer.'},
+ {q:'Weep holes in a brick-veneer wall exist to:',o:['Ventilate the attic','Let water that gets into the drainage cavity drain back out at the base and over openings','Hold the brick to the framing','Reduce the brick\'s weight'],a:1,e:'Brick veneer is a drainage wall: water passes the brick, runs down the back of the cavity, and must escape through weep holes (open head joints) at the base course and above lintels. Missing weeps trap water.'},
+ {q:'A lintel above a brick-veneer window or door is:',o:['A decorative trim band','The steel or masonry beam that carries the brick over the opening','The caulk joint at the sill','The weep hole spacing'],a:1,e:'The lintel spans the opening and supports the brick above it. Inspect for rust, sagging, and the flashing/weeps that should sit above it.'},
+ {q:'The biggest inspection concern specific to EIFS (synthetic stucco) is:',o:['It fades in sunlight','Barrier (non-drainable) systems can trap water behind them, causing hidden rot — especially at unsealed windows and penetrations','It is too heavy for wood framing','It cannot be painted'],a:1,e:'Barrier EIFS has no drainage path, so any water that gets past failed sealant or flashing is trapped against the sheathing and framing, rotting them out of sight. It is a known high-liability defect — recommend specialist moisture testing.'},
+ {q:'Fiber-cement siding (e.g., HardiePlank) should be inspected for:',o:['Rust spots and galvanic corrosion','Cracked or chipped boards, missing paint, tight butt joints, and contact with the grade','Loose mortar joints','Open weep holes'],a:1,e:'Fiber-cement is durable but brittle: look for cracks/chips, failed paint (it must stay sealed), butt joints that need gaps/caulk or flashing, and ground contact that wicks moisture.'},
+ {q:'Proper grading slopes the soil:',o:['Toward the foundation to feed the footing drains','Away from the foundation — about 6 inches of fall over the first 10 feet','Level, so water sits evenly','Whichever way the lot already runs'],a:1,e:'Positive slope away from the house — roughly 6 in over the first 10 ft — sheds surface water before it reaches the foundation. This single item prevents most basement and crawlspace moisture complaints.'},
+ {q:'A swale is:',o:['A type of downspout','A shallow drainage channel shaped into the grade to redirect surface water','A flashing detail at the deck ledger','A crack-monitoring gauge'],a:1,e:'A swale is a graded low channel that carries runoff around or away from the structure — a key site-drainage feature where the lot slopes toward the house.'},
+ {q:'A downspout that discharges right at the foundation should be reported because:',o:['It looks unattractive','It concentrates roof water against the foundation — recommend extensions to discharge well clear','It will freeze in winter','It wastes rainwater'],a:1,e:'Roof water dumped at the base saturates the soil against the foundation, driving leaks and settlement. Downspouts should discharge through extensions several feet from the wall, onto positive grade.'},
+ {q:'The most common cause of catastrophic deck collapse is:',o:['Rotten decking boards','Failure of the ledger connection — nailed or under-attached and unflashed','Undersized handrails','Too many people on the deck'],a:1,e:'The ledger ties the deck to the house. Nailed (rather than lag/through-bolted) and unflashed ledgers pull free and rot the band joist — the leading deck-collapse defect and a clear life-safety call.'},
+ {q:'A deck ledger should be:',o:['Nailed and caulked','Lag-screwed or through-bolted to the structure and flashed to keep water out','Set in mortar','Attached with construction adhesive'],a:1,e:'Ledgers must be mechanically fastened with lags or bolts (not nails) and flashed so water can\'t get behind them and rot the band joist.'},
+ {q:'Joist hangers and post-to-beam connectors on a deck are checked for:',o:['Color match with the deck','Presence, correct/approved hardware, proper fasteners, and corrosion','The brand name','Whether they are painted'],a:1,e:'Positive metal connections (hangers, post caps, hold-downs) and approved fasteners carry the load. Missing connectors, wrong/toenailed fasteners, and corrosion are reportable.'},
+ {q:'A guardrail is generally required where a walking surface is more than about:',o:['12 inches above grade','30 inches above the surface below','6 feet above grade','It is never required outdoors'],a:1,e:'Guards are required where a walking surface is roughly 30 in or more above the adjacent grade or floor, to prevent falls.'},
+ {q:'Guardrail balusters must be spaced so that:',o:['A 6-inch sphere cannot pass between them','A 4-inch sphere cannot pass between them','They are exactly 6 inches apart','Spacing does not matter'],a:1,e:'The 4-inch sphere rule: openings in a guard must not allow a 4-inch ball to pass, so a small child cannot slip through or get a head trapped.'},
+ {q:'Exterior stairs are reported as a hazard when:',o:['They have a landing','Riser heights or tread depths vary noticeably (uneven rise/run)','They are made of wood','They have more than three steps'],a:1,e:'The foot expects each step to match the last; uneven rise/run is a classic trip-and-fall hazard. Variation should be small (about 3/8 in max between risers).'},
+ {q:'A graspable handrail means:',o:['Any rail at least 30 inches tall','A rounded or graspable profile your hand can close around — not a flat-topped 2×6','A rail painted a bright color','A rail with balusters below it'],a:1,e:'A handrail must be graspable (a rounded or otherwise hand-fitting shape) and continuous so a person can hold on while descending. A flat board you can\'t wrap your hand around is not graspable.'},
+ {q:'A bedroom window must meet egress requirements, meaning it:',o:['Must be double-glazed','Must be openable to provide an emergency escape and rescue opening of adequate size and reachable height','Must have a screen','Must face the street'],a:1,e:'Sleeping rooms need an egress opening large enough and low enough to climb out (or for a firefighter to enter). A bedroom window that is painted shut, too small, or too high is a reportable life-safety concern.'},
+ {q:'Vegetation and trees growing against the structure are reported because:',o:['They are outside the inspector\'s scope','Limbs abrade roofing and trap moisture, and roots can damage foundations, walks, and drains','They lower the property value','They block the view'],a:1,e:'Plantings touching the building hold moisture against cladding and roofing and invite pests; roots threaten foundations and heave walkways. Recommend trimming back and evaluation — the inspector doesn\'t decide removal.'},
+];
+const GLOSSARY=[
+ ['Cladding','The exterior wall covering — brick or stone veneer, fiber-cement, wood/hardboard, vinyl, stucco, or EIFS — that sheds water and protects the structure.'],
+ ['Brick / stone veneer','A single, non-structural masonry skin over a framed wall, separated by a drainage cavity; relies on weep holes, flashing, and lintels to manage water.'],
+ ['Weep hole','An open head joint (or insert) at the base of veneer and above openings that drains the cavity behind the masonry; missing weeps trap water.'],
+ ['Lintel','The steel angle or masonry beam carrying brick/stone over a window or door opening; inspect for rust, sag, and the flashing/weeps above it.'],
+ ['Fiber-cement siding','Durable but brittle cement-and-fiber board (e.g., HardiePlank); inspect for cracks, chips, failed paint, joint sealing, and ground contact.'],
+ ['Wood / hardboard siding','Solid wood, plywood, or pressed hardboard cladding; prone to rot, swelling, and paint failure where water sits — check bottoms, joints, and ground clearance.'],
+ ['Vinyl siding','Interlocking plastic panels hung loosely to expand; inspect for cracks, melting near grills, loose courses, and the moisture barrier behind.'],
+ ['Stucco (three-coat)','Traditional cement plaster over lath; hard and water-shedding. Inspect for cracks, delamination, staining, and a proper weep screed at the base.'],
+ ['EIFS / synthetic stucco','An exterior insulation and finish system: foam board with a thin synthetic coat. Barrier (non-drainable) versions can trap water and rot the wall — a high-liability defect.'],
+ ['Weep screed','A metal flashing at the base of stucco/EIFS that lets trapped water drain out above grade; absence is a red flag for hidden moisture.'],
+ ['Soffit','The underside of the roof overhang/eave; inspect for rot, staining, pest entry, and (where present) ventilation openings.'],
+ ['Fascia','The vertical trim board at the eave that the gutters attach to; check for rot, peeling paint, and loose sections.'],
+ ['Flashing','Sheet material that directs water away from a joint — at deck ledgers, window/door heads, and roof-to-wall transitions; missing flashing is a leak path.'],
+ ['Weatherstripping','The seal around an operable door or window that blocks air and water; check for missing, torn, or compressed material.'],
+ ['Egress window','An openable bedroom window sized and positioned for emergency escape and rescue; must not be painted shut, too small, or too high.'],
+ ['Caulk / sealant','Flexible joint filler at penetrations, trim, and openings; cracked or missing sealant lets water into the wall.'],
+ ['Grading','The slope of the soil around the building; positive grade falls away from the foundation (about 6 in over the first 10 ft).'],
+ ['Negative grade','Soil sloping toward the foundation, driving surface water against the wall — the root cause of most basement and crawlspace moisture.'],
+ ['Swale','A shallow graded channel that redirects surface runoff around or away from the structure.'],
+ ['Downspout extension','A pipe or splash block that carries roof water from the downspout several feet clear of the foundation.'],
+ ['Deck ledger','The board fastening a deck to the house; must be lag-screwed or through-bolted (not nailed) and flashed — its failure is the top deck-collapse defect.'],
+ ['Joist hanger','A metal bracket that supports a joist at the ledger or beam; inspect for presence, approved hardware, proper fasteners, and corrosion.'],
+ ['Guardrail (guard)','A barrier at the open side of a raised walking surface (about 30 in or more high above grade) that prevents falls.'],
+ ['Baluster','A vertical guardrail infill member; openings must reject a 4-inch sphere so a child cannot pass through.'],
+ ['4-inch sphere rule','The guard-spacing standard: a 4-inch ball must not pass between balusters or below the rail.'],
+ ['Handrail','A graspable rail along stairs your hand can close around; required and must be continuous and graspable — not a flat-top board.'],
+ ['Rise / run','The height of each stair riser and the depth of each tread; must be uniform (about 3/8 in max variation) to be safe.'],
+ ['Retaining wall','A structure that holds back a soil bank; inspect for leaning, bulging, cracking, and the presence of drainage (weeps) behind it.'],
+ ['Trip hazard','An abrupt vertical change in a walkway, driveway, or patio (heave, settlement, lifted slab) that can cause a fall.'],
+ ['Settlement','Downward movement of a slab, walk, or footing as soil consolidates; differential settlement cracks and tilts walking surfaces.'],
+];
+
+/* ================= WIDGET CONTENT REGISTRIES ================= */
+const _gs='fill="none" stroke="#3c5870" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"';
+const _mono=(x,y,s,t,c='#2c4153',a='middle')=>`<text x="${x}" y="${y}" text-anchor="${a}" font-family="JetBrains Mono" font-size="${s}" fill="${c}">${t}</text>`;
+
+SPOT.wall={title:'Walk the wall & grade',sub:'Six exterior and site problems on this brick-veneer wall — click each one you spot.',vb:'0 0 540 340',
+ svg:`<g ${_gs}>
+   <!-- wall plane -->
+   <rect x="60" y="30" width="420" height="210"/>
+   <line x1="60" y1="60" x2="480" y2="60" stroke-width="1"/><line x1="60" y1="92" x2="480" y2="92" stroke-width="1"/><line x1="60" y1="124" x2="480" y2="124" stroke-width="1"/><line x1="60" y1="156" x2="480" y2="156" stroke-width="1"/><line x1="60" y1="188" x2="480" y2="188" stroke-width="1"/><line x1="60" y1="220" x2="480" y2="220" stroke-width="1"/>
+   ${_mono(70,24,9,'brick veneer','#918c7d','start')}
+   <!-- window with lintel -->
+   <rect x="150" y="96" width="80" height="78"/><line x1="190" y1="96" x2="190" y2="174" stroke-width="1"/><line x1="150" y1="135" x2="230" y2="135" stroke-width="1"/>
+   <rect x="146" y="90" width="88" height="8" fill="#9c6b3a" opacity="0.5" stroke="#6a6557"/>${_mono(190,84,8,'lintel','#b85436')}
+   <!-- rusty lintel marks -->
+   <path d="M150 96 q40 6 80 0" stroke="#9c6b3a" stroke-width="2" opacity="0.6"/>
+   <!-- cracked caulk at window -->
+   <path d="M230 110 l10 6 l-8 8 l10 6" stroke="#b85436" stroke-width="1.4"/>${_mono(252,112,8,'caulk','#b85436','start')}
+   <!-- base course: missing weeps -->
+   <line x1="60" y1="232" x2="480" y2="232" stroke="#6a6557" stroke-width="1.4"/>${_mono(120,228,8,'no weeps','#b85436')}
+   <!-- spalling / damaged brick -->
+   <path d="M360 196 l14 4 l-4 14 l-14 -3 z" fill="#b85436" opacity="0.35" stroke="#b85436" stroke-width="1.2"/>${_mono(390,210,8,'spalled','#b85436','start')}
+   <!-- grade line sloping TOWARD the wall (negative) -->
+   <path d="M40 300 q120 -30 100 -62 L60 240 L40 240 Z" fill="#cdbf9a" opacity="0.4" stroke="none"/>
+   <path d="M30 300 q140 -34 110 -60" stroke="#8a8475" stroke-width="2"/>${_mono(60,296,8,'soil slopes toward house','#b85436','start')}
+   <!-- downspout dumping at foundation -->
+   <line x1="450" y1="40" x2="450" y2="244" stroke="#6a6557" stroke-width="2"/><path d="M450 244 l-14 8" stroke="#6a6557" stroke-width="2"/><ellipse cx="430" cy="256" rx="22" ry="6" fill="#5a7b97" opacity="0.5" stroke="none"/>${_mono(430,278,8,'discharge at base','#b85436')}
+ </g>`,
+ defects:[
+  {x:120,y:232,r:24,n:'Missing weep holes at the base course',d:'Brick veneer is a drainage wall — water behind it must escape through open head joints at the base. With no weeps, water is trapped: efflorescence, spalling, and rot follow. Recommend evaluation and weeps installed.'},
+  {x:190,y:92,r:20,n:'Rusting / questionable lintel',d:'The steel lintel carrying brick over the window shows rust staining. Rust expands and lifts the masonry; flashing and weeps belong above it. Recommend evaluation of the lintel and its flashing.'},
+  {x:236,y:116,r:16,n:'Cracked caulk at the window',d:'Failed sealant at the window perimeter is a direct water entry path into the wall. Recommend re-sealing and checking for moisture behind the cladding.'},
+  {x:366,y:206,r:18,n:'Spalled / damaged brick',d:'Cracked, spalling brick lets water in and signals a moisture or freeze-thaw problem. Note the damage and recommend repair of the affected units.'},
+  {x:90,y:284,r:26,n:'Negative grade against the foundation',d:'The soil slopes toward the house, steering surface water to the foundation — the top cause of basement and crawlspace moisture. Recommend re-grading to positive slope away from the wall.'},
+  {x:430,y:256,r:22,n:'Downspout discharging at the foundation',d:'Roof water dumped at the base saturates the soil against the wall. Recommend extensions to carry the discharge several feet clear, onto positive grade.'},
+ ]};
+
+SPOT.deck={title:'Inspect the deck',sub:'Five deck and stair safety problems on this structure. Click each one.',vb:'0 0 540 320',
+ svg:`<g ${_gs}>
+   <!-- house wall on the left -->
+   <rect x="40" y="20" width="40" height="240"/>${_mono(60,14,8,'house','#918c7d')}
+   <!-- ledger against the house -->
+   <rect x="80" y="120" width="14" height="14" fill="#9c6b3a" opacity="0.4" stroke="#6a6557"/>
+   <!-- nails in ledger (defect) -->
+   <circle cx="87" cy="124" r="1.6" fill="#b85436"/><circle cx="87" cy="130" r="1.6" fill="#b85436"/>${_mono(70,108,8,'nailed ledger','#b85436','start')}
+   <!-- deck surface -->
+   <line x1="80" y1="134" x2="440" y2="134"/><line x1="80" y1="120" x2="440" y2="120"/>
+   <rect x="80" y="120" width="360" height="14" fill="#cdbf9a" opacity="0.3" stroke="none"/>
+   <!-- joists under deck -->
+   <g stroke-width="1.2"><line x1="140" y1="134" x2="140" y2="200"/><line x1="220" y1="134" x2="220" y2="210"/><line x1="300" y1="134" x2="300" y2="200"/><line x1="380" y1="134" x2="380" y2="220"/></g>
+   <!-- beam + post -->
+   <line x1="100" y1="210" x2="420" y2="210"/><line x1="400" y1="210" x2="400" y2="280"/>
+   <!-- post-to-beam: no connector (defect) -->
+   ${_mono(400,300,8,'post / beam','#b85436')}
+   <!-- missing joist hanger at one joist -->
+   <path d="M214 134 l6 8 l6 -8" stroke="#b85436" stroke-width="1.4"/>${_mono(220,156,8,'no hanger','#b85436')}
+   <!-- guardrail with wide balusters -->
+   <line x1="100" y1="120" x2="100" y2="74"/><line x1="430" y1="120" x2="430" y2="74"/><line x1="100" y1="74" x2="430" y2="74"/>
+   <g stroke-width="1.2"><line x1="160" y1="120" x2="160" y2="74"/><line x1="240" y1="120" x2="240" y2="74"/><line x1="320" y1="120" x2="320" y2="74"/><line x1="390" y1="120" x2="390" y2="74"/></g>
+   ${_mono(270,68,8,'gaps > 4 in','#b85436')}
+   <!-- stairs at right with uneven risers -->
+   <path d="M440 134 l0 26 l34 0 l0 22 l34 0 l0 30 l34 0" stroke="#6a6557"/>${_mono(500,210,8,'uneven rise','#b85436','start')}
+ </g>`,
+ defects:[
+  {x:87,y:127,r:18,n:'Nailed, unflashed deck ledger',d:'The ledger is fastened with nails and there is no flashing where it meets the house. This is the leading deck-collapse defect — nails pull out and the band joist rots. Recommend lag/through-bolts and proper flashing.'},
+  {x:220,y:140,r:16,n:'Missing joist hanger',d:'A joist toenailed to the ledger instead of seated in a metal hanger can split out under load. Recommend approved hangers and fasteners at every joist.'},
+  {x:400,y:240,r:20,n:'Post-to-beam connection without a connector',d:'The beam simply rests on the post with no post cap or positive connection. Lateral load can shift it off the post. Recommend an approved metal connector.'},
+  {x:270,y:96,r:24,n:'Guardrail balusters spaced over 4 inches',d:'A 4-inch sphere passes between these balusters — a child can slip through. The 4-inch sphere rule applies to all guard openings. Recommend correcting the spacing.'},
+  {x:474,y:188,r:22,n:'Uneven stair risers (rise/run)',d:'The stair risers vary in height — a classic trip-and-fall hazard, since the foot expects each step to match. Recommend uniform rise/run.'},
+ ]};
+
+MATCH.clad={title:'Cladding ↔ key inspection concern',sub:'Tap a cladding type, then the defect you watch for. Correct pairs lock green.',left:'Cladding',right:'Watch for',
+ pairs:[['Brick veneer','Missing weep holes'],['EIFS / synthetic stucco','Trapped moisture'],['Fiber-cement','Cracked / chipped boards'],['Wood / hardboard','Rot at the bottoms'],['Vinyl siding','Cracks &amp; loose courses']],done:'That\'s the read — every cladding manages water differently, so each has its own signature defect.'};
+MATCH.site={title:'Site feature ↔ what it does',sub:'Tap a drainage or site feature, then its job. Correct pairs lock green.',left:'Feature',right:'Function',
+ pairs:[['Positive grade','Sheds water away'],['Swale','Redirects runoff'],['Downspout extension','Discharges clear'],['Weep screed','Drains stucco base'],['Retaining wall','Holds a soil bank']],done:'Good — read the site as a water-management system: every feature is there to move water somewhere safe.'};
+
+SORT.surface={title:'Cladding, or walking surface?',sub:'Each defect lives on a different part of the exterior inspection. Tap an item, then the right bin.',bins:['CLADDING / WALL defect','WALKING-SURFACE / SAFETY defect'],
+ items:[{t:'Missing weep holes in brick veneer',bin:0},{t:'Cracked caulk at a window',bin:0},{t:'Rotted wood siding at grade',bin:0},{t:'Balusters spaced over 4 inches',bin:1},{t:'Nailed, unflashed deck ledger',bin:1},{t:'Uneven stair risers',bin:1}],
+ done:'Right — cladding defects are about keeping the wall dry; deck/stair/guard defects are life-safety calls.'};
+SORT.water={title:'Where does the water go?',sub:'Each item either keeps water out of the wall or moves it across the site. Tap an item, then the right bin.',bins:['MANAGES WATER AT THE WALL','MANAGES WATER ON THE SITE'],
+ items:[{t:'Head flashing over a window',bin:0},{t:'Weep screed at stucco base',bin:0},{t:'Caulk at a penetration',bin:0},{t:'Positive grade away from the house',bin:1},{t:'A swale across the back yard',bin:1},{t:'A downspout extension',bin:1}],
+ done:'Exactly — flashing and sealant keep water out of the wall; grade, swales, and downspouts move it safely across the lot.'};
+SORT.penetration={title:'Sealant, or flashing?',sub:'Each joint is closed the right way. Tap an item, then the bin where it belongs.',bins:['CLOSE WITH SEALANT (caulk)','MUST BE FLASHED'],
+ items:[{t:'A hose-bib penetration in the wall',bin:0},{t:'A gap where two siding panels meet',bin:0},{t:'A small wire penetration through the cladding',bin:0},{t:'A deck ledger against the house',bin:1},{t:'The head of a window or door',bin:1},{t:'A roof-to-wall transition',bin:1}],
+ done:'Right — small penetrations get caulk, but critical water joints (ledger, window head, roof-to-wall) must be flashed; caulk there eventually fails and rots the wall.'};
+
+MATCH.edge={title:'Edge component ↔ what it tells you',sub:'Tap a trim/edge component, then the read it gives you. Correct pairs lock green.',left:'Component',right:'What it signals',
+ pairs:[['Rotted fascia','A gutter / roof leak above'],['Stained soffit','Water coming from the eave'],['Open trim joint','Failed caulk at an opening'],['Sagging fascia','Loose gutter or framing'],['Pest holes in soffit','Animal / insect entry']],done:'Good — the edges are an early-warning system: read the symptom at the trim, then look for the cause above or behind it.'};
+MATCH.hardscape={title:'Hardscape finding ↔ the call',sub:'Tap a walk/drive/wall finding, then how you read it. Correct pairs lock green.',left:'Finding',right:'The call',
+ pairs:[['Lifted walkway slab','Trip hazard'],['Patio pitched at the house','Negative drainage'],['Leaning retaining wall','Losing to soil pressure'],['No weeps in a retaining wall','Hydrostatic pressure'],['Cracked, separated slabs','Differential settlement']],done:'Exactly — flatwork is two jobs at once: keep people from tripping, and keep water moving away from the house.'};
+
+ERA.clad={title:'Cladding through the decades',sub:'Tap each era to see what you\'re looking at — and what it means on an inspection.',
+ rows:[
+  {d:'pre-1900s',n:'Solid masonry &amp; wood',x:'Older homes wear solid brick or wood lap siding. Read solid masonry as load-bearing (not veneer with a cavity) and watch wood for rot, paint failure, and ground contact.'},
+  {d:'1940s – 1970s',n:'Brick veneer goes mainstream',x:'A single brick skin over framing with a drainage cavity becomes the default. The inspection shifts to weep holes, lintels, and flashing — the details that keep the cavity draining.'},
+  {d:'1960s – 1980s',n:'Hardboard &amp; aluminum',x:'Pressed-hardboard (Masonite) and aluminum siding spread. Hardboard swells and rots where water sits; aluminum dents and chalks. Note both as cladding-condition findings.'},
+  {d:'1980s – 1990s',n:'EIFS / synthetic stucco',x:'Barrier EIFS over foam appears widely — and so do the moisture-intrusion lawsuits. No drainage path means trapped water and hidden rot. A top high-liability flag; recommend specialist testing.'},
+  {d:'1990s – today',n:'Fiber-cement &amp; vinyl',x:'Fiber-cement (HardiePlank) and improved vinyl dominate new work. Durable, but inspect fiber-cement for cracks/chips and paint, and vinyl for loose courses and the barrier behind.'},
+  {d:'2000s – today',n:'Rainscreen &amp; drainable systems',x:'Drainage-plane and rainscreen details — including drainable EIFS — become standard practice, putting a gap and a path behind the cladding so any water that gets in can get back out.'},
+ ]};
+
+/* ================= STEPS ================= */
+const STEPS=[
+/* ===== ORIENTATION ===== */
+{id:'intro',kind:'Start here',label:'The exterior read',type:'lesson',
+ body:()=>`<span class="eyebrow">Exterior &amp; Site · Orientation</span><h1>The first thing you read on a house is the outside of it.</h1>
+ <p class="lead">The exterior and site are where two stories meet: how the building <b>sheds water</b>, and where the most common <b>safety defects</b> hide — on decks, porches, and stairs. Your job isn't to certify the cladding or re-grade the lot. It's to <b>observe what's accessible, recognize what's deficient, and report the implication</b> so your client can decide.</p>
+ <p>Almost everything out here comes back to one of two themes, and every finding in this section is really about one of them:</p>
+ <ul class="num"><li><b>Water</b> — kept out of the wall by <em>cladding, flashing, and sealant</em>, and moved off the lot by <em>grade and drainage</em>.</li><li><b>Safety</b> — guardrails, baluster spacing, stair rise/run, handrails, and the deck connections that hold a structure together.</li></ul>
+ <p>Keep those two jobs in mind and the whole exterior reads cleanly: a cracked caulk joint and a negative grade are both "water in the wrong place," while a loose guardrail and an unflashed ledger are both "someone could get hurt."</p>
+ <p>Every component runs through the same five-step loop you've used in the other systems:</p>
+ <div class="loop"><div class="seg on"><div class="n">01</div><div class="w">Component</div></div><div class="seg"><div class="n">02</div><div class="w">Function</div></div><div class="seg"><div class="n">03</div><div class="w">Common defect</div></div><div class="seg"><div class="n">04</div><div class="w">Implication</div></div><div class="seg"><div class="n">05</div><div class="w">How you report</div></div></div>
+ <h2>What you'll inspect</h2>
+ <ul class="clean"><li><b>Wall cladding</b> — brick/stone veneer, fiber-cement, wood, vinyl, stucco and EIFS</li><li><b>Trim, soffits &amp; fascia</b> — the edges where water and rot start</li><li><b>Doors &amp; windows</b> — flashing, operation, glazing, weatherstripping, egress</li><li><b>Grading &amp; drainage</b> — slope, swales, and downspout discharge</li><li><b>Walks, drives &amp; patios</b> — trip hazards and settlement</li><li><b>Decks, porches, balconies &amp; stairs</b> — the life-safety connections</li><li><b>Retaining walls &amp; vegetation</b> — site features that affect the structure</li></ul>
+ <div class="field"><div class="ic">${sv(ic.alert)}</div><div><div class="t">Safety &amp; scope</div><p>The exterior is where you'll find the inspection's most serious <b>life-safety defects</b> — an unflashed deck ledger, a missing guardrail, balusters a child can slip through. You report what's <em>visible and accessible</em>, name the deficiency and its implication, and recommend evaluation — you don't design the repair or specify the hardware.</p></div></div>`,
+ quiz:[
+  {q:'The inspector\'s role on the exterior and site is to:',o:['Certify the cladding and the grading to code','Observe accessible conditions, recognize deficiencies, and report the implications','Repair damaged siding and re-grade the lot','Engineer the deck connections'],a:1,e:'Observe and report — water management and walking-surface safety. You don\'t certify, repair, or engineer.'},
+  {q:'Most exterior findings come down to:',o:['Cosmetics and curb appeal','Two themes: keeping water out of the wall and off the lot, and walking-surface safety','Energy efficiency only','The age of the house'],a:1,e:'Water management (cladding, flashing, grade, drainage) and safety (decks, stairs, guards) organize nearly every exterior finding.'},
+  {q:'Where do the most serious life-safety defects on a typical exterior tend to be?',o:['In the brick mortar joints','On decks, porches, balconies, and stairs — connections, guards, and rise/run','In the soffit vents','In the window glazing'],a:1,e:'Deck ledgers, guardrails, baluster spacing, and stair rise/run are the exterior\'s life-safety items — and the most consequential write-ups.'},
+  {q:'When you find a serious defect like an unflashed deck ledger, you:',o:['Specify the exact bolts and flashing to install','Report the deficiency and its implication and recommend evaluation/correction by a qualified contractor','Repair it before leaving','Ignore it if the deck feels solid'],a:1,e:'You name the deficiency and the implication and refer it out. You don\'t design the fix or guarantee the structure.'},
+ ]},
+
+/* ===== L1 CLADDING OVERVIEW & MASONRY VENEER ===== */
+{id:'l1',kind:'Lesson 1',label:'Cladding & Masonry Veneer',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 1 · Reading the wall</span><h1>Cladding doesn't seal the wall — it drains it.</h1>
+ <p class="lead">Here's the idea that organizes every cladding type: an exterior wall is not a watertight box. Water <em>will</em> get behind the covering, so the system has to <b>drain it back out</b>. Brick and stone veneer make that idea visible.</p>
+ <h2>Brick &amp; stone veneer — a drainage wall</h2>
+ <p>A brick "wall" on a modern house is usually a single, non-structural <b>veneer</b>: one wythe of masonry standing off the framing with an air gap behind it. Water that passes the brick runs down the back of that cavity and must escape — through <b>weep holes</b> (open head joints) at the <b>base course</b> and above every opening. Above each window and door, a <b>lintel</b> carries the brick, with flashing and weeps just above it.</p>
+ <div class="dgm"><svg viewBox="0 0 720 250">
+   <g ${_gs}>
+     <!-- framing -->
+     <rect x="120" y="30" width="60" height="190"/>${_mono(150,24,10,'framing','#3c5870')}
+     <!-- air gap -->
+     <line x1="190" y1="30" x2="190" y2="220" stroke-width="1" stroke-dasharray="4 3"/>${_mono(206,40,9,'cavity','#3c5870','start')}
+     <!-- brick veneer -->
+     <rect x="210" y="30" width="40" height="190"/>
+     <g stroke-width="1">${Array.from({length:9},(_,i)=>`<line x1="210" y1="${50+i*20}" x2="250" y2="${50+i*20}"/>`).join('')}</g>
+     ${_mono(230,24,10,'brick','#7f520a')}
+     <!-- weep at base -->
+     <rect x="222" y="206" width="6" height="10" fill="#fff" stroke="#3d7d50"/>${_mono(300,214,10,'weep hole — water escapes','#3d7d50','start')}
+     <!-- flashing at base -->
+     <path d="M180 206 L250 206" stroke="#7f520a" stroke-width="2.4"/>${_mono(300,200,9,'base flashing','#7f520a','start')}
+   </g>
+   <!-- water path down the cavity -->
+   <path d="M200 50 Q 196 130 222 206" stroke="#5a7b97" stroke-width="2.2" fill="none"/><path d="M222 200 l4 7 l-8 1" fill="none" stroke="#5a7b97" stroke-width="2.2"/>
+   ${_mono(420,120,10,'water drains down the cavity and out the weep','#5a7b97','start')}
+ </svg><div class="cap">Brick veneer is a drainage wall: water gets behind the brick, runs down the cavity, and weeps out at the flashed base course.</div></div>
+ <h2>What you write up on masonry veneer</h2>
+ ${conds('',[['Missing weep holes','No open head joints at the base or over openings — the cavity can\'t drain. Expect efflorescence, spalling, and trapped moisture.'],['Lintel problems','Rusting, sagging, or unflashed steel lintels over windows and doors. Rust expands and lifts the brick.'],['Cracked / spalled / displaced brick','Stair-step cracks can signal foundation movement; spalling signals freeze-thaw or moisture. Note location and pattern.'],['Mortar deterioration','Crumbling or missing mortar (needs repointing) lets water in and weakens the wall.']])}
+ ${W('match','clad')}
+ ${story('Inspector in the house',`A buyer loved the "solid brick" on a 1970s ranch and was sure it was bulletproof. But the entire base course was tooled tight — not one weep — and the bottom of the wall was streaked with white efflorescence. **That tight mortar wasn't quality; it was a trap.** You don't repoint it on the spot — you report the missing weeps, the salt staining, and the implication: trapped water in the cavity.`)}`,
+ quiz:[
+  {q:'A modern brick wall on a framed house is usually:',o:['Structural — it holds up the house','A non-structural veneer with a drainage cavity behind it','Solid through-wall masonry','Decorative foam'],a:1,e:'It\'s a single masonry skin standing off the framing. The cavity behind it drains water — which is why weep holes matter.'},
+  {q:'Weep holes belong:',o:['At the top of the wall only','At the base course and above openings, to drain the cavity','Only behind the framing','Nowhere — brick is watertight'],a:1,e:'Open head joints at the base and over lintels let cavity water escape. Missing weeps trap water.'},
+  {q:'A rusting steel lintel over a brick window opening matters because:',o:['It only looks bad','Rust expands, lifting and cracking the masonry above','Lintels don\'t carry load','It improves drainage'],a:1,e:'The lintel carries the brick over the opening. Corrosion expands the steel, jacks the masonry, and needs evaluation.'},
+  {q:'White, powdery staining at the base of a brick wall (efflorescence) indicates:',o:['Normal new brick','Water is moving through the masonry, leaving mineral salts behind','A paint failure','Insect activity'],a:1,e:'Efflorescence is mineral salt left by water passing through the wall — a sign of moisture, often paired with missing weeps or poor drainage.'},
+ ]},
+
+/* ===== L2 SIDING SYSTEMS ===== */
+{id:'l2',kind:'Lesson 2',label:'Siding: Fiber-Cement, Wood & Vinyl',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 2 · The lighter claddings</span><h1>Each siding fails its own way — learn the signatures.</h1>
+ <p class="lead">Beyond masonry, you'll see fiber-cement, wood and hardboard, and vinyl. You won't specify any of them, but you have to recognize what's there, judge whether it's installed and holding up, and call the defect that's specific to that material.</p>
+ <h2>The families you'll see</h2>
+ ${conds('',[['Fiber-cement (e.g., HardiePlank)','Durable cement-and-fiber board — but brittle. Inspect for cracked or chipped boards, failed paint (it must stay sealed), butt joints needing gaps/caulk or flashing, and contact with the grade.'],['Wood &amp; hardboard','Solid wood lap, plywood (T1-11), or pressed hardboard (Masonite). Prone to rot, swelling, and paint failure where water sits — check the board bottoms, joints, and ground clearance.'],['Vinyl','Interlocking plastic panels hung loosely so they can expand and contract. Inspect for cracks, warping/melting near grills and lights, loose courses, and the water-resistive barrier behind it.'],['Aluminum','Older lightweight metal lap. Dents, chalks, and can carry a fault if not bonded — note condition and any electrical bonding concerns.']])}
+ <div class="pills"><span class="pill">Fiber-cement — <b>cracks &amp; paint</b></span><span class="pill">Wood — <b>rot at the bottoms</b></span><span class="pill">Vinyl — <b>loose &amp; brittle</b></span><span class="pill">All — <b>ground clearance</b></span></div>
+ <h2>The detail every siding shares: clearance &amp; joints</h2>
+ <p>Two findings cross all siding types. First, <b>ground clearance</b>: siding that contacts soil or mulch wicks moisture and invites rot and termites — most products want a few inches of gap above grade. Second, <b>joints and terminations</b>: butt joints, inside/outside corners, and the tops of openings need flashing, sealant, or a designed gap so water sheds rather than soaks in.</p>
+ ${W('era','clad')}
+ <div class="field brass"><div class="ic">${sv(ic.alert)}</div><div><div class="t">Two things to confirm on any siding</div><p><b>Ground clearance</b> — siding shouldn't touch soil or mulch; it wicks water and hides termite entry. <b>Sealed terminations</b> — joints, corners, and tops of openings need flashing or caulk. Where you see neither, expect moisture damage behind the cladding.</p></div></div>
+ ${story('Inspector in the house',`A fresh-painted Cape looked perfect until you crouched at a corner: the hardboard siding ran straight into the flower bed, and the bottom inch crumbled when you pressed it. **Paint hides a lot, but it can't hold up wet hardboard buried in mulch.** Your report calls the ground contact and the rot — not the color.`)}`,
+ quiz:[
+  {q:'Fiber-cement siding is best described as:',o:['Soft and flexible','Durable but brittle — watch for cracks, chips, and failed paint','Maintenance-free metal','A type of vinyl'],a:1,e:'Fiber-cement is tough but brittle. Cracks/chips, paint failure, and unsealed joints are the findings.'},
+  {q:'Wood and hardboard siding most often fails by:',o:['Melting','Rot and swelling where water sits — especially at the bottoms and joints','Rusting','Fading only'],a:1,e:'Water sitting at board bottoms, joints, and ground contact rots and swells wood/hardboard. Check clearance and terminations.'},
+  {q:'Vinyl siding warping or melting near a grill or light is:',o:['Normal expansion','Heat damage — note it as a cladding defect','A paint issue','A weep-hole problem'],a:1,e:'Vinyl deforms with heat. Warping near heat sources is reportable, along with cracks and loose courses.'},
+  {q:'Siding in direct contact with soil or mulch is a problem because:',o:['It looks untidy','It wicks moisture and hides termite entry — most siding needs ground clearance','It blocks drainage from the roof','It is required for support'],a:1,e:'Ground contact wicks water into the cladding and conceals pest entry. Most products want a few inches of clearance above grade.'},
+ ]},
+
+/* ===== L3 STUCCO & EIFS ===== */
+{id:'l3',kind:'Lesson 3',label:'Stucco & EIFS',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 3 · The plaster claddings</span><h1>One looks like the other — and one can rot the house.</h1>
+ <p class="lead">Traditional stucco and synthetic stucco (EIFS) look nearly identical from the curb, but they behave completely differently when water gets behind them. Telling them apart — and knowing the EIFS moisture story — is one of the highest-stakes reads on the exterior.</p>
+ <h2>Traditional three-coat stucco</h2>
+ <p>Real stucco is portland-cement plaster applied in coats over lath and a water-resistive barrier. It's hard, water-shedding, and drains at a <b>weep screed</b> along the base, above grade. Inspect for cracks (hairline is common; wide or stair-step cracks signal movement), delamination, staining, missing weep screed, and inadequate clearance to the grade.</p>
+ <h2>EIFS — synthetic stucco, and the moisture problem</h2>
+ <p>EIFS is an <b>Exterior Insulation and Finish System</b>: foam board glued to the sheathing with a thin synthetic-and-mesh coat troweled over it. It taps hollow and feels soft. The danger is in the older <b>barrier (non-drainable)</b> type: it has <em>no drainage path</em>, so any water that gets past the surface — almost always at unsealed windows, penetrations, or missing flashing — is <b>trapped against the sheathing and framing and rots them out of sight</b>. You can't see the damage from outside.</p>
+ <div class="dgm"><svg viewBox="0 0 720 250">
+   <g ${_gs}>
+     <!-- sheathing/framing -->
+     <rect x="160" y="30" width="40" height="190"/>${_mono(180,24,10,'sheathing','#3c5870')}
+     <!-- foam -->
+     <rect x="200" y="30" width="40" height="190" fill="#cdbf9a" opacity="0.3" stroke="#6a6557"/>${_mono(220,24,9,'foam','#7f520a')}
+     <!-- thin coat -->
+     <rect x="240" y="30" width="10" height="190" stroke="#6a6557"/>${_mono(266,40,9,'thin coat','#6a6557','start')}
+     <!-- window with failed seal -->
+     <rect x="240" y="90" width="6" height="40" fill="#b85436" opacity="0.5" stroke="#b85436"/>${_mono(300,96,9,'unsealed window','#b85436','start')}
+   </g>
+   <!-- water trapped (no drainage) -->
+   <path d="M246 110 Q 210 150 200 210" stroke="#b85436" stroke-width="2.2" fill="none"/>
+   <ellipse cx="200" cy="214" rx="22" ry="6" fill="#b85436" opacity="0.4" stroke="none"/>
+   ${_mono(330,150,10,'water gets in at the window…','#b85436','start')}
+   ${_mono(330,170,10,'…and is trapped — no way out. Hidden rot.','#b85436','start')}
+ </svg><div class="cap">Barrier EIFS: water enters at an unsealed window and is trapped against the sheathing — concealed rot you can\'t see from outside.</div></div>
+ <p>Newer <b>drainable EIFS</b> adds a drainage plane behind the foam, but you can't always tell which is installed. The safe inspector move: when you see EIFS — hollow sound, no weep screed, soft surface — flag it, note any failed sealant or high moisture readings, and recommend evaluation by an <b>EIFS specialist with invasive moisture testing</b>.</p>
+ ${W('spot','wall')}
+ ${story('Inspector in the house',`A gorgeous "stucco" estate tapped hollow at every wall and had not one weep screed. The windows' caulk was cracked and the meter lit up below two of them. **This is the write-up that has ended careers when skipped.** You don't guess whether it's barrier or drainable — you flag the EIFS, document the moisture, and send it to a specialist for testing.`)}`,
+ quiz:[
+  {q:'EIFS stands for:',o:['Engineered Insulated Foundation System','Exterior Insulation and Finish System (synthetic stucco)','Even Interior Flashing Standard','Exterior Impact Framing System'],a:1,e:'EIFS is foam board with a thin synthetic finish coat — "synthetic stucco." It looks like stucco but behaves very differently.'},
+  {q:'The defining inspection concern with barrier (non-drainable) EIFS is:',o:['It fades quickly','It traps water behind it, causing hidden rot — especially at unsealed windows and penetrations','It is too heavy for framing','It cannot be cleaned'],a:1,e:'With no drainage path, any water past the surface is trapped against the sheathing and framing, rotting them out of sight. A high-liability defect.'},
+  {q:'A weep screed at the base of stucco/EIFS is there to:',o:['Hold the foam in place','Let trapped water drain out above grade','Add insulation','Carry the lintel load'],a:1,e:'The weep screed drains water that gets behind the cladding. Its absence is a red flag for hidden moisture.'},
+  {q:'When you identify EIFS with failed sealant and high moisture readings, you should:',o:['Repair the caulk and clear it','Flag it and recommend evaluation by an EIFS specialist with invasive moisture testing','Assume it\'s drainable and move on','Remove a section to look behind it'],a:1,e:'You document the EIFS and the moisture and refer it out for specialist testing — you don\'t open the wall or guarantee it\'s fine.'},
+ ]},
+
+/* ===== L4 TRIM, SOFFITS & FASCIA ===== */
+{id:'l4',kind:'Lesson 4',label:'Trim, Soffits & Fascia',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 4 · The edges</span><h1>Rot starts at the edges — so that's where you look.</h1>
+ <p class="lead">Trim, soffits, and fascia finish the building where the wall meets the roof and openings. They're also the first place water finds wood, so they're an early-warning system for the whole exterior.</p>
+ <h2>The pieces and what they do</h2>
+ ${conds('',[['Fascia','The vertical board at the eave that the gutters hang on. Check for rot (especially behind the gutter), peeling paint, and loose or sagging sections.'],['Soffit','The underside of the roof overhang. Check for rot and staining (a sign of roof or gutter leaks above), pest entry, and — where the attic vents through it — that the vent openings are clear.'],['Trim &amp; corner boards','The boards around windows, doors, corners, and the roofline. Check that joints are caulked and the wood isn\'t splitting, rotting, or pulling away.'],['Frieze &amp; rake boards','Trim along the gable edge and where the wall meets the soffit. Same read: rot, paint, and open joints that admit water.']])}
+ <h2>The story the edges tell</h2>
+ <p>Stained or rotted soffits and fascia rarely fail on their own — they're usually telling you about <b>water coming from above</b>: a roof leak, an overflowing or back-pitched gutter, or ice. So when you write up rotted fascia, look up: the cause is often a gutter or roof issue, and your report should point there. Trim damage at openings, by contrast, usually means failed caulk or flashing letting water into the wall.</p>
+ <div class="dgm"><svg viewBox="0 0 720 230">
+   <g ${_gs}>
+     <!-- roof slope -->
+     <path d="M120 60 L460 150"/>${_mono(220,70,9,'roof','#3c5870','start')}
+     <!-- overhang -->
+     <path d="M460 150 L560 150"/>
+     <!-- fascia -->
+     <line x1="560" y1="150" x2="560" y2="186" stroke="#7f520a" stroke-width="2.4"/>${_mono(588,166,9,'fascia','#7f520a','start')}
+     <!-- soffit underside -->
+     <line x1="470" y1="186" x2="560" y2="186" stroke="#7f520a" stroke-width="2.4"/>${_mono(500,206,9,'soffit','#7f520a')}
+     <!-- gutter -->
+     <path d="M556 150 q14 6 4 22 q-12 6 -16 -6 z" stroke="#3c5870" stroke-width="1.4" fill="none"/>${_mono(600,150,9,'gutter','#3c5870','start')}
+     <!-- wall -->
+     <line x1="470" y1="150" x2="470" y2="210"/>
+   </g>
+   <!-- water overflow staining the fascia -->
+   <path d="M560 174 q-6 14 -10 30" stroke="#5a7b97" stroke-width="2.2" fill="none"/>${_mono(420,196,9,'overflow stains fascia/soffit','#5a7b97','start')}
+ </svg><div class="cap">Soffit and fascia sit under the gutter — so their rot and staining usually point up to a roof or gutter problem.</div></div>
+ ${W('match','edge')}
+ ${story('Inspector in the house',`A row of dark, soft fascia behind the gutters looked like a painting job — until the buyer's agent assumed that's all it was. You traced it up to a gutter that had pulled loose and overflowed for years. **The fascia was the symptom; the gutter was the cause.** The report names both, so the repair fixes the source, not just the stain.`)}`,
+ quiz:[
+  {q:'The fascia is:',o:['The underside of the roof overhang','The vertical board at the eave that carries the gutters','The trim around a window','The base flashing of stucco'],a:1,e:'Fascia is the eave board the gutters attach to. Check for rot behind the gutter, paint failure, and loose sections.'},
+  {q:'The soffit is:',o:['The peak of the roof','The underside of the roof overhang','The corner trim board','The deck ledger'],a:1,e:'The soffit is the overhang\'s underside — inspect for rot, staining, pest entry, and clear vent openings where present.'},
+  {q:'Rotted or stained soffit and fascia most often indicate:',o:['Normal aging only','Water coming from above — a roof leak, overflowing gutter, or ice','A foundation problem','A grading problem'],a:1,e:'Soffit/fascia sit under the gutter and eave. Their damage usually points up to a roof or gutter issue — report the cause, not just the stain.'},
+  {q:'Damaged trim and open joints around a window usually mean:',o:['The window is the wrong size','Failed caulk or flashing letting water into the wall','The lintel is missing','The grade is negative'],a:1,e:'At openings, trim and caulk are the water seal. Open or rotted joints admit water into the wall — recommend sealing and checking for hidden damage.'},
+ ]},
+
+/* ===== L5 DOORS & WINDOWS ===== */
+{id:'l5',kind:'Lesson 5',label:'Exterior Doors & Windows',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 5 · The openings</span><h1>Every opening is a planned hole — it has to keep water and people safe.</h1>
+ <p class="lead">Doors and windows are deliberate gaps in the wall, so the inspection is about two things: do they <b>keep weather out</b> (flashing, glazing, weatherstripping), and do they <b>operate safely</b> — including the bedroom egress that can save a life.</p>
+ <h2>What you check on every opening</h2>
+ ${conds('',[['Operation','Open, close, and latch each accessible door and window. Note units that stick, won\'t latch, are painted shut, or have failed hardware.'],['Glazing','The glass and its seal. Fogged or moisture-stained double panes mean a failed insulated-glass seal; cracked or missing glass is reportable.'],['Weatherstripping &amp; sealing','The seals around the operable parts, and caulk where the frame meets the cladding — missing or torn seals let in air and water.'],['Flashing','Head flashing above the opening sheds water over the frame. Unflashed heads are a hidden but serious leak path into the wall.']])}
+ <h2>Egress — the life-safety call at the window</h2>
+ <p>Every <b>sleeping room</b> needs an <b>emergency escape and rescue opening</b>: a window (or door) large enough and low enough that an occupant can climb out and a firefighter can climb in. The practical inspection version: a bedroom window that is <b>painted or nailed shut, too small, or mounted too high</b> is a reportable life-safety concern. You're not measuring to the fraction — you're catching the obvious failures.</p>
+ <div class="dgm"><svg viewBox="0 0 720 230">
+   <g ${_gs}>
+     <!-- wall -->
+     <rect x="120" y="30" width="480" height="170"/>
+     <!-- window opening -->
+     <rect x="300" y="60" width="120" height="110"/>
+     <line x1="360" y1="60" x2="360" y2="170" stroke-width="1"/><line x1="300" y1="115" x2="420" y2="115" stroke-width="1"/>
+     <!-- head flashing -->
+     <path d="M294 60 L426 60 L420 52 L300 52 Z" fill="#7f520a" opacity="0.5" stroke="#7f520a"/>${_mono(360,44,9,'head flashing — sheds water','#7f520a')}
+     ${_mono(360,190,9,'egress: openable, big enough, reachable','#3d7d50')}
+   </g>
+   <!-- water shed over the head -->
+   <g stroke="#5a7b97" stroke-width="2" fill="none" stroke-linecap="round"><path d="M300 50 q-12 14 -16 30"/><path d="M420 50 q12 14 16 30"/></g>
+ </svg><div class="cap">Head flashing sheds water over the opening; a bedroom window must also meet egress — openable, large enough, and reachable.</div></div>
+ ${W('sort','water')}
+ ${story('Inspector in the house',`A finished basement bedroom had a charming little window up near the ceiling joists — far too small and too high to climb out of in a fire. The sellers called the room a "4th bedroom." **A room you sleep in but can't escape from isn't a bedroom; it's a hazard.** The report flags the egress deficiency plainly, so the buyer knows what they're really getting.`)}`,
+ quiz:[
+  {q:'A fogged or moisture-stained double-pane window indicates:',o:['Condensation that will clear','A failed insulated-glass seal','A cracked lintel','Normal aging of glass'],a:1,e:'Moisture between the panes means the IGU seal has failed. The unit\'s insulating value is gone — report it.'},
+  {q:'Head flashing above a door or window:',o:['Is decorative trim','Sheds water out over the opening so it doesn\'t enter the wall','Holds the window in place','Is only used on brick'],a:1,e:'Head flashing directs water over the frame. An unflashed head is a hidden leak path into the wall.'},
+  {q:'An emergency escape and rescue (egress) opening is required in:',o:['Every room','Every sleeping room','Only the basement','Only the kitchen'],a:1,e:'Sleeping rooms need an egress opening — large enough and low enough to escape through or be rescued through.'},
+  {q:'A bedroom window painted shut, too small, or mounted too high is:',o:['Acceptable if it has a screen','A reportable life-safety (egress) concern','Only an energy issue','Fine if there is another window'],a:1,e:'It defeats emergency escape and rescue. Flag it as a life-safety deficiency.'},
+ ]},
+
+/* ===== L6 CAULKING, SEALANTS & PENETRATIONS ===== */
+{id:'l6',kind:'Lesson 6',label:'Caulking, Sealants & Penetrations',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 6 · Closing the gaps</span><h1>Every hose bib, vent, and wire is a hole you have to check.</h1>
+ <p class="lead">A wall is full of intentional penetrations — faucets, dryer and exhaust vents, electrical and gas service entries, light fixtures, AC line sets. Each one is a place water can get into the wall, and caulk or sealant is what closes the gap. This is a small lesson with a big payoff: it's where a lot of water actually enters.</p>
+ <h2>Penetrations to find and check</h2>
+ ${conds('',[['Plumbing','Hose bibs (exterior faucets) and any pipe penetrations — sealed at the wall, and ideally frost-proof in cold climates.'],['Mechanical vents','Dryer vents, range-hood and bath-fan caps, and combustion/intake vents — sealed at the wall and terminating outside with a proper hood.'],['Electrical &amp; AC','Service entry, light fixtures, outlets, and the refrigerant line set passing through the wall — each needs a sealed, weather-tight penetration.'],['Trim &amp; transitions','Where two cladding materials meet, at corners, and where the cladding meets a deck ledger, roof, or foundation — all need sealing or flashing.']])}
+ <h2>How to read caulk</h2>
+ <p>Good sealant is continuous, flexible, and bonded to both surfaces. You're looking for <b>cracked, missing, hardened, or pulled-away caulk</b> — the joint has opened and water can enter. Note that caulk is <em>maintenance</em>, not a permanent fix: failed sealant is a common, easily corrected finding, but where you see staining or soft material below a failed joint, the water has already been getting in.</p>
+ <div class="field"><div class="ic">${sv(ic.alert)}</div><div><div class="t">Sealant vs. flashing</div><p>Caulk is a backup, not a substitute for <b>flashing</b>. At a deck ledger, a window head, or a roof-to-wall joint, the water has to be shed by flashing; relying on caulk alone there is a defect, because caulk eventually fails and the trapped water rots the wall.</p></div></div>
+ ${W('sort','penetration')}
+ ${story('Inspector in the house',`A buyer waved off a row of cracked, chalky caulk lines as "cosmetic." But under the worst one — where the trim met the brick beside a hose bib — the wood was soft and dark. **Cosmetic caulk doesn't rot the trim behind it; failed caulk does.** The report calls the open joints and the moisture damage they've already let in.`)}`,
+ quiz:[
+  {q:'Exterior penetrations matter to the inspection because:',o:['They look untidy','Each is a hole where water can enter the wall — sealant or flashing has to close it','They reduce energy efficiency only','They are not part of the inspection'],a:1,e:'Faucets, vents, wires, and line sets all pierce the wall. Each needs a sealed, weather-tight termination, or water gets in.'},
+  {q:'Cracked, missing, or pulled-away caulk at a joint is:',o:['Always cosmetic','An open water-entry path — report it, and check for damage below','A structural defect in the framing','A sign of good ventilation'],a:1,e:'Failed sealant opens the joint to water. It\'s an easy fix, but where it\'s failed, look for staining and rot below.'},
+  {q:'At a deck ledger or window head, relying on caulk alone is:',o:['Acceptable best practice','A defect — those joints need flashing, because caulk eventually fails','Better than flashing','Only an issue on stucco'],a:1,e:'Flashing sheds water at critical joints; caulk is a backup. Caulk-only at a ledger or window head traps water when it fails — rot follows.'},
+  {q:'A dryer or bath-fan vent through the wall should:',o:['Terminate inside the wall cavity','Terminate outside with a proper hood and be sealed at the wall','Be left open for airflow','Discharge into the soffit'],a:1,e:'Mechanical vents must exhaust outside through a proper cap and be sealed where they pierce the cladding.'},
+ ]},
+
+/* ===== L7 GRADING & DRAINAGE ===== */
+{id:'l7',kind:'Lesson 7',label:'Grading & Drainage',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 7 · Moving water off the lot</span><h1>Where the water goes decides how the foundation performs.</h1>
+ <p class="lead">This is the single most consequential site item you inspect. Most foundation, basement, and crawlspace complaints don't start with the foundation — they start with water that wasn't kept away from it. Read the lot as a water-management system.</p>
+ <h2>Positive grade — the first rule</h2>
+ <p>The soil around the building should slope <b>away from the foundation</b>: as a rule of thumb, about <b>6 inches of fall over the first 10 feet</b>. That positive slope sheds surface water before it reaches the wall. <b>Negative grade</b> — soil sloping <em>toward</em> the house, or a patio/walk that pitches back at it — drives water straight to the foundation. It's the root cause behind the majority of wet basements and crawlspaces.</p>
+ <div class="dgm"><svg viewBox="0 0 720 240">
+   <g ${_gs}>
+     <!-- foundation -->
+     <rect x="120" y="40" width="60" height="160"/>${_mono(150,32,10,'foundation','#3c5870')}
+     <!-- GOOD: positive grade away (right) -->
+     <path d="M180 120 L520 168" stroke="#3d7d50" stroke-width="2.2"/>${_mono(360,150,10,'positive grade — water sheds away','#3d7d50','start')}
+     <g stroke="#3d7d50" stroke-width="2" fill="none" stroke-linecap="round"><path d="M260 132 l28 4"/><path d="M282 130 l8 6 l-8 4"/></g>
+     <!-- discharge clear -->
+     ${_mono(520,184,9,'6 in fall / 10 ft','#3d7d50','end')}
+   </g>
+   <!-- water arrow -->
+   <path d="M520 168 q14 10 4 26" stroke="#5a7b97" stroke-width="2.2" fill="none"/>
+ </svg><div class="cap">Positive grade: the soil falls away from the foundation (about 6 in over 10 ft), so surface water sheds away from the wall.</div></div>
+ <h2>Swales, downspouts &amp; discharge</h2>
+ <ul class="clean"><li><b>Swales</b> — a shallow graded channel that redirects runoff around or away from the house where the lot slopes toward it.</li><li><b>Downspout discharge</b> — gutters concentrate a roof's worth of water; the downspout must discharge <em>well clear</em> of the foundation, not at the base.</li><li><b>Extensions &amp; splash blocks</b> — carry that discharge several feet out onto positive grade.</li><li><b>Window wells &amp; area drains</b> — must drain, not fill; a wet window well dumps water at the foundation.</li></ul>
+ <p>Tie it all together: <b>roof water → gutters → downspouts → extensions → positive grade → away.</b> Break any link and water ends up against the foundation. When you find foundation moisture inside, this chain is the first place you look — and the first thing you recommend correcting, because it's the cheapest, highest-value fix.</p>
+ ${W('match','site')}
+ ${story('Inspector in the house',`A buyer was alarmed by a hairline crack and a damp basement corner, expecting a structural disaster. Outside, the answer was obvious: the back grade sloped <em>toward</em> the house and a downspout emptied right into that corner. **The crack wasn't the problem — the water was.** The report leads with grade and downspout corrections before anyone talks about underpinning.`)}`,
+ quiz:[
+  {q:'Proper grading slopes the soil:',o:['Toward the foundation','Away from the foundation — about 6 inches of fall over the first 10 feet','Perfectly level','Any direction the lot already runs'],a:1,e:'Positive slope away from the house sheds surface water before it reaches the foundation — the highest-value site fix.'},
+  {q:'Negative grade is significant because:',o:['It only affects landscaping','It drives surface water against the foundation — the root cause of most wet basements and crawlspaces','It improves drainage','It is required on sloped lots'],a:1,e:'Soil pitched toward the house feeds water to the foundation, causing leaks, crawlspace moisture, and settlement.'},
+  {q:'A downspout should discharge:',o:['Right at the foundation','Well clear of the foundation, onto positive grade — often via an extension','Into the crawlspace','Under the slab'],a:1,e:'Gutters concentrate roof water; dumping it at the base saturates the foundation soil. Extensions carry it several feet clear.'},
+  {q:'A swale is:',o:['A downspout fitting','A shallow graded channel that redirects surface runoff away from the structure','A foundation crack gauge','A type of window well'],a:1,e:'A swale is a low graded channel that carries runoff around or away from the house — key where the lot slopes toward it.'},
+ ]},
+
+/* ===== L8 WALKS, DRIVES & PATIOS ===== */
+{id:'l8',kind:'Lesson 8',label:'Walks, Drives, Patios & Retaining Walls',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 8 · Flatwork &amp; site walls</span><h1>Flatwork fails two ways: it trips people, and it dumps water.</h1>
+ <p class="lead">Walkways, driveways, patios, and retaining walls are the hardscape. Read them for two things: <b>walking-surface safety</b> (trip hazards from heave and settlement) and their effect on <b>water</b> (slabs that pitch back toward the house).</p>
+ <h2>Walks, driveways &amp; patios</h2>
+ ${conds('',[['Trip hazards','Lifted, heaved, or settled sections create abrupt vertical changes that catch a toe. A raised lip — often from a tree root or frost heave — is a classic, reportable fall hazard.'],['Settlement','Slabs sinking as soil consolidates, tilting walks and patios. Differential settlement also cracks and separates sections.'],['Negative pitch','A patio, walk, or driveway that slopes back toward the house steers water to the foundation — the grading rule applies to flatwork too.'],['Surface condition','Cracking, spalling, and crumbling — note significant deterioration, especially where it creates a hazard or a drainage problem.']])}
+ <h2>Retaining walls</h2>
+ <p>A retaining wall holds back a bank of soil — and the water in it. Inspect for <b>leaning, bulging, or rotating</b> (the wall losing the fight against the soil), <b>cracking</b>, and whether it has <b>drainage</b>: weep holes or a drain behind it to relieve water pressure. A retaining wall with no drainage builds up hydrostatic pressure and eventually fails. Where a failing retaining wall is above the house, note that it can put soil and water against the structure.</p>
+ <div class="dgm"><svg viewBox="0 0 720 230">
+   <g ${_gs}>
+     <!-- retaining wall -->
+     <line x1="300" y1="40" x2="300" y2="190"/><line x1="320" y1="40" x2="320" y2="190"/>
+     <line x1="300" y1="190" x2="320" y2="190"/>
+     ${_mono(310,32,9,'retaining wall','#3c5870')}
+     <!-- soil bank behind -->
+     <path d="M320 60 L520 40 L520 190 L320 190 Z" fill="#cdbf9a" opacity="0.3" stroke="none"/>${_mono(440,90,9,'retained soil','#7f520a','start')}
+     <!-- weep at base (good) -->
+     <rect x="300" y="170" width="8" height="8" fill="#fff" stroke="#3d7d50"/>${_mono(250,176,9,'weep — relieves pressure','#3d7d50','end')}
+     <!-- lean indication (bad) -->
+     <path d="M300 40 l-22 0" stroke="#b85436" stroke-width="1.4"/>${_mono(250,44,9,'leaning?','#b85436','end')}
+   </g>
+   <!-- water pressure arrows -->
+   <g stroke="#5a7b97" stroke-width="2" fill="none" stroke-linecap="round"><path d="M360 90 l-24 0"/><path d="M340 84 l-8 6 l8 4"/><path d="M360 130 l-24 0"/><path d="M340 124 l-8 6 l8 4"/></g>
+ </svg><div class="cap">A retaining wall fights soil and water pressure; without drainage (weeps), pressure builds and the wall leans, bulges, or fails.</div></div>
+ ${W('match','hardscape')}
+ ${story('Inspector in the house',`A pretty paver patio wrapped the back of a house and pitched, ever so slightly, back toward the door — and the threshold below it was rotting. A root had also heaved one walkway slab into a lip the buyers kept catching. **Hardscape isn't just landscaping; it's drainage and safety.** The report calls the negative pitch and the trip hazard, not the pattern of the pavers.`)}`,
+ quiz:[
+  {q:'A lifted or heaved section of walkway is reported because:',o:['It is unattractive','It is a trip-and-fall hazard — an abrupt vertical change catches the foot','It blocks drainage from the roof','It is structural support'],a:1,e:'Heave and settlement create abrupt lips that cause falls. A raised walkway edge — often a tree root or frost heave — is a classic reportable hazard.'},
+  {q:'A patio that pitches back toward the house is a problem because:',o:['It looks sloppy','It steers surface water to the foundation — the grading rule applies to flatwork too','It cracks faster','It is too slippery'],a:1,e:'Negative pitch on flatwork dumps water at the foundation, just like negative grade. Recommend correction.'},
+  {q:'A retaining wall is checked for leaning, bulging, cracking, and:',o:['Its color','Whether it has drainage (weeps) to relieve water pressure behind it','The plants on top of it','Its height only'],a:1,e:'Without drainage, water builds hydrostatic pressure behind the wall and pushes it over. Leaning/bulging plus no weeps is a clear write-up.'},
+  {q:'Differential settlement of a slab or walk means:',o:['The whole slab sank evenly','Parts sank more than others, tilting and cracking the surface','The slab heaved upward','The slab is new'],a:1,e:'Uneven settling tilts and separates the surface — a trip hazard and a sign of soil consolidation under part of the flatwork.'},
+ ]},
+
+/* ===== L9 DECKS, PORCHES, BALCONIES & STAIRS ===== */
+{id:'l9',kind:'Lesson 9',label:'Decks, Porches, Balconies & Stairs',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 9 · The life-safety lesson</span><h1>This is where the inspection saves a life.</h1>
+ <p class="lead">Decks, porches, balconies, and exterior stairs concentrate the most serious safety defects on the whole property. A failed deck connection or a missing guardrail isn't an energy or maintenance issue — it's a fall or a collapse. Slow down here.</p>
+ <h2>The ledger — the top deck defect</h2>
+ <p>The <b>ledger board</b> ties the deck to the house, and its failure is the <b>leading cause of catastrophic deck collapse</b>. Two things must be right: it must be <b>lag-screwed or through-bolted</b> to the structure — <em>never nailed</em> — and it must be <b>flashed</b> so water can't run behind it and rot the band joist. A nailed ledger pulls out under load; an unflashed one rots the very wood it's bolted to. Nails plus no flashing is a serious, clear write-up.</p>
+ <div class="dgm"><svg viewBox="0 0 720 240">
+   <g ${_gs}>
+     <!-- house wall -->
+     <rect x="80" y="30" width="50" height="190"/>${_mono(105,24,9,'house','#3c5870')}
+     <!-- band joist -->
+     <rect x="130" y="90" width="14" height="20" fill="#cdbf9a" opacity="0.4" stroke="#6a6557"/>${_mono(110,130,8,'band joist','#7f520a','start')}
+     <!-- ledger -->
+     <rect x="144" y="90" width="16" height="20" fill="#9c6b3a" opacity="0.4" stroke="#6a6557"/>
+     <!-- bolts (GOOD) -->
+     <circle cx="152" cy="95" r="2.4" fill="#3d7d50"/><circle cx="152" cy="105" r="2.4" fill="#3d7d50"/>${_mono(180,80,9,'lag/through-bolt — not nails','#3d7d50','start')}
+     <!-- flashing (GOOD) -->
+     <path d="M144 90 L144 84 L168 84" stroke="#7f520a" stroke-width="2.4" fill="none"/>${_mono(200,72,9,'Z-flashing over the ledger','#7f520a','start')}
+     <!-- deck joist -->
+     <line x1="160" y1="100" x2="420" y2="100"/><line x1="160" y1="100" x2="420" y2="100"/>
+     <!-- joist hanger -->
+     <path d="M160 100 l0 12 l8 0" stroke="#3d7d50" stroke-width="1.6"/>${_mono(170,128,8,'joist hanger','#3d7d50','start')}
+     <!-- beam + post + cap -->
+     <line x1="380" y1="110" x2="440" y2="110"/><line x1="410" y1="110" x2="410" y2="190"/><path d="M404 110 l0 -6 l12 0 l0 6" stroke="#3d7d50" stroke-width="1.6"/>${_mono(410,206,8,'post cap','#3d7d50')}
+   </g>
+ </svg><div class="cap">A correct deck: ledger bolted (not nailed) and flashed, joists in hangers, beam to post with a connector.</div></div>
+ <h2>Connections, guards, and stairs</h2>
+ ${conds('',[['Joist hangers &amp; connectors','Joists belong in approved metal hangers; posts to beams need post caps; the structure needs lateral connectors and hold-downs. Toenailed joists and beams just resting on posts are defects.'],['Guardrails','Required where a walking surface is roughly <b>30 in or more</b> above grade. Must be solid (resist ~200 lb of lateral force) and not loose. A missing or wobbly guard is a fall hazard.'],['Baluster spacing — the 4-inch rule','Openings in a guard must reject a <b>4-inch sphere</b>, so a child can\'t pass through or get a head trapped. Wider spacing is a reportable life-safety defect.'],['Stairs — rise/run &amp; handrails','Risers and treads must be <b>uniform</b> (about 3/8 in max variation), and stairs need a <b>graspable handrail</b> your hand can close around — not a flat-top board.']])}
+ ${W('spot','deck')}
+ ${W('sort','surface')}
+ <div class="field"><div class="ic">${sv(ic.alert)}</div><div><div class="t">The exterior's most important write-ups</div><p>If you remember four things from this section, make them these: <b>ledgers bolted and flashed</b>, <b>guards present and solid</b>, <b>balusters under 4 inches</b>, and <b>uniform rise/run with a graspable handrail</b>. These are the defects that hurt people — name them clearly and recommend correction.</p></div></div>
+ ${story('Inspector in the house',`A cedar deck looked beautiful from the yard — until you ducked underneath and saw the ledger fastened with a row of bright nails and not a scrap of flashing, the band joist already dark with rot. **From above it felt solid; from below it was a collapse waiting for a party.** The report leads with the ledger as a life-safety defect and recommends a contractor evaluation before the deck is loaded.`)}`,
+ quiz:[
+  {q:'The leading cause of catastrophic deck collapse is:',o:['Rotten deck boards','Failure of the ledger connection — nailed or under-attached and unflashed','Too small a handrail','Overloading with furniture'],a:1,e:'The ledger ties the deck to the house. Nailed and unflashed ledgers pull free and rot the band joist — the top deck-collapse defect.'},
+  {q:'A deck ledger must be:',o:['Nailed and caulked','Lag-screwed or through-bolted to the structure and flashed','Set in concrete','Glued'],a:1,e:'Mechanically fastened with lags or bolts (never nails) and flashed so water can\'t rot the band joist behind it.'},
+  {q:'Guardrail balusters must be spaced so that:',o:['A 6-inch sphere cannot pass','A 4-inch sphere cannot pass between them','They are exactly 5 inches apart','Spacing is unregulated outdoors'],a:1,e:'The 4-inch sphere rule keeps a small child from passing through or getting a head trapped.'},
+  {q:'A guardrail is generally required where a walking surface is more than about:',o:['12 inches above grade','30 inches above the surface below','5 feet above grade','Never outdoors'],a:1,e:'Guards are required where a walking surface is roughly 30 in or more above the adjacent grade or floor.'},
+  {q:'A graspable handrail is:',o:['Any rail 30 inches tall','A rounded or graspable profile your hand can close around — not a flat 2×6','A brightly painted rail','A rail with balusters'],a:1,e:'A handrail must be graspable and continuous so a person can hold on while descending. A flat board you can\'t grip is not graspable.'},
+ ]},
+/*LESSONS*/
+ {id:'scenarios',kind:'Apply it',label:'Inspector\'s Call',type:'scenario'},
+ {id:'assess',kind:'Assessment',label:'Mastery check',type:'assess'},
+ {id:'glossary',kind:'Reference',label:'Glossary',type:'glossary'},
+ {id:'source',kind:'Deep reading',label:'Reference & summary',type:'source'},
+];
+(async()=>{await load();render();})();
+</script>

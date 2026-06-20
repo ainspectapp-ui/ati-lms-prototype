@@ -1,0 +1,757 @@
+<!-- ATI · Module I · Roofing & Attic — full interactive section -->
+<title>ATI · Module I — Roofing &amp; Attic</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..900&family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#f4f2ea;--surf:#fffdf8;--surf-2:#faf7ef;--surf-3:#efeae0;
+    --line:#e6e1d4;--line-2:#efeae0;--line-brass:rgba(197,129,42,.32);
+    --ink:#21242b;--ink-2:#5b616b;--ink-3:#8b909a;
+    --brass:#c5812a;--brass-2:#e0a043;--brass-deep:#9a6214;--brass-soft:#f4e7cd;
+    --slate:#1f6f73;--slate-2:#2f8a8d;--slate-soft:#dde9e9;--slate-deep:#123f43;
+    --pass:#2f7a4e;--pass-soft:#e2efe5;--fail:#bd4a31;--fail-soft:#f6e6df;
+    --r:16px;--display:'Fraunces',Georgia,serif;--body:'Hanken Grotesk',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;
+    --sh-1:0 1px 2px rgba(25,28,34,.05),0 1px 3px rgba(25,28,34,.05);--sh-2:0 4px 14px rgba(25,28,34,.06),0 12px 32px rgba(25,28,34,.09);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.55;background-image:radial-gradient(120% 80% at 88% -8%,rgba(197,129,42,.06),transparent 52%),radial-gradient(90% 60% at -8% 108%,rgba(31,111,115,.06),transparent 52%)}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  .mono{font-family:var(--mono)}
+  ::selection{background:var(--brass);color:#fff}
+  ::-webkit-scrollbar{width:11px;height:11px}::-webkit-scrollbar-thumb{background:#d2ccbd;border-radius:11px;border:3px solid var(--bg)}
+
+  .top{position:sticky;top:0;z-index:30;background:rgba(244,242,234,.82);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid var(--line)}
+  .top .row{max-width:1150px;margin:0 auto;padding:13px 24px;display:flex;align-items:center;gap:14px}
+  .mark{width:36px;height:36px;border-radius:10px;flex:none;display:grid;place-items:center;background:linear-gradient(150deg,var(--brass-2),var(--brass-deep));box-shadow:0 3px 12px rgba(168,109,16,.3),inset 0 1px 0 rgba(255,255,255,.35)}
+  .mark svg{width:20px;height:20px;color:#fff}
+  .top .tt{font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:-.01em;line-height:1.1}.top .tt b{color:var(--brass-deep)}
+  .top .sub{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);display:block;margin-top:2px}
+  .top .prog{margin-left:auto;display:flex;align-items:center;gap:12px}
+  .top .prog .bar{width:150px;height:7px;background:var(--surf-3);border-radius:7px;overflow:hidden;border:1px solid var(--line)}
+  .top .prog .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--brass-deep),var(--brass));border-radius:7px;transition:width .5s cubic-bezier(.2,.7,.2,1)}
+  .top .prog .pc{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--brass-deep);min-width:34px;text-align:right}
+
+  .wrap{max-width:1150px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:250px 1fr;gap:32px;align-items:start}
+  .rail{position:sticky;top:88px;margin-top:28px;max-height:calc(100vh - 110px);overflow-y:auto;padding-right:4px}
+  .rail .h{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);padding:0 8px 10px}
+  .step{display:block;padding:9px 10px 9px 43px;border-radius:10px;width:100%;text-align:left;transition:.13s;color:var(--ink-2);font-size:12.5px;font-weight:500;position:relative}
+  .step:hover{background:var(--surf-2)}
+  .step.active{background:var(--surf);box-shadow:var(--sh-1);color:var(--ink)}
+  .step.active::before{content:"";position:absolute;left:-8px;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--brass)}
+  .step .dot{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-family:var(--mono);font-size:10px;color:var(--ink-3);background:var(--bg);transition:.2s}
+  .step.done .dot{background:var(--brass);border-color:var(--brass);color:#fff}.step.done .dot svg{width:11px;height:11px}
+  .step .lbl{flex:1;line-height:1.2}
+  .step .kind{font-family:var(--mono);font-size:8.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);display:block;margin-top:1px}
+  .step.locked{opacity:.42;pointer-events:none}
+
+  .view{min-width:0;margin-top:28px;animation:rise .38s cubic-bezier(.2,.7,.2,1);padding-bottom:40px}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--brass-deep);font-weight:600}
+  h1{font-family:var(--display);font-weight:800;font-size:31px;letter-spacing:-.02em;line-height:1.08;margin:8px 0 0}
+  h2{font-family:var(--display);font-weight:700;font-size:21px;letter-spacing:-.01em;margin:32px 0 10px}
+  h3{font-family:var(--display);font-weight:700;font-size:16px;margin:24px 0 8px}
+  p{font-size:15.5px;color:#33312a;margin-bottom:14px;line-height:1.74}
+  p b,li b{color:var(--ink);font-weight:700}
+  .lead{font-size:16.5px;color:var(--ink-2);margin-top:12px;max-width:64ch}
+  ul.clean{list-style:none;margin:2px 0 16px}
+  ul.clean li{font-size:14.5px;color:#33312a;padding-left:22px;position:relative;margin-bottom:9px;line-height:1.6}
+  ul.clean li::before{content:"";position:absolute;left:2px;top:8px;width:7px;height:7px;border-radius:2px;background:var(--brass);transform:rotate(45deg)}
+  ul.num{margin:0 0 16px 20px}ul.num li{font-size:14.5px;color:#33312a;margin-bottom:7px;line-height:1.6}
+
+  .field{background:var(--slate-deep);color:#e9edf0;border-radius:13px;padding:18px 20px;margin:22px 0;display:flex;gap:14px}
+  .field.brass{background:linear-gradient(135deg,#3a3526,#2c2818)}
+  .field .ic{flex:none;color:var(--brass-2)}.field .ic svg{width:20px;height:20px}
+  .field .t{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-2);margin-bottom:5px}
+  .field p{color:#c4cdd4;font-size:14px;margin:0 0 8px;line-height:1.65}.field p:last-child{margin-bottom:0}.field p b{color:#fff}
+
+  .story{background:var(--surf);border:1px solid var(--line);border-left:4px solid var(--brass);border-radius:0 13px 13px 0;padding:16px 19px;margin:22px 0;box-shadow:var(--sh-1)}
+  .story .st{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-deep);display:flex;align-items:center;gap:8px;margin-bottom:7px}
+  .story .st svg{width:14px;height:14px}
+  .story p{font-size:14.5px;color:#403d33;font-style:italic;margin:0;line-height:1.7}
+  .story p b{font-style:normal}
+
+  .loop{display:flex;align-items:stretch;background:var(--surf);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin:18px 0 8px;box-shadow:var(--sh-1)}
+  .loop .seg{flex:1;padding:13px 10px;text-align:center;border-right:1px solid var(--line-2)}.loop .seg:last-child{border-right:none}
+  .loop .seg .n{font-family:var(--mono);font-size:9px;color:var(--ink-3);letter-spacing:.1em}
+  .loop .seg .w{font-family:var(--display);font-weight:700;font-size:12.5px;margin-top:3px}
+  .loop .seg.on{background:var(--brass-soft)}.loop .seg.on .w{color:var(--brass-deep)}
+
+  .dgm{background:#bdb8a8;border:1px solid var(--line);border-radius:var(--r);padding:8px;margin:20px 0;box-shadow:var(--sh-1);position:relative;overflow:hidden}
+  .dgm::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(44,65,83,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(44,65,83,.1) 1px,transparent 1px);background-size:26px 26px;pointer-events:none}
+  .dgm svg{display:block;width:100%;height:auto;position:relative}
+  .dgm .cap{position:relative;text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:.04em;color:var(--slate-deep);padding:4px 6px 8px}
+
+  .defect{background:var(--surf);border:1px solid var(--line);border-radius:13px;padding:16px 18px;box-shadow:var(--sh-1);margin:12px 0}
+  .defect .dh{display:flex;align-items:center;gap:11px;margin-bottom:8px}
+  .defect .dh .n{width:26px;height:26px;border-radius:8px;background:var(--fail-soft);color:var(--fail);display:grid;place-items:center;flex:none;font-family:var(--mono);font-weight:600;font-size:12px}
+  .defect .dh .nm{font-family:var(--display);font-weight:700;font-size:15px}
+  .defect p{font-size:14px;margin-bottom:9px}
+  .defect .meta{display:grid;grid-template-columns:auto 1fr;gap:5px 12px;font-size:13px;align-items:start}
+  .defect .meta .lab{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);padding-top:3px;white-space:nowrap}
+  .defect .meta .val{color:#33312a;line-height:1.5}
+  .defect .rep{font-family:var(--mono);font-size:11px;background:var(--slate-soft);border-radius:8px;padding:8px 11px;color:var(--slate-deep);line-height:1.5;margin-top:8px}.defect .rep b{color:var(--slate-deep)}
+
+  .pills{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 6px}
+  .pill{font-family:var(--mono);font-size:11.5px;background:var(--surf);border:1px solid var(--line);color:var(--ink-2);padding:6px 12px;border-radius:20px}.pill b{color:var(--brass-deep)}
+  .tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px;background:var(--surf);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .tbl th{background:var(--slate-deep);color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;text-align:left;padding:9px 12px;font-weight:600}
+  .tbl td{padding:9px 12px;border-top:1px solid var(--line-2);color:#33312a}
+  .tbl td:first-child{font-family:var(--mono);font-weight:600;color:var(--brass-deep);white-space:nowrap}
+
+  /* ---- quiz (multi-question) ---- */
+  .quiz{background:var(--surf);border:1.5px solid var(--line-brass);border-radius:var(--r);padding:24px;margin:30px 0 0;box-shadow:var(--sh-1)}
+  .quiz .qh{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-deep);display:flex;align-items:center;gap:8px;margin-bottom:4px}.quiz .qh svg{width:15px;height:15px}
+  .quiz .qt{font-family:var(--display);font-weight:700;font-size:18px}.quiz .qsub{font-size:13.5px;color:var(--ink-2);margin:4px 0 4px}
+  .qblock{border-top:1px solid var(--line-2);padding-top:18px;margin-top:18px}.qblock:first-of-type{border-top:none;padding-top:14px}
+  .qnum{font-family:var(--mono);font-size:11px;color:var(--brass-deep);font-weight:600;margin-bottom:6px}
+  .q{font-family:var(--display);font-weight:600;font-size:15.5px;margin-bottom:13px;line-height:1.4}
+  .opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:11px 14px;border:1.5px solid var(--line);border-radius:10px;margin-bottom:8px;transition:.13s;font-size:14px;font-weight:500;background:var(--surf-2)}
+  .opt:hover:not(.lk){border-color:var(--brass);background:var(--surf)}
+  .opt .k{font-family:var(--mono);font-weight:600;width:23px;height:23px;border-radius:6px;background:var(--surf-3);display:grid;place-items:center;font-size:11px;flex:none;color:var(--ink-2)}
+  .opt.correct{border-color:var(--pass);background:var(--pass-soft)}.opt.correct .k{background:var(--pass);color:#fff}
+  .opt.wrong{border-color:var(--fail);background:var(--fail-soft)}.opt.wrong .k{background:var(--fail);color:#fff}
+  .opt .mk{margin-left:auto}.opt .mk svg{width:16px;height:16px}.opt.lk{cursor:default}
+  .exp{font-size:13px;color:var(--ink-2);line-height:1.62;padding:11px 13px;background:var(--surf-2);border-left:3px solid var(--brass);border-radius:0 9px 9px 0;margin-top:4px}.exp b{color:var(--ink)}
+  .qscore{margin-top:20px;padding-top:18px;border-top:1px solid var(--line-2);font-family:var(--mono);font-size:13px;color:var(--ink-2);display:flex;align-items:center;gap:10px}.qscore svg{width:18px;height:18px;flex:none}.qscore b{font-size:15px}
+
+  .foot{display:flex;align-items:center;gap:12px;margin:30px 0 10px;padding-top:22px;border-top:1px solid var(--line)}.foot .sp{flex:1}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:14px;padding:12px 18px;border-radius:11px;transition:.15s;font-family:var(--body)}.btn svg{width:16px;height:16px}
+  .btn.brass{background:linear-gradient(150deg,var(--brass-2),var(--brass));color:#fff;box-shadow:0 5px 14px rgba(168,109,16,.28)}.btn.brass:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(168,109,16,.36)}
+  .btn.brass:disabled{opacity:.5;filter:grayscale(.3);cursor:not-allowed;transform:none;box-shadow:none}
+  .btn.ghost{background:var(--surf);border:1px solid var(--line);color:var(--ink-2)}.btn.ghost:hover{color:var(--ink);border-color:var(--ink-3)}
+  .btn.slate{background:var(--slate);color:#fff}.btn.slate:hover{background:var(--slate-deep)}
+
+  /* ---- WIDGETS ---- */
+  .wlabel{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:var(--brass);padding:4px 9px;border-radius:20px;display:inline-block;margin-bottom:6px}
+  .wtitle{font-family:var(--display);font-weight:700;font-size:16px;margin-bottom:3px}
+  .wsub{font-size:13.5px;color:var(--ink-2);margin-bottom:14px}
+  .widget{background:var(--surf-2);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;margin:24px 0;box-shadow:var(--sh-1)}
+
+  .sd-wrap{display:grid;grid-template-columns:1fr 260px;gap:16px}@media(max-width:760px){.sd-wrap{grid-template-columns:1fr}}
+  .sd-stage{background:#bdb8a8;border:1px solid var(--line);border-radius:13px;padding:8px;position:relative;overflow:hidden}
+  .sd-stage::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(44,65,83,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(44,65,83,.09) 1px,transparent 1px);background-size:24px 24px;pointer-events:none}
+  .sd-stage svg{display:block;width:100%;height:auto;position:relative}
+  .hot{cursor:pointer}.hot circle.zone{fill:transparent;stroke:transparent}
+  .hot.found circle.zone{fill:rgba(61,125,80,.16);stroke:var(--pass);stroke-width:2.5;stroke-dasharray:4 3}
+  .sd-side{display:flex;flex-direction:column;gap:11px}
+  .sd-count{background:var(--slate-deep);color:#fff;border-radius:12px;padding:13px 15px;text-align:center}
+  .sd-count .big{font-family:var(--mono);font-weight:600;font-size:28px;line-height:1}.sd-count .lbl{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-2);margin-top:5px}
+  .sd-found{display:flex;flex-direction:column;gap:7px;max-height:280px;overflow-y:auto}
+  .fcard{background:var(--surf);border:1px solid var(--line);border-left:3px solid var(--pass);border-radius:9px;padding:9px 11px;animation:pop .3s}@keyframes pop{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:none}}
+  .fcard .fn{font-family:var(--display);font-weight:700;font-size:13px;color:var(--pass)}.fcard .fd{font-size:12px;color:var(--ink-2);margin-top:2px;line-height:1.45}
+  .sd-empty{font-size:12.5px;color:var(--ink-3);font-style:italic;text-align:center;padding:18px 8px}
+  .sd-done{background:var(--pass-soft);border:1px solid var(--pass);border-radius:11px;padding:12px;text-align:center;font-size:13px;color:var(--pass);font-weight:600}
+
+  .gfi-stage{background:var(--slate-deep);border-radius:13px;padding:20px;position:relative;overflow:hidden;height:220px}
+  .lane{position:absolute;left:120px;right:120px;height:3px;background:rgba(255,255,255,.18);border-radius:3px}.lane.hot{top:66px}.lane.neu{top:146px}
+  .lane .lab{position:absolute;top:-19px;left:0;font-family:var(--mono);font-size:10px;color:#9fb0bd}
+  .dot{position:absolute;width:9px;height:9px;border-radius:50%;top:-3px}
+  .dot.h{background:var(--brass-2);animation:flowR 2.4s linear infinite}.dot.n{background:#7fa8c4;animation:flowL 2.4s linear infinite}
+  @keyframes flowR{from{left:0}to{left:100%}}@keyframes flowL{from{left:100%}to{left:0}}
+  .gbox{position:absolute;left:28px;top:66px;width:68px;height:80px;border:2px solid #9fb0bd;border-radius:8px;display:grid;place-items:center;text-align:center}
+  .gbox .gt{font-family:var(--mono);font-size:10px;color:#fff}.gbox .gs{font-family:var(--mono);font-size:8px;color:#7fa8c4;margin-top:3px}
+  .load{position:absolute;right:28px;top:66px;width:68px;height:80px;border:2px solid #9fb0bd;border-radius:8px;display:grid;place-items:center}.load .lt{font-family:var(--mono);font-size:10px;color:#fff}
+  .leak{position:absolute;left:50%;top:69px;width:2px;height:88px;background:repeating-linear-gradient(180deg,var(--fail),var(--fail) 5px,transparent 5px,transparent 10px);opacity:0;transition:.3s}.leak.on{opacity:1}
+  .person{position:absolute;left:calc(50% - 13px);top:160px;font-size:22px;opacity:0;transition:.3s}.person.on{opacity:1}
+  .trip{position:absolute;inset:0;background:rgba(184,84,54,.92);display:grid;place-items:center;opacity:0;pointer-events:none;transition:.3s}.trip.on{opacity:1}
+  .trip .tw{text-align:center;color:#fff}.trip .tw .b{font-family:var(--display);font-weight:800;font-size:25px}.trip .tw .s{font-family:var(--mono);font-size:11px;letter-spacing:.1em;margin-top:6px;opacity:.9}
+  .gfi-status{display:flex;align-items:center;gap:10px;margin-top:14px;font-size:14px;font-weight:600}.gfi-status .pip{width:11px;height:11px;border-radius:50%;background:var(--pass)}.gfi-status.fault .pip{background:var(--fail)}
+  .gfi-controls{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}.gfi-read{font-family:var(--mono);font-size:12px;color:var(--ink-2);margin-top:10px}.gfi-read b{color:var(--brass-deep)}
+
+  .match{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:600px){.match{grid-template-columns:1fr}}
+  .mcol{display:flex;flex-direction:column;gap:9px}.mcol .ch{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);text-align:center;margin-bottom:2px}
+  .chip{padding:13px;border:1.5px solid var(--line);border-radius:11px;background:var(--surf);font-family:var(--mono);font-weight:600;font-size:14px;text-align:center;transition:.13s;color:var(--ink)}
+  .chip:hover:not(.locked){border-color:var(--brass)}.chip.sel{border-color:var(--brass);background:var(--brass-soft);color:var(--brass-deep)}
+  .chip.locked{border-color:var(--pass);background:var(--pass-soft);color:var(--pass);cursor:default;opacity:.85}
+  .chip.miss{border-color:var(--fail);background:var(--fail-soft);animation:shake .3s}@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+  .w-done{margin-top:14px;background:var(--pass-soft);border:1px solid var(--pass);border-radius:11px;padding:12px;text-align:center;font-size:13px;color:var(--pass);font-weight:600}
+
+  .est{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:600px){.est{grid-template-columns:1fr}}
+  .est label{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:6px}
+  .est select{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--surf);font-family:var(--mono);font-size:14px;color:var(--ink);font-weight:600}
+  .est-out{grid-column:1/-1;margin-top:4px;border-radius:12px;padding:15px 17px;border:1px solid var(--line);background:var(--surf);transition:.2s}
+  .est-out.ok{border-color:var(--pass);background:var(--pass-soft)}.est-out.bad{border-color:var(--fail);background:var(--fail-soft)}
+  .est-out .ev{font-family:var(--display);font-weight:800;font-size:19px}.est-out .ed{font-size:13px;color:var(--ink-2);margin-top:5px;line-height:1.5}
+  .est-out.ok .ev{color:var(--pass)}.est-out.bad .ev{color:var(--fail)}
+
+  .sort{display:grid;gap:14px}
+  .sort-items{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;min-height:20px}
+  .sitem{padding:10px 14px;border:1.5px solid var(--line);border-radius:10px;background:var(--surf);font-size:13.5px;font-weight:500;transition:.13s}.sitem:hover:not(.placed){border-color:var(--brass)}.sitem.sel{border-color:var(--brass);background:var(--brass-soft);color:var(--brass-deep)}.sitem.placed{display:none}
+  .bins{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:600px){.bins{grid-template-columns:1fr}}
+  .bin{border:1.5px dashed var(--line);border-radius:12px;padding:14px;min-height:90px;background:var(--surf)}
+  .bin.activeb{border-color:var(--brass);background:var(--brass-soft)}
+  .bin .bt{font-family:var(--display);font-weight:700;font-size:14px;text-align:center;margin-bottom:10px}
+  .bin .drop{font-size:11px;color:var(--ink-3);text-align:center;font-style:italic}
+  .binitem{padding:8px 11px;border-radius:8px;font-size:13px;font-weight:500;margin-bottom:6px;display:flex;align-items:center;gap:7px}.binitem svg{width:13px;height:13px;flex:none}
+  .binitem.right{background:var(--pass-soft);color:var(--pass)}.binitem.wrong{background:var(--fail-soft);color:var(--fail)}
+
+  .era{display:flex;flex-direction:column;gap:0;position:relative;margin:6px 0 4px;padding-left:8px}
+  .era .line{position:absolute;left:14px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .erow{display:flex;align-items:flex-start;gap:14px;padding:9px 0;position:relative;cursor:pointer}
+  .erow .ed{width:12px;height:12px;border-radius:50%;background:var(--surf-3);border:2px solid var(--line);flex:none;margin-top:3px;z-index:1;transition:.15s}
+  .erow:hover .ed,.erow.open .ed{background:var(--brass);border-color:var(--brass)}
+  .erow .et{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--brass-deep);width:130px;flex:none}
+  .erow .en{font-size:14px;color:#33312a;font-weight:600}
+  .erow .ex{font-size:13px;color:var(--ink-2);line-height:1.5;margin-top:4px;display:none}.erow.open .ex{display:block}
+
+  .panelcard{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-2);padding:34px;text-align:center}
+  .panelcard .ic{width:56px;height:56px;border-radius:14px;background:var(--brass-soft);color:var(--brass-deep);display:grid;place-items:center;margin:0 auto 16px}.panelcard .ic svg{width:27px;height:27px}
+  .panelcard h2{margin:0 0 8px}.panelcard p{max-width:48ch;margin:0 auto 22px}
+  .ring{width:150px;height:150px;margin:0 auto 18px;position:relative}.ring .rv{position:absolute;inset:0;display:grid;place-items:center}.ring .rv .n{font-family:var(--mono);font-weight:600;font-size:38px;line-height:1}.ring .rv .p{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-top:4px}
+  .verdict{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;display:inline-block;padding:5px 13px;border-radius:20px;margin-bottom:16px}.verdict.pass{background:var(--pass-soft);color:var(--pass)}.verdict.fail{background:var(--fail-soft);color:var(--fail)}
+
+  .scen{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-2);margin-bottom:16px}
+  .scen .sh{background:linear-gradient(120deg,#1f6f73,#123f43);color:#fff;padding:16px 20px}.scen .sh .t{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-2)}.scen .sh .n{font-family:var(--display);font-weight:700;font-size:17px;margin-top:3px}
+  .scen .body{padding:20px 22px}.scen .situation{font-size:15.5px;color:#33312a;line-height:1.7;margin-bottom:6px}.scen .ask{font-family:var(--display);font-weight:600;font-size:15px;margin:16px 0 14px;color:var(--ink)}
+  .scount{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-bottom:10px}
+
+  .gloss{display:grid;gap:10px}.term{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:13px 16px;box-shadow:var(--sh-1)}
+  .term .tw{font-family:var(--display);font-weight:700;font-size:14.5px;color:var(--brass-deep)}.term .td{font-size:13.5px;color:var(--ink-2);margin-top:3px;line-height:1.55}
+  .srcframe{width:100%;height:78vh;border:1px solid var(--line);border-radius:var(--r);background:var(--surf);box-shadow:var(--sh-1)}
+  .srcnote{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:14px 17px;font-size:13.5px;color:var(--ink-2);margin:14px 0;line-height:1.6}.srcnote a{color:var(--brass-deep);font-weight:600}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--slate-deep);color:#fff;padding:12px 18px;border-radius:11px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;box-shadow:var(--sh-2);z-index:100;opacity:0;transition:.3s}.toast.show{transform:translateX(-50%) translateY(0);opacity:1}.toast svg{width:16px;height:16px;color:var(--brass-2)}
+  @media(max-width:880px){.wrap{grid-template-columns:1fr}.rail{display:none}.top .prog .bar{width:90px}}
+  em{font-style:italic;color:inherit}
+</style>
+
+<div class="top"><div class="row">
+  <a href="index.html" class="mark" style="text-decoration:none" title="Back to Module I"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8c2.2 0 2.2-2 4.5-2S9.7 8 12 8s2.2-2 4.5-2S18.7 8 21 8"/><path d="M3 13c2.2 0 2.2-2 4.5-2S9.7 13 12 13s2.2-2 4.5-2S18.7 13 21 13"/><path d="M3 18c2.2 0 2.2-2 4.5-2S9.7 18 12 18s2.2-2 4.5-2S18.7 18 21 18"/></svg></a>
+  <div><div class="tt">ATI · Module I — <b>Roofing &amp; Attic</b></div><span class="sub">Property & Building Inspection · interactive</span></div>
+  <div class="prog"><a href="index.html" style="font-family:var(--mono);font-size:11px;font-weight:600;color:var(--brass-deep);text-decoration:none;margin-right:2px" title="All systems">↩ Systems</a><div class="bar"><i id="pbar"></i></div><span class="pc" id="ppc">0%</span></div>
+</div></div>
+<div class="wrap"><aside class="rail"><div class="h">Section contents</div><div id="rail"></div></aside><main class="view" id="view"></main></div>
+<div class="toast" id="toast"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span id="tmsg"></span></div>
+
+<script src="/storage.js"></script>
+<script>
+/* ---- storage adapter: native window.storage in Claude; localStorage when deployed (GitHub Pages); memory as last resort ---- */
+(function(){if(typeof window==='undefined')return;if(window.storage&&window.storage.get)return;var mem={};window.storage={get:function(k){try{var v=window.localStorage.getItem(k);return Promise.resolve(v!=null?{value:v}:null);}catch(e){return Promise.resolve(mem[k]!=null?{value:mem[k]}:null);}},set:function(k,v){try{window.localStorage.setItem(k,v);}catch(e){mem[k]=v;}return Promise.resolve({value:v});},delete:function(k){try{window.localStorage.removeItem(k);}catch(e){delete mem[k];}return Promise.resolve({deleted:true});}};})();
+
+const ic={check:'<path d="M20 6 9 17l-5-5"/>',x:'<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',arrow:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',back:'<path d="M19 12H5"/><path d="m12 19-7-7 7-7"/>',brain:'<path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44A2.5 2.5 0 0 1 4 17.5a2.5 2.5 0 0 1-.5-4.9 2.5 2.5 0 0 1 0-4.2A2.5 2.5 0 0 1 5 3.5 2.5 2.5 0 0 1 9.5 2z"/>',flag:'<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>',alert:'<path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="9"/>',bolt:'<path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/>',book:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',open:'<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/>',award:'<circle cx="12" cy="8" r="6"/><path d="M15.5 12.9 17 22l-5-3-5 3 1.5-9.1"/>',retake:'<path d="M3 12a9 9 0 1 0 9-9 9 9 0 0 0-6.4 2.6L3 8"/><path d="M3 3v5h5"/>',coffee:'<path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/><line x1="6" y1="2" x2="6" y2="5"/><line x1="10" y1="2" x2="10" y2="5"/><line x1="14" y1="2" x2="14" y2="5"/>'};
+const sv=(p,w=2)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+function conds(title,items){return `<h3>${title}</h3><ul class="clean">${items.map(([n,d])=>`<li><b>${n}</b> — ${d}</li>`).join('')}</ul>`;}
+function story(title,text){return `<div class="story"><div class="st">${sv(ic.coffee)} ${title}</div><p>${text}</p></div>`;}
+
+/* ================= WIDGET LIBRARY ================= */
+const SPOT={}, MATCH={}, SORT={}, ERA={};
+const WID={
+  spot(el,k){const c=SPOT[k];let found=new Set();
+    el.innerHTML=`<span class="wlabel">Spot the defect</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div>
+     <div class="sd-wrap"><div class="sd-stage"><svg viewBox="${c.vb}" class="hot">${c.svg}<g class="hsg"></g></svg></div>
+     <div class="sd-side"><div class="sd-count"><div class="big"><span class="sdn">0</span>/${c.defects.length}</div><div class="lbl">defects found</div></div><div class="sd-found"><div class="sd-empty">Click a defect to log it…</div></div></div></div>`;
+    const g=el.querySelector('.hsg'),cnt=el.querySelector('.sdn'),fw=el.querySelector('.sd-found');
+    c.defects.forEach((d,i)=>{const gg=document.createElementNS('http://www.w3.org/2000/svg','g');gg.setAttribute('class','hot');gg.innerHTML=`<circle class="zone" cx="${d.x}" cy="${d.y}" r="${d.r}"/>`;gg.style.cursor='pointer';
+      gg.addEventListener('click',()=>{if(found.has(i))return;found.add(i);gg.classList.add('found');cnt.textContent=found.size;if(fw.querySelector('.sd-empty'))fw.innerHTML='';
+        const card=document.createElement('div');card.className='fcard';card.innerHTML=`<div class="fn">${found.size}. ${d.n}</div><div class="fd">${d.d}</div>`;fw.appendChild(card);
+        if(found.size===c.defects.length){const dn=document.createElement('div');dn.className='sd-done';dn.textContent='All found — that\'s the scan. Nicely done.';fw.appendChild(dn);}});
+      g.appendChild(gg);});},
+  gfi(el){el.innerHTML=`<span class="wlabel">Animated diagram</span><div class="wtitle">Watch the GFI work</div><div class="wsub">Current flows out the hot and back on the neutral — equal. Introduce a leak and see what happens.</div>
+    <div class="gfi-stage"><div class="gbox"><div><div class="gt">GFI</div><div class="gs">in vs out</div></div></div><div class="load"><div class="lt">LOAD</div></div><div class="lane hot"><span class="lab">hot — out</span></div><div class="lane neu"><span class="lab">neutral — back</span></div><div class="leak"></div><div class="person">🧍</div><div class="trip"><div class="tw"><div class="b">⚡ GFI TRIPPED</div><div class="s">imbalance &gt; 5 mA — cut in milliseconds</div></div></div></div>
+    <div class="gfi-status"><span class="pip"></span><span class="gtxt">Balanced — out equals back. Holding.</span></div>
+    <div class="gfi-read">Hot out: <b>15.000 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b>0 mA</b></div>
+    <div class="gfi-controls"><button class="btn brass gflt">Introduce a ground fault</button><button class="btn ghost grst">Reset</button></div>`;
+    const stage=el.querySelector('.gfi-stage'),st=el.querySelector('.gfi-status'),txt=el.querySelector('.gtxt'),read=el.querySelector('.gfi-read'),trip=el.querySelector('.trip'),fbtn=el.querySelector('.gflt');let f=false,to;
+    function dots(){stage.querySelectorAll('.dot').forEach(d=>d.remove());for(let i=0;i<5;i++){const d=document.createElement('span');d.className='dot h';d.style.animationDelay=(-i*0.48)+'s';stage.querySelector('.lane.hot').appendChild(d);}const nc=f?2:5;for(let i=0;i<nc;i++){const d=document.createElement('span');d.className='dot n';d.style.animationDelay=(-i*0.48)+'s';stage.querySelector('.lane.neu').appendChild(d);}}
+    function reset(){f=false;clearTimeout(to);el.querySelector('.leak').classList.remove('on');el.querySelector('.person').classList.remove('on');trip.classList.remove('on');st.classList.remove('fault');txt.textContent='Balanced — out equals back. Holding.';read.innerHTML='Hot out: <b>15.000 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b>0 mA</b>';fbtn.textContent='Introduce a ground fault';dots();}
+    fbtn.onclick=()=>{f=!f;if(f){el.querySelector('.leak').classList.add('on');el.querySelector('.person').classList.add('on');st.classList.add('fault');txt.textContent='Imbalance — current is leaking to ground.';read.innerHTML='Hot out: <b>15.006 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b style="color:var(--fail)">6 mA</b>';fbtn.textContent='Clear the fault';dots();to=setTimeout(()=>trip.classList.add('on'),650);}else reset();};
+    el.querySelector('.grst').onclick=reset;dots();},
+  match(el,k){const c=MATCH[k];const sh=a=>a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v[1]);let sel=null,locked=0;
+    el.innerHTML=`<span class="wlabel">Match drill</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="match"><div class="mcol"><div class="ch">${c.left}</div><div class=" L"></div></div><div class="mcol"><div class="ch">${c.right}</div><div class="R"></div></div></div><div class="md"></div>`;
+    const L=el.querySelector('.L'),R=el.querySelector('.R'),done=el.querySelector('.md');
+    c.pairs.forEach(p=>{const b=document.createElement('button');b.className='chip';b.textContent=p[0];b.dataset.a=p[0];b.dataset.s='L';L.appendChild(b);});
+    sh(c.pairs.map(p=>p[1])).forEach(v=>{const b=document.createElement('button');b.className='chip';b.textContent=v;b.dataset.b=v;b.dataset.s='R';R.appendChild(b);});
+    el.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{if(b.classList.contains('locked'))return;
+      if(!sel){sel=b;b.classList.add('sel');return;}if(sel===b){b.classList.remove('sel');sel=null;return;}if(sel.dataset.s===b.dataset.s){sel.classList.remove('sel');sel=b;b.classList.add('sel');return;}
+      const left=sel.dataset.s==='L'?sel:b,right=sel.dataset.s==='R'?sel:b,ok=c.pairs.find(p=>p[0]===left.dataset.a)[1]===right.dataset.b;
+      if(ok){[left,right].forEach(x=>{x.classList.remove('sel');x.classList.add('locked');});locked++;if(locked===c.pairs.length)done.innerHTML=`<div class="w-done">${c.done}</div>`;}
+      else{[left,right].forEach(x=>{x.classList.add('miss');setTimeout(()=>x.classList.remove('miss','sel'),350);});}sel=null;});},
+  sort(el,k){const c=SORT[k];let sel=null,placed=0;
+    el.innerHTML=`<span class="wlabel">Sort it</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="sort"><div class="sort-items">${c.items.map((it,i)=>`<button class="sitem" data-i="${i}">${it.t}</button>`).join('')}</div><div class="bins">${c.bins.map((b,bi)=>`<div class="bin" data-bin="${bi}"><div class="bt">${b}</div><div class="drop">tap an item, then tap here</div></div>`).join('')}</div></div><div class="md"></div>`;
+    const items=el.querySelectorAll('.sitem'),bins=el.querySelectorAll('.bin'),done=el.querySelector('.md');
+    items.forEach(it=>it.onclick=()=>{if(it.classList.contains('placed'))return;el.querySelectorAll('.sitem').forEach(x=>x.classList.remove('sel'));sel=it;it.classList.add('sel');});
+    bins.forEach(bin=>bin.onclick=()=>{if(!sel)return;const i=+sel.dataset.i,bi=+bin.dataset.bin,ok=c.items[i].bin===bi;
+      const row=document.createElement('div');row.className='binitem '+(ok?'right':'wrong');row.innerHTML=(ok?sv(ic.check,2.6):sv(ic.x,2.6))+' '+c.items[i].t;bin.querySelector('.drop').remove?bin.querySelector('.drop')&&(bin.querySelector('.drop').style.display='none'):0;bin.appendChild(row);
+      sel.classList.add('placed');sel=null;placed++;if(placed===c.items.length)done.innerHTML=`<div class="w-done">${c.done}</div>`;});},
+  est(el){el.innerHTML=`<span class="wlabel">Field tool</span><div class="wtitle">Service-size estimator</div><div class="wsub">Set what you'd read on site; it calls the size and flags an unsafe mismatch — your on-site logic.</div>
+    <div class="est"><div><label>Service-entrance conductor (copper)</label><select class="sew"><option value="6">#6 AWG</option><option value="4">#4 AWG</option><option value="2" selected>2/0 AWG</option><option value="0">4/0 AWG</option></select></div><div><label>Main breaker rating</label><select class="mbk"><option value="60">60 A</option><option value="100">100 A</option><option value="200" selected>200 A</option><option value="400">400 A</option></select></div><div class="est-out"></div></div>`;
+    const WA={'6':60,'4':100,'2':200,'0':400},WL={'6':'#6 AWG','4':'#4 AWG','2':'2/0 AWG','0':'4/0 AWG'},sew=el.querySelector('.sew'),mbk=el.querySelector('.mbk'),out=el.querySelector('.est-out');
+    function go(){const w=sew.value,b=+mbk.value,sup=WA[w];if(b>sup){out.className='est-out bad';out.innerHTML=`<div class="ev">⚠ Overfused — unsafe</div><div class="ed">A ${b} A main on ${WL[w]} copper (good for ~${sup} A) won't shut off before the conductor overheats. Report: overcurrent device oversized for the service-entrance conductor.</div>`;}else{const ap=Math.min(b,sup);out.className='est-out ok';out.innerHTML=`<div class="ev">${ap} A service</div><div class="ed">${WL[w]} copper supports ~${sup} A and the main is ${b} A — conductor protected. Report the service size as ${ap} A${b<sup?' (limited by the main breaker)':''}.</div>`;}}
+    sew.onchange=go;mbk.onchange=go;go();},
+  era(el,k){const c=ERA[k];el.innerHTML=`<span class="wlabel">Explore</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="era"><div class="line"></div>${c.rows.map((r,i)=>`<div class="erow" data-i="${i}"><span class="ed"></span><span class="et">${r.d}</span><div><div class="en">${r.n}</div><div class="ex">${r.x}</div></div></div>`).join('')}</div>`;
+    el.querySelectorAll('.erow').forEach(r=>r.onclick=()=>r.classList.toggle('open'));}
+};
+function wireWidgets(root){root.querySelectorAll('.wmount').forEach(el=>{const w=el.dataset.w,k=el.dataset.k;if(WID[w])WID[w](el,k);});}
+function W(w,k){return `<div class="widget wmount" data-w="${w}" data-k="${k||''}"></div>`;}
+
+/* ================= ENGINE ================= */
+const KEY='ati_roofing_ix_v1';
+let S={done:{},quiz:{},assessBest:0,cur:0};
+async function load(){try{const r=await window.storage.get(KEY,false);if(r&&r.value)S=JSON.parse(r.value);}catch(e){}S.done=S.done||{};S.quiz=S.quiz||{};}
+async function save(){try{await window.storage.set(KEY,JSON.stringify(S),false);}catch(e){}}
+const stepDone=i=>!!S.done[STEPS[i].id];
+const pct=()=>Math.round(Object.keys(S.done).length/STEPS.length*100);
+const unlocked=i=>i===0?true:stepDone(i-1);
+const view=document.getElementById('view');
+function updTop(){const p=pct();document.getElementById('pbar').style.width=p+'%';document.getElementById('ppc').textContent=p+'%';}
+function rail(){document.getElementById('rail').innerHTML=STEPS.map((s,i)=>{const d=stepDone(i),u=unlocked(i),a=i===S.cur;return `<button class="step ${d?'done':''} ${a?'active':''} ${u?'':'locked'}" ${u?`onclick="goStep(${i})"`:''}><span class="dot">${d?sv(ic.check,3):(i+1)}</span><span class="lbl">${s.label}<span class="kind">${s.kind}</span></span></button>`;}).join('');}
+function goStep(i){if(!unlocked(i))return;S.cur=i;save();render();window.scrollTo({top:0,behavior:'smooth'});}
+function markDoneAndNext(){S.done[STEPS[S.cur].id]=true;save();updTop();rail();if(S.cur<STEPS.length-1)goStep(S.cur+1);else render();}
+function render(){updTop();rail();const s=STEPS[S.cur];({lesson:renderLesson,scenario:renderScenarios,assess:renderAssess,glossary:renderGlossary,source:renderSource}[s.type])(s);}
+function navFoot(label,gated){const last=S.cur===STEPS.length-1;return `<div class="foot">${S.cur>0?`<button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button>`:''}<div class="sp"></div><button class="btn brass" id="nextBtn" ${gated?'disabled':''} onclick="markDoneAndNext()">${label||(last?'Finish section':'Mark complete & continue')} ${sv(ic.arrow)}</button></div>`;}
+
+function renderLesson(s){
+  let h=(typeof s.body==='function'?s.body():s.body);
+  if(s.quiz&&s.quiz.length){
+    h+=`<div class="quiz"><div class="qh">${sv(ic.brain)} Check your understanding</div><div class="qt">${s.label}</div><div class="qsub">${s.quiz.length} questions covering the lesson — answer each to see the reasoning.</div><div class="qbody">${
+      s.quiz.map((q,qi)=>`<div class="qblock"><div class="qnum">Question ${qi+1} of ${s.quiz.length}</div><div class="q">${q.q}</div><div class="opts" data-qi="${qi}">${q.o.map((o,k)=>`<button class="opt" onclick="qAns(${qi},${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="qexp" data-qi="${qi}"></div></div>`).join('')
+    }</div><div class="qscore" style="display:none"></div></div>`;
+  }
+  const gated=!!(s.quiz&&s.quiz.length&&!S.quiz[s.id]);
+  view.innerHTML=h+navFoot(null,gated);
+  wireWidgets(view);
+  window._ql={answered:{},total:s.quiz?s.quiz.length:0};
+}
+function qAns(qi,k){const s=STEPS[S.cur],q=s.quiz[qi];if(window._ql.answered[qi]!==undefined)return;window._ql.answered[qi]=k;
+  const opts=view.querySelector('.opts[data-qi="'+qi+'"]');opts.querySelectorAll('.opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===q.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});
+  view.querySelector('.qexp[data-qi="'+qi+'"]').innerHTML=`<div class="exp"><b>${k===q.a?'Correct.':'Review:'}</b> ${q.e}</div>`;
+  if(Object.keys(window._ql.answered).length===window._ql.total){
+    const right=s.quiz.filter((q,i)=>window._ql.answered[i]===q.a).length,sc=view.querySelector('.qscore');sc.style.display='flex';
+    sc.innerHTML=`${sv(ic.check,2.4)}<span>You scored <b style="color:${right>=Math.ceil(s.quiz.length*0.8)?'var(--pass)':'var(--fail)'}">${right}/${s.quiz.length}</b> on this lesson.</span>`;
+    sc.querySelector('svg').style.color=right>=Math.ceil(s.quiz.length*0.8)?'var(--pass)':'var(--fail)';
+    S.quiz[s.id]=true;save();const b=document.getElementById('nextBtn');if(b)b.disabled=false;}
+}
+
+let SC={i:0,answered:false};
+function renderScenarios(){SC={i:0,answered:false};paintScen();}
+function paintScen(){const sc=SCEN[SC.i];view.innerHTML=`<span class="eyebrow">Apply it · Inspector's Call</span><h1>Make the call</h1><p class="lead">The decisions you'll actually make standing in front of the system. Read it, choose, see the reasoning.</p><div class="scount mono">Scenario ${SC.i+1} of ${SCEN.length}</div><div class="scen"><div class="sh"><div class="t">${sc.t}</div><div class="n">${sc.n}</div></div><div class="body"><div class="situation">${sc.s}</div><div class="ask">${sc.ask}</div><div class="scopts">${sc.o.map((o,k)=>`<button class="opt" onclick="scAns(${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="scexp"></div></div></div><div class="foot"><button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button><div class="sp"></div><div class="scnext"></div></div>`;}
+function scAns(k){if(SC.answered)return;SC.answered=true;const sc=SCEN[SC.i];view.querySelectorAll('.scopts .opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===sc.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});view.querySelector('.scexp').innerHTML=`<div class="exp"><b>${k===sc.a?'Right call.':'Here\'s the call:'}</b> ${sc.e}</div>`;const last=SC.i===SCEN.length-1;view.querySelector('.scnext').innerHTML=`<button class="btn brass" onclick="${last?'markDoneAndNext()':'scNext()'}">${last?'Mark complete & continue':'Next scenario'} ${sv(ic.arrow)}</button>`;}
+function scNext(){SC.i++;SC.answered=false;paintScen();window.scrollTo({top:0,behavior:'smooth'});}
+
+let AS=null;
+function renderAssess(){if(!AS||AS.done)AS={i:0,answers:[],done:false};view.innerHTML=`<span class="eyebrow">Assessment</span><h1>Mastery check — Roofing &amp; Attic</h1><p class="lead">${ASSESS.length} application questions across the whole chapter. 80% to pass; reasoning shown on every answer.</p><div class="panelcard" style="text-align:left;padding:0;overflow:hidden"><div style="background:linear-gradient(120deg,#1f6f73,#123f43);color:#fff;padding:18px 22px;display:flex;justify-content:space-between;align-items:center"><div><div style="font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-2)">Roofing &amp; Attic</div><div style="font-family:var(--display);font-weight:700;font-size:17px;margin-top:3px">${ASSESS.length} questions · 80% to pass</div></div><div style="color:var(--brass-2)">${sv(ic.award)}</div></div><div style="padding:26px 22px;text-align:center">${S.assessBest?`<div class="mono" style="font-size:13px;color:var(--ink-2);margin-bottom:16px">Best score: <b style="color:${S.assessBest>=80?'var(--pass)':'var(--fail)'}">${S.assessBest}%</b></div>`:''}<button class="btn brass" style="margin:0 auto" onclick="asStart()">${S.assessBest?'Retake assessment':'Begin assessment'} ${sv(ic.arrow)}</button></div></div>`;}
+function asStart(){AS={i:0,answers:[],done:false};asPaint();window.scrollTo({top:0,behavior:'smooth'});}
+function asPaint(){const q=ASSESS[AS.i];view.innerHTML=`<span class="eyebrow">Assessment · Roofing &amp; Attic</span><h1 style="font-size:24px">Question ${AS.i+1} <span style="color:var(--ink-3)">/ ${ASSESS.length}</span></h1><div style="margin:14px 0 0"><div style="width:100%;height:6px;background:var(--surf-3);border-radius:6px;overflow:hidden;border:1px solid var(--line)"><i style="display:block;height:100%;width:${AS.i/ASSESS.length*100}%;background:var(--brass)"></i></div></div><div class="quiz" style="border-color:var(--line);margin-top:22px"><div class="q">${q.q}</div><div class="opts">${q.o.map((o,k)=>`<button class="opt" onclick="asAns(${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="asexp"></div></div><div class="foot"><div class="sp"></div><div class="asnext"></div></div>`;}
+function asAns(k){if(AS.answers[AS.i]!==undefined)return;AS.answers[AS.i]=k;const q=ASSESS[AS.i];view.querySelectorAll('.opts .opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===q.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});view.querySelector('.asexp').innerHTML=`<div class="exp"><b>${k===q.a?'Correct.':'Review:'}</b> ${q.e}</div>`;const last=AS.i===ASSESS.length-1;view.querySelector('.asnext').innerHTML=`<button class="btn brass" onclick="${last?'asFinish()':'asNext()'}">${last?'See results':'Next'} ${sv(ic.arrow)}</button>`;}
+function asNext(){AS.i++;asPaint();window.scrollTo({top:0,behavior:'smooth'});}
+function asFinish(){const correct=AS.answers.filter((a,i)=>a===ASSESS[i].a).length,p=Math.round(correct/ASSESS.length*100),pass=p>=80;S.assessBest=Math.max(S.assessBest||0,p);AS.done=true;if(pass)S.done['assess']=true;save();updTop();rail();const circ=2*Math.PI*62;
+  view.innerHTML=`<span class="eyebrow">Assessment · Result</span><h1 style="margin-bottom:18px">${pass?'Section mastered':'Not quite there'}</h1><div class="panelcard"><div class="ring"><svg width="150" height="150" viewBox="0 0 150 150" style="transform:rotate(-90deg)"><circle cx="75" cy="75" r="62" fill="none" stroke="var(--surf-3)" stroke-width="11"/><circle cx="75" cy="75" r="62" fill="none" stroke="${pass?'var(--pass)':'var(--fail)'}" stroke-width="11" stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${circ}"><animate attributeName="stroke-dashoffset" from="${circ}" to="${circ-circ*p/100}" dur=".8s" fill="freeze" calcMode="spline" keySplines=".2 .7 .2 1"/></circle></svg><div class="rv"><div><div class="n" style="color:${pass?'var(--pass)':'var(--fail)'}">${p}%</div><div class="p">${correct}/${ASSESS.length} correct</div></div></div></div><span class="verdict ${pass?'pass':'fail'}">${pass?'Passed':'Below 80%'}</span><p>${pass?'You\'ve mastered Roofing &amp; Attic — that read of covering, flashing, drainage, structure, and the attic underside carries into every roof you\'ll inspect.':'You need 80% to pass. Revisit the lessons and explanations, then retake — your best score counts.'}</p><div style="display:flex;gap:12px;justify-content:center"><button class="btn ghost" onclick="asStart()">${sv(ic.retake)} Retake</button>${pass?`<button class="btn brass" onclick="goStep(${STEPS.length-1})">Continue ${sv(ic.arrow)}</button>`:`<button class="btn brass" onclick="goStep(1)">Review lessons ${sv(ic.arrow)}</button>`}</div></div><div style="height:30px"></div>`;}
+
+function renderGlossary(){view.innerHTML=`<span class="eyebrow">Reference</span><h1>Roofing &amp; Attic glossary</h1><p class="lead">Every key term in one place — quick reference for a real inspection.</p><div class="gloss" style="margin-top:20px">${GLOSSARY.map(([w,d])=>`<div class="term"><div class="tw">${w}</div><div class="td">${d}</div></div>`).join('')}</div>${navFoot('Continue')}`;}
+function renderSource(){view.innerHTML=`<span class="eyebrow">Reference · wrap-up</span><h1>Field reference &amp; section recap</h1><p class="lead">Everything required is taught in the lessons above. This is the one-screen recap to carry onto the roof — the jobs that make up a roof inspection and the findings that flow from each.</p><div class="srcnote">${sv(ic.book,2)} Built on the Roofs and Attic chapters of <i>Principles of Home Inspection: Systems and Standards</i>, aligned with the TREC Standards of Practice. There's no separate PDF for this system — the interactive lessons are the complete reference.</div><div class="gloss" style="margin-top:18px"><div class="term"><div class="tw">1 · Covering — read the material &amp; its age</div><div class="td">Identify the type (composition, wood, tile, metal, slate, roll, built-up) and judge it against typical service life. Report curling, cupping, missing or damaged units, granule loss, exposed fasteners, and multiple layers.</div></div><div class="term"><div class="tw">2 · Flashing — the #1 leak source</div><div class="td">Check every transition: valleys, step flashing at walls, headwall/apron, chimney (with a cricket), and pipe/vent boots. Cracked boots, tar-patched chimneys, and reverse-lapped or missing flashing are top write-ups.</div></div><div class="term"><div class="tw">3 · Drainage — get water off and away</div><div class="td">Gutters secured, sloped, and clear; downspouts discharging well away from the foundation. Note ponding on flat roofs and clogged or disconnected drainage.</div></div><div class="term"><div class="tw">4 · Structure &amp; decking — is it holding shape?</div><div class="td">Look for sagging ridge or rafters, spreading from missing ties, and from inside, deteriorated, delaminated, or stained sheathing. Cut or modified trusses are a structural referral.</div></div><div class="term"><div class="tw">5 · Attic — the underside truth</div><div class="td">Enter where accessible: read framing, daylight/leak staining at penetrations and valleys, and decking condition. Ventilation and insulation interplay shows up here first — note what blocked your view.</div></div><div class="term"><div class="tw">Method &amp; SOP limits</div><div class="td">Walk it when safe; otherwise inspect from the eaves, a ladder, or with binoculars — and say how. You report what's <em>visible and accessible</em>; you don't certify remaining life, walk an unsafe or wet roof, or count layers you can't see.</div></div></div><div class="foot"><button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button><div class="sp"></div><a class="btn slate" href="index.html" style="text-decoration:none;margin-right:10px">${sv(ic.back)} Module I</a><button class="btn brass" onclick="finishAll()">${sv(ic.check)} Complete section</button></div>`;}
+function finishAll(){S.done['source']=true;save();updTop();rail();toast('Roofing & Attic section complete');}
+let tT;function toast(m){const t=document.getElementById('toast');document.getElementById('tmsg').textContent=m;t.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('show'),2400);}
+
+/* ================= DATA: scenarios / assessment / glossary ================= */
+const SCEN=[
+ {t:'On the roof',n:'The valley that weeps',s:'A two-story home has an asphalt-shingle roof with a closed-cut valley where two slopes meet. The shingles in the valley are cupped and worn, granules have washed into a bare strip down the center, and the ceiling directly below shows a brown stain.',ask:'What do you write up?',o:['Nothing — valleys always look worn','The valley is the busiest drainage path and shows wear plus an interior stain below. Report deteriorated valley flashing/shingles and active or past leakage; recommend evaluation and repair.','Recommend repainting the ceiling','Recommend a whole new roof immediately'],a:1,e:'Valleys carry the most concentrated water on a roof and are a top leak point. Worn valley material plus a stain on the ceiling below is a leak path — you report the deficiency and the implication and recommend a roofer evaluate, without guaranteeing the source.'},
+ {t:'At the chimney',n:'A bucket of tar',s:'Where a brick chimney passes through the roof, there is no step or counter-flashing — instead the whole joint has been smeared with black roofing cement, now cracked and alligatored.',ask:'Your call?',o:['Fine — the tar seals it','Roofing cement is not flashing. A tar-patched chimney with no proper step/counter-flashing is an amateur repair and a near-certain future leak. Report it and recommend proper metal flashing.','Recommend more tar over the cracks','Only a concern if you see a stain'],a:1,e:'Flashing is the #1 leak source, and the chimney is its hardest spot. Troweled-on roofing cement is a temporary patch that always fails — you call out the absent/defective flashing and the amateur repair, and recommend correct step and counter-flashing.'},
+ {t:'From the eaves',n:'Three roofs in one',s:'Standing on a ladder at the eave you can count the shingle layers at the rake edge: there appear to be three separate layers of composition shingles stacked on the deck.',ask:'What do you note?',o:['Nothing — more layers means more protection','Multiple layers (here, three) overload the structure, hide the decking condition, and most jurisdictions limit a roof to two. Report the layer count and that the next re-roof will require a full tear-off.','Recommend adding a fourth layer to even it out','That the roof is newer than it looks'],a:1,e:'Two layers is the common maximum; three is a write-up. Extra layers add dead load, trap heat, telegraph the bumps of the layer below, and prevent you from seeing the decking. Report the count and the tear-off implication.'},
+ {t:'In the attic',n:'Daylight at the ridge',s:'In the attic at midday you see pinpoints of daylight along the ridge and dark water staining on the underside of the sheathing near a plumbing vent penetration. The decking there feels soft when pressed.',ask:'The primary finding?',o:['Normal attic ventilation light','Active leakage at the vent penetration: staining plus soft, deteriorated decking. Report the leak path (likely a failed vent boot), the damaged sheathing, and recommend repair and further evaluation.','Recommend painting the sheathing','Daylight at the ridge always means a missing ridge board'],a:1,e:'The attic shows the underside truth. Staining at a penetration with soft decking points to a failed pipe/vent boot leaking onto the deck. Distinguish intentional ventilation light from leak staining — you report the stain, the soft decking, and the likely source.'},
+ {t:'On the ground',n:'Water at the wall',s:'A gutter run is full of debris and pulling away from the fascia; one downspout discharges right at the foundation onto a splash block that sits flush against the wall. The soil at that corner is eroded and the basement wall below shows efflorescence.',ask:'What do you report?',o:['Gutters are cosmetic — skip it','Failed drainage is feeding the foundation: clogged, detached gutter and a downspout discharging at the wall. Report it and recommend cleaning/resecuring gutters and extending discharge well away from the foundation.','Recommend removing the gutters entirely','Only the basement wall matters, not the roof'],a:1,e:'Roof drainage is a roofing finding with a foundation consequence. Water dumped at the wall undermines soil and drives moisture into the basement. You connect the clogged/loose gutter and the at-the-wall discharge to the efflorescence and recommend correcting both.'},
+ {t:'On a wood roof',n:'Curled and split shakes',s:'A 30-year-old home has the original wood shake roof. Many shakes are curled, cupped, and split; several are missing, and moss is growing on the shaded north slope. The exposed felt shows through in spots.',ask:'How do you write it up?',o:['Wood roofs last forever — note nothing','Report extensive deterioration — curling, splitting, missing shakes, moss, and exposed underlayment — consistent with a roof at or past typical service life; recommend evaluation for replacement.','Recommend power-washing the moss and moving on','Recommend painting the shakes'],a:1,e:'Wood shakes/shingles run roughly 20–40 years and fail by curling, splitting, and going missing, with moss accelerating decay on shaded slopes. You describe the condition and that it\'s at/past service life, and recommend a qualified evaluation — you don\'t certify exact remaining life.'},
+ {t:'Method &amp; safety',n:'Wet, steep, and slick',s:'You arrive to inspect a steep 12/12 slate roof during a light drizzle; the slate is wet and you have no safe footing. The SOP lets you inspect from the ground/eaves when walking is unsafe.',ask:'What\'s the right move?',o:['Walk it anyway to be thorough','Don\'t walk an unsafe, wet, steep roof. Inspect from the eaves, a ladder, and with binoculars, then state in the report the method used and that walking was not performed for safety.','Skip the roof entirely and say nothing','Tell the client the roof is fine since you couldn\'t see problems'],a:1,e:'Safety governs method, and the SOP doesn\'t require you to walk an unsafe roof. You use ladder/eaves/binocular observation, report what you could and couldn\'t see, and state the limitation — never fabricate a clean result you couldn\'t verify.'},
+];
+const ASSESS=[
+ {q:'The home inspector\'s job on the roof is to:',o:['Certify how many years of life remain','Observe accessible conditions, recognize deficiencies, and report the implications','Re-roof or repair the defects found','Guarantee the roof is leak-free'],a:1,e:'You observe and report — material, condition, and the implications. You don\'t certify remaining life, repair, or guarantee against leaks.'},
+ {q:'The single most common source of roof leaks is:',o:['The field of the shingles','Flashing at transitions and penetrations','The ridge board','The gutters'],a:1,e:'Most leaks start at flashing — valleys, walls, chimneys, and pipe/vent boots — not in the open field of the covering.'},
+ {q:'Typical service life of a standard 3-tab asphalt/composition shingle roof is about:',o:['5–10 years','15–25 years','40–60 years','100+ years'],a:1,e:'Standard composition shingles run roughly 15–25 years (architectural/laminated longer). Tile and slate can exceed 50–100; wood is ~20–40.'},
+ {q:'Curling, cupping, and heavy granule loss on asphalt shingles indicate:',o:['A brand-new roof','Age and weathering — the covering is wearing out','A flashing problem only','A ventilation problem only'],a:1,e:'Granules protect the asphalt from UV; their loss plus curling/cupping is classic end-of-life weathering. Report the condition and that it\'s at/near service life.'},
+ {q:'Most jurisdictions limit asphalt shingle roofs to a maximum of:',o:['One layer','Two layers','Three layers','No limit'],a:1,e:'Two layers is the common maximum. A third layer overloads the structure, hides the deck, and means the next re-roof requires a full tear-off.'},
+ {q:'Where two roof slopes meet and channel water is the:',o:['Ridge','Valley','Eave','Rake'],a:1,e:'The valley carries concentrated runoff from two planes — a high-wear, high-leak area where valley flashing/shingles must be sound.'},
+ {q:'Flashing where a roof slope meets a vertical wall, woven shingle-by-shingle, is:',o:['Counter-flashing','Step flashing','Drip edge','Apron flashing'],a:1,e:'Step flashing is a series of bent metal pieces lapped with each shingle course up a wall. A continuous strip or roofing cement there is a defect.'},
+ {q:'A pipe or vent penetration is sealed at the roof with a:',o:['Cricket','Boot / flashing collar','Ridge vent','Drip edge'],a:1,e:'A pipe/vent boot (often neoprene-collared) flashes the penetration. Cracked, sun-rotted boots are a very common leak source.'},
+ {q:'A cricket (saddle) is installed:',o:['Along the eave','On the up-slope side of a wide chimney to divert water around it','At every pipe penetration','Inside the gutter'],a:1,e:'A cricket is a small peaked structure on the high side of a chimney (generally for chimneys wider than ~30 in) that splits and diverts water around it.'},
+ {q:'Black roofing cement troweled over a chimney joint instead of metal flashing is:',o:['A proper permanent repair','An amateur patch and a likely future leak — report it','Required by code','Better than metal'],a:1,e:'Roofing cement is not flashing; it cracks and fails. Tar-patched flashing is an amateur repair you call out, recommending proper step/counter-flashing.'},
+ {q:'A downspout should discharge:',o:['Right at the foundation wall','Well away from the foundation','Into the crawlspace','Onto the lower roof'],a:1,e:'Roof water must be carried away from the foundation. Discharge at the wall erodes soil and drives moisture into basements and crawlspaces.'},
+ {q:'A sagging ridge line viewed from the street most likely indicates:',o:['Normal settling, never report it','A structural problem — undersized/overspanned rafters, broken ties, or overloaded decking','A flashing defect','Granule loss'],a:1,e:'A visible sag or dip in the ridge or roof plane is a framing/structure finding — report it and recommend evaluation by a qualified contractor or engineer.'},
+ {q:'The horizontal members that resist rafters spreading and pushing the walls out are:',o:['Collar ties high near the ridge alone','Ceiling joists / rafter (bottom) ties at the wall plates','Purlins','Drip edge'],a:1,e:'Bottom rafter ties (often the ceiling joists) keep the walls from spreading; collar ties high up resist ridge uplift/separation. Missing ties let walls bow and the ridge sag.'},
+ {q:'Engineered roof trusses on site have been cut and modified by a homeowner. You should:',o:['Note it as fine if it looks sturdy','Report it as a structural alteration and recommend evaluation — trusses must never be field-cut','Recommend adding more nails','Ignore it; trusses are over-built'],a:1,e:'A truss is an engineered unit; cutting any member destroys its design. Field-modified trusses are a structural referral, not a judgment call you make.'},
+ {q:'From inside the attic, dark staining plus soft, delaminated sheathing at a penetration indicates:',o:['Normal wood color','A roof leak — report the staining, deteriorated decking, and likely source','Good ventilation','Insulation contact'],a:1,e:'Stained, soft, delaminating decking is water damage. You report the leak path (often a failed boot/flashing), the damaged sheathing, and recommend repair and evaluation.'},
+ {q:'When a roof is too steep, wet, or otherwise unsafe to walk, the SOP allows you to:',o:['Skip the roof and say nothing','Inspect from the ground, eaves, or ladder and report the method and limitation','Walk it anyway','Certify it as defect-free'],a:1,e:'Method follows safety. You inspect from the eaves/ladder/binoculars, report what you could and couldn\'t see, and state the limitation — you never fabricate a result.'},
+];
+const GLOSSARY=[
+ ['Roof covering','The weather-shedding surface — asphalt/composition shingles, wood shakes/shingles, tile, metal, slate, roll, or built-up — laid over underlayment and decking.'],
+ ['Composition / asphalt shingle','The most common covering: asphalt-saturated mat surfaced with mineral granules. 3-tab (flat) or architectural/laminated (dimensional, longer-lived).'],
+ ['Granules','The mineral coating that shields shingle asphalt from UV. Granule loss (bald spots, granules in the gutter) is a weathering/aging sign.'],
+ ['Wood shake / shingle','Split (shake) or sawn (shingle) cedar covering, ~20–40 yr life; fails by curling, cupping, splitting, and moss decay on shaded slopes.'],
+ ['Clay / concrete tile','Heavy, long-lived covering (50+ yr). The tiles outlast the underlayment beneath, which is the usual leak point; broken/slipped tiles are common write-ups.'],
+ ['Slate','Natural stone covering with a very long life (75–100+ yr). Brittle — broken/missing slates and failed fasteners ("nail sickness") are the findings.'],
+ ['Metal roofing','Standing-seam or metal panels/shingles, long-lived; watch for loose/exposed fasteners, rust, oil-canning, and seam/flashing failures.'],
+ ['Roll roofing','Asphalt material in rolls for low-slope or utility roofs; short-lived, with seams and exposed nails as the weak points.'],
+ ['Built-up roof (BUR)','Multiple plies of felt and asphalt with a gravel or cap surface on flat/low-slope roofs; look for blisters, alligatoring, splits, and ponding.'],
+ ['Flashing','Sheet-metal (or membrane) at transitions and penetrations that directs water over joints. The #1 source of roof leaks.'],
+ ['Valley flashing','Material lining where two slopes meet — open (exposed metal), closed-cut, or woven. The highest-volume drainage path on the roof.'],
+ ['Step flashing','Bent metal pieces lapped with each shingle course where a slope meets a vertical wall. A continuous strip or tar there is a defect.'],
+ ['Headwall / apron flashing','Flashing where the top of a slope meets a wall (headwall) or a vertical face meets the slope below (apron).'],
+ ['Counter-flashing','Upper flashing let into a chimney/wall mortar joint that overlaps the step/base flashing so water can\'t run behind it.'],
+ ['Pipe / vent boot','The flashing collar (often neoprene) that seals a plumbing vent or other pipe penetration. Cracked, sun-rotted boots are a top leak source.'],
+ ['Cricket / saddle','A small peaked structure on the up-slope side of a wide chimney that diverts water around it.'],
+ ['Drip edge','Metal edging at eaves and rakes that directs runoff into the gutter and protects the deck edge.'],
+ ['Underlayment','The water-resistant layer (felt or synthetic; ice-and-water shield at eaves/valleys) between the covering and the decking.'],
+ ['Decking / sheathing','The structural panel (plywood/OSB or board) that the covering is fastened to; inspected from the attic for sag, delamination, and stains.'],
+ ['Rafter','A sloped framing member running from ridge to wall plate, supporting the decking in stick-framed (cut) roofs.'],
+ ['Truss','An engineered triangulated frame spanning the building; members must never be field-cut or modified.'],
+ ['Ridge board / ridge beam','The member at the peak where rafters meet; a structural ridge beam carries load, a ridge board just aligns rafters.'],
+ ['Collar tie / rafter tie','Horizontal members resisting rafter spread (rafter/ceiling-joist ties low) and ridge separation (collar ties high). Missing ties let walls spread and the ridge sag.'],
+ ['Sheathing delamination','Plyw/OSB plies separating from chronic moisture — soft, spongy decking found from the attic side.'],
+ ['Soffit / fascia','The underside of the eave (soffit, often vented for intake) and the trim board at the eave (fascia, which carries the gutter).'],
+ ['Gutter & downspout','The trough and vertical pipe that collect roof runoff and carry it down and away from the foundation.'],
+ ['Ponding','Standing water that doesn\'t drain within ~48 hr on a flat/low-slope roof — a load and leak concern.'],
+ ['Multiple layers','Two or more roof coverings stacked on the deck; the common max is two — a third overloads the structure and hides the decking.'],
+ ['Eave / rake','The eave is the low horizontal roof edge (over the wall, where gutters hang); the rake is the sloped edge at a gable end.'],
+ ['Service life','The typical span before a covering needs replacement — used to judge condition, not to certify exact remaining years.'],
+ ['Standards of Practice (SOP)','The TREC rules defining what you must inspect and report, and the limits (e.g., not walking an unsafe roof).'],
+];
+
+/* ================= WIDGET CONTENT REGISTRIES ================= */
+const _gs='fill="none" stroke="#3c5870" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"';
+const _mono=(x,y,s,t,c='#2c4153',a='middle')=>`<text x="${x}" y="${y}" text-anchor="${a}" font-family="JetBrains Mono" font-size="${s}" fill="${c}">${t}</text>`;
+
+SPOT.surface={title:'Walk the roof surface',sub:'Six covering, flashing, and drainage problems on this roof — click each one you spot.',vb:'0 0 540 340',
+ svg:`<g ${_gs}>
+   <path d="M40 200 L270 60 L500 200"/><line x1="30" y1="200" x2="510" y2="200"/>
+   <path d="M60 200 L270 78 L480 200" stroke-width="1"/>
+   <!-- ridge -->
+   ${_mono(270,50,9,'ridge','#918c7d')}
+   <!-- valley running down from ridge to eave -->
+   <path d="M270 64 L210 200" stroke="#6a6557" stroke-width="2"/><path d="M270 64 L214 200" stroke="#a98f5e" stroke-width="1"/>
+   <!-- worn/bare strip in valley -->
+   <path d="M255 110 L228 196" stroke="#b85436" stroke-width="3" stroke-dasharray="4 3"/>${_mono(232,128,8,'bare valley','#b85436','start')}
+   <!-- chimney with tar smear -->
+   <rect x="320" y="96" width="40" height="58"/><rect x="316" y="92" width="48" height="8"/>${_mono(340,86,8,'chimney','#918c7d')}
+   <path d="M318 150 q22 -6 44 0" stroke="#b85436" stroke-width="3"/>${_mono(376,150,8,'tar','#b85436','start')}
+   <!-- plumbing vent boot cracked -->
+   <line x1="150" y1="150" x2="150" y2="120" stroke="#6a6557" stroke-width="3"/><path d="M142 152 h16" stroke="#6a6557" stroke-width="2"/><path d="M146 144 l8 8 M154 144 l-8 8" stroke="#b85436" stroke-width="1.4"/>${_mono(150,112,8,'vent boot','#b85436')}
+   <!-- missing/curled shingles patch -->
+   <rect x="395" y="150" width="46" height="28" fill="#bdb8a8" stroke="#b85436" stroke-dasharray="3 2"/>${_mono(418,144,8,'missing','#b85436')}
+   <!-- gutter sagging at eave -->
+   <path d="M40 208 h180 q10 0 10 8 l4 14" stroke="#6a6557" stroke-width="2"/><path d="M150 210 q60 18 90 22" stroke="#b85436" stroke-width="2"/>${_mono(120,236,8,'sagging gutter','#b85436','start')}
+   <!-- downspout at wall -->
+   <line x1="468" y1="200" x2="468" y2="300" stroke="#6a6557" stroke-width="2"/><path d="M468 300 l-6 6 M468 300 l6 6" stroke="#b85436"/>${_mono(486,300,8,'at wall','#b85436','start')}
+ </g>`,
+ defects:[
+  {x:240,y:150,r:24,n:'Worn, bare valley',d:'The valley carries the most concentrated water on the roof. A worn, granule-stripped strip down the center is a leak path — report deteriorated valley shingles/flashing and recommend evaluation.'},
+  {x:340,y:150,r:20,n:'Tar-patched chimney flashing',d:'Roofing cement smeared at the chimney is not flashing — it cracks and leaks. Report the amateur repair and recommend proper step and counter-flashing.'},
+  {x:150,y:148,r:18,n:'Cracked pipe/vent boot',d:'A sun-rotted, split vent boot is one of the most common leak sources. Recommend replacing the boot/flashing collar.'},
+  {x:418,y:164,r:20,n:'Missing / curled shingles',d:'A bare patch where shingles are gone or curled exposes the underlayment and deck. Report missing/damaged covering and recommend repair.'},
+  {x:170,y:218,r:24,n:'Sagging / detached gutter',d:'A gutter pulling away and sloping wrong won\'t carry water away. Recommend resecuring and correcting slope so runoff reaches the downspout.'},
+  {x:468,y:300,r:18,n:'Downspout discharging at the foundation',d:'Water dumped at the wall erodes soil and feeds the basement/crawl. Recommend extending discharge well away from the foundation.'},
+ ]};
+
+SPOT.atticframe={title:'Inspect the attic underside',sub:'Five framing, decking, and leak problems under this roof. Click each one.',vb:'0 0 540 320',
+ svg:`<g ${_gs}>
+   <!-- rafters meeting at ridge -->
+   <path d="M60 250 L270 70 L480 250"/><line x1="270" y1="70" x2="270" y2="250" stroke-width="1"/>
+   ${_mono(270,62,9,'ridge','#918c7d')}
+   <!-- decking line along top chords -->
+   <path d="M70 244 L270 78 L470 244" stroke="#a98f5e" stroke-width="1.2"/>
+   <!-- collar tie present (upper) -->
+   <line x1="210" y1="138" x2="330" y2="138" stroke="#3c5870" stroke-width="1.6"/>${_mono(270,132,8,'collar tie','#918c7d')}
+   <!-- bottom: ceiling joist / rafter tie MISSING (gap shown) -->
+   <line x1="60" y1="250" x2="200" y2="250" stroke="#6a6557" stroke-width="1.4"/><line x1="340" y1="250" x2="480" y2="250" stroke="#6a6557" stroke-width="1.4"/><path d="M205 250 h130" stroke="#b85436" stroke-width="1.6" stroke-dasharray="6 4"/>${_mono(270,266,8,'missing tie','#b85436')}
+   <!-- cut rafter / sister-less notch -->
+   <path d="M150 178 l14 0 l0 -10 l-14 0" stroke="#b85436" stroke-width="1.4"/>${_mono(132,170,8,'cut','#b85436','end')}
+   <!-- water stain on sheathing near penetration -->
+   <line x1="360" y1="150" x2="360" y2="170" stroke="#6a6557" stroke-width="2.5"/><ellipse cx="372" cy="150" rx="20" ry="11" fill="#7d4f24" opacity="0.4" stroke="none"/>${_mono(398,144,8,'stain','#b85436','start')}
+   <!-- daylight at ridge -->
+   <path d="M266 86 l4 -6 l4 6" stroke="#e0a043" stroke-width="1.6"/><circle cx="270" cy="84" r="3" fill="#e0a043" stroke="none"/>${_mono(300,82,8,'daylight','#b85436','start')}
+ </g>`,
+ defects:[
+  {x:270,y:250,r:22,n:'Missing rafter / ceiling-joist tie',d:'Without a bottom tie, the rafters spread and push the walls out while the ridge sags. Report the missing tie and recommend structural evaluation.'},
+  {x:157,y:174,r:18,n:'Cut / notched rafter',d:'A rafter cut or notched for a chase or duct loses capacity. Report the structural alteration and recommend evaluation; never accept a field-cut truss member.'},
+  {x:374,y:150,r:22,n:'Leak staining on the sheathing',d:'Dark staining on the underside of the deck near a penetration is water damage. Report the stain, the likely source (failed boot/flashing), and check the decking for softness.'},
+  {x:270,y:84,r:16,n:'Daylight at the ridge',d:'Pinpoint daylight at the ridge or a penetration can mean a gap or failed flashing letting water in. Distinguish it from intentional vent light and report it.'},
+  {x:270,y:138,r:16,n:'Collar tie — verify it\'s intact',d:'The collar tie high near the ridge resists separation under uplift. Confirm ties are present and undamaged; missing or removed ties are a structural note.'},
+ ]};
+
+MATCH.life={title:'Covering ↔ typical service life',sub:'Tap a roof covering, then its rough service life. Correct pairs lock green.',left:'Covering',right:'Typical life',
+ pairs:[['3-tab asphalt','15–25 yr'],['Wood shake','20–40 yr'],['Metal roof','40–60 yr'],['Concrete/clay tile','50+ yr'],['Slate','75–100+ yr']],done:'That\'s the service-life ladder — you use it to judge condition, not to certify exact remaining years.'};
+MATCH.flash={title:'Location ↔ flashing type',sub:'Flashing is the #1 leak source — know which goes where. Tap a location, then its flashing.',left:'Where',right:'Flashing',
+ pairs:[['Two slopes meet','Valley flashing'],['Slope meets a side wall','Step flashing'],['Wide chimney, up-slope','Cricket / saddle'],['Plumbing vent pipe','Pipe boot'],['Eave edge of deck','Drip edge']],done:'Locked — each transition gets its own flashing; a smear of tar instead is the defect you write up.'};
+
+SORT.write={title:'Write it up, or leave it?',sub:'Sort each observation into a reportable deficiency or an acceptable condition. Tap an item, then a bin.',bins:['REPORTABLE deficiency','ACCEPTABLE / note only'],
+ items:[{t:'Three layers of shingles on the deck',bin:0},{t:'Cracked, split pipe-vent boot',bin:0},{t:'Chimney flashed with roofing cement only',bin:0},{t:'Downspout discharging at the foundation',bin:0},{t:'Architectural shingles, ~8 yr old, lying flat',bin:1},{t:'Open metal valley, clean and sound',bin:1}],
+ done:'Right — defects in covering, flashing, and drainage get written up; a sound, mid-life roof is just noted.'};
+SORT.method={title:'Walk it, or inspect from below?',sub:'Method follows safety and access. Tap a situation, then the right approach.',bins:['WALK the roof (when safe)','From EAVES / ladder / binoculars'],
+ items:[{t:'Dry, low-slope roof, solid decking',bin:0},{t:'Accessible 4/12 asphalt roof, dry day',bin:0},{t:'Wet, steep 12/12 slate',bin:1},{t:'Brittle, deteriorated tile that could crack',bin:1},{t:'Three stories with no safe access',bin:1},{t:'Soft, spongy decking underfoot',bin:1}],
+ done:'Exactly — walk it when it\'s safe and won\'t be damaged; otherwise inspect from the eaves/ladder/binoculars and state the limitation.'};
+
+ERA.cover={title:'Roof coverings at a glance',sub:'Tap each covering to see what you\'re looking at — and what it means on an inspection.',
+ rows:[
+  {d:'~15–25 yr',n:'Composition / asphalt shingle',x:'The most common covering. 3-tab (flat) or architectural (dimensional). Read curling, cupping, granule loss, missing tabs, and exposed/popped fasteners.'},
+  {d:'~20–40 yr',n:'Wood shake & shingle',x:'Split or sawn cedar. Fails by curling, cupping, splitting, and missing units; moss accelerates decay on shaded slopes. Check for exposed felt.'},
+  {d:'~50+ yr',n:'Clay & concrete tile',x:'Long-lived but heavy. The tile outlasts the underlayment beneath — the usual leak point. Note broken, slipped, or walked-on cracked tiles.'},
+  {d:'~40–60 yr',n:'Metal',x:'Standing-seam or panels/shingles. Watch for loose or exposed fasteners, rust, oil-canning, and seam and flashing failures rather than field wear.'},
+  {d:'~75–100+ yr',n:'Slate',x:'Natural stone, very long life but brittle. Findings are broken/missing slates and failed fasteners ("nail sickness") — never pry or walk it carelessly.'},
+  {d:'short-lived',n:'Roll & built-up (flat)',x:'Roll roofing and tar-and-gravel BUR on low-slope roofs. Look for seam splits, blisters, alligatoring, exposed nails, and ponding water.'},
+ ]};
+
+/* ================= STEPS ================= */
+const STEPS=[
+/* ===== ORIENTATION ===== */
+{id:'intro',kind:'Start here',label:'The roof system',type:'lesson',
+ body:()=>`<span class="eyebrow">Roofing &amp; Attic · Orientation</span><h1>The first line of defense — and the most expensive thing to get wrong.</h1>
+ <p class="lead">The roof keeps water out of everything below it, and a roof problem rarely stays a roof problem. Your job isn't to certify how many years are left or to re-roof anything. It's to <b>observe what's accessible, recognize what's deficient, and report the implication</b> so your client can decide.</p>
+ <p>A roof inspection is really five jobs, and every finding in this section belongs to one of them:</p>
+ <ul class="num"><li><b>Covering</b> — the material that sheds water, and how worn it is.</li><li><b>Flashing</b> — the metal at transitions; the <em>#1 leak source</em>.</li><li><b>Drainage</b> — gutters and downspouts carrying water away.</li><li><b>Structure</b> — rafters, trusses, ties, and decking holding shape.</li><li><b>The attic</b> — the underside truth: leaks, framing, and decking.</li></ul>
+ <p>Keep those five jobs separate and you can read any roof — from a 3-tab tract house to a slate-and-copper original — the same disciplined way.</p>
+ <p>Every component runs through the same five-step loop you've used in the other systems:</p>
+ <div class="loop"><div class="seg on"><div class="n">01</div><div class="w">Component</div></div><div class="seg"><div class="n">02</div><div class="w">Function</div></div><div class="seg"><div class="n">03</div><div class="w">Common defect</div></div><div class="seg"><div class="n">04</div><div class="w">Implication</div></div><div class="seg"><div class="n">05</div><div class="w">How you report</div></div></div>
+ <h2>What you'll inspect</h2>
+ <ul class="clean"><li><b>Roof covering</b> — type, age, condition, and layers</li><li><b>Flashing</b> — valleys, walls, chimney, and penetrations</li><li><b>Drainage</b> — gutters, downspouts, and discharge</li><li><b>Roof structure</b> — rafters/trusses, ties, sheathing, and sag</li><li><b>The attic</b> — framing, leak staining, and decking condition</li><li><b>Method &amp; SOP limits</b> — walked vs. from the eaves/ladder/binoculars</li></ul>
+ <div class="field"><div class="ic">${sv(ic.alert)}</div><div><div class="t">Safety &amp; scope</div><p>Falls are the inspector's biggest hazard. Walk a roof only when it's <b>safe, dry, and won't be damaged</b> by your weight — never a wet, steep, brittle, or deteriorated roof. When you can't walk it, inspect from the <b>eaves, a ladder, or with binoculars</b>, and <b>say so in the report</b>. You report what's visible and accessible, and note where you couldn't see.</p></div></div>`,
+ quiz:[
+  {q:'The inspector\'s role with the roof is to:',o:['Certify the exact years of remaining life','Observe accessible conditions, recognize deficiencies, and report the implications','Re-roof or repair what\'s found','Guarantee the roof against leaks'],a:1,e:'Observe and report — material, condition, and implications. You don\'t certify remaining life, repair, or guarantee.'},
+  {q:'Across the whole roof, the most common source of leaks is:',o:['The open field of the covering','Flashing at transitions and penetrations','The ridge board','The drip edge'],a:1,e:'Most leaks begin at flashing — valleys, walls, chimneys, and pipe/vent boots — not in the field of the shingles.'},
+  {q:'When a roof is wet, steep, or brittle and unsafe to walk, you should:',o:['Walk it anyway to be thorough','Inspect from the eaves, a ladder, or with binoculars and report the method and limitation','Skip the roof and say nothing','Certify it as defect-free'],a:1,e:'Safety governs method. Inspect from below, report what you could and couldn\'t see, and state the limitation.'},
+  {q:'The attic is valuable on a roof inspection because it:',o:['Is required to be finished','Shows the underside truth — leak staining, framing, and decking condition','Replaces inspecting the covering','Is where the gutters connect'],a:1,e:'From inside you read leaks, framing, and decking that the finished surface hides — the underside tells the truth.'},
+ ]},
+
+/* ===== L1 ROOF COVERINGS ===== */
+{id:'l1',kind:'Lesson 1',label:'Covering Materials & Life',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 1 · What's on top</span><h1>Name the covering, and you already know what to look for.</h1>
+ <p class="lead">Every roof covering wears out a different way and on a different clock. You won't specify a roof, but you have to identify what's there, judge it against typical service life, and report what's failing.</p>
+ <h2>The families you'll see</h2>
+ ${conds('',[['Asphalt / composition shingle','By far the most common. 3-tab (flat) or architectural/laminated (dimensional, longer-lived). Wears by losing granules, curling, cupping, and shedding tabs. ~15–25 yr.'],['Wood shake / shingle','Split (shake) or sawn (shingle) cedar. Fails by curling, splitting, and going missing; moss decays shaded slopes. ~20–40 yr.'],['Clay &amp; concrete tile','Heavy and long-lived (50+ yr) — but the underlayment beneath fails first. Broken and slipped tiles are the write-ups.'],['Metal','Standing-seam or panels/shingles, 40–60 yr. Watch loose/exposed fasteners, rust, and seam failures, not field wear.'],['Slate','Natural stone, 75–100+ yr but brittle. Broken/missing slates and failed fasteners ("nail sickness") are the findings.'],['Roll &amp; built-up (flat/low-slope)','Roll roofing and tar-and-gravel BUR. Short-lived; look at seams, blisters, alligatoring, exposed nails, and ponding.']])}
+ ${W('era','cover')}
+ <h2>Reading age and condition</h2>
+ <p>You don't certify remaining life — you describe condition and judge it against the typical clock. <b>Granules</b> are the giveaway on asphalt: they shield the asphalt from UV, so bald spots and a gutter full of granules mean the roof is aging out. <b>Curling and cupping</b> say the same. The point is the implication: a roof at or past service life is a near-term replacement your client should budget for.</p>
+ ${W('match','life')}
+ ${story('Inspector in the house',`A seller called the roof "newer." From the eaves you could see the architectural shingles were laid over an old 3-tab roof — and the tabs of the bottom layer telegraphed through as ripples. **The covering wasn't new; it was a layover hiding a worn roof and the decking under it.** You report the layers, the telegraphing, and that the next re-roof needs a tear-off.`)}`,
+ quiz:[
+  {q:'The most common residential roof covering is:',o:['Slate','Asphalt / composition shingle','Clay tile','Built-up roofing'],a:1,e:'Asphalt/composition shingles cover the majority of homes — 3-tab or architectural/laminated.'},
+  {q:'Typical service life of a 3-tab asphalt roof is about:',o:['5–10 years','15–25 years','50–60 years','100+ years'],a:1,e:'Standard composition runs ~15–25 yr; architectural longer. Tile/slate far longer; wood ~20–40 yr.'},
+  {q:'Heavy granule loss, curling, and cupping on asphalt shingles mean:',o:['A new roof','Age and weathering — the covering is wearing out','A drainage defect','A framing problem'],a:1,e:'Granules protect the asphalt from UV; losing them, plus curling/cupping, is classic end-of-life weathering.'},
+  {q:'On a clay or concrete tile roof, what usually fails first?',o:['The tiles themselves','The underlayment beneath the tiles','The ridge board','The gutters'],a:1,e:'Tiles can last 50+ yr, but the underlayment wears out sooner and is the usual leak point; broken/slipped tiles are also common.'},
+  {q:'Moss growing on a wood shake roof tends to:',o:['Protect the shakes','Hold moisture and accelerate decay, especially on shaded slopes','Improve the appearance only','Have no effect'],a:1,e:'Moss traps moisture against the wood and speeds curling, splitting, and rot — a condition you note on shaded slopes.'},
+ ]},
+
+/* ===== L2 FLASHING ===== */
+{id:'l2',kind:'Lesson 2',label:'Flashing — the #1 Leak Source',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 2 · The transitions</span><h1>Roofs don't leak in the field — they leak at the edges.</h1>
+ <p class="lead">Wherever the covering is interrupted — a valley, a wall, a chimney, a pipe — water needs help to keep moving downhill over the joint. That help is <b>flashing</b>, and it is the single most common source of roof leaks.</p>
+ <h2>The flashing locations</h2>
+ ${conds('',[['Valley','Where two slopes meet and channel the most concentrated water. Open (exposed metal), closed-cut, or woven — all high-wear, high-leak.'],['Step flashing','Bent metal pieces lapped with each shingle course where a slope meets a vertical wall. A continuous strip or a smear of tar there is a defect.'],['Headwall &amp; apron','Flashing where the top of a slope meets a wall (headwall) or a vertical face meets the slope below (apron).'],['Chimney','The hardest spot: base/step flashing plus counter-flashing let into the mortar, and a cricket on the up-slope side of a wide chimney.'],['Pipe / vent boots','The collar that seals a plumbing-vent or pipe penetration. Cracked, sun-rotted boots are one of the most common leaks of all.']])}
+ <div class="dgm"><svg viewBox="0 0 720 250">
+   <g ${_gs}>
+     <path d="M120 200 L300 70 L300 200 Z"/><line x1="120" y1="200" x2="640" y2="200"/>
+     <rect x="300" y="60" width="120" height="140"/>${_mono(360,52,10,'wall','#918c7d')}
+     <!-- step flashing pieces up the wall -->
+     <g stroke="#7f520a" stroke-width="2"><path d="M300 180 l-26 0 l0 -16"/><path d="M300 152 l-46 0 l0 -16"/><path d="M300 124 l-66 0 l0 -16"/><path d="M300 96 l-86 0 l0 -16"/></g>
+     ${_mono(210,108,9,'step flashing','#7f520a','start')}
+     <!-- counter flashing into mortar -->
+     <line x1="300" y1="92" x2="332" y2="92" stroke="#3c5870" stroke-width="2.4"/>${_mono(338,90,9,'counter-flashing','#3c5870','start')}
+     <!-- vent boot -->
+     <line x1="170" y1="160" x2="170" y2="128" stroke="#6a6557" stroke-width="4"/><path d="M158 162 h24" stroke="#7f520a" stroke-width="2.4"/>${_mono(170,120,9,'vent boot','#7f520a')}
+   </g>
+ </svg><div class="cap">Step flashing climbs the wall course-by-course, counter-flashing is let into the mortar above it, and each penetration gets its own boot.</div></div>
+ <h2>What goes wrong</h2>
+ <ul class="clean"><li><b>Roofing cement instead of flashing</b> — troweled-on tar cracks and fails; the classic amateur chimney "repair."</li><li><b>Missing or reverse-lapped flashing</b> — water runs <em>behind</em> it instead of over it.</li><li><b>Cracked or sun-rotted boots</b> — the neoprene collar splits and leaks at the pipe.</li><li><b>No counter-flashing</b> — step flashing left exposed with nothing let into the masonry above.</li><li><b>No cricket</b> on a wide chimney — water pools on the up-slope side and finds its way in.</li></ul>
+ ${W('match','flash')}
+ ${story('Inspector in the house',`A ceiling stain two rooms away from any plumbing turned out to start at a chimney where someone had buried the whole joint in roofing cement instead of flashing. **Tar is a patch, not a flashing.** The report names the absent step/counter-flashing, the amateur tar repair, and the active leak path down to the stain.`)}`,
+ quiz:[
+  {q:'The single most common source of roof leaks is:',o:['The field of the shingles','Flashing at transitions and penetrations','The ridge','The drip edge'],a:1,e:'Most leaks start where the covering is interrupted — valleys, walls, chimneys, and boots — not in the open field.'},
+  {q:'Flashing where a roof slope meets a vertical side wall is:',o:['Counter-flashing','Step flashing','Valley flashing','Apron flashing'],a:1,e:'Step flashing is a series of bent metal pieces lapped with each shingle course up the wall. A continuous strip or tar there is a defect.'},
+  {q:'Black roofing cement troweled over a chimney joint is:',o:['A proper permanent flashing','An amateur patch that cracks and leaks — report it','Required by code','Superior to metal'],a:1,e:'Roofing cement is not flashing. Tar-patched flashing is an amateur repair you call out, recommending proper step/counter-flashing.'},
+  {q:'A cracked, sun-rotted neoprene collar around a plumbing vent is a:',o:['Cricket problem','Failed pipe/vent boot — a very common leak','Drip-edge issue','Valley defect'],a:1,e:'The boot seals the penetration; when the collar splits it leaks right at the pipe. It\'s one of the most common roof leaks.'},
+  {q:'A cricket (saddle) is installed to:',o:['Hold the gutters','Divert water around the up-slope side of a wide chimney','Seal a vent pipe','Cap the ridge'],a:1,e:'A cricket is a small peaked structure on the high side of a wide chimney that splits and diverts water around it.'},
+ ]},
+
+/* ===== L3 ROOF DRAINAGE ===== */
+{id:'l3',kind:'Lesson 3',label:'Roof Drainage',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 3 · Getting water away</span><h1>The roof's last job is to put the water where it can't hurt the house.</h1>
+ <p class="lead">Shedding water off the covering is only half the job. <b>Gutters and downspouts</b> have to carry it down and <em>away</em> — because roof water dumped at the foundation becomes a basement, crawlspace, and structural problem.</p>
+ <h2>The drainage path</h2>
+ ${conds('',[['Gutters','The trough at the eave. Must be secured to the fascia, sloped to the downspouts, and clear of debris. Sagging, detached, or clogged gutters overflow at the wall.'],['Downspouts','The verticals that carry water down. They must connect to the gutter and actually discharge — a downspout that ends at the foundation is no better than no gutter.'],['Discharge &amp; extensions','Splash blocks or extensions must move water well away from the foundation. Discharge at the wall erodes soil and drives moisture in.'],['Low-slope drainage','Flat and low-slope roofs drain to internal drains or scuppers; clogged drainage causes ponding.']])}
+ <div class="dgm"><svg viewBox="0 0 720 250">
+   <g ${_gs}>
+     <path d="M120 90 L360 40 L600 90"/><line x1="100" y1="90" x2="620" y2="90"/>
+     <!-- house wall -->
+     <line x1="150" y1="90" x2="150" y2="210"/><line x1="570" y1="90" x2="570" y2="210"/><line x1="150" y1="210" x2="570" y2="210"/>
+     <!-- gutter at eave -->
+     <path d="M100 96 h40 q8 0 8 8 l2 10" stroke="#7f520a" stroke-width="2"/>
+     <!-- downspout -->
+     <line x1="150" y1="114" x2="150" y2="214" stroke="#7f520a" stroke-width="2.4"/>
+     <!-- discharge away from foundation (good) -->
+     <path d="M150 214 l40 0" stroke="#3d7d50" stroke-width="2.4"/><path d="M186 210 l8 4 l-8 4" stroke="#3d7d50" stroke-width="2"/>${_mono(196,210,9,'away — good','#3d7d50','start')}
+     <!-- discharge at wall (bad) -->
+     <line x1="570" y1="114" x2="570" y2="214" stroke="#7f520a" stroke-width="2.4"/><path d="M570 214 l0 8" stroke="#b85436" stroke-width="2.4"/>${_mono(584,222,9,'at wall — bad','#b85436','start')}
+     ${_mono(360,80,9,'roof sheds → gutter → downspout → away','#918c7d')}
+   </g>
+ </svg><div class="cap">Roof water must be carried to the gutter, down the downspout, and discharged well away from the foundation.</div></div>
+ <h2>What you'll write up</h2>
+ <div class="defect"><div class="dh"><span class="n">1</span><span class="nm">Clogged / sagging / detached gutters</span></div><p>Debris-filled or pulling off the fascia, sloped wrong.</p><div class="meta"><span class="lab">Implication</span><span class="val">Overflow at the wall — soil erosion, foundation and basement moisture, fascia rot.</span><span class="lab">Report</span><span class="val">Recommend cleaning, resecuring, and correcting slope to the downspouts.</span></div></div>
+ <div class="defect"><div class="dh"><span class="n">2</span><span class="nm">Downspout discharging at the foundation</span></div><p>Ends right at the wall, or a splash block flush against it.</p><div class="meta"><span class="lab">Implication</span><span class="val">Concentrated water at the foundation — the #1 cause of wet basements and crawlspaces.</span><span class="lab">Report</span><span class="val">Recommend extensions to carry discharge well away from the foundation.</span></div></div>
+ <div class="defect"><div class="dh"><span class="n">3</span><span class="nm">Ponding on a flat/low-slope roof</span></div><p>Standing water not draining within ~48 hr.</p><div class="meta"><span class="lab">Implication</span><span class="val">Added load and a leak path; accelerates membrane failure.</span><span class="lab">Report</span><span class="val">Recommend clearing drains/scuppers and evaluating slope and drainage.</span></div></div>
+ ${story('Inspector in the house',`A basement with efflorescence and a musty smell traced straight up to a single downspout dumping right at that corner of the house, with eroded soil to match. **The wet wall in the basement was a roof-drainage problem.** The report ties the clogged gutter and at-the-wall discharge to the moisture below and recommends extending the discharge.`)}`,
+ quiz:[
+  {q:'A downspout should discharge:',o:['Right at the foundation','Well away from the foundation','Into the crawlspace','Onto the lower roof'],a:1,e:'Roof water must be carried away from the foundation; discharge at the wall erodes soil and wets basements/crawls.'},
+  {q:'A clogged, sagging gutter most directly causes:',o:['A framing failure','Overflow at the wall — soil erosion and foundation/basement moisture','Granule loss','Ice on the ridge'],a:1,e:'Water that can\'t reach the downspout overflows at the eave and dumps at the wall — a moisture and erosion problem.'},
+  {q:'Standing water that doesn\'t drain within ~48 hr on a flat roof is:',o:['Normal and fine','Ponding — added load and a leak path; report it','Required for the membrane','A gutter problem only'],a:1,e:'Ponding stresses the membrane and finds leaks. Recommend clearing drains/scuppers and evaluating the slope.'},
+  {q:'Why is roof drainage a foundation issue too?',o:['It isn\'t — they\'re unrelated','Water dumped at the wall is a leading cause of wet basements and crawlspaces','Gutters hold up the foundation','Downspouts feed the footing drains by design'],a:1,e:'Roof drainage and foundation moisture are linked — discharge at the wall drives water into the structure below.'},
+ ]},
+
+/* ===== L4 ROOF STRUCTURE ===== */
+{id:'l4',kind:'Lesson 4',label:'Roof Structure & Decking',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 4 · Holding the shape</span><h1>A roof that's losing its shape is telling you something.</h1>
+ <p class="lead">Under the covering is the frame that holds it all up — <b>rafters or trusses, ties, and the sheathing</b> they carry. When the structure moves, you can read it from the street and confirm it in the attic.</p>
+ <h2>Rafters vs. trusses</h2>
+ ${conds('',[['Rafters (stick-framed)','Cut on site, running ridge to wall plate, with a ridge board at the peak and a ceiling joist or rafter tie at the bottom. Members can be sistered or reinforced.'],['Trusses (engineered)','Triangulated, factory-built units engineered as a whole. Strong and efficient — but you must <em>never</em> field-cut or modify a truss member; doing so destroys its design.'],['Ridge board vs. ridge beam','A ridge board just aligns rafters; a structural ridge beam actually carries load. Know which you\'re looking at before judging a sag.'],['Ties','<b>Rafter/ceiling-joist ties</b> low at the plate resist the rafters spreading; <b>collar ties</b> high near the ridge resist separation under uplift.']])}
+ <div class="dgm"><svg viewBox="0 0 720 250">
+   <g ${_gs}>
+     <path d="M120 200 L360 60 L600 200"/><line x1="120" y1="200" x2="600" y2="200"/>
+     ${_mono(360,52,9,'ridge','#918c7d')}
+     <!-- collar tie -->
+     <line x1="290" y1="120" x2="430" y2="120" stroke="#3c5870" stroke-width="2"/>${_mono(360,114,9,'collar tie (high)','#3c5870')}
+     <!-- bottom tie / ceiling joist -->
+     <line x1="120" y1="200" x2="600" y2="200" stroke="#7f520a" stroke-width="2.4"/>${_mono(360,216,9,'rafter / ceiling-joist tie (low)','#7f520a')}
+     <!-- spread arrows when tie missing -->
+     <path d="M120 184 l-16 0" stroke="#b85436" stroke-width="2"/><path d="M104 180 l-6 4 l6 4" stroke="#b85436" stroke-width="2"/>
+     <path d="M600 184 l16 0" stroke="#b85436" stroke-width="2"/><path d="M616 180 l6 4 l-6 4" stroke="#b85436" stroke-width="2"/>
+     ${_mono(360,150,9,'no bottom tie → walls spread, ridge sags','#b85436')}
+   </g>
+ </svg><div class="cap">The bottom tie keeps the walls from spreading; the collar tie up high resists separation. Lose the bottom tie and the ridge sags.</div></div>
+ <h2>Reading sag and the decking</h2>
+ <p>From the ground, a <b>sagging or wavy ridge</b>, a dished roof plane, or walls bowing out say the structure is overloaded or missing ties — a referral for evaluation, never a "looks fine." From the attic, the <b>sheathing/decking</b> tells the rest: delamination, soft spots, stains, and inadequate or cut framing. A roof's shape and its decking are one story read from two sides.</p>
+ ${W('spot','atticframe')}
+ ${story('Inspector in the house',`A converted attic had a beautiful finished ceiling — and from the street the ridge had a clear dip. Up in the remaining attic space, the bottom rafter ties had been cut out to make headroom. **Someone traded the structure for living space.** The report flags the sag, the removed ties, and recommends a structural evaluation — not a cosmetic fix.`)}`,
+ quiz:[
+  {q:'You must never field-cut or modify a:',o:['Rafter','Ceiling joist','Engineered truss member','Ridge board'],a:2,e:'A truss is engineered as a whole; cutting any member destroys its design. Field-modified trusses are a structural referral.'},
+  {q:'A sagging or wavy ridge seen from the street indicates:',o:['Normal settling — don\'t report it','A structural problem — overload or missing/failed ties; recommend evaluation','A flashing defect','Granule loss'],a:1,e:'A visible sag is a framing finding. Report it and recommend evaluation by a qualified contractor or engineer.'},
+  {q:'Rafters spreading and pushing the walls out is resisted by:',o:['Collar ties high near the ridge','Rafter/ceiling-joist ties low at the wall plates','The ridge board','Drip edge'],a:1,e:'The bottom tie keeps the walls from spreading; collar ties up high resist ridge separation. Missing bottom ties let walls bow and the ridge sag.'},
+  {q:'From the attic, soft, delaminated sheathing means:',o:['Normal aging','Chronic moisture has damaged the decking — report it','Good ventilation','Proper underlayment'],a:1,e:'Delamination and soft spots are moisture damage to the deck — report the condition and the likely leak source.'},
+  {q:'A structural ridge beam differs from a ridge board in that it:',o:['Is only decorative','Actually carries roof load, where a ridge board just aligns rafters','Is always smaller','Is the same thing'],a:1,e:'A ridge beam carries load; a ridge board only aligns the rafter tops. Know which you have before judging a sag.'},
+ ]},
+
+/* ===== L5 ATTIC INSPECTION ===== */
+{id:'l5',kind:'Lesson 5',label:'Inspecting the Attic',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 5 · The underside truth</span><h1>The attic shows you what the finished surface hides.</h1>
+ <p class="lead">If you can get into the attic, you should — it's where leaks confess, framing is visible, and the decking shows its real condition. Many roof problems are confirmed (or first found) from inside.</p>
+ <h2>What you're checking from inside</h2>
+ ${conds('',[['Access &amp; safety','Find and use the access where it\'s safe — watch your footing on joists (not the ceiling), low clearances, and unknown insulation. Note where access was blocked or limited.'],['Framing','Read the rafters/trusses and ties: cut, notched, sistered, or missing members, and any sag visible from below.'],['Leak staining','Dark stains and rings on the underside of the sheathing — especially at penetrations, valleys, and the chimney — mark current or past leaks.'],['Decking condition','Press and look for soft, spongy, delaminated, or stained decking; that\'s the damage a leak leaves behind.'],['Ventilation interplay','Blocked soffits, an exhaust fan dumping into the attic, or moisture on the deck connect the roof to the attic\'s air and moisture story.']])}
+ ${W('spot','surface')}
+ <h2>The conditions you'll write up</h2>
+ <div class="defect"><div class="dh"><span class="n">1</span><span class="nm">Leak staining on the sheathing</span></div><p>Dark stains/rings at a penetration, valley, or the chimney.</p><div class="meta"><span class="lab">Implication</span><span class="val">Current or past water entry — and deteriorating decking where it persists.</span><span class="lab">Report</span><span class="val">Note the staining and likely source; recommend evaluation/repair of the flashing or boot.</span></div></div>
+ <div class="defect"><div class="dh"><span class="n">2</span><span class="nm">Deteriorated / delaminated decking</span></div><p>Soft, spongy, or separating sheathing.</p><div class="meta"><span class="lab">Implication</span><span class="val">Compromised structure and fastening; the covering above it isn't supported.</span><span class="lab">Report</span><span class="val">Recommend replacing the affected decking and correcting the leak source.</span></div></div>
+ <div class="defect"><div class="dh"><span class="n">3</span><span class="nm">Exhaust dumping into the attic</span></div><p>A bath/kitchen fan or dryer terminating in the attic, not outside.</p><div class="meta"><span class="lab">Implication</span><span class="val">Moisture (and lint) condensing on the cold deck — staining, rot, mold.</span><span class="lab">Report</span><span class="val">Recommend ducting the exhaust fully to the exterior.</span></div></div>
+ ${story('Inspector in the house',`The roof surface looked tired but intact. Up in the attic, a constellation of dark rings on the sheathing under the back valley — and one soft, black patch you could push a thumb into — told the real story. **The surface said "old"; the attic said "leaking."** The report leads with the staining, the soft decking, and the valley as the source.`)}`,
+ quiz:[
+  {q:'The attic is valuable because it lets you read:',o:['Only the insulation','Leak staining, framing, and the real decking condition','The shingle brand','The gutter slope'],a:1,e:'From inside you see the underside truth — leaks, framing, and decking that the finished surface hides.'},
+  {q:'Dark staining on the underside of the sheathing usually indicates:',o:['Normal wood color','Current or past roof leakage — report it and the likely source','Proper ventilation','A new roof'],a:1,e:'Stains and rings mark water entry, especially at penetrations, valleys, and the chimney. Report the staining and source.'},
+  {q:'Soft, spongy, delaminated decking means:',o:['Good decking','Moisture has deteriorated the sheathing — recommend replacement and fixing the leak','It\'s simply old plywood','Nothing to report'],a:1,e:'Delamination and softness are moisture damage; recommend replacing the affected decking and correcting the source.'},
+  {q:'A bathroom fan terminating inside the attic should be:',o:['Left — it ventilates the attic','Reported — moisture condenses on the cold deck; recommend ducting it fully outside','Made larger','Connected to the soffit'],a:1,e:'Exhaust dumped in the attic condenses on the deck and causes staining, rot, and mold. It must terminate outside.'},
+  {q:'When attic access is blocked or limited, you should:',o:['Force entry','Note the limitation in the report and inspect what is accessible','Skip the roof entirely','Assume it\'s fine'],a:1,e:'You report what\'s visible and accessible and note where access was limited — never guess at what you couldn\'t see.'},
+ ]},
+
+/* ===== L6 INSPECTION METHOD & SOP ===== */
+{id:'l6',kind:'Lesson 6',label:'Method, Safety & SOP',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 6 · How you look</span><h1>The right method is the safe one — and you report which you used.</h1>
+ <p class="lead">How you inspect a roof depends on whether it's safe to walk and whether walking would damage it. The Standards of Practice don't require you to risk a fall — they require you to inspect what's accessible and <b>state your method and limits</b>.</p>
+ <h2>The ways to inspect a roof</h2>
+ ${conds('',[['Walked','The best view — when the roof is safe, dry, low enough in slope, and sound enough to bear your weight without damage. Read covering, flashing, and penetrations up close.'],['From the eaves / ladder','Inspect from a ladder at the edge and along the eaves when you can\'t safely walk it — still close, still useful.'],['Binoculars / from the ground','For steep, tall, or unsafe roofs, observe from the ground with binoculars. You\'ll see condition and major defects, but not fine detail.'],['Drone or other aids','Some inspectors use a camera or drone where allowed — still observation, still with stated limits.']])}
+ <p>When <em>not</em> to walk it is just as important as when to: a <b>wet, icy, or steep</b> roof; a <b>brittle</b> tile or slate roof you'd crack; a <b>deteriorated</b> roof with soft decking; or anything beyond safe ladder reach. Walking such a roof endangers you and can damage the covering.</p>
+ ${W('sort','method')}
+ <h2>The SOP language that protects you and the client</h2>
+ <ul class="clean"><li><b>State the method</b> — "inspected by walking the roof," or "from the eaves with binoculars; not walked due to wet/steep conditions."</li><li><b>State the limitation</b> — note areas not visible: snow, ponding, layers you can't count, blocked attic access.</li><li><b>Don't certify life or guarantee against leaks</b> — you report condition and implications, not a warranty.</li><li><b>Recommend evaluation</b> — for active leaks, structural sag, and anything beyond a visual call.</li></ul>
+ ${story('Inspector in the house',`A buyer pushed: "Just get up there, the slate looks fine from here." It was a wet, steep slate roof — exactly the kind that cracks underfoot and sends inspectors to the ER. **You inspect from the eaves and with binoculars, and you write the limitation.** Being thorough never means being unsafe — and a fabricated clean roof helps no one.`)}`,
+ quiz:[
+  {q:'The Standards of Practice require you to:',o:['Walk every roof no matter what','Inspect what\'s accessible and report your method and limitations','Certify the roof against leaks','Refuse to inspect roofs you can\'t walk'],a:1,e:'The SOP requires accessible inspection plus stated method and limits — not risking a fall or guaranteeing the roof.'},
+  {q:'You should NOT walk a roof when it is:',o:['Dry and low-slope','Wet, steep, brittle, or deteriorated','Newly installed','Easily reached by ladder'],a:1,e:'Wet/icy, steep, brittle (tile/slate), or deteriorated roofs are unsafe or damageable — inspect from below instead.'},
+  {q:'When you can\'t safely walk a roof, an acceptable method is:',o:['Skipping the roof and saying nothing','Inspecting from the eaves, a ladder, or with binoculars and stating the limitation','Certifying it as fine','Walking it anyway'],a:1,e:'Inspect from below, report what you could and couldn\'t see, and state the limitation in the report.'},
+  {q:'On a brittle tile or slate roof, walking it risks:',o:['Nothing','Cracking the covering and injuring you — inspect from below','Improving the inspection','Voiding the SOP'],a:1,e:'Brittle coverings crack underfoot and the height/slope is dangerous. Observe from the eaves/ladder/binoculars.'},
+  {q:'In your report, the method and limitations should be:',o:['Left out to keep it short','Clearly stated — how you inspected and what you couldn\'t see','Implied only','Replaced with a guarantee'],a:1,e:'Always state how you inspected and note areas not visible. It protects you and informs the client honestly.'},
+ ]},
+
+/* ===== L7 ASPHALT & WOOD CONDITIONS ===== */
+{id:'l7',kind:'Lesson 7',label:'Shingle & Wood Conditions',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 7 · Reading the field</span><h1>On the most common roofs, learn to read the surface.</h1>
+ <p class="lead">Most roofs you inspect are asphalt or wood, and most of your write-ups live right in the field of the covering. Train your eye on the conditions that say "aging," "installed wrong," or "repaired badly."</p>
+ <h2>Asphalt / composition conditions</h2>
+ ${conds('',[['Curling &amp; cupping','Edges or centers lifting as the shingle ages and dries — a weathering/end-of-life sign.'],['Granule loss','Bald, shiny spots and granules in the gutter; the asphalt is now exposed to UV.'],['Missing / damaged tabs','Wind-torn or broken tabs leave the underlayment and deck exposed — a leak path.'],['Exposed / popped fasteners','Nails backing out or face-nailed through the surface — each is a pinhole leak; common amateur sign.'],['Multiple layers','Two is the common max; a third overloads the structure, hides the deck, and forces a future tear-off.']])}
+ <h2>Wood shake / shingle conditions</h2>
+ ${conds('',[['Curling, cupping &amp; splitting','Cedar dries, curls, and splits with age — the classic wear pattern.'],['Missing shakes','Gaps where units have blown off or rotted away expose the felt and deck.'],['Moss &amp; decay','Moss on shaded slopes holds moisture and accelerates rot.'],['Exposed felt','Underlayment showing through means the covering is failing.']])}
+ ${W('sort','write')}
+ <h2>The cardinal write-ups</h2>
+ <ul class="clean"><li><b>Damaged, missing, or curling shingles</b> — report the condition and the leak risk.</li><li><b>Exposed or improper fasteners</b> — each is a potential leak; note face-nailing.</li><li><b>Multiple layers</b> — count what you can see and flag a third layer.</li><li><b>Amateur repairs</b> — tar smears, mismatched patches, caulk where flashing belongs.</li></ul>
+ ${story('Inspector in the house',`A roof "fixed" before listing had five different shingle colors, a ridge line of caulk, and exposed nail heads marching across the slope where someone face-nailed loose tabs. **A patchwork of amateur repairs is itself a finding.** You report each leak path and recommend a qualified roofer evaluate — the repairs are a symptom, not a fix.`)}`,
+ quiz:[
+  {q:'Curling and cupping on asphalt shingles indicate:',o:['A new roof','Age and weathering — the covering is wearing out','A drainage defect','A framing problem'],a:1,e:'Lifting edges/centers are end-of-life weathering on asphalt. Report the condition and that it\'s at/near service life.'},
+  {q:'Exposed or popped fasteners on a shingle roof are:',o:['Decorative','Potential leak points — each is a pinhole into the deck','Required for ventilation','A sign of quality work'],a:1,e:'Nails backing out or face-nailed through the surface each let water in. Note them and the amateur installation.'},
+  {q:'Granules in the gutter and bald spots on the shingles mean:',o:['The roof is new','The protective layer is wearing off and the asphalt is exposed to UV','A gutter problem only','Nothing to report'],a:1,e:'Granules shield the asphalt from UV; losing them is an aging sign that accelerates failure.'},
+  {q:'Three layers of shingles on the deck should be:',o:['Left — more is better','Reported — overloads structure, hides the deck, and forces a full tear-off next time','Topped with a fourth','Ignored if it looks flat'],a:1,e:'Two is the common max. A third adds load, hides the decking, and means the next re-roof needs a tear-off.'},
+  {q:'A patchwork of tar smears, caulk, and mismatched shingles is:',o:['A proper repair','Amateur repair — itself a finding; report the leak paths and recommend evaluation','Better than re-roofing','Only cosmetic'],a:1,e:'Amateur repairs are a symptom of an aging or leaking roof. Report each leak path and recommend a qualified evaluation.'},
+ ]},
+
+/* ===== L8 PENETRATIONS & SKYLIGHTS ===== */
+{id:'l8',kind:'Lesson 8',label:'Penetrations & Skylights',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 8 · The holes in the roof</span><h1>Every hole through the roof is a leak waiting for bad flashing.</h1>
+ <p class="lead">Plumbing vents, flues, skylights, fans, and antennas all punch through the covering — and every one depends on its flashing to stay dry. Penetrations are where the field meets the #1 leak source up close.</p>
+ <h2>The penetrations you'll find</h2>
+ ${conds('',[['Plumbing vent pipes','Flashed with a boot — the neoprene collar cracks and rots in the sun. One of the most common leaks of all.'],['Flues &amp; B-vents','Metal chimneys/vents flashed with a storm collar and base flashing; need clearance from combustibles and a rain cap.'],['Skylights','A glazed hole in the roof with its own step/head/sill flashing. Curbs, seals, and flashing all age — a classic leak and condensation source.'],['Roof/attic vents &amp; fans','Box vents, turbines, powered fans, and ridge vents — each flashed where it penetrates; look for damaged housings and missing flashing.'],['Abandoned penetrations','Old antenna mounts, removed vents, and stray fastener holes left unsealed are quiet, persistent leaks.']])}
+ <div class="dgm"><svg viewBox="0 0 720 240">
+   <g ${_gs}>
+     <path d="M80 200 L360 70 L640 200"/><line x1="80" y1="200" x2="640" y2="200"/>
+     ${_mono(360,62,9,'ridge','#918c7d')}
+     <!-- vent pipe with boot -->
+     <line x1="200" y1="150" x2="200" y2="110" stroke="#6a6557" stroke-width="4"/><path d="M186 152 h28" stroke="#7f520a" stroke-width="2.4"/>${_mono(200,102,8,'vent boot','#7f520a')}
+     <!-- skylight curb with flashing -->
+     <path d="M420 150 l60 -28 l40 18 l-60 28 z"/><path d="M420 150 l60 -28" stroke="#7f520a" stroke-width="2"/>${_mono(486,128,8,'skylight','#918c7d')}
+     <path d="M420 150 l-10 5 M520 140 l10 -5" stroke="#7f520a" stroke-width="2"/>${_mono(404,170,8,'flashing','#7f520a','start')}
+     <!-- abandoned hole -->
+     <circle cx="300" cy="135" r="4" fill="#b85436" stroke="none"/>${_mono(300,124,8,'open hole','#b85436')}
+   </g>
+ </svg><div class="cap">Each penetration lives or dies by its flashing — a cracked boot, a tired skylight curb, or an unsealed abandoned hole all leak.</div></div>
+ <h2>What goes wrong</h2>
+ <ul class="clean"><li><b>Cracked / rotted vent boots</b> — the single most common penetration leak.</li><li><b>Skylight flashing &amp; seal failure</b> — leaks at the curb, plus condensation fogging the glazing.</li><li><b>Tar instead of flashing</b> — the same amateur patch you see at chimneys, smeared around pipes and skylights.</li><li><b>Abandoned penetrations</b> — old mounts and holes left open after equipment is removed.</li><li><b>No clearance / rain cap on a flue</b> — a combustion and water-entry concern.</li></ul>
+ <p>The discipline is the same everywhere: a penetration is just another transition, and you read its flashing the way you read a valley or a wall — over the joint, not patched on top of it.</p>
+ ${story('Inspector in the house',`A "mystery" hallway leak sat nowhere near any plumbing — until the attic showed staining running down from an old satellite-dish lag bolt someone left in the deck when the dish came off. **A removed antenna can leak for years.** The report names the abandoned penetration as the source and recommends proper sealing, not another bead of caulk.`)}`,
+ quiz:[
+  {q:'The most common penetration leak on a roof is a:',o:['Cracked / sun-rotted plumbing vent boot','Sagging gutter','Missing ridge board','Loose downspout'],a:0,e:'The neoprene boot collar splits and rots in the sun, leaking right at the pipe — one of the most common roof leaks of all.'},
+  {q:'A skylight is best understood as:',o:['A maintenance-free feature','A glazed hole in the roof that depends on its own flashing and seals — a classic leak/condensation source','Part of the gutter system','A structural member'],a:1,e:'Skylights leak at curbs and flashing and fog from failed seals. Inspect the flashing and glazing and report condition.'},
+  {q:'An old antenna or satellite mount removed but left in place is:',o:['Harmless','A potential abandoned penetration that can leak — recommend proper sealing','A structural upgrade','Required to stay'],a:1,e:'Unsealed fastener holes and mounts are quiet, persistent leaks. Report the abandoned penetration and recommend sealing.'},
+  {q:'Roofing cement smeared around a vent pipe or skylight instead of flashing is:',o:['A permanent fix','The same amateur patch as at a chimney — it cracks and leaks; report it','Better than flashing','Code-required'],a:1,e:'Tar is a patch, not flashing, at any penetration. Report the amateur repair and recommend proper flashing.'},
+  {q:'A penetration through the covering should be treated as:',o:['Different from all other flashing','Another transition — read its flashing the way you read a valley or wall','Never a leak source','The gutter\'s responsibility'],a:1,e:'A penetration is just another interruption in the covering; its flashing must direct water over the joint, not patch on top of it.'},
+ ]},
+
+/* ===== L9 TILE, METAL, SLATE & FLAT ===== */
+{id:'l9',kind:'Lesson 9',label:'Tile, Metal, Slate & Flat',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 9 · The other coverings</span><h1>The long-lived and the low-slope roofs have their own rules.</h1>
+ <p class="lead">Tile, metal, slate, and flat roofs last longer or behave differently than asphalt — and they fail differently too. You inspect them mostly from below or the edge, because walking them either cracks them or isn't safe.</p>
+ <h2>The other families, and how they fail</h2>
+ ${conds('',[['Clay &amp; concrete tile','Long-lived but heavy; the underlayment fails first and is the leak point. Findings: broken, cracked (often from being walked on), or slipped tiles.'],['Metal','40–60 yr; failures are at the details — loose or exposed fasteners, rust, oil-canning, and seam/flashing problems, not field wear.'],['Slate','Very long life but brittle; broken/missing slates and failed fasteners ("nail sickness") are the findings. Never walk or pry it casually.'],['Roll roofing','Asphalt rolls on low-slope/utility roofs — short-lived; seams and exposed nails are the weak points.'],['Built-up (BUR) &amp; flat','Plies of felt and asphalt with gravel/cap. Look for blisters, alligatoring, splits, exposed felt, and — the big one — ponding water.']])}
+ <div class="dgm"><svg viewBox="0 0 720 230">
+   <g ${_gs}>
+     <!-- flat/low-slope roof with ponding -->
+     <line x1="80" y1="80" x2="640" y2="92"/><line x1="80" y1="80" x2="80" y2="180"/><line x1="640" y1="92" x2="640" y2="180"/><line x1="80" y1="180" x2="640" y2="180"/>
+     ${_mono(120,72,9,'low-slope / flat roof','#918c7d','start')}
+     <!-- ponding water -->
+     <ellipse cx="360" cy="96" rx="90" ry="10" fill="#5a7b97" opacity="0.45" stroke="none"/><path d="M270 96 h180" stroke="#5a7b97" stroke-width="1.6"/>${_mono(360,84,9,'ponding water','#5a7b97')}
+     <!-- drain -->
+     <circle cx="520" cy="92" r="7" stroke="#3c5870"/><path d="M520 99 v 30" stroke="#3c5870" stroke-width="1.4"/>${_mono(520,142,8,'drain','#918c7d')}
+     <!-- blister -->
+     <path d="M170 90 q12 -14 24 0" stroke="#b85436" stroke-width="1.6"/>${_mono(182,78,8,'blister','#b85436')}
+   </g>
+ </svg><div class="cap">On flat and low-slope roofs, ponding water, blisters, and split seams are the findings — and clogged drains cause the ponding.</div></div>
+ <h2>Inspecting them without damage</h2>
+ <p>The through-line: you mostly inspect these from the <b>eaves, a ladder, or with binoculars</b>. Walking tile cracks it; walking slate is brittle and dangerous; flat membranes can be damaged. You report what you can see of the covering and its details, and you note the method and limits — the same discipline as every other roof, applied to coverings that punish a careless step.</p>
+ <div class="field"><div class="ic">${sv(ic.alert)}</div><div><div class="t">The inspector's summary</div><p>Read every roof as five jobs: <b>covering</b> (type, age, condition, layers), <b>flashing</b> (the #1 leak source, at every transition), <b>drainage</b> (off the roof and away from the foundation), <b>structure</b> (rafters/trusses, ties, sag, decking), and the <b>attic</b> (the underside truth). Name the deficiency, the implication, and the recommendation — and state how you inspected it.</p></div></div>
+ ${story('Inspector in the house',`A flat-roofed addition had a dinner-plate of standing water two days after the last rain, ringed with a chalky tide line and a soft blister beside the clogged drain. **Flat roofs tell you they're failing in still water.** The report names the ponding, the clogged drain, and the blistered membrane, and recommends evaluation — observed from the edge, never by wading across it.`)}`,
+ quiz:[
+  {q:'On a tile roof, what typically fails first and causes leaks?',o:['The tiles','The underlayment beneath the tiles','The ridge board','The gutters'],a:1,e:'Tiles last 50+ yr, but the underlayment wears out sooner and is the usual leak point; broken/slipped tiles are also common.'},
+  {q:'Why shouldn\'t you walk a slate or tile roof casually?',o:['It voids the SOP','It\'s brittle — you can crack the covering and it\'s dangerous','It\'s never necessary','It improves the view'],a:1,e:'Slate and tile crack underfoot and are dangerous to walk. Inspect from the eaves/ladder/binoculars.'},
+  {q:'On a metal roof, the common findings are at:',o:['The field panels wearing out','The details — loose/exposed fasteners, rust, and seam/flashing failures','The granules','The collar ties'],a:1,e:'Metal lasts long in the field; problems show up at fasteners, seams, rust, and flashing.'},
+  {q:'On a flat/low-slope roof, standing water that lingers is:',o:['Normal','Ponding — added load and a leak path, usually from clogged drainage; report it','Required','A gutter issue only'],a:1,e:'Ponding stresses the membrane and finds leaks; clogged drains/scuppers cause it. Recommend clearing and evaluating.'},
+  {q:'The inspector\'s through-line for the whole roof system is:',o:['Pick the best single repair','Read every roof as covering, flashing, drainage, structure, and attic — and state your method','Always recommend a tear-off','Certify the remaining life'],a:1,e:'Five jobs, read together: covering, flashing, drainage, structure, and attic — name deficiency, implication, recommendation, and method.'},
+ ]},
+/*LESSONS*/
+ {id:'scenarios',kind:'Apply it',label:'Inspector\'s Call',type:'scenario'},
+ {id:'assess',kind:'Assessment',label:'Mastery check',type:'assess'},
+ {id:'glossary',kind:'Reference',label:'Glossary',type:'glossary'},
+ {id:'source',kind:'Reference & summary',label:'Reference & summary',type:'source'},
+];
+(async()=>{await load();render();})();
+</script>

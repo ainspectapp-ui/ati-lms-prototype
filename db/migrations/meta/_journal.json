@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1781902163166,
+      "tag": "0000_wide_master_chief",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1781902866533,
+      "tag": "0001_flowery_night_nurse",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1781905381843,
+      "tag": "0002_glorious_deathbird",
+      "breakpoints": true
+    }
+  ]
+}

@@ -1,0 +1,631 @@
+<!-- ATI · Module V · Texas Inspector Law — full interactive section -->
+<title>ATI · Module V — Texas Inspector Law</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..900&family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#f4f2ea;--surf:#fffdf8;--surf-2:#faf7ef;--surf-3:#efeae0;
+    --line:#e6e1d4;--line-2:#efeae0;--line-brass:rgba(197,129,42,.32);
+    --ink:#21242b;--ink-2:#5b616b;--ink-3:#8b909a;
+    --brass:#c5812a;--brass-2:#e0a043;--brass-deep:#9a6214;--brass-soft:#f4e7cd;
+    --slate:#1f6f73;--slate-2:#2f8a8d;--slate-soft:#dde9e9;--slate-deep:#123f43;
+    --pass:#2f7a4e;--pass-soft:#e2efe5;--fail:#bd4a31;--fail-soft:#f6e6df;
+    --r:16px;--display:'Fraunces',Georgia,serif;--body:'Hanken Grotesk',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;
+    --sh-1:0 1px 2px rgba(25,28,34,.05),0 1px 3px rgba(25,28,34,.05);--sh-2:0 4px 14px rgba(25,28,34,.06),0 12px 32px rgba(25,28,34,.09);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.55;background-image:radial-gradient(120% 80% at 88% -8%,rgba(197,129,42,.06),transparent 52%),radial-gradient(90% 60% at -8% 108%,rgba(31,111,115,.06),transparent 52%)}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  .mono{font-family:var(--mono)}
+  ::selection{background:var(--brass);color:#fff}
+  ::-webkit-scrollbar{width:11px;height:11px}::-webkit-scrollbar-thumb{background:#d2ccbd;border-radius:11px;border:3px solid var(--bg)}
+
+  .top{position:sticky;top:0;z-index:30;background:rgba(244,242,234,.82);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid var(--line)}
+  .top .row{max-width:1150px;margin:0 auto;padding:13px 24px;display:flex;align-items:center;gap:14px}
+  .mark{width:36px;height:36px;border-radius:10px;flex:none;display:grid;place-items:center;background:linear-gradient(150deg,var(--brass-2),var(--brass-deep));box-shadow:0 3px 12px rgba(168,109,16,.3),inset 0 1px 0 rgba(255,255,255,.35)}
+  .mark svg{width:20px;height:20px;color:#fff}
+  .top .tt{font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:-.01em;line-height:1.1}.top .tt b{color:var(--brass-deep)}
+  .top .sub{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);display:block;margin-top:2px}
+  .top .prog{margin-left:auto;display:flex;align-items:center;gap:12px}
+  .top .prog .bar{width:150px;height:7px;background:var(--surf-3);border-radius:7px;overflow:hidden;border:1px solid var(--line)}
+  .top .prog .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--brass-deep),var(--brass));border-radius:7px;transition:width .5s cubic-bezier(.2,.7,.2,1)}
+  .top .prog .pc{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--brass-deep);min-width:34px;text-align:right}
+
+  .wrap{max-width:1150px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:250px 1fr;gap:32px;align-items:start}
+  .rail{position:sticky;top:88px;margin-top:28px;max-height:calc(100vh - 110px);overflow-y:auto;padding-right:4px}
+  .rail .h{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);padding:0 8px 10px}
+  .step{display:block;padding:9px 10px 9px 43px;border-radius:10px;width:100%;text-align:left;transition:.13s;color:var(--ink-2);font-size:12.5px;font-weight:500;position:relative}
+  .step:hover{background:var(--surf-2)}
+  .step.active{background:var(--surf);box-shadow:var(--sh-1);color:var(--ink)}
+  .step.active::before{content:"";position:absolute;left:-8px;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--brass)}
+  .step .dot{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-family:var(--mono);font-size:10px;color:var(--ink-3);background:var(--bg);transition:.2s}
+  .step.done .dot{background:var(--brass);border-color:var(--brass);color:#fff}.step.done .dot svg{width:11px;height:11px}
+  .step .lbl{flex:1;line-height:1.2}
+  .step .kind{font-family:var(--mono);font-size:8.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);display:block;margin-top:1px}
+  .step.locked{opacity:.42;pointer-events:none}
+
+  .view{min-width:0;margin-top:28px;animation:rise .38s cubic-bezier(.2,.7,.2,1);padding-bottom:40px}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--brass-deep);font-weight:600}
+  h1{font-family:var(--display);font-weight:800;font-size:31px;letter-spacing:-.02em;line-height:1.08;margin:8px 0 0}
+  h2{font-family:var(--display);font-weight:700;font-size:21px;letter-spacing:-.01em;margin:32px 0 10px}
+  h3{font-family:var(--display);font-weight:700;font-size:16px;margin:24px 0 8px}
+  p{font-size:15.5px;color:#33312a;margin-bottom:14px;line-height:1.74}
+  p b,li b{color:var(--ink);font-weight:700}
+  .lead{font-size:16.5px;color:var(--ink-2);margin-top:12px;max-width:64ch}
+  ul.clean{list-style:none;margin:2px 0 16px}
+  ul.clean li{font-size:14.5px;color:#33312a;padding-left:22px;position:relative;margin-bottom:9px;line-height:1.6}
+  ul.clean li::before{content:"";position:absolute;left:2px;top:8px;width:7px;height:7px;border-radius:2px;background:var(--brass);transform:rotate(45deg)}
+  ul.num{margin:0 0 16px 20px}ul.num li{font-size:14.5px;color:#33312a;margin-bottom:7px;line-height:1.6}
+
+  .field{background:var(--slate-deep);color:#e9edf0;border-radius:13px;padding:18px 20px;margin:22px 0;display:flex;gap:14px}
+  .field.brass{background:linear-gradient(135deg,#3a3526,#2c2818)}
+  .field .ic{flex:none;color:var(--brass-2)}.field .ic svg{width:20px;height:20px}
+  .field .t{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-2);margin-bottom:5px}
+  .field p{color:#c4cdd4;font-size:14px;margin:0 0 8px;line-height:1.65}.field p:last-child{margin-bottom:0}.field p b{color:#fff}
+
+  .story{background:var(--surf);border:1px solid var(--line);border-left:4px solid var(--brass);border-radius:0 13px 13px 0;padding:16px 19px;margin:22px 0;box-shadow:var(--sh-1)}
+  .story .st{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-deep);display:flex;align-items:center;gap:8px;margin-bottom:7px}
+  .story .st svg{width:14px;height:14px}
+  .story p{font-size:14.5px;color:#403d33;font-style:italic;margin:0;line-height:1.7}
+  .story p b{font-style:normal}
+
+  .loop{display:flex;align-items:stretch;background:var(--surf);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin:18px 0 8px;box-shadow:var(--sh-1)}
+  .loop .seg{flex:1;padding:13px 10px;text-align:center;border-right:1px solid var(--line-2)}.loop .seg:last-child{border-right:none}
+  .loop .seg .n{font-family:var(--mono);font-size:9px;color:var(--ink-3);letter-spacing:.1em}
+  .loop .seg .w{font-family:var(--display);font-weight:700;font-size:12.5px;margin-top:3px}
+  .loop .seg.on{background:var(--brass-soft)}.loop .seg.on .w{color:var(--brass-deep)}
+
+  .dgm{background:#bdb8a8;border:1px solid var(--line);border-radius:var(--r);padding:8px;margin:20px 0;box-shadow:var(--sh-1);position:relative;overflow:hidden}
+  .dgm::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(44,65,83,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(44,65,83,.1) 1px,transparent 1px);background-size:26px 26px;pointer-events:none}
+  .dgm svg{display:block;width:100%;height:auto;position:relative}
+  .dgm .cap{position:relative;text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:.04em;color:var(--slate-deep);padding:4px 6px 8px}
+
+  .defect{background:var(--surf);border:1px solid var(--line);border-radius:13px;padding:16px 18px;box-shadow:var(--sh-1);margin:12px 0}
+  .defect .dh{display:flex;align-items:center;gap:11px;margin-bottom:8px}
+  .defect .dh .n{width:26px;height:26px;border-radius:8px;background:var(--fail-soft);color:var(--fail);display:grid;place-items:center;flex:none;font-family:var(--mono);font-weight:600;font-size:12px}
+  .defect .dh .nm{font-family:var(--display);font-weight:700;font-size:15px}
+  .defect p{font-size:14px;margin-bottom:9px}
+  .defect .meta{display:grid;grid-template-columns:auto 1fr;gap:5px 12px;font-size:13px;align-items:start}
+  .defect .meta .lab{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);padding-top:3px;white-space:nowrap}
+  .defect .meta .val{color:#33312a;line-height:1.5}
+  .defect .rep{font-family:var(--mono);font-size:11px;background:var(--slate-soft);border-radius:8px;padding:8px 11px;color:var(--slate-deep);line-height:1.5;margin-top:8px}.defect .rep b{color:var(--slate-deep)}
+
+  .pills{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 6px}
+  .pill{font-family:var(--mono);font-size:11.5px;background:var(--surf);border:1px solid var(--line);color:var(--ink-2);padding:6px 12px;border-radius:20px}.pill b{color:var(--brass-deep)}
+  .tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px;background:var(--surf);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .tbl th{background:var(--slate-deep);color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;text-align:left;padding:9px 12px;font-weight:600}
+  .tbl td{padding:9px 12px;border-top:1px solid var(--line-2);color:#33312a}
+  .tbl td:first-child{font-family:var(--mono);font-weight:600;color:var(--brass-deep);white-space:nowrap}
+
+  /* ---- quiz (multi-question) ---- */
+  .quiz{background:var(--surf);border:1.5px solid var(--line-brass);border-radius:var(--r);padding:24px;margin:30px 0 0;box-shadow:var(--sh-1)}
+  .quiz .qh{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-deep);display:flex;align-items:center;gap:8px;margin-bottom:4px}.quiz .qh svg{width:15px;height:15px}
+  .quiz .qt{font-family:var(--display);font-weight:700;font-size:18px}.quiz .qsub{font-size:13.5px;color:var(--ink-2);margin:4px 0 4px}
+  .qblock{border-top:1px solid var(--line-2);padding-top:18px;margin-top:18px}.qblock:first-of-type{border-top:none;padding-top:14px}
+  .qnum{font-family:var(--mono);font-size:11px;color:var(--brass-deep);font-weight:600;margin-bottom:6px}
+  .q{font-family:var(--display);font-weight:600;font-size:15.5px;margin-bottom:13px;line-height:1.4}
+  .opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:11px 14px;border:1.5px solid var(--line);border-radius:10px;margin-bottom:8px;transition:.13s;font-size:14px;font-weight:500;background:var(--surf-2)}
+  .opt:hover:not(.lk){border-color:var(--brass);background:var(--surf)}
+  .opt .k{font-family:var(--mono);font-weight:600;width:23px;height:23px;border-radius:6px;background:var(--surf-3);display:grid;place-items:center;font-size:11px;flex:none;color:var(--ink-2)}
+  .opt.correct{border-color:var(--pass);background:var(--pass-soft)}.opt.correct .k{background:var(--pass);color:#fff}
+  .opt.wrong{border-color:var(--fail);background:var(--fail-soft)}.opt.wrong .k{background:var(--fail);color:#fff}
+  .opt .mk{margin-left:auto}.opt .mk svg{width:16px;height:16px}.opt.lk{cursor:default}
+  .exp{font-size:13px;color:var(--ink-2);line-height:1.62;padding:11px 13px;background:var(--surf-2);border-left:3px solid var(--brass);border-radius:0 9px 9px 0;margin-top:4px}.exp b{color:var(--ink)}
+  .qscore{margin-top:20px;padding-top:18px;border-top:1px solid var(--line-2);font-family:var(--mono);font-size:13px;color:var(--ink-2);display:flex;align-items:center;gap:10px}.qscore svg{width:18px;height:18px;flex:none}.qscore b{font-size:15px}
+
+  .foot{display:flex;align-items:center;gap:12px;margin:30px 0 10px;padding-top:22px;border-top:1px solid var(--line)}.foot .sp{flex:1}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:14px;padding:12px 18px;border-radius:11px;transition:.15s;font-family:var(--body)}.btn svg{width:16px;height:16px}
+  .btn.brass{background:linear-gradient(150deg,var(--brass-2),var(--brass));color:#fff;box-shadow:0 5px 14px rgba(168,109,16,.28)}.btn.brass:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(168,109,16,.36)}
+  .btn.brass:disabled{opacity:.5;filter:grayscale(.3);cursor:not-allowed;transform:none;box-shadow:none}
+  .btn.ghost{background:var(--surf);border:1px solid var(--line);color:var(--ink-2)}.btn.ghost:hover{color:var(--ink);border-color:var(--ink-3)}
+  .btn.slate{background:var(--slate);color:#fff}.btn.slate:hover{background:var(--slate-deep)}
+
+  /* ---- WIDGETS ---- */
+  .wlabel{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:var(--brass);padding:4px 9px;border-radius:20px;display:inline-block;margin-bottom:6px}
+  .wtitle{font-family:var(--display);font-weight:700;font-size:16px;margin-bottom:3px}
+  .wsub{font-size:13.5px;color:var(--ink-2);margin-bottom:14px}
+  .widget{background:var(--surf-2);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;margin:24px 0;box-shadow:var(--sh-1)}
+
+  .sd-wrap{display:grid;grid-template-columns:1fr 260px;gap:16px}@media(max-width:760px){.sd-wrap{grid-template-columns:1fr}}
+  .sd-stage{background:#bdb8a8;border:1px solid var(--line);border-radius:13px;padding:8px;position:relative;overflow:hidden}
+  .sd-stage::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(44,65,83,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(44,65,83,.09) 1px,transparent 1px);background-size:24px 24px;pointer-events:none}
+  .sd-stage svg{display:block;width:100%;height:auto;position:relative}
+  .hot{cursor:pointer}.hot circle.zone{fill:transparent;stroke:transparent}
+  .hot.found circle.zone{fill:rgba(61,125,80,.16);stroke:var(--pass);stroke-width:2.5;stroke-dasharray:4 3}
+  .sd-side{display:flex;flex-direction:column;gap:11px}
+  .sd-count{background:var(--slate-deep);color:#fff;border-radius:12px;padding:13px 15px;text-align:center}
+  .sd-count .big{font-family:var(--mono);font-weight:600;font-size:28px;line-height:1}.sd-count .lbl{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-2);margin-top:5px}
+  .sd-found{display:flex;flex-direction:column;gap:7px;max-height:280px;overflow-y:auto}
+  .fcard{background:var(--surf);border:1px solid var(--line);border-left:3px solid var(--pass);border-radius:9px;padding:9px 11px;animation:pop .3s}@keyframes pop{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:none}}
+  .fcard .fn{font-family:var(--display);font-weight:700;font-size:13px;color:var(--pass)}.fcard .fd{font-size:12px;color:var(--ink-2);margin-top:2px;line-height:1.45}
+  .sd-empty{font-size:12.5px;color:var(--ink-3);font-style:italic;text-align:center;padding:18px 8px}
+  .sd-done{background:var(--pass-soft);border:1px solid var(--pass);border-radius:11px;padding:12px;text-align:center;font-size:13px;color:var(--pass);font-weight:600}
+
+  .gfi-stage{background:var(--slate-deep);border-radius:13px;padding:20px;position:relative;overflow:hidden;height:220px}
+  .lane{position:absolute;left:120px;right:120px;height:3px;background:rgba(255,255,255,.18);border-radius:3px}.lane.hot{top:66px}.lane.neu{top:146px}
+  .lane .lab{position:absolute;top:-19px;left:0;font-family:var(--mono);font-size:10px;color:#9fb0bd}
+  .dot{position:absolute;width:9px;height:9px;border-radius:50%;top:-3px}
+  .dot.h{background:var(--brass-2);animation:flowR 2.4s linear infinite}.dot.n{background:#7fa8c4;animation:flowL 2.4s linear infinite}
+  @keyframes flowR{from{left:0}to{left:100%}}@keyframes flowL{from{left:100%}to{left:0}}
+  .gbox{position:absolute;left:28px;top:66px;width:68px;height:80px;border:2px solid #9fb0bd;border-radius:8px;display:grid;place-items:center;text-align:center}
+  .gbox .gt{font-family:var(--mono);font-size:10px;color:#fff}.gbox .gs{font-family:var(--mono);font-size:8px;color:#7fa8c4;margin-top:3px}
+  .load{position:absolute;right:28px;top:66px;width:68px;height:80px;border:2px solid #9fb0bd;border-radius:8px;display:grid;place-items:center}.load .lt{font-family:var(--mono);font-size:10px;color:#fff}
+  .leak{position:absolute;left:50%;top:69px;width:2px;height:88px;background:repeating-linear-gradient(180deg,var(--fail),var(--fail) 5px,transparent 5px,transparent 10px);opacity:0;transition:.3s}.leak.on{opacity:1}
+  .person{position:absolute;left:calc(50% - 13px);top:160px;font-size:22px;opacity:0;transition:.3s}.person.on{opacity:1}
+  .trip{position:absolute;inset:0;background:rgba(184,84,54,.92);display:grid;place-items:center;opacity:0;pointer-events:none;transition:.3s}.trip.on{opacity:1}
+  .trip .tw{text-align:center;color:#fff}.trip .tw .b{font-family:var(--display);font-weight:800;font-size:25px}.trip .tw .s{font-family:var(--mono);font-size:11px;letter-spacing:.1em;margin-top:6px;opacity:.9}
+  .gfi-status{display:flex;align-items:center;gap:10px;margin-top:14px;font-size:14px;font-weight:600}.gfi-status .pip{width:11px;height:11px;border-radius:50%;background:var(--pass)}.gfi-status.fault .pip{background:var(--fail)}
+  .gfi-controls{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}.gfi-read{font-family:var(--mono);font-size:12px;color:var(--ink-2);margin-top:10px}.gfi-read b{color:var(--brass-deep)}
+
+  .match{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:600px){.match{grid-template-columns:1fr}}
+  .mcol{display:flex;flex-direction:column;gap:9px}.mcol .ch{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);text-align:center;margin-bottom:2px}
+  .chip{padding:13px;border:1.5px solid var(--line);border-radius:11px;background:var(--surf);font-family:var(--mono);font-weight:600;font-size:14px;text-align:center;transition:.13s;color:var(--ink)}
+  .chip:hover:not(.locked){border-color:var(--brass)}.chip.sel{border-color:var(--brass);background:var(--brass-soft);color:var(--brass-deep)}
+  .chip.locked{border-color:var(--pass);background:var(--pass-soft);color:var(--pass);cursor:default;opacity:.85}
+  .chip.miss{border-color:var(--fail);background:var(--fail-soft);animation:shake .3s}@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+  .w-done{margin-top:14px;background:var(--pass-soft);border:1px solid var(--pass);border-radius:11px;padding:12px;text-align:center;font-size:13px;color:var(--pass);font-weight:600}
+
+  .est{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:600px){.est{grid-template-columns:1fr}}
+  .est label{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:6px}
+  .est select{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--surf);font-family:var(--mono);font-size:14px;color:var(--ink);font-weight:600}
+  .est-out{grid-column:1/-1;margin-top:4px;border-radius:12px;padding:15px 17px;border:1px solid var(--line);background:var(--surf);transition:.2s}
+  .est-out.ok{border-color:var(--pass);background:var(--pass-soft)}.est-out.bad{border-color:var(--fail);background:var(--fail-soft)}
+  .est-out .ev{font-family:var(--display);font-weight:800;font-size:19px}.est-out .ed{font-size:13px;color:var(--ink-2);margin-top:5px;line-height:1.5}
+  .est-out.ok .ev{color:var(--pass)}.est-out.bad .ev{color:var(--fail)}
+
+  .sort{display:grid;gap:14px}
+  .sort-items{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;min-height:20px}
+  .sitem{padding:10px 14px;border:1.5px solid var(--line);border-radius:10px;background:var(--surf);font-size:13.5px;font-weight:500;transition:.13s}.sitem:hover:not(.placed){border-color:var(--brass)}.sitem.sel{border-color:var(--brass);background:var(--brass-soft);color:var(--brass-deep)}.sitem.placed{display:none}
+  .bins{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:600px){.bins{grid-template-columns:1fr}}
+  .bin{border:1.5px dashed var(--line);border-radius:12px;padding:14px;min-height:90px;background:var(--surf)}
+  .bin.activeb{border-color:var(--brass);background:var(--brass-soft)}
+  .bin .bt{font-family:var(--display);font-weight:700;font-size:14px;text-align:center;margin-bottom:10px}
+  .bin .drop{font-size:11px;color:var(--ink-3);text-align:center;font-style:italic}
+  .binitem{padding:8px 11px;border-radius:8px;font-size:13px;font-weight:500;margin-bottom:6px;display:flex;align-items:center;gap:7px}.binitem svg{width:13px;height:13px;flex:none}
+  .binitem.right{background:var(--pass-soft);color:var(--pass)}.binitem.wrong{background:var(--fail-soft);color:var(--fail)}
+
+  .era{display:flex;flex-direction:column;gap:0;position:relative;margin:6px 0 4px;padding-left:8px}
+  .era .line{position:absolute;left:14px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .erow{display:flex;align-items:flex-start;gap:14px;padding:9px 0;position:relative;cursor:pointer}
+  .erow .ed{width:12px;height:12px;border-radius:50%;background:var(--surf-3);border:2px solid var(--line);flex:none;margin-top:3px;z-index:1;transition:.15s}
+  .erow:hover .ed,.erow.open .ed{background:var(--brass);border-color:var(--brass)}
+  .erow .et{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--brass-deep);width:130px;flex:none}
+  .erow .en{font-size:14px;color:#33312a;font-weight:600}
+  .erow .ex{font-size:13px;color:var(--ink-2);line-height:1.5;margin-top:4px;display:none}.erow.open .ex{display:block}
+
+  .panelcard{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-2);padding:34px;text-align:center}
+  .panelcard .ic{width:56px;height:56px;border-radius:14px;background:var(--brass-soft);color:var(--brass-deep);display:grid;place-items:center;margin:0 auto 16px}.panelcard .ic svg{width:27px;height:27px}
+  .panelcard h2{margin:0 0 8px}.panelcard p{max-width:48ch;margin:0 auto 22px}
+  .ring{width:150px;height:150px;margin:0 auto 18px;position:relative}.ring .rv{position:absolute;inset:0;display:grid;place-items:center}.ring .rv .n{font-family:var(--mono);font-weight:600;font-size:38px;line-height:1}.ring .rv .p{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-top:4px}
+  .verdict{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;display:inline-block;padding:5px 13px;border-radius:20px;margin-bottom:16px}.verdict.pass{background:var(--pass-soft);color:var(--pass)}.verdict.fail{background:var(--fail-soft);color:var(--fail)}
+
+  .scen{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-2);margin-bottom:16px}
+  .scen .sh{background:linear-gradient(120deg,#1f6f73,#123f43);color:#fff;padding:16px 20px}.scen .sh .t{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-2)}.scen .sh .n{font-family:var(--display);font-weight:700;font-size:17px;margin-top:3px}
+  .scen .body{padding:20px 22px}.scen .situation{font-size:15.5px;color:#33312a;line-height:1.7;margin-bottom:6px}.scen .ask{font-family:var(--display);font-weight:600;font-size:15px;margin:16px 0 14px;color:var(--ink)}
+  .scount{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-bottom:10px}
+
+  .gloss{display:grid;gap:10px}.term{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:13px 16px;box-shadow:var(--sh-1)}
+  .term .tw{font-family:var(--display);font-weight:700;font-size:14.5px;color:var(--brass-deep)}.term .td{font-size:13.5px;color:var(--ink-2);margin-top:3px;line-height:1.55}
+  .srcframe{width:100%;height:78vh;border:1px solid var(--line);border-radius:var(--r);background:var(--surf);box-shadow:var(--sh-1)}
+  .srcnote{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:14px 17px;font-size:13.5px;color:var(--ink-2);margin:14px 0;line-height:1.6}.srcnote a{color:var(--brass-deep);font-weight:600}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--slate-deep);color:#fff;padding:12px 18px;border-radius:11px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;box-shadow:var(--sh-2);z-index:100;opacity:0;transition:.3s}.toast.show{transform:translateX(-50%) translateY(0);opacity:1}.toast svg{width:16px;height:16px;color:var(--brass-2)}
+  @media(max-width:880px){.wrap{grid-template-columns:1fr}.rail{display:none}.top .prog .bar{width:90px}}
+  em{font-style:italic;color:inherit}
+</style>
+
+<div class="top"><div class="row">
+  <a href="index.html" class="mark" style="text-decoration:none" title="Back to Module V"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8c2.2 0 2.2-2 4.5-2S9.7 8 12 8s2.2-2 4.5-2S18.7 8 21 8"/><path d="M3 13c2.2 0 2.2-2 4.5-2S9.7 13 12 13s2.2-2 4.5-2S18.7 13 21 13"/><path d="M3 18c2.2 0 2.2-2 4.5-2S9.7 18 12 18s2.2-2 4.5-2S18.7 18 21 18"/></svg></a>
+  <div><div class="tt">ATI · Module V — <b>Texas Inspector Law</b></div><span class="sub">Texas qualifying education · interactive</span></div>
+  <div class="prog"><a href="index.html" style="font-family:var(--mono);font-size:11px;font-weight:600;color:var(--brass-deep);text-decoration:none;margin-right:2px" title="All systems">↩ Systems</a><div class="bar"><i id="pbar"></i></div><span class="pc" id="ppc">0%</span></div>
+</div></div>
+<div class="wrap"><aside class="rail"><div class="h">Section contents</div><div id="rail"></div></aside><main class="view" id="view"></main></div>
+<div class="toast" id="toast"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span id="tmsg"></span></div>
+
+<script src="/storage.js"></script>
+<script>
+/* ---- storage adapter: native window.storage in Claude; localStorage when deployed (GitHub Pages); memory as last resort ---- */
+(function(){if(typeof window==='undefined')return;if(window.storage&&window.storage.get)return;var mem={};window.storage={get:function(k){try{var v=window.localStorage.getItem(k);return Promise.resolve(v!=null?{value:v}:null);}catch(e){return Promise.resolve(mem[k]!=null?{value:mem[k]}:null);}},set:function(k,v){try{window.localStorage.setItem(k,v);}catch(e){mem[k]=v;}return Promise.resolve({value:v});},delete:function(k){try{window.localStorage.removeItem(k);}catch(e){delete mem[k];}return Promise.resolve({deleted:true});}};})();
+
+const ic={check:'<path d="M20 6 9 17l-5-5"/>',x:'<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',arrow:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',back:'<path d="M19 12H5"/><path d="m12 19-7-7 7-7"/>',brain:'<path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44A2.5 2.5 0 0 1 4 17.5a2.5 2.5 0 0 1-.5-4.9 2.5 2.5 0 0 1 0-4.2A2.5 2.5 0 0 1 5 3.5 2.5 2.5 0 0 1 9.5 2z"/>',flag:'<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>',alert:'<path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="9"/>',bolt:'<path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/>',book:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',open:'<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/>',award:'<circle cx="12" cy="8" r="6"/><path d="M15.5 12.9 17 22l-5-3-5 3 1.5-9.1"/>',retake:'<path d="M3 12a9 9 0 1 0 9-9 9 9 0 0 0-6.4 2.6L3 8"/><path d="M3 3v5h5"/>',coffee:'<path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/><line x1="6" y1="2" x2="6" y2="5"/><line x1="10" y1="2" x2="10" y2="5"/><line x1="14" y1="2" x2="14" y2="5"/>'};
+const sv=(p,w=2)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+function conds(title,items){return `<h3>${title}</h3><ul class="clean">${items.map(([n,d])=>`<li><b>${n}</b> — ${d}</li>`).join('')}</ul>`;}
+function story(title,text){return `<div class="story"><div class="st">${sv(ic.coffee)} ${title}</div><p>${text}</p></div>`;}
+
+/* ================= WIDGET LIBRARY ================= */
+const SPOT={}, MATCH={}, SORT={}, ERA={};
+const WID={
+  spot(el,k){const c=SPOT[k];let found=new Set();
+    el.innerHTML=`<span class="wlabel">Spot the defect</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div>
+     <div class="sd-wrap"><div class="sd-stage"><svg viewBox="${c.vb}" class="hot">${c.svg}<g class="hsg"></g></svg></div>
+     <div class="sd-side"><div class="sd-count"><div class="big"><span class="sdn">0</span>/${c.defects.length}</div><div class="lbl">defects found</div></div><div class="sd-found"><div class="sd-empty">Click a defect to log it…</div></div></div></div>`;
+    const g=el.querySelector('.hsg'),cnt=el.querySelector('.sdn'),fw=el.querySelector('.sd-found');
+    c.defects.forEach((d,i)=>{const gg=document.createElementNS('http://www.w3.org/2000/svg','g');gg.setAttribute('class','hot');gg.innerHTML=`<circle class="zone" cx="${d.x}" cy="${d.y}" r="${d.r}"/>`;gg.style.cursor='pointer';
+      gg.addEventListener('click',()=>{if(found.has(i))return;found.add(i);gg.classList.add('found');cnt.textContent=found.size;if(fw.querySelector('.sd-empty'))fw.innerHTML='';
+        const card=document.createElement('div');card.className='fcard';card.innerHTML=`<div class="fn">${found.size}. ${d.n}</div><div class="fd">${d.d}</div>`;fw.appendChild(card);
+        if(found.size===c.defects.length){const dn=document.createElement('div');dn.className='sd-done';dn.textContent='All found — that\'s the scan. Nicely done.';fw.appendChild(dn);}});
+      g.appendChild(gg);});},
+  gfi(el){el.innerHTML=`<span class="wlabel">Animated diagram</span><div class="wtitle">Watch the GFI work</div><div class="wsub">Current flows out the hot and back on the neutral — equal. Introduce a leak and see what happens.</div>
+    <div class="gfi-stage"><div class="gbox"><div><div class="gt">GFI</div><div class="gs">in vs out</div></div></div><div class="load"><div class="lt">LOAD</div></div><div class="lane hot"><span class="lab">hot — out</span></div><div class="lane neu"><span class="lab">neutral — back</span></div><div class="leak"></div><div class="person">🧍</div><div class="trip"><div class="tw"><div class="b">⚡ GFI TRIPPED</div><div class="s">imbalance &gt; 5 mA — cut in milliseconds</div></div></div></div>
+    <div class="gfi-status"><span class="pip"></span><span class="gtxt">Balanced — out equals back. Holding.</span></div>
+    <div class="gfi-read">Hot out: <b>15.000 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b>0 mA</b></div>
+    <div class="gfi-controls"><button class="btn brass gflt">Introduce a ground fault</button><button class="btn ghost grst">Reset</button></div>`;
+    const stage=el.querySelector('.gfi-stage'),st=el.querySelector('.gfi-status'),txt=el.querySelector('.gtxt'),read=el.querySelector('.gfi-read'),trip=el.querySelector('.trip'),fbtn=el.querySelector('.gflt');let f=false,to;
+    function dots(){stage.querySelectorAll('.dot').forEach(d=>d.remove());for(let i=0;i<5;i++){const d=document.createElement('span');d.className='dot h';d.style.animationDelay=(-i*0.48)+'s';stage.querySelector('.lane.hot').appendChild(d);}const nc=f?2:5;for(let i=0;i<nc;i++){const d=document.createElement('span');d.className='dot n';d.style.animationDelay=(-i*0.48)+'s';stage.querySelector('.lane.neu').appendChild(d);}}
+    function reset(){f=false;clearTimeout(to);el.querySelector('.leak').classList.remove('on');el.querySelector('.person').classList.remove('on');trip.classList.remove('on');st.classList.remove('fault');txt.textContent='Balanced — out equals back. Holding.';read.innerHTML='Hot out: <b>15.000 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b>0 mA</b>';fbtn.textContent='Introduce a ground fault';dots();}
+    fbtn.onclick=()=>{f=!f;if(f){el.querySelector('.leak').classList.add('on');el.querySelector('.person').classList.add('on');st.classList.add('fault');txt.textContent='Imbalance — current is leaking to ground.';read.innerHTML='Hot out: <b>15.006 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b style="color:var(--fail)">6 mA</b>';fbtn.textContent='Clear the fault';dots();to=setTimeout(()=>trip.classList.add('on'),650);}else reset();};
+    el.querySelector('.grst').onclick=reset;dots();},
+  match(el,k){const c=MATCH[k];const sh=a=>a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v[1]);let sel=null,locked=0;
+    el.innerHTML=`<span class="wlabel">Match drill</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="match"><div class="mcol"><div class="ch">${c.left}</div><div class=" L"></div></div><div class="mcol"><div class="ch">${c.right}</div><div class="R"></div></div></div><div class="md"></div>`;
+    const L=el.querySelector('.L'),R=el.querySelector('.R'),done=el.querySelector('.md');
+    c.pairs.forEach(p=>{const b=document.createElement('button');b.className='chip';b.textContent=p[0];b.dataset.a=p[0];b.dataset.s='L';L.appendChild(b);});
+    sh(c.pairs.map(p=>p[1])).forEach(v=>{const b=document.createElement('button');b.className='chip';b.textContent=v;b.dataset.b=v;b.dataset.s='R';R.appendChild(b);});
+    el.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{if(b.classList.contains('locked'))return;
+      if(!sel){sel=b;b.classList.add('sel');return;}if(sel===b){b.classList.remove('sel');sel=null;return;}if(sel.dataset.s===b.dataset.s){sel.classList.remove('sel');sel=b;b.classList.add('sel');return;}
+      const left=sel.dataset.s==='L'?sel:b,right=sel.dataset.s==='R'?sel:b,ok=c.pairs.find(p=>p[0]===left.dataset.a)[1]===right.dataset.b;
+      if(ok){[left,right].forEach(x=>{x.classList.remove('sel');x.classList.add('locked');});locked++;if(locked===c.pairs.length)done.innerHTML=`<div class="w-done">${c.done}</div>`;}
+      else{[left,right].forEach(x=>{x.classList.add('miss');setTimeout(()=>x.classList.remove('miss','sel'),350);});}sel=null;});},
+  sort(el,k){const c=SORT[k];let sel=null,placed=0;
+    el.innerHTML=`<span class="wlabel">Sort it</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="sort"><div class="sort-items">${c.items.map((it,i)=>`<button class="sitem" data-i="${i}">${it.t}</button>`).join('')}</div><div class="bins">${c.bins.map((b,bi)=>`<div class="bin" data-bin="${bi}"><div class="bt">${b}</div><div class="drop">tap an item, then tap here</div></div>`).join('')}</div></div><div class="md"></div>`;
+    const items=el.querySelectorAll('.sitem'),bins=el.querySelectorAll('.bin'),done=el.querySelector('.md');
+    items.forEach(it=>it.onclick=()=>{if(it.classList.contains('placed'))return;el.querySelectorAll('.sitem').forEach(x=>x.classList.remove('sel'));sel=it;it.classList.add('sel');});
+    bins.forEach(bin=>bin.onclick=()=>{if(!sel)return;const i=+sel.dataset.i,bi=+bin.dataset.bin,ok=c.items[i].bin===bi;
+      const row=document.createElement('div');row.className='binitem '+(ok?'right':'wrong');row.innerHTML=(ok?sv(ic.check,2.6):sv(ic.x,2.6))+' '+c.items[i].t;bin.querySelector('.drop').remove?bin.querySelector('.drop')&&(bin.querySelector('.drop').style.display='none'):0;bin.appendChild(row);
+      sel.classList.add('placed');sel=null;placed++;if(placed===c.items.length)done.innerHTML=`<div class="w-done">${c.done}</div>`;});},
+  est(el){el.innerHTML=`<span class="wlabel">Field tool</span><div class="wtitle">Service-size estimator</div><div class="wsub">Set what you'd read on site; it calls the size and flags an unsafe mismatch — your on-site logic.</div>
+    <div class="est"><div><label>Service-entrance conductor (copper)</label><select class="sew"><option value="6">#6 AWG</option><option value="4">#4 AWG</option><option value="2" selected>2/0 AWG</option><option value="0">4/0 AWG</option></select></div><div><label>Main breaker rating</label><select class="mbk"><option value="60">60 A</option><option value="100">100 A</option><option value="200" selected>200 A</option><option value="400">400 A</option></select></div><div class="est-out"></div></div>`;
+    const WA={'6':60,'4':100,'2':200,'0':400},WL={'6':'#6 AWG','4':'#4 AWG','2':'2/0 AWG','0':'4/0 AWG'},sew=el.querySelector('.sew'),mbk=el.querySelector('.mbk'),out=el.querySelector('.est-out');
+    function go(){const w=sew.value,b=+mbk.value,sup=WA[w];if(b>sup){out.className='est-out bad';out.innerHTML=`<div class="ev">⚠ Overfused — unsafe</div><div class="ed">A ${b} A main on ${WL[w]} copper (good for ~${sup} A) won't shut off before the conductor overheats. Report: overcurrent device oversized for the service-entrance conductor.</div>`;}else{const ap=Math.min(b,sup);out.className='est-out ok';out.innerHTML=`<div class="ev">${ap} A service</div><div class="ed">${WL[w]} copper supports ~${sup} A and the main is ${b} A — conductor protected. Report the service size as ${ap} A${b<sup?' (limited by the main breaker)':''}.</div>`;}}
+    sew.onchange=go;mbk.onchange=go;go();},
+  era(el,k){const c=ERA[k];el.innerHTML=`<span class="wlabel">Explore</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="era"><div class="line"></div>${c.rows.map((r,i)=>`<div class="erow" data-i="${i}"><span class="ed"></span><span class="et">${r.d}</span><div><div class="en">${r.n}</div><div class="ex">${r.x}</div></div></div>`).join('')}</div>`;
+    el.querySelectorAll('.erow').forEach(r=>r.onclick=()=>r.classList.toggle('open'));}
+};
+function wireWidgets(root){root.querySelectorAll('.wmount').forEach(el=>{const w=el.dataset.w,k=el.dataset.k;if(WID[w])WID[w](el,k);});}
+function W(w,k){return `<div class="widget wmount" data-w="${w}" data-k="${k||''}"></div>`;}
+
+/* ================= ENGINE ================= */
+const KEY='ati_txlaw_ix_v1';
+let S={done:{},quiz:{},assessBest:0,cur:0};
+async function load(){try{const r=await window.storage.get(KEY,false);if(r&&r.value)S=JSON.parse(r.value);}catch(e){}S.done=S.done||{};S.quiz=S.quiz||{};}
+async function save(){try{await window.storage.set(KEY,JSON.stringify(S),false);}catch(e){}}
+const stepDone=i=>!!S.done[STEPS[i].id];
+const pct=()=>Math.round(Object.keys(S.done).length/STEPS.length*100);
+const unlocked=i=>i===0?true:stepDone(i-1);
+const view=document.getElementById('view');
+function updTop(){const p=pct();document.getElementById('pbar').style.width=p+'%';document.getElementById('ppc').textContent=p+'%';}
+function rail(){document.getElementById('rail').innerHTML=STEPS.map((s,i)=>{const d=stepDone(i),u=unlocked(i),a=i===S.cur;return `<button class="step ${d?'done':''} ${a?'active':''} ${u?'':'locked'}" ${u?`onclick="goStep(${i})"`:''}><span class="dot">${d?sv(ic.check,3):(i+1)}</span><span class="lbl">${s.label}<span class="kind">${s.kind}</span></span></button>`;}).join('');}
+function goStep(i){if(!unlocked(i))return;S.cur=i;save();render();window.scrollTo({top:0,behavior:'smooth'});}
+function markDoneAndNext(){S.done[STEPS[S.cur].id]=true;save();updTop();rail();if(S.cur<STEPS.length-1)goStep(S.cur+1);else render();}
+function render(){updTop();rail();const s=STEPS[S.cur];({lesson:renderLesson,scenario:renderScenarios,assess:renderAssess,glossary:renderGlossary,source:renderSource}[s.type])(s);}
+function navFoot(label,gated){const last=S.cur===STEPS.length-1;return `<div class="foot">${S.cur>0?`<button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button>`:''}<div class="sp"></div><button class="btn brass" id="nextBtn" ${gated?'disabled':''} onclick="markDoneAndNext()">${label||(last?'Finish section':'Mark complete & continue')} ${sv(ic.arrow)}</button></div>`;}
+
+function renderLesson(s){
+  let h=(typeof s.body==='function'?s.body():s.body);
+  if(s.quiz&&s.quiz.length){
+    h+=`<div class="quiz"><div class="qh">${sv(ic.brain)} Check your understanding</div><div class="qt">${s.label}</div><div class="qsub">${s.quiz.length} questions covering the lesson — answer each to see the reasoning.</div><div class="qbody">${
+      s.quiz.map((q,qi)=>`<div class="qblock"><div class="qnum">Question ${qi+1} of ${s.quiz.length}</div><div class="q">${q.q}</div><div class="opts" data-qi="${qi}">${q.o.map((o,k)=>`<button class="opt" onclick="qAns(${qi},${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="qexp" data-qi="${qi}"></div></div>`).join('')
+    }</div><div class="qscore" style="display:none"></div></div>`;
+  }
+  const gated=!!(s.quiz&&s.quiz.length&&!S.quiz[s.id]);
+  view.innerHTML=h+navFoot(null,gated);
+  wireWidgets(view);
+  window._ql={answered:{},total:s.quiz?s.quiz.length:0};
+}
+function qAns(qi,k){const s=STEPS[S.cur],q=s.quiz[qi];if(window._ql.answered[qi]!==undefined)return;window._ql.answered[qi]=k;
+  const opts=view.querySelector('.opts[data-qi="'+qi+'"]');opts.querySelectorAll('.opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===q.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});
+  view.querySelector('.qexp[data-qi="'+qi+'"]').innerHTML=`<div class="exp"><b>${k===q.a?'Correct.':'Review:'}</b> ${q.e}</div>`;
+  if(Object.keys(window._ql.answered).length===window._ql.total){
+    const right=s.quiz.filter((q,i)=>window._ql.answered[i]===q.a).length,sc=view.querySelector('.qscore');sc.style.display='flex';
+    sc.innerHTML=`${sv(ic.check,2.4)}<span>You scored <b style="color:${right>=Math.ceil(s.quiz.length*0.8)?'var(--pass)':'var(--fail)'}">${right}/${s.quiz.length}</b> on this lesson.</span>`;
+    sc.querySelector('svg').style.color=right>=Math.ceil(s.quiz.length*0.8)?'var(--pass)':'var(--fail)';
+    S.quiz[s.id]=true;save();const b=document.getElementById('nextBtn');if(b)b.disabled=false;}
+}
+
+let SC={i:0,answered:false};
+function renderScenarios(){SC={i:0,answered:false};paintScen();}
+function paintScen(){const sc=SCEN[SC.i];view.innerHTML=`<span class="eyebrow">Apply it · Inspector's Call</span><h1>Make the call</h1><p class="lead">The decisions you'll actually make standing in front of the system. Read it, choose, see the reasoning.</p><div class="scount mono">Scenario ${SC.i+1} of ${SCEN.length}</div><div class="scen"><div class="sh"><div class="t">${sc.t}</div><div class="n">${sc.n}</div></div><div class="body"><div class="situation">${sc.s}</div><div class="ask">${sc.ask}</div><div class="scopts">${sc.o.map((o,k)=>`<button class="opt" onclick="scAns(${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="scexp"></div></div></div><div class="foot"><button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button><div class="sp"></div><div class="scnext"></div></div>`;}
+function scAns(k){if(SC.answered)return;SC.answered=true;const sc=SCEN[SC.i];view.querySelectorAll('.scopts .opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===sc.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});view.querySelector('.scexp').innerHTML=`<div class="exp"><b>${k===sc.a?'Right call.':'Here\'s the call:'}</b> ${sc.e}</div>`;const last=SC.i===SCEN.length-1;view.querySelector('.scnext').innerHTML=`<button class="btn brass" onclick="${last?'markDoneAndNext()':'scNext()'}">${last?'Mark complete & continue':'Next scenario'} ${sv(ic.arrow)}</button>`;}
+function scNext(){SC.i++;SC.answered=false;paintScen();window.scrollTo({top:0,behavior:'smooth'});}
+
+let AS=null;
+function renderAssess(){if(!AS||AS.done)AS={i:0,answers:[],done:false};view.innerHTML=`<span class="eyebrow">Assessment</span><h1>Mastery check — Texas Inspector Law</h1><p class="lead">${ASSESS.length} application questions across the whole chapter. 80% to pass; reasoning shown on every answer.</p><div class="panelcard" style="text-align:left;padding:0;overflow:hidden"><div style="background:linear-gradient(120deg,#1f6f73,#123f43);color:#fff;padding:18px 22px;display:flex;justify-content:space-between;align-items:center"><div><div style="font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-2)">Texas Inspector Law</div><div style="font-family:var(--display);font-weight:700;font-size:17px;margin-top:3px">${ASSESS.length} questions · 80% to pass</div></div><div style="color:var(--brass-2)">${sv(ic.award)}</div></div><div style="padding:26px 22px;text-align:center">${S.assessBest?`<div class="mono" style="font-size:13px;color:var(--ink-2);margin-bottom:16px">Best score: <b style="color:${S.assessBest>=80?'var(--pass)':'var(--fail)'}">${S.assessBest}%</b></div>`:''}<button class="btn brass" style="margin:0 auto" onclick="asStart()">${S.assessBest?'Retake assessment':'Begin assessment'} ${sv(ic.arrow)}</button></div></div>`;}
+function asStart(){AS={i:0,answers:[],done:false};asPaint();window.scrollTo({top:0,behavior:'smooth'});}
+function asPaint(){const q=ASSESS[AS.i];view.innerHTML=`<span class="eyebrow">Assessment · Texas Law</span><h1 style="font-size:24px">Question ${AS.i+1} <span style="color:var(--ink-3)">/ ${ASSESS.length}</span></h1><div style="margin:14px 0 0"><div style="width:100%;height:6px;background:var(--surf-3);border-radius:6px;overflow:hidden;border:1px solid var(--line)"><i style="display:block;height:100%;width:${AS.i/ASSESS.length*100}%;background:var(--brass)"></i></div></div><div class="quiz" style="border-color:var(--line);margin-top:22px"><div class="q">${q.q}</div><div class="opts">${q.o.map((o,k)=>`<button class="opt" onclick="asAns(${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="asexp"></div></div><div class="foot"><div class="sp"></div><div class="asnext"></div></div>`;}
+function asAns(k){if(AS.answers[AS.i]!==undefined)return;AS.answers[AS.i]=k;const q=ASSESS[AS.i];view.querySelectorAll('.opts .opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===q.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});view.querySelector('.asexp').innerHTML=`<div class="exp"><b>${k===q.a?'Correct.':'Review:'}</b> ${q.e}</div>`;const last=AS.i===ASSESS.length-1;view.querySelector('.asnext').innerHTML=`<button class="btn brass" onclick="${last?'asFinish()':'asNext()'}">${last?'See results':'Next'} ${sv(ic.arrow)}</button>`;}
+function asNext(){AS.i++;asPaint();window.scrollTo({top:0,behavior:'smooth'});}
+function asFinish(){const correct=AS.answers.filter((a,i)=>a===ASSESS[i].a).length,p=Math.round(correct/ASSESS.length*100),pass=p>=80;S.assessBest=Math.max(S.assessBest||0,p);AS.done=true;if(pass)S.done['assess']=true;save();updTop();rail();const circ=2*Math.PI*62;
+  view.innerHTML=`<span class="eyebrow">Assessment · Result</span><h1 style="margin-bottom:18px">${pass?'Section mastered':'Not quite there'}</h1><div class="panelcard"><div class="ring"><svg width="150" height="150" viewBox="0 0 150 150" style="transform:rotate(-90deg)"><circle cx="75" cy="75" r="62" fill="none" stroke="var(--surf-3)" stroke-width="11"/><circle cx="75" cy="75" r="62" fill="none" stroke="${pass?'var(--pass)':'var(--fail)'}" stroke-width="11" stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${circ}"><animate attributeName="stroke-dashoffset" from="${circ}" to="${circ-circ*p/100}" dur=".8s" fill="freeze" calcMode="spline" keySplines=".2 .7 .2 1"/></circle></svg><div class="rv"><div><div class="n" style="color:${pass?'var(--pass)':'var(--fail)'}">${p}%</div><div class="p">${correct}/${ASSESS.length} correct</div></div></div></div><span class="verdict ${pass?'pass':'fail'}">${pass?'Passed':'Below 80%'}</span><p>${pass?'You\'ve mastered Texas Inspector Law — the licensing tiers, standards of conduct, and disciplinary framework that govern every inspection you sign your TREC number to.':'You need 80% to pass. Revisit the lessons and explanations, then retake — your best score counts.'}</p><div style="display:flex;gap:12px;justify-content:center"><button class="btn ghost" onclick="asStart()">${sv(ic.retake)} Retake</button>${pass?`<button class="btn brass" onclick="goStep(${STEPS.length-1})">Continue ${sv(ic.arrow)}</button>`:`<button class="btn brass" onclick="goStep(1)">Review lessons ${sv(ic.arrow)}</button>`}</div></div><div style="height:30px"></div>`;}
+
+function renderGlossary(){view.innerHTML=`<span class="eyebrow">Reference</span><h1>Texas Law glossary</h1><p class="lead">Every key term in one place — quick reference for licensure and practice.</p><div class="gloss" style="margin-top:20px">${GLOSSARY.map(([w,d])=>`<div class="term"><div class="tw">${w}</div><div class="td">${d}</div></div>`).join('')}</div>${navFoot('Continue')}`;}
+function renderSource(){view.innerHTML=`<span class="eyebrow">Reference · sources</span><h1>Reference &amp; sources</h1><p class="lead">Texas inspector regulation lives in three places: the statute, the agency rules, and TREC's published guidance. These are the primary sources behind every figure in this section — go to them, not a summary, when a client or a contested case turns on the exact wording.</p>
+  <div class="srcnote" style="border-color:var(--fail);background:var(--fail-soft);color:#7a2e1c">${sv(ic.alert,2.2)} <b>⚠ DRAFT — verify against primary TREC sources before relying on for licensure.</b> Hours, fees, inspection counts, and rule numbers change; confirm current requirements directly at trec.texas.gov and in the current Texas Occupations Code and 22 TAC before advising anyone.</div>
+  <h2>Statute — Texas Occupations Code</h2>
+  <div class="gloss">
+    <div class="term"><div class="tw">Occupations Code, Chapter 1102 — Real Estate Inspectors</div><div class="td">The enabling statute. Defines inspector license types, the Real Estate Inspector Committee, financial responsibility, and the prohibited acts (Subchapter G, §§ 1102.301–1102.305).<br><a href="https://statutes.capitol.texas.gov/Docs/OC/htm/OC.1102.htm" target="_blank" rel="noopener">statutes.capitol.texas.gov/Docs/OC/htm/OC.1102.htm</a></div></div>
+    <div class="term"><div class="tw">Occupations Code, Chapter 1101 — TREC (the Real Estate License Act)</div><div class="td">Creates the Texas Real Estate Commission, the agency that administers Chapter 1102 and adopts the inspector rules.<br><a href="https://statutes.capitol.texas.gov/Docs/OC/htm/OC.1101.htm" target="_blank" rel="noopener">statutes.capitol.texas.gov/Docs/OC/htm/OC.1101.htm</a></div></div>
+  </div>
+  <h2>Agency rules — 22 Texas Administrative Code, Chapter 535</h2>
+  <div class="gloss">
+    <div class="term"><div class="tw">22 TAC Chapter 535, Subchapter R — Real Estate Inspectors</div><div class="td">TREC's inspector rules: §535.206 (Inspector Committee), §535.208–.218 (licensing, education, experience), §535.220 (Professional Conduct &amp; Ethics), §535.221 (Advertising), §535.227–.233 (Standards of Practice), §535.218 (continuing education).<br><a href="https://texreg.sos.state.tx.us/public/readtac$ext.ViewTAC?tac_view=5&ti=22&pt=23&ch=535&sch=R&rl=Y" target="_blank" rel="noopener">texreg.sos.state.tx.us — 22 TAC Ch. 535, Subch. R</a></div></div>
+  </div>
+  <h2>TREC published guidance</h2>
+  <div class="gloss">
+    <div class="term"><div class="tw">Become an Inspector — license types &amp; requirements</div><div class="td">The three tiers, education hours, experience counts, exam, sponsorship, and financial responsibility.<br><a href="https://www.trec.texas.gov/become-licensed/inspector" target="_blank" rel="noopener">trec.texas.gov/become-licensed/inspector</a></div></div>
+    <div class="term"><div class="tw">Renew Your Inspector License — CE requirements</div><div class="td">Two-year renewal; 32 hours of inspector CE including the 8-hour Legal &amp; Ethics and SOP Review.<br><a href="https://www.trec.texas.gov/renew-license/inspector" target="_blank" rel="noopener">trec.texas.gov/renew-license/inspector</a></div></div>
+    <div class="term"><div class="tw">TREC's Advertising Rules — What You Need to Know</div><div class="td">False/misleading advertising, business-name requirements, and prohibited referral arrangements (§535.221, §535.220).<br><a href="https://www.trec.texas.gov/article/trecs-advertising-rules-what-you-need-know" target="_blank" rel="noopener">trec.texas.gov/article/trecs-advertising-rules-what-you-need-know</a></div></div>
+    <div class="term"><div class="tw">Real Estate Inspector Standards of Practice (online)</div><div class="td">The SOP every Texas inspection must meet — what to inspect, report, and the limitations.<br><a href="https://www.trec.texas.gov/online-sops" target="_blank" rel="noopener">trec.texas.gov/online-sops</a></div></div>
+  </div>
+  <div class="srcnote">${sv(ic.book,2)} This interactive section is qualifying-education content built to orient you to the framework. It is <b>not legal advice</b> and does not replace the statute, the rules, or current TREC guidance.</div>
+  <div class="foot"><button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button><div class="sp"></div><a class="btn slate" href="index.html" style="text-decoration:none;margin-right:10px">${sv(ic.back)} Module V</a><button class="btn brass" onclick="finishAll()">${sv(ic.check)} Complete section</button></div>`;}
+function finishAll(){S.done['source']=true;save();updTop();rail();toast('Texas Inspector Law section complete');}
+let tT;function toast(m){const t=document.getElementById('toast');document.getElementById('tmsg').textContent=m;t.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('show'),2400);}
+
+/* ================= DATA: scenarios / assessment / glossary ================= */
+const SCEN=[
+ {t:'Conflicting capacities',n:'Inspect the home you helped sell',s:'You also hold an active real estate sales agent license. A client you represented as the buyer\'s agent asks you to perform the TREC inspection on the very home you helped them purchase, in the same transaction.',ask:'What does Chapter 1102 require?',o:['Go ahead — your dual license makes you more qualified','Decline the inspection. §1102.303 prohibits acting as both inspector and real estate agent in the same transaction','Inspect, but disclose the conflict in writing and proceed','Refer it to an apprentice you sponsor and split the fee'],a:1,e:'Occupations Code §1102.303 (Acting in Conflicting Capacities) bars you from inspecting a property in a transaction where you are also acting as a real estate sales agent or broker. Disclosure does not cure it — you must decline the inspection.'},
+ {t:'Repairs & referrals',n:'The contractor\'s thank-you',s:'A roofer you frequently recommend in your reports offers you $75 for every client you send their way, paid quietly after each referral.',ask:'Your call under Texas law?',o:['Accept — referrals are normal business','Refuse. §1102.304 and TREC conduct rules prohibit accepting an undisclosed commission or fee for referring repairs you identified','Accept only if you disclose it verbally','Accept if you don\'t personally do the repair'],a:1,e:'§1102.304 (Repairs and Maintenance) and 22 TAC §535.220 restrict an inspector from accepting a commission, rebate, or compensation for referring repair work found in the inspection. A pay-per-referral arrangement is a prohibited act.'},
+ {t:'Advertising',n:'The "mold-certified" flyer',s:'To stand out, your new flyer says "Full mold and wood-destroying-insect inspections included." You hold only a Professional Inspector license — no mold or WDI/SPCS credential.',ask:'Is the flyer a problem?',o:['No — it just describes a thorough inspection','Yes. Advertising services you aren\'t licensed to perform is false or misleading advertising under 22 TAC §535.221','Only if a client complains','Fine if you add a disclaimer in small print'],a:1,e:'22 TAC §535.221 prohibits false or misleading advertising — including advertising services (mold, wood-destroying insect) that require a separate license you don\'t hold. Remove the claims or obtain the proper credentials.'},
+ {t:'Financial responsibility',n:'The lapsed coverage',s:'Your professional liability (E&O) policy lapses two weeks before a busy spring. You keep inspecting while you shop for a new policy, figuring you\'ll backdate it.',ask:'Where does this leave you?',o:['Fine — coverage is optional for experienced inspectors','A violation. Texas requires inspectors to maintain proof of financial responsibility (E&O or equivalent) of at least $100,000 per occurrence; inspecting without it is grounds for discipline','Fine as long as no claim is filed','Only the apprentice you sponsor needs coverage'],a:1,e:'§1102.1141 and 22 TAC §535.227 require inspectors to carry and file proof of financial responsibility — professional liability (E&O) or other accepted coverage — of at least $100,000 per occurrence. Continuing to inspect after it lapses is a disciplinable violation.'},
+ {t:'Continuing education',n:'The renewal that fell short',s:'At renewal you\'ve logged 32 hours of inspector CE, but all of it was technical electives — you skipped the 8-hour Legal &amp; Ethics and SOP Review course because "you already know the rules."',ask:'Will TREC accept the renewal?',o:['Yes — 32 total hours is all that matters','No. The 32 hours must include the required 8-hour Inspector Legal &amp; Ethics and SOP Review course','Yes, if you take the ethics course next cycle','Only Professional Inspectors need the ethics hours'],a:1,e:'TREC requires 32 hours of inspector CE every two-year renewal, and those hours must include the mandatory 8-hour Inspector Legal &amp; Ethics and Standards-of-Practice Review course. Technical electives alone don\'t satisfy renewal.'},
+ {t:'Scope & standards',n:'"Just tell me if it\'s a good house"',s:'A buyer asks you to skip the written report and simply give a verbal thumbs-up, and to "guarantee" the roof will last ten years so they can waive other contingencies.',ask:'What does the SOP require?',o:['Give the verbal opinion — it saves everyone time','Deliver the required written report to the TREC standards and decline to guarantee future performance; an inspection reports present condition, not a warranty','Guarantee the roof if it looks new','Only inspect the roof since that\'s their concern'],a:1,e:'A Texas inspection follows the TREC Standards of Practice and produces a written report on the present, accessible condition of the systems inspected. It is not a warranty or guarantee of future performance, and you can\'t contract that duty away with a verbal "thumbs-up."'},
+ {t:'Complaints & discipline',n:'The TREC letter arrives',s:'Months after an inspection, you receive a letter from TREC\'s Enforcement Division notifying you a consumer filed a complaint alleging you missed a major defect, and requesting your written response.',ask:'The right move?',o:['Ignore it — no response means it goes away','Respond fully and on time, cooperate with the investigation, and keep your inspection file and photos','Call the complainant and ask them to drop it','Immediately surrender your license'],a:1,e:'TREC opens an investigation, sends the complaint, and requests a response. You must cooperate; failure to respond is itself a violation. If a formal case proceeds, a SOAH administrative law judge issues a Proposal for Decision and the Commission renders the final discipline — reprimand, penalty, suspension, or revocation.'},
+];
+const ASSESS=[
+ {q:'Which agency licenses and regulates real estate inspectors in Texas?',o:['The Texas Department of Licensing and Regulation (TDLR)','The Texas Real Estate Commission (TREC)','The Texas Department of Insurance','ASHI, a national association'],a:1,e:'TREC administers Occupations Code Chapter 1102 and adopts the inspector rules in 22 TAC Chapter 535. Membership in a private association is not a Texas license.'},
+ {q:'The statute that specifically governs real estate inspectors is:',o:['Occupations Code Chapter 1101','Occupations Code Chapter 1102','Property Code Chapter 5','22 TAC Chapter 531'],a:1,e:'Chapter 1102 (Real Estate Inspectors) is the enabling statute. Chapter 1101 creates TREC itself; the detailed rules live in 22 TAC Chapter 535.'},
+ {q:'The three Texas inspector license tiers, lowest to highest, are:',o:['Trainee, Inspector, Master Inspector','Apprentice Inspector, Real Estate Inspector, Professional Inspector','Associate, Licensed, Certified','Junior, Senior, Principal'],a:1,e:'Apprentice Inspector (entry, direct supervision), Real Estate Inspector (intermediate, indirect supervision), Professional Inspector (highest, may sponsor others).'},
+ {q:'An Apprentice Inspector must work:',o:['Independently, signing their own reports','Under the direct supervision of a sponsoring Professional Inspector','Under a real estate broker','Only on commercial property'],a:1,e:'An apprentice trains under the direct supervision of a sponsoring Professional Inspector and cannot perform inspections on their own.'},
+ {q:'Advancement up the tiers requires:',o:['Only passing a harder exam','Sponsorship by a Professional Inspector plus qualifying education and supervised experience','A college degree in engineering','Ten years in construction'],a:1,e:'Each step up combines additional qualifying education and supervised inspection experience under a sponsoring Professional Inspector (or an approved substitute-experience path).'},
+ {q:'A Professional Inspector is the only tier that may:',o:['Carry insurance','Sponsor and supervise apprentice and real estate inspectors','Charge a fee','Use the TREC seal'],a:1,e:'Only a Professional Inspector may sponsor and supervise lower-tier inspectors and operate independently. Sponsorship is the backbone of the tier system.'},
+ {q:'Texas inspector licenses are renewed:',o:['Annually','Every two years','Every three years','Only once, then they are permanent'],a:1,e:'All inspector licenses renew on a two-year cycle, with continuing-education requirements due each renewal period.'},
+ {q:'The continuing-education requirement for renewal is:',o:['16 hours, any topic','32 hours of inspector CE including the 8-hour Legal & Ethics and SOP Review','8 hours total','No CE for Professional Inspectors'],a:1,e:'TREC requires 32 hours of inspector CE every two years, and those hours must include the mandatory 8-hour Inspector Legal & Ethics and Standards-of-Practice Review course.'},
+ {q:'Acting as both the inspector and the real estate agent in the same transaction is:',o:['Allowed with written disclosure','Prohibited by §1102.303 (acting in conflicting capacities)','Encouraged for efficiency','Allowed if the client consents verbally'],a:1,e:'§1102.303 flatly prohibits acting in conflicting capacities — inspector and real estate agent — in the same transaction. Disclosure does not cure it.'},
+ {q:'An inspector who accepts a hidden per-referral fee from a roofer they recommend has:',o:['Done nothing wrong — referrals are normal','Committed a prohibited act under §1102.304 and the conduct rules','Acted fine because they didn\'t do the repair','Only erred if the roof was fine'],a:1,e:'§1102.304 and 22 TAC §535.220 prohibit accepting an undisclosed commission, rebate, or fee for referring repair work identified in an inspection.'},
+ {q:'A flyer advertising mold and wood-destroying-insect inspections by an inspector who holds neither credential is:',o:['Good marketing','False or misleading advertising under 22 TAC §535.221','Fine with a small disclaimer','Permitted once per year'],a:1,e:'Advertising services you are not licensed to perform is false or misleading advertising. §535.221 prohibits it regardless of disclaimers.'},
+ {q:'Under the advertising rules, an inspector generally may NOT:',o:['List their license number','Pay a fee for a referral or for inclusion on a preferred-provider list','State their years of experience','Show a logo'],a:1,e:'22 TAC §535.220 bars paying a fee or valuable consideration for a referral, for inclusion on a preferred-provider list, or similar arrangements.'},
+ {q:'Texas inspectors must maintain proof of financial responsibility of at least:',o:['$10,000 per occurrence','$100,000 per occurrence','$1,000,000 aggregate only','No minimum — it is optional'],a:1,e:'Inspectors must carry and file proof of financial responsibility — professional liability (E&O) or other accepted coverage — of at least $100,000 per occurrence, filed at issuance and each renewal.'},
+ {q:'A Texas inspection report is best described as:',o:['A warranty guaranteeing future performance','A written report on present, accessible condition to the TREC Standards of Practice','A pass/fail certificate of code compliance','An appraisal of market value'],a:1,e:'The inspection reports present, observable condition of accessible systems to the TREC SOP. It is not a warranty, a code-compliance certificate, or an appraisal.'},
+ {q:'When TREC receives a consumer complaint against an inspector, the inspector should:',o:['Ignore it','Respond fully and on time and cooperate with the investigation','Contact the complainant to have it withdrawn','Surrender the license immediately'],a:1,e:'TREC opens an investigation and requests a response; cooperation is required. A contested case can proceed to a SOAH hearing, with the Commission imposing final discipline — reprimand, administrative penalty, suspension, or revocation.'},
+];
+const GLOSSARY=[
+ ['TREC','The Texas Real Estate Commission — the state agency that licenses and regulates real estate inspectors under Occupations Code Chapters 1101–1102 and 22 TAC Chapter 535.'],
+ ['Occupations Code Chapter 1102','The Texas statute governing real estate inspectors: license types, the Inspector Committee, financial responsibility, and prohibited acts.'],
+ ['Occupations Code Chapter 1101','The Real Estate License Act that creates TREC, the agency that administers the inspector statute and adopts the rules.'],
+ ['22 TAC Chapter 535','The Texas Administrative Code rules TREC adopts — including Subchapter R, the detailed inspector rules on licensing, education, conduct, advertising, and the SOP.'],
+ ['Real Estate Inspector Committee','A nine-member advisory committee of experienced inspectors that recommends rules, education, exams, and the standards of practice and conduct to TREC.'],
+ ['Apprentice Inspector','The entry-level license; works only under the direct supervision of a sponsoring Professional Inspector and may not inspect independently.'],
+ ['Real Estate Inspector','The intermediate license; works under the indirect supervision of a sponsoring Professional Inspector after qualifying education, supervised experience, and exams.'],
+ ['Professional Inspector','The highest inspector license; may inspect independently and may sponsor and supervise apprentice and real estate inspectors.'],
+ ['Sponsorship','The supervisory relationship in which a Professional Inspector trains and is responsible for a lower-tier inspector — the mechanism for advancing tiers.'],
+ ['Direct supervision','On-site oversight of an apprentice by the sponsoring Professional Inspector during the inspection.'],
+ ['Indirect supervision','The lesser oversight a sponsoring Professional Inspector provides to a Real Estate Inspector, who may perform inspections without the sponsor on site.'],
+ ['Qualifying education','The pre-license coursework (property/building inspection modules, Texas Law, and Standards of Practice modules) required to sit for the licensing exams.'],
+ ['Substitute experience','An alternate path to a license that swaps additional qualifying education and a practicum for the sponsored field-experience requirement.'],
+ ['Continuing education (CE)','32 hours of inspector CE required each two-year renewal, including the mandatory 8-hour Legal & Ethics and SOP Review course.'],
+ ['Standards of Practice (SOP)','The TREC rules (22 TAC §535.227 et seq.) defining what a Texas inspection must observe and report, and its limitations.'],
+ ['Standards of Conduct / Professional Conduct & Ethics','22 TAC §535.220 — the duties of honesty, competence, and avoiding conflicts that every licensed inspector must follow.'],
+ ['Prohibited acts','Subchapter G of Chapter 1102 (§§1102.301–305): negligence/incompetence, dishonesty, conflicting capacities, improper repair referrals, and violating the law.'],
+ ['Acting in conflicting capacities','§1102.303 — the bar on serving as both inspector and real estate agent in the same transaction.'],
+ ['Financial responsibility','The required proof of professional liability (E&O) or equivalent coverage of at least $100,000 per occurrence, filed with TREC at issuance and renewal.'],
+ ['Errors & omissions (E&O)','Professional liability insurance covering claims of negligent acts or omissions in performing an inspection; the usual way inspectors meet the financial-responsibility rule.'],
+ ['False or misleading advertising','Advertising prohibited by 22 TAC §535.221 — including claiming services (mold, wood-destroying insect) you are not licensed to perform.'],
+ ['SOAH','The State Office of Administrative Hearings, whose administrative law judge hears contested TREC enforcement cases and issues a Proposal for Decision.'],
+ ['Disciplinary action','TREC sanctions for violations — formal reprimand, administrative penalty, license suspension, or revocation.'],
+];
+
+/* ================= WIDGET CONTENT REGISTRIES ================= */
+const _gs='fill="none" stroke="#3c5870" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"';
+const _mono=(x,y,s,t,c='#2c4153',a='middle')=>`<text x="${x}" y="${y}" text-anchor="${a}" font-family="JetBrains Mono" font-size="${s}" fill="${c}">${t}</text>`;
+
+MATCH.tier={title:'License tier ↔ defining requirement',sub:'Tap a tier, then the requirement that defines it. Correct pairs lock green.',left:'Tier',right:'Defining requirement',
+ pairs:[['Apprentice Inspector','Direct supervision'],['Real Estate Inspector','Indirect supervision'],['Professional Inspector','May sponsor others'],['Any active license','$100k financial responsibility'],['Every 2-yr renewal','32 hrs CE incl. ethics']],done:'That\'s the ladder: apprentice (direct), real estate inspector (indirect), professional (independent + sponsor) — all carrying coverage and renewing with CE.'};
+MATCH.cite={title:'Rule / statute ↔ what it governs',sub:'Tap a citation, then the subject it controls. Correct pairs lock green.',left:'Citation',right:'Governs',
+ pairs:[['§1102.303','Conflicting capacities'],['§1102.304','Repair referrals'],['22 TAC §535.220','Conduct & ethics'],['22 TAC §535.221','Advertising'],['§1102.1141','Financial responsibility']],done:'Good — knowing where a rule lives is half of answering a client or an enforcement letter correctly.'};
+
+SORT.conduct={title:'Permitted, or prohibited?',sub:'Each is something an inspector might do. Tap an item, then the right bin.',bins:['PERMITTED','PROHIBITED'],
+ items:[{t:'Carry E&O coverage and file proof with TREC',bin:0},{t:'Deliver a written report to the TREC Standards of Practice',bin:0},{t:'List your license number and years of experience in an ad',bin:0},{t:'Complete the 8-hour Legal & Ethics course each renewal',bin:0},{t:'Inspect a home where you are also the buyer\'s agent',bin:1},{t:'Take a hidden per-referral fee from a recommended roofer',bin:1},{t:'Advertise mold inspections without the credential',bin:1},{t:'Guarantee the roof will last ten years',bin:1}],
+ done:'Right — conduct, advertising, and conflict rules draw a clear line: report honestly and within scope, carry coverage, and never trade your independence for a fee or a sale.'};
+SORT.path={title:'Apprentice step, or Professional step?',sub:'Sort each requirement to the tier it belongs to. Tap an item, then a bin.',bins:['APPRENTICE → REAL ESTATE INSP.','REAL ESTATE INSP. → PROFESSIONAL'],
+ items:[{t:'~3 months sponsored apprentice experience',bin:0},{t:'25 inspections under direct supervision',bin:0},{t:'~90 hrs core qualifying education',bin:0},{t:'~12 months sponsored real-estate-inspector experience',bin:1},{t:'175 inspections under indirect supervision',bin:1},{t:'Added Texas Law & SOP modules',bin:1}],
+ done:'Exactly — each promotion stacks more education and more supervised inspections on top of the last, always under a sponsoring Professional Inspector.'};
+
+ERA.advance={title:'The path to a Professional Inspector license',sub:'Tap each rung to see the milestone — education, experience, and exams stack as you climb.',
+ rows:[
+  {d:'Step 1 · Apply',n:'Apprentice Inspector',x:'Be 18+, a U.S. citizen or lawfully admitted, meet TREC\'s honesty/trustworthiness/integrity standard, submit fingerprints for a background check, secure a sponsoring Professional Inspector, and file proof of financial responsibility ($100k/occurrence). No qualifying-education hours are required at this rung.'},
+  {d:'Step 2 · Educate',n:'Core qualifying education',x:'Complete the property/building inspection modules and related coursework (~90 hours toward the Real Estate Inspector level). Education hours are set by TREC rule and verified before you can test.'},
+  {d:'Step 3 · Experience',n:'Supervised inspections',x:'Log supervised inspections under your sponsor — about 25 under direct supervision for the Real Estate Inspector level (or an approved substitute-experience path with added education and a practicum).'},
+  {d:'Step 4 · Examine',n:'National + state exams',x:'Pass the required examinations after the prerequisite coursework. Apprentices do not test; the exam gates the Real Estate Inspector and Professional Inspector levels.'},
+  {d:'Step 5 · Advance',n:'Real Estate Inspector',x:'Now licensed at the intermediate tier, working under the indirect supervision of your sponsoring Professional Inspector while you build toward the top tier.'},
+  {d:'Step 6 · Top tier',n:'Professional Inspector',x:'Add the Texas Law and Standards-of-Practice modules and roughly 12 months / 175 sponsored inspections (or the substitute path). The Professional Inspector may inspect independently and sponsor others — and carries the same coverage and CE duties for life.'},
+ ]};
+
+/* ================= STEPS ================= */
+const STEPS=[
+/* ===== ORIENTATION ===== */
+{id:'intro',kind:'Start here',label:'Why the law comes first',type:'lesson',
+ body:()=>`<span class="eyebrow">Texas Inspector Law · Orientation</span><h1>The license is the job — know the law that grants it.</h1>
+ <p class="lead">In Texas you cannot inspect a home for a buyer or seller without a TREC license, and that license comes with rules. This section is about the <b>law and conduct</b> behind the work: who may inspect, how you advance, how you renew, and the lines you may never cross. Get this wrong and the finest technical inspection in the state still ends in discipline.</p>
+ <p>Three layers of authority stack on top of each other, and every requirement in this section comes from one of them:</p>
+ <ul class="num"><li><b>Statute</b> — the <em>Texas Occupations Code, Chapter 1102</em>, passed by the Legislature.</li><li><b>Rules</b> — <em>22 Texas Administrative Code, Chapter 535</em>, adopted by TREC to carry out the statute.</li><li><b>Guidance</b> — TREC's published instructions, the Standards of Practice, and enforcement decisions.</li></ul>
+ <p>The agency that ties them together is the <b>Texas Real Estate Commission (TREC)</b>. It issues licenses, sets education and exams, writes the Standards of Practice, and disciplines inspectors who violate the rules. A volunteer <b>Real Estate Inspector Committee</b> of experienced inspectors advises TREC on those rules.</p>
+ <div class="loop"><div class="seg on"><div class="n">01</div><div class="w">Get licensed</div></div><div class="seg"><div class="n">02</div><div class="w">Advance tiers</div></div><div class="seg"><div class="n">03</div><div class="w">Renew & CE</div></div><div class="seg"><div class="n">04</div><div class="w">Conduct</div></div><div class="seg"><div class="n">05</div><div class="w">Stay clear of discipline</div></div></div>
+ <h2>What you'll learn</h2>
+ <ul class="clean"><li><b>TREC's authority</b> — Chapter 1102, the rules, and the Inspector Committee</li><li><b>The three license tiers</b> — apprentice, real estate, professional, and how you climb</li><li><b>Application, education &amp; exams</b> — what it takes to get and keep a license</li><li><b>Renewal &amp; continuing education</b> — the two-year cycle and required hours</li><li><b>Standards of conduct &amp; prohibited acts</b> — conflicts, repairs, dishonesty</li><li><b>Advertising, financial responsibility, complaints &amp; discipline</b></li></ul>
+ <div class="field"><div class="ic">${sv(ic.alert)}</div><div><div class="t">Accuracy &amp; this material</div><p>Hours, fees, inspection counts, and rule numbers <b>change</b>. This section orients you to the framework and the principles — but before you advise a client or rely on a figure, confirm it against the current <b>Occupations Code, 22 TAC Chapter 535, and trec.texas.gov</b>. This is qualifying education, <em>not legal advice</em>.</p></div></div>`,
+ quiz:[
+  {q:'The agency that licenses and regulates Texas real estate inspectors is:',o:['TDLR','The Texas Real Estate Commission (TREC)','The Texas Department of Insurance','A national inspector association'],a:1,e:'TREC administers the inspector statute and rules. A private association membership is not a Texas license.'},
+  {q:'The statute specifically governing real estate inspectors is:',o:['Occupations Code Chapter 1102','Property Code Chapter 5','Penal Code Chapter 32','Finance Code Chapter 392'],a:0,e:'Occupations Code Chapter 1102 is the enabling statute; the detailed rules are in 22 TAC Chapter 535.'},
+  {q:'The Real Estate Inspector Committee mainly:',o:['Issues licenses directly','Advises TREC on rules, education, exams, and standards','Hears every complaint','Sets insurance premiums'],a:1,e:'It is an advisory committee of experienced inspectors; TREC itself issues licenses and adopts rules.'},
+  {q:'This qualifying-education section is:',o:['A substitute for the statute and rules','An orientation — not legal advice; verify current figures against primary sources','Guaranteed to be current forever','Only for Professional Inspectors'],a:1,e:'Requirements change. Treat this as a framework and confirm specifics against current TREC sources.'},
+ ]},
+
+/* ===== L1 TREC AUTHORITY ===== */
+{id:'l1',kind:'Lesson 1',label:'TREC & Chapter 1102',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 1 · Where the authority comes from</span><h1>One statute, one agency, one committee.</h1>
+ <p class="lead">Every rule you'll follow traces back to the Legislature delegating authority to TREC. Knowing the chain matters: when a client or an enforcement letter cites a section, you should know what kind of source it is.</p>
+ <h2>The chain of authority</h2>
+ ${conds('',[['Occupations Code Chapter 1102','The statute — "Real Estate Inspectors." It defines the license types, creates the Inspector Committee, sets financial-responsibility and the prohibited acts. Only the Legislature can change it.'],['Occupations Code Chapter 1101','The Real Estate License Act, which creates TREC and gives it rulemaking and enforcement power over both brokers and inspectors.'],['22 TAC Chapter 535','TREC\'s rules — the detail the statute leaves to the agency: education hours, exams, the Standards of Practice, conduct, advertising, and CE. Subchapter R holds the inspector rules.'],['TREC guidance','Published forms, FAQs, the online Standards of Practice, and disciplinary orders — how TREC applies the rules in practice.']])}
+ <div class="dgm"><svg viewBox="0 0 720 250">
+   <g ${_gs}>
+     <rect x="250" y="24" width="220" height="44" rx="8"/>${_mono(360,44,12,'Texas Legislature','#123f43')}${_mono(360,59,9,'Occupations Code Ch. 1102','#7f520a')}
+     <line x1="360" y1="68" x2="360" y2="100"/>
+     <rect x="250" y="100" width="220" height="44" rx="8" stroke="#7f520a" stroke-width="2"/>${_mono(360,120,12,'TREC','#7f520a')}${_mono(360,135,9,'adopts 22 TAC Ch. 535','#123f43')}
+     <line x1="360" y1="144" x2="360" y2="176"/>
+     <line x1="180" y1="176" x2="540" y2="176"/>
+     <line x1="180" y1="176" x2="180" y2="196"/><line x1="360" y1="176" x2="360" y2="196"/><line x1="540" y1="176" x2="540" y2="196"/>
+     <rect x="110" y="196" width="140" height="40" rx="7"/>${_mono(180,214,9,'Licensing','#123f43')}${_mono(180,228,8,'tiers · education','#5b616b')}
+     <rect x="290" y="196" width="140" height="40" rx="7"/>${_mono(360,214,9,'Conduct & SOP','#123f43')}${_mono(360,228,8,'rules of practice','#5b616b')}
+     <rect x="470" y="196" width="140" height="40" rx="7"/>${_mono(540,214,9,'Enforcement','#123f43')}${_mono(540,228,8,'complaints · discipline','#5b616b')}
+   </g>
+   <g ${_gs}><rect x="500" y="100" width="170" height="44" rx="8" stroke-dasharray="4 3"/>${_mono(585,120,9,'Inspector Committee','#5b616b')}${_mono(585,134,8,'advises (9 members)','#5b616b')}<line x1="470" y1="122" x2="500" y2="122" stroke-dasharray="4 3"/></g>
+ </svg><div class="cap">The chain: the Legislature's statute empowers TREC, which adopts the rules and enforces them — advised by the Inspector Committee.</div></div>
+ <h2>The Real Estate Inspector Committee</h2>
+ <p>Chapter 1102 creates a <b>nine-member</b> advisory committee appointed by the Commission. Members must be experienced inspectors — generally engaged in inspection for at least five years and actively practicing as Professional Inspectors. The committee <em>recommends</em> licensing rules, education and exam standards, continuing education, the Standards of Practice, and the code of conduct — but TREC adopts and enforces them.</p>
+ ${W('match','cite')}
+ ${story('In the field',`A buyer's attorney emailed an inspector quoting "535.221" and demanding an explanation. The inspector who knew the chain answered in one line: that's a TREC advertising rule, here's exactly what it requires, and here's why the report complied. **Knowing whether a number is a statute or a rule — and what it governs — turns a scary letter into a routine reply.**`)}`,
+ quiz:[
+  {q:'Occupations Code Chapter 1102 is best described as:',o:['A TREC rule','The statute governing real estate inspectors','A federal regulation','A private code of ethics'],a:1,e:'It is the enabling statute passed by the Legislature; TREC\'s rules implement it in 22 TAC Chapter 535.'},
+  {q:'The inspector rules (education, conduct, SOP, advertising) are found in:',o:['22 TAC Chapter 535','The U.S. Code','Chapter 1101 only','TREC has no rules'],a:0,e:'22 TAC Chapter 535 (Subchapter R for inspectors) holds TREC\'s detailed rules carrying out the statute.'},
+  {q:'The Real Estate Inspector Committee:',o:['Issues and revokes licenses','Advises TREC on rules, education, exams, and standards','Replaces TREC','Sets E&O premiums'],a:1,e:'It is a nine-member advisory committee of experienced inspectors; TREC adopts and enforces.'},
+  {q:'Who actually adopts and enforces the inspector rules?',o:['The Inspector Committee','TREC, the Texas Real Estate Commission','The Legislature directly','Each county'],a:1,e:'The Legislature delegates to TREC, which adopts the rules and enforces them; the committee only advises.'},
+ ]},
+
+/* ===== L2 LICENSE TIERS ===== */
+{id:'l2',kind:'Lesson 2',label:'The Three License Tiers',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 2 · Who may inspect</span><h1>Three tiers, one ladder, climbed under a sponsor.</h1>
+ <p class="lead">Texas licenses inspectors at three levels, and the difference is supervision and independence. You can't perform a real estate inspection for a buyer or seller without holding one of these — and you advance by working under a sponsoring Professional Inspector.</p>
+ <h2>The ladder</h2>
+ <div class="dgm"><svg viewBox="0 0 720 250">
+   <g ${_gs}>
+     <rect x="60" y="170" width="200" height="50" rx="8"/>${_mono(160,192,12,'Apprentice Inspector','#123f43')}${_mono(160,208,8,'entry · direct supervision','#5b616b')}
+     <rect x="200" y="100" width="220" height="50" rx="8" stroke="#7f520a"/>${_mono(310,122,12,'Real Estate Inspector','#7f520a')}${_mono(310,138,8,'intermediate · indirect supervision','#5b616b')}
+     <rect x="360" y="30" width="240" height="50" rx="8" stroke="#2f7a4e" stroke-width="2"/>${_mono(480,52,12,'Professional Inspector','#2f7a4e')}${_mono(480,68,8,'top · independent · may sponsor','#5b616b')}
+     <line x1="260" y1="195" x2="260" y2="150" stroke="#7f520a" stroke-width="1.4"/><path d="M255 162 l5 -8 l5 8" stroke="#7f520a"/>
+     <line x1="420" y1="125" x2="420" y2="80" stroke="#2f7a4e" stroke-width="1.4"/><path d="M415 92 l5 -8 l5 8" stroke="#2f7a4e"/>
+     ${_mono(290,178,9,'education + exam + supervised inspections','#5b616b','start')}
+     ${_mono(450,108,9,'more education + exam + inspections','#5b616b','start')}
+   </g>
+ </svg><div class="cap">Each rung up adds qualifying education, an exam, and supervised inspections — all under a sponsoring Professional Inspector.</div></div>
+ <h2>The three tiers</h2>
+ ${conds('',[['Apprentice Inspector','The entry license. Works only under the <b>direct supervision</b> of a sponsoring Professional Inspector and may not inspect independently. It\'s a training license — no qualifying-education hours are required to get it, but you must be sponsored.'],['Real Estate Inspector','The intermediate license. After qualifying education, supervised experience, and exams, this inspector may inspect under the <b>indirect supervision</b> of a sponsoring Professional Inspector — the sponsor need not be on site.'],['Professional Inspector','The highest license. May inspect <b>independently</b>, sign reports on their own authority, and <b>sponsor and supervise</b> apprentice and real estate inspectors. The tier that anchors the whole system.']])}
+ <h2>Sponsorship is the engine</h2>
+ <p>You can't promote yourself up the ladder alone. A <b>Professional Inspector sponsors</b> you, supervises your inspections, and vouches for your experience. Lose your sponsor and an apprentice or real estate inspector can't perform inspections until a new sponsor is in place. There is an alternate <b>substitute-experience</b> path that trades extra education and a practicum for the sponsored field experience, but the core education and exams still apply.</p>
+ ${W('match','tier')}
+ ${story('In the field',`A capable apprentice with two years of construction behind him assumed he could "just go inspect." He couldn't — without a sponsoring Professional Inspector on the inspection, every report he signed would be unlicensed practice. **In Texas the sponsor isn't a formality; it's what makes the lower-tier license valid.** He found a sponsor, logged his supervised inspections, and tested up.`)}`,
+ quiz:[
+  {q:'The three Texas inspector tiers, low to high, are:',o:['Trainee, Inspector, Master','Apprentice, Real Estate Inspector, Professional Inspector','Associate, Licensed, Certified','Bronze, Silver, Gold'],a:1,e:'Apprentice (direct supervision), Real Estate Inspector (indirect supervision), Professional Inspector (independent, may sponsor).'},
+  {q:'An Apprentice Inspector may:',o:['Inspect independently and sign their own reports','Work only under the direct supervision of a sponsoring Professional Inspector','Sponsor other apprentices','Skip having a sponsor'],a:1,e:'The apprentice is a training license requiring direct, on-site supervision by a sponsoring Professional Inspector.'},
+  {q:'Only a Professional Inspector may:',o:['Carry insurance','Inspect independently and sponsor lower-tier inspectors','Charge for inspections','Use a logo'],a:1,e:'The Professional Inspector is the only tier that can operate independently and sponsor/supervise apprentices and real estate inspectors.'},
+  {q:'If a Real Estate Inspector loses their sponsor, they:',o:['Keep inspecting as usual','Cannot perform inspections until a new sponsoring Professional Inspector is in place','Are automatically promoted','Lose the license permanently'],a:1,e:'Lower-tier licenses depend on an active sponsorship; without it, the inspector may not perform inspections.'},
+ ]},
+
+/* ===== L3 APPLICATION, EDUCATION & EXAMS ===== */
+{id:'l3',kind:'Lesson 3',label:'Application, Education & Exams',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 3 · Getting in the door</span><h1>Eligibility, education, supervised inspections, exam.</h1>
+ <p class="lead">Becoming licensed is a sequence: qualify as a person, complete the education, log supervised inspections under a sponsor, and pass the exams. The exact hours and counts are set by TREC rule — learn the structure, then confirm the current figures.</p>
+ <h2>Baseline eligibility (every applicant)</h2>
+ ${conds('',[['Age &amp; status','Be 18 or older and a U.S. citizen or lawfully admitted alien.'],['Honesty, trustworthiness &amp; integrity','Meet TREC\'s fitness standard; a criminal or disciplinary history can bar or delay licensure.'],['Fingerprints &amp; background','Submit fingerprints to the Texas DPS for a criminal background check.'],['Financial responsibility','File proof of professional liability (E&amp;O) or equivalent coverage — at least $100,000 per occurrence — before the license is issued.']])}
+ <h2>Education and experience, by tier</h2>
+ <p>Apprentice is a <b>sponsored training license with no qualifying-education hours</b>. The next two tiers add education and supervised inspections (figures below reflect TREC's standard sponsored path; substitute-experience paths add more education and a Texas practicum):</p>
+ <table class="tbl"><tr><th>Tier</th><th>Qualifying education (approx.)</th><th>Supervised experience (approx.)</th><th>Exam</th></tr>
+ <tr><td>Apprentice</td><td>None required</td><td>Begin under direct supervision</td><td>No exam</td></tr>
+ <tr><td>Real Estate Inspector</td><td>~90 hrs (inspection + business modules)</td><td>~3 months &amp; ~25 inspections (direct)</td><td>National + state</td></tr>
+ <tr><td>Professional Inspector</td><td>~90 hrs + Texas Law &amp; SOP modules</td><td>~12 months &amp; ~175 inspections (indirect)</td><td>National + state</td></tr></table>
+ <div class="field brass"><div class="ic">${sv(ic.alert)}</div><div><div class="t">Treat the numbers as approximate</div><p>TREC adjusts education hours, inspection counts, and module structure by rule. The <b>structure</b> — eligibility, then education, then supervised inspections, then exams — is stable; the <b>exact figures</b> must be confirmed against current TREC requirements before you rely on them.</p></div></div>
+ <h2>The exam</h2>
+ <p>Real Estate Inspector and Professional Inspector applicants must pass a <b>national</b> and a <b>state</b> examination after completing the prerequisite coursework. The state portion covers Texas law and the Standards of Practice — the very material in this module. Apprentices do not test.</p>
+ ${W('era','advance')}
+ ${story('In the field',`Two applicants finished the same courses; one had a sponsor and 175 logged inspections, the other had neither and assumed "experience in construction" would substitute on its own. The first tested up to Professional Inspector on schedule. The second learned the substitute-experience path is a real, defined route — extra education and a practicum — not a hand-wave. **Read the path you're actually on before you apply.**`)}`,
+ quiz:[
+  {q:'Every inspector applicant must:',o:['Hold a college degree','Be 18+, meet TREC\'s honesty standard, submit fingerprints, and file proof of financial responsibility','Already own an inspection company','Have ten years in construction'],a:1,e:'Baseline eligibility: age/status, honesty-trustworthiness-integrity, fingerprint background check, and proof of coverage.'},
+  {q:'Qualifying education hours are required for:',o:['The apprentice license','The Real Estate Inspector and Professional Inspector licenses','No license','Only out-of-state applicants'],a:1,e:'Apprentice is a sponsored training license with no required hours; education is required to advance to the higher tiers.'},
+  {q:'The licensing exam consists of:',o:['A single national test only','A national and a state examination after the coursework','An oral interview','No exam for any tier'],a:1,e:'Higher-tier applicants pass a national and a state exam; the state portion covers Texas law and the SOP. Apprentices do not test.'},
+  {q:'The specific hours and inspection counts in this lesson should be:',o:['Memorized as permanent law','Treated as approximate and confirmed against current TREC requirements','Ignored entirely','Set by each inspector'],a:1,e:'TREC adjusts the figures by rule. Learn the structure; verify the exact numbers before relying on them.'},
+ ]},
+
+/* ===== L4 RENEWAL & CE ===== */
+{id:'l4',kind:'Lesson 4',label:'Renewal & Continuing Education',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 4 · Keeping the license</span><h1>Two years, thirty-two hours, eight of them required.</h1>
+ <p class="lead">A Texas inspector license is not permanent — it must be renewed on a fixed cycle, and renewal turns on continuing education. Miss the hours, miss the required course, or let coverage lapse, and the renewal won't go through.</p>
+ <h2>The renewal cycle</h2>
+ ${conds('',[['Two-year term','Inspector licenses (all tiers) renew every <b>two years</b>. You renew on time, online, and you keep proof.'],['Continuing education','<b>32 hours</b> of inspector CE each renewal period — all completed within the current license period.'],['The required course','Of those 32 hours, you must complete the <b>8-hour Inspector Legal &amp; Ethics and Standards-of-Practice Review</b> course. The rest may be approved technical electives.'],['Financial responsibility','File current proof of E&amp;O (or equivalent) coverage with each renewal — the same $100,000-per-occurrence minimum applies.']])}
+ <div class="pills"><span class="pill">Renewal: <b>every 2 yrs</b></span><span class="pill">Total CE: <b>32 hrs</b></span><span class="pill">Required: <b>8-hr Legal &amp; Ethics + SOP</b></span><span class="pill">Coverage: <b>$100k/occ.</b> on file</span></div>
+ <h2>Why the ethics course is mandatory</h2>
+ <p>TREC singled out an <b>8-hour Legal &amp; Ethics and SOP Review</b> because the most common discipline isn't a missed defect — it's a conduct or standards failure: a conflict of interest, a misleading ad, a report that didn't meet the SOP. The course keeps every inspector current on the rules that get licenses suspended. Technical electives alone, even a full 32 hours of them, will <b>not</b> satisfy renewal without it.</p>
+ ${W('sort','conduct')}
+ <div class="field"><div class="ic">${sv(ic.alert)}</div><div><div class="t">Don't let the small things lapse</div><p>The avoidable failures are administrative: forgetting the <b>8-hour required course</b>, missing the renewal date, or letting <b>E&amp;O coverage lapse</b> while you keep inspecting. Each is a violation independent of the quality of your inspections. Track your CE and your coverage like you track an appointment calendar.</p></div></div>
+ ${story('In the field',`A veteran inspector with a spotless field record nearly lost his renewal — not for a bad inspection, but because every one of his 32 CE hours was technical and none was the required Legal &amp; Ethics course. **TREC counts the right hours, not just the total.** He took the 8-hour course, renewed, and now front-loads it every cycle.`)}`,
+ quiz:[
+  {q:'Texas inspector licenses renew:',o:['Annually','Every two years','Every five years','Never — they are permanent'],a:1,e:'All inspector tiers renew on a two-year cycle, with CE due each period.'},
+  {q:'The continuing-education requirement is:',o:['16 hours, any topic','32 hours of inspector CE including the 8-hour Legal & Ethics and SOP Review','8 hours total','No CE required'],a:1,e:'32 hours of inspector CE every two years, which must include the mandatory 8-hour Legal & Ethics and SOP Review course.'},
+  {q:'If all 32 CE hours are technical electives with no ethics course:',o:['Renewal is fine — the total is met','Renewal will not be accepted — the 8-hour Legal & Ethics and SOP course is required','It only matters for Professional Inspectors','You can take ethics next cycle instead'],a:1,e:'The required course is part of the 32 hours, not optional. Without it, the renewal is incomplete.'},
+  {q:'At renewal, financial responsibility:',o:['No longer matters once licensed','Must still be on file — current E&O or equivalent coverage','Drops to a lower minimum','Applies only to apprentices'],a:1,e:'Proof of coverage (at least $100k/occurrence) must be filed at issuance and again at each renewal.'},
+ ]},
+
+/* ===== L5 STANDARDS OF CONDUCT & PROHIBITED ACTS ===== */
+{id:'l5',kind:'Lesson 5',label:'Conduct & Prohibited Acts',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 5 · The lines you don't cross</span><h1>Honest, competent, independent — and no conflicts.</h1>
+ <p class="lead">Most discipline isn't about a missed crack — it's about conduct. Chapter 1102's <b>prohibited acts</b> (Subchapter G) and TREC's <b>Professional Conduct &amp; Ethics</b> rule (22 TAC §535.220) define the duties you owe and the acts that end careers.</p>
+ <h2>The prohibited acts — Chapter 1102, Subchapter G</h2>
+ ${conds('',[['Negligence or incompetence (§1102.301)','Performing an inspection negligently or without the competence the work requires.'],['Dishonesty / agreement for a specific report (§1102.302)','Agreeing in advance to report a predetermined result, or any dishonesty in the inspection or report.'],['Acting in conflicting capacities (§1102.303)','Acting as both the inspector and the real estate agent in the <b>same transaction</b> — flatly prohibited, disclosure or not.'],['Improper repair referrals (§1102.304)','Accepting a commission, rebate, or undisclosed compensation for referring repair or maintenance work found in the inspection.'],['Violation of law (§1102.305)','Violating the statute, the rules, or another law in connection with an inspection.']])}
+ <h2>Professional Conduct &amp; Ethics — 22 TAC §535.220</h2>
+ <p>The rule layers duties on top of the statute: act with <b>honesty and integrity</b>, perform only work you're <b>competent</b> to do, <b>avoid conflicts of interest</b>, and don't trade your independence. It also bars paying for referrals or preferred-provider placement and inspecting where you have an undisclosed interest. The through-line: <b>your client's interest, not your own, governs the inspection.</b></p>
+ <div class="defect"><div class="dh"><span class="n">1</span><span class="nm">Conflicting capacities</span></div><p>Inspecting a home in a transaction where you're also the agent.</p><div class="meta"><span class="lab">Why it's barred</span><span class="val">Your duty to report defects collides with your interest in closing the sale.</span><span class="lab">The rule</span><span class="val">§1102.303 — decline the inspection; disclosure does not cure it.</span></div></div>
+ <div class="defect"><div class="dh"><span class="n">2</span><span class="nm">Repair referral kickbacks</span></div><p>Taking a fee from a contractor for steering clients to them.</p><div class="meta"><span class="lab">Why it's barred</span><span class="val">It corrupts what you flag and recommend.</span><span class="lab">The rule</span><span class="val">§1102.304 and §535.220 — no commission/rebate for referring repairs you identified.</span></div></div>
+ <div class="defect"><div class="dh"><span class="n">3</span><span class="nm">Agreeing to a predetermined report</span></div><p>Promising a "clean" report to help a deal close.</p><div class="meta"><span class="lab">Why it's barred</span><span class="val">It is dishonesty and defeats the entire purpose of an independent inspection.</span><span class="lab">The rule</span><span class="val">§1102.302 — report what you observe, never what someone wants to hear.</span></div></div>
+ ${story('In the field',`An inspector was offered a standing arrangement: inspect the homes a particular agent listed, go easy on the small stuff, and the referrals would flow. He turned it down in one sentence — "I can't trade my report for your listings." **Every prohibited act starts as a favor that costs you your independence.** The ones who keep their licenses are the ones who say no early.`)}`,
+ quiz:[
+  {q:'Acting as inspector and real estate agent in the same transaction is:',o:['Allowed with disclosure','Prohibited under §1102.303 (conflicting capacities)','Encouraged for efficiency','Allowed if the client consents'],a:1,e:'§1102.303 bars conflicting capacities outright; disclosure does not make it permissible.'},
+  {q:'Accepting an undisclosed per-referral fee from a recommended contractor:',o:['Is normal networking','Is a prohibited act under §1102.304 and §535.220','Is fine if you don\'t do the repair','Is fine if the work is good'],a:1,e:'Taking a commission/rebate for referring repairs you identified corrupts the inspection and is prohibited.'},
+  {q:'Agreeing in advance to deliver a "clean" report is:',o:['Good customer service','Dishonesty prohibited by §1102.302','Allowed for new construction','Allowed if the home looks fine'],a:1,e:'§1102.302 bars agreeing to a predetermined report; you report observed conditions, not a desired outcome.'},
+  {q:'The core duty running through the conduct rules is:',o:['Maximize your referral income','Put the client\'s interest first and protect your independence','Defer to the listing agent','Inspect as fast as possible'],a:1,e:'Honesty, competence, no conflicts — the client\'s interest, not the inspector\'s, governs the inspection.'},
+ ]},
+
+/* ===== L6 ADVERTISING & FINANCIAL RESPONSIBILITY ===== */
+{id:'l6',kind:'Lesson 6',label:'Advertising & Financial Responsibility',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 6 · Marketing and money</span><h1>Don't overpromise, and carry the coverage.</h1>
+ <p class="lead">Two business-side rules trip up good inspectors: how you may advertise, and the insurance you must carry. Both are enforced, and both are easy to comply with once you know the line.</p>
+ <h2>Advertising — 22 TAC §535.221 and §535.220</h2>
+ ${conds('',[['No false or misleading advertising','§535.221 prohibits any false or misleading claim — including advertising services you aren\'t licensed to perform (e.g., mold or wood-destroying-insect inspections without that credential).'],['Identify yourself','Advertising must clearly include the inspector\'s or business\'s name so the public can identify who is responsible.'],['No paying for referrals','§535.220 bars paying a fee or other valuable consideration for a referral, for inclusion on a list of inspectors or preferred providers, or similar arrangements.'],['Don\'t claim a higher standard you won\'t meet','If you advertise that you inspect to a higher standard, you can be disciplined for failing to do so.']])}
+ <div class="defect"><div class="dh"><span class="n">!</span><span class="nm">The "mold &amp; WDI included" flyer</span></div><p>Advertising mold or wood-destroying-insect inspections without holding those separate licenses.</p><div class="meta"><span class="lab">Why it's a violation</span><span class="val">It promises services you can\'t lawfully perform — false or misleading advertising.</span><span class="lab">The rule</span><span class="val">22 TAC §535.221 — remove the claim or obtain the proper credential.</span></div></div>
+ <h2>Financial responsibility — §1102.1141 and 22 TAC §535.227</h2>
+ <p>Texas requires inspectors to maintain and file <b>proof of financial responsibility</b> — professional liability (<b>errors &amp; omissions, E&amp;O</b>) insurance, or other accepted coverage that responds to violations — of at least <b>$100,000 per occurrence</b>. You file proof <b>when the license is issued and again at every renewal</b>, and you keep records showing continuous coverage. Inspecting while your coverage is lapsed is a violation, independent of whether any claim is ever filed.</p>
+ <div class="pills"><span class="pill">Coverage: <b>E&amp;O or equivalent</b></span><span class="pill">Minimum: <b>$100,000 / occurrence</b></span><span class="pill">File: <b>at issuance &amp; each renewal</b></span><span class="pill">Keep: <b>proof of continuous coverage</b></span></div>
+ ${W('match','tier')}
+ ${story('In the field',`An inspector grew his business with a flyer promising "mold, termite, and code-compliance inspections — guaranteed." Three separate problems: mold and termite need credentials he didn\'t hold, Texas inspections aren\'t code-compliance certifications, and "guaranteed" implies a warranty. **A single ad can violate the advertising rule three ways.** He rewrote it to describe exactly the licensed service he provides — and the complaint risk vanished.`)}`,
+ quiz:[
+  {q:'Advertising mold inspections without that credential is:',o:['Good marketing','False or misleading advertising under §535.221','Fine with a disclaimer','Allowed once per year'],a:1,e:'Advertising services you aren\'t licensed to perform is prohibited false/misleading advertising.'},
+  {q:'Under the advertising rules an inspector may NOT:',o:['List their license number','Pay a fee for a referral or preferred-provider placement','State years of experience','Use a business logo'],a:1,e:'§535.220 bars paying for referrals or inclusion on preferred-provider lists.'},
+  {q:'The minimum financial-responsibility coverage is:',o:['$10,000 per occurrence','$100,000 per occurrence','$1,000,000 aggregate only','None — it\'s optional'],a:1,e:'At least $100,000 per occurrence of E&O or equivalent coverage, filed with TREC.'},
+  {q:'Proof of financial responsibility must be filed:',o:['Only once, at first licensure','At issuance and again at every renewal','Only if a claim is filed','Only by Professional Inspectors'],a:1,e:'It is filed at issuance and at each renewal, with records of continuous coverage retained.'},
+ ]},
+
+/* ===== L7 COMPLAINTS & DISCIPLINE ===== */
+{id:'l7',kind:'Lesson 7',label:'Complaints & Discipline',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 7 · When something goes wrong</span><h1>Cooperate, document, and know the process.</h1>
+ <p class="lead">Anyone can file a complaint with TREC, and good inspectors get them. What separates a routine inquiry from a career problem is how you respond — and understanding the process so it doesn't blindside you.</p>
+ <h2>How a complaint moves</h2>
+ ${conds('',[['Filed &amp; opened','A consumer (or anyone) files a written complaint. After review, TREC\'s Enforcement Division opens it and sends you a copy with a request for your written response.'],['You respond','You must respond fully and on time and cooperate with the investigation. <b>Failing to respond is itself a violation.</b>'],['Investigation','An attorney reviews the complaint and your response, the inspection file, and the evidence to decide whether a rule or statute was violated.'],['Resolution or formal case','Many matters close or settle. If it proceeds, it becomes a contested case heard at <b>SOAH</b> (the State Office of Administrative Hearings).'],['Decision','A SOAH administrative law judge issues a Proposal for Decision; the <b>Commission renders the final discipline.</b>']])}
+ <h2>What discipline looks like</h2>
+ <p>If a violation is found, sanctions range with the severity: a <b>formal reprimand</b>, an <b>administrative penalty</b> (fine), <b>probation</b> with conditions, <b>suspension</b>, or <b>revocation</b> of the license. Disciplinary actions become part of the public record — a strong reason to keep conduct clean and complaints rare.</p>
+ <div class="field"><div class="ic">${sv(ic.alert)}</div><div><div class="t">Your file is your defense</div><p>The single best protection in a complaint is a complete, contemporaneous <b>inspection file</b>: the written report to the SOP, your photographs, notes on what was inaccessible, and your agreement. Document what you observed and the limits of access, and most complaints resolve on the strength of the record.</p></div></div>
+ ${W('sort','path')}
+ ${story('In the field',`Two inspectors got near-identical complaints alleging a missed defect. One ignored the letter, hoping it would pass — and turned a defensible inspection into a separate violation for failing to respond. The other sent a calm, on-time response with photos showing the area had been inaccessible and noted as such in the report. **The complaint, not the inspection, is the test of professionalism.** One file closed quietly; the other escalated.`)}`,
+ quiz:[
+  {q:'When TREC sends you a complaint, you should:',o:['Ignore it','Respond fully and on time and cooperate','Call the complainant to drop it','Surrender your license'],a:1,e:'You must cooperate; failing to respond is itself a violation. A complete, timely response often resolves the matter.'},
+  {q:'A contested inspector enforcement case is heard at:',o:['District court','SOAH — the State Office of Administrative Hearings','The county clerk','A private arbitrator'],a:1,e:'A SOAH administrative law judge hears the case and issues a Proposal for Decision; TREC renders the final discipline.'},
+  {q:'Possible disciplinary outcomes include:',o:['Only a warning letter','Reprimand, administrative penalty, suspension, or revocation','Jail time imposed by TREC','Nothing — TREC can\'t discipline'],a:1,e:'TREC can reprimand, fine, suspend, or revoke; the sanction scales with the violation and these become public record.'},
+  {q:'Your strongest protection in a complaint is:',o:['A verbal reassurance to the client','A complete inspection file — report, photos, and notes on access limits','Deleting your records','Refusing to respond'],a:1,e:'A contemporaneous, documented file showing what you observed and what was inaccessible is the best defense.'},
+ ]},
+/*LESSONS*/
+ {id:'scenarios',kind:'Apply it',label:'Inspector\'s Call',type:'scenario'},
+ {id:'assess',kind:'Assessment',label:'Mastery check',type:'assess'},
+ {id:'glossary',kind:'Reference',label:'Glossary',type:'glossary'},
+ {id:'source',kind:'Reference',label:'Reference & sources',type:'source'},
+];
+(async()=>{await load();render();})();
+</script>

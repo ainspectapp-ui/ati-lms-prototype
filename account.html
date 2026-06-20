@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ATI Academy — Sign in</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#f4f2ea;--bg-2:#ece9df;--card:#fffdf8;--ink:#191c22;--text:#21242b;--text-2:#5b616b;--text-3:#8b909a;
+  --line:#e6e1d4;--line-2:#efeae0;--brand:#c5812a;--brand-2:#e0a043;--brand-deep:#9a6214;--brand-soft:#f4e7cd;--brand-tint:#faf2e0;
+  --teal-deep:#123f43;--fail:#bd4a31;--fail-soft:#f6e6df;--pass:#2f7a4e;--pass-soft:#e2efe5;
+  --display:'Fraunces',Georgia,serif;--body:'Hanken Grotesk',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;
+  --sh-2:0 4px 14px rgba(25,28,34,.06),0 12px 32px rgba(25,28,34,.09);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--body);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;min-height:100vh;display:grid;place-items:center;padding:32px 18px;
+  background-image:radial-gradient(900px 480px at 80% -10%,rgba(197,129,42,.08),transparent 60%),radial-gradient(800px 460px at 6% 8%,rgba(31,111,115,.06),transparent 55%)}
+a{color:var(--brand-deep);text-decoration:none}
+.wrap{width:100%;max-width:440px}
+.brand{display:flex;align-items:center;gap:11px;justify-content:center;margin-bottom:22px}
+.logo{width:40px;height:40px;border-radius:11px;background:linear-gradient(150deg,var(--ink),var(--teal-deep));display:grid;place-items:center}
+.brand b{font-family:var(--display);font-weight:600;font-size:18px;color:var(--ink)}
+.brand span{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3);margin-top:2px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:var(--sh-2);padding:30px 30px 26px}
+.tabs{display:flex;gap:6px;background:var(--bg-2);border-radius:12px;padding:4px;margin-bottom:22px}
+.tabs button{flex:1;font-family:var(--body);font-weight:700;font-size:14px;padding:9px;border:none;border-radius:9px;background:none;color:var(--text-2);cursor:pointer;transition:.15s}
+.tabs button.on{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(25,28,34,.08)}
+h1{font-family:var(--display);font-weight:600;font-size:23px;color:var(--ink);margin-bottom:4px;letter-spacing:-.01em}
+.sub{font-size:13.5px;color:var(--text-2);margin-bottom:20px}
+label{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);margin:14px 0 6px;font-weight:600}
+input,select{width:100%;padding:12px 13px;border:1.5px solid var(--line);border-radius:11px;background:var(--bg);font-family:var(--body);font-size:14.5px;color:var(--ink);font-weight:500;transition:.13s}
+input:focus,select:focus{outline:none;border-color:var(--brand);background:var(--card)}
+.btn{width:100%;margin-top:22px;font-family:var(--body);font-weight:700;font-size:15px;padding:13px;border:none;border-radius:12px;cursor:pointer;
+  background:linear-gradient(180deg,var(--brand-2),var(--brand));color:#3a2607;box-shadow:0 6px 18px rgba(154,98,20,.3);transition:.15s}
+.btn:hover{filter:brightness(1.05);transform:translateY(-1px)}
+.btn:disabled{opacity:.6;cursor:default;transform:none}
+.msg{margin-top:16px;padding:11px 14px;border-radius:11px;font-size:13.5px;display:none}
+.msg.err{display:block;background:var(--fail-soft);color:var(--fail);border:1px solid #e8c3b8}
+.msg.ok{display:block;background:var(--pass-soft);color:var(--pass);border:1px solid #bfe0c9}
+.foot{text-align:center;font-size:12.5px;color:var(--text-3);margin-top:20px}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="brand" href="/">
+    <span class="logo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#e0a043" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10.5V20h14v-9.5"/><circle cx="11" cy="14" r="2.4"/><path d="m13 16 2.4 2.4"/></svg></span>
+    <span><b>ATI Academy</b><span>Inspector Training</span></span>
+  </a>
+  <div class="card">
+    <div class="tabs">
+      <button id="tab-login" class="on" onclick="show('login')">Sign in</button>
+      <button id="tab-signup" onclick="show('signup')">Create account</button>
+    </div>
+
+    <form id="login" onsubmit="return submitLogin(event)">
+      <h1>Welcome back</h1>
+      <div class="sub">Sign in to continue your training.</div>
+      <label>Email</label><input type="email" name="email" autocomplete="email" required />
+      <label>Password</label><input type="password" name="password" autocomplete="current-password" required />
+      <button class="btn" type="submit">Sign in</button>
+    </form>
+
+    <form id="signup" class="hidden" onsubmit="return submitSignup(event)">
+      <h1>Create your account</h1>
+      <div class="sub">Pick your state — we'll enroll you in the right course.</div>
+      <label>Full name</label><input type="text" name="fullName" autocomplete="name" required />
+      <label>Email</label><input type="email" name="email" autocomplete="email" required />
+      <label>Password</label><input type="password" name="password" autocomplete="new-password" minlength="8" required />
+      <label>Your state</label>
+      <select name="homeState" required>
+        <option value="" disabled selected>Select a state…</option>
+        <option value="NY">New York</option>
+        <option value="TX">Texas</option>
+        <option value="WA">Washington</option>
+        <option value="">— Other / national core —</option>
+      </select>
+      <button class="btn" type="submit">Create account</button>
+    </form>
+
+    <div id="msg" class="msg"></div>
+    <div class="foot">Progress is saved to your account and synced across devices.</div>
+  </div>
+</div>
+
+<script>
+function show(which){
+  document.getElementById('login').classList.toggle('hidden', which!=='login');
+  document.getElementById('signup').classList.toggle('hidden', which!=='signup');
+  document.getElementById('tab-login').classList.toggle('on', which==='login');
+  document.getElementById('tab-signup').classList.toggle('on', which==='signup');
+  msg('');
+}
+function msg(text, ok){
+  var m=document.getElementById('msg');
+  m.className='msg'+(text?(ok?' ok':' err'):'');
+  m.textContent=text||'';
+}
+async function post(url, body, btn){
+  btn.disabled=true;
+  try{
+    const r=await fetch(url,{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const j=await r.json().catch(()=>({}));
+    if(!r.ok){ msg(j.error||'Something went wrong.'); btn.disabled=false; return null; }
+    return j;
+  }catch(e){ msg('Network error — is the server running?'); btn.disabled=false; return null; }
+}
+async function submitLogin(e){
+  e.preventDefault(); msg('');
+  const f=e.target, btn=f.querySelector('button');
+  const j=await post('/api/auth/login',{email:f.email.value,password:f.password.value},btn);
+  if(j){ msg('Signed in — taking you to your courses…', true); location.href='/'; }
+  return false;
+}
+async function submitSignup(e){
+  e.preventDefault(); msg('');
+  const f=e.target, btn=f.querySelector('button');
+  const j=await post('/api/auth/signup',{fullName:f.fullName.value,email:f.email.value,password:f.password.value,homeState:f.homeState.value||undefined},btn);
+  if(j){ msg('Account created — welcome aboard…', true); location.href='/'; }
+  return false;
+}
+</script>
+</body>
+</html>

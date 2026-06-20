@@ -1,0 +1,736 @@
+<!-- ATI · Module I — Interior & Components — full interactive section -->
+<title>ATI · Module I — Interior &amp; Components</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..900&family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#f4f2ea;--surf:#fffdf8;--surf-2:#faf7ef;--surf-3:#efeae0;
+    --line:#e6e1d4;--line-2:#efeae0;--line-brass:rgba(197,129,42,.32);
+    --ink:#21242b;--ink-2:#5b616b;--ink-3:#8b909a;
+    --brass:#c5812a;--brass-2:#e0a043;--brass-deep:#9a6214;--brass-soft:#f4e7cd;
+    --slate:#1f6f73;--slate-2:#2f8a8d;--slate-soft:#dde9e9;--slate-deep:#123f43;
+    --pass:#2f7a4e;--pass-soft:#e2efe5;--fail:#bd4a31;--fail-soft:#f6e6df;
+    --r:16px;--display:'Fraunces',Georgia,serif;--body:'Hanken Grotesk',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;
+    --sh-1:0 1px 2px rgba(25,28,34,.05),0 1px 3px rgba(25,28,34,.05);--sh-2:0 4px 14px rgba(25,28,34,.06),0 12px 32px rgba(25,28,34,.09);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.55;background-image:radial-gradient(120% 80% at 88% -8%,rgba(197,129,42,.06),transparent 52%),radial-gradient(90% 60% at -8% 108%,rgba(31,111,115,.06),transparent 52%)}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  .mono{font-family:var(--mono)}
+  ::selection{background:var(--brass);color:#fff}
+  ::-webkit-scrollbar{width:11px;height:11px}::-webkit-scrollbar-thumb{background:#d2ccbd;border-radius:11px;border:3px solid var(--bg)}
+
+  .top{position:sticky;top:0;z-index:30;background:rgba(244,242,234,.82);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid var(--line)}
+  .top .row{max-width:1150px;margin:0 auto;padding:13px 24px;display:flex;align-items:center;gap:14px}
+  .mark{width:36px;height:36px;border-radius:10px;flex:none;display:grid;place-items:center;background:linear-gradient(150deg,var(--brass-2),var(--brass-deep));box-shadow:0 3px 12px rgba(168,109,16,.3),inset 0 1px 0 rgba(255,255,255,.35)}
+  .mark svg{width:20px;height:20px;color:#fff}
+  .top .tt{font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:-.01em;line-height:1.1}.top .tt b{color:var(--brass-deep)}
+  .top .sub{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);display:block;margin-top:2px}
+  .top .prog{margin-left:auto;display:flex;align-items:center;gap:12px}
+  .top .prog .bar{width:150px;height:7px;background:var(--surf-3);border-radius:7px;overflow:hidden;border:1px solid var(--line)}
+  .top .prog .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--brass-deep),var(--brass));border-radius:7px;transition:width .5s cubic-bezier(.2,.7,.2,1)}
+  .top .prog .pc{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--brass-deep);min-width:34px;text-align:right}
+
+  .wrap{max-width:1150px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:250px 1fr;gap:32px;align-items:start}
+  .rail{position:sticky;top:88px;margin-top:28px;max-height:calc(100vh - 110px);overflow-y:auto;padding-right:4px}
+  .rail .h{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);padding:0 8px 10px}
+  .step{display:block;padding:9px 10px 9px 43px;border-radius:10px;width:100%;text-align:left;transition:.13s;color:var(--ink-2);font-size:12.5px;font-weight:500;position:relative}
+  .step:hover{background:var(--surf-2)}
+  .step.active{background:var(--surf);box-shadow:var(--sh-1);color:var(--ink)}
+  .step.active::before{content:"";position:absolute;left:-8px;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--brass)}
+  .step .dot{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-family:var(--mono);font-size:10px;color:var(--ink-3);background:var(--bg);transition:.2s}
+  .step.done .dot{background:var(--brass);border-color:var(--brass);color:#fff}.step.done .dot svg{width:11px;height:11px}
+  .step .lbl{flex:1;line-height:1.2}
+  .step .kind{font-family:var(--mono);font-size:8.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);display:block;margin-top:1px}
+  .step.locked{opacity:.42;pointer-events:none}
+
+  .view{min-width:0;margin-top:28px;animation:rise .38s cubic-bezier(.2,.7,.2,1);padding-bottom:40px}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--brass-deep);font-weight:600}
+  h1{font-family:var(--display);font-weight:800;font-size:31px;letter-spacing:-.02em;line-height:1.08;margin:8px 0 0}
+  h2{font-family:var(--display);font-weight:700;font-size:21px;letter-spacing:-.01em;margin:32px 0 10px}
+  h3{font-family:var(--display);font-weight:700;font-size:16px;margin:24px 0 8px}
+  p{font-size:15.5px;color:#33312a;margin-bottom:14px;line-height:1.74}
+  p b,li b{color:var(--ink);font-weight:700}
+  .lead{font-size:16.5px;color:var(--ink-2);margin-top:12px;max-width:64ch}
+  ul.clean{list-style:none;margin:2px 0 16px}
+  ul.clean li{font-size:14.5px;color:#33312a;padding-left:22px;position:relative;margin-bottom:9px;line-height:1.6}
+  ul.clean li::before{content:"";position:absolute;left:2px;top:8px;width:7px;height:7px;border-radius:2px;background:var(--brass);transform:rotate(45deg)}
+  ul.num{margin:0 0 16px 20px}ul.num li{font-size:14.5px;color:#33312a;margin-bottom:7px;line-height:1.6}
+
+  .field{background:var(--slate-deep);color:#e9edf0;border-radius:13px;padding:18px 20px;margin:22px 0;display:flex;gap:14px}
+  .field.brass{background:linear-gradient(135deg,#3a3526,#2c2818)}
+  .field .ic{flex:none;color:var(--brass-2)}.field .ic svg{width:20px;height:20px}
+  .field .t{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-2);margin-bottom:5px}
+  .field p{color:#c4cdd4;font-size:14px;margin:0 0 8px;line-height:1.65}.field p:last-child{margin-bottom:0}.field p b{color:#fff}
+
+  .story{background:var(--surf);border:1px solid var(--line);border-left:4px solid var(--brass);border-radius:0 13px 13px 0;padding:16px 19px;margin:22px 0;box-shadow:var(--sh-1)}
+  .story .st{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-deep);display:flex;align-items:center;gap:8px;margin-bottom:7px}
+  .story .st svg{width:14px;height:14px}
+  .story p{font-size:14.5px;color:#403d33;font-style:italic;margin:0;line-height:1.7}
+  .story p b{font-style:normal}
+
+  .loop{display:flex;align-items:stretch;background:var(--surf);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin:18px 0 8px;box-shadow:var(--sh-1)}
+  .loop .seg{flex:1;padding:13px 10px;text-align:center;border-right:1px solid var(--line-2)}.loop .seg:last-child{border-right:none}
+  .loop .seg .n{font-family:var(--mono);font-size:9px;color:var(--ink-3);letter-spacing:.1em}
+  .loop .seg .w{font-family:var(--display);font-weight:700;font-size:12.5px;margin-top:3px}
+  .loop .seg.on{background:var(--brass-soft)}.loop .seg.on .w{color:var(--brass-deep)}
+
+  .dgm{background:#bdb8a8;border:1px solid var(--line);border-radius:var(--r);padding:8px;margin:20px 0;box-shadow:var(--sh-1);position:relative;overflow:hidden}
+  .dgm::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(44,65,83,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(44,65,83,.1) 1px,transparent 1px);background-size:26px 26px;pointer-events:none}
+  .dgm svg{display:block;width:100%;height:auto;position:relative}
+  .dgm .cap{position:relative;text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:.04em;color:var(--slate-deep);padding:4px 6px 8px}
+
+  .defect{background:var(--surf);border:1px solid var(--line);border-radius:13px;padding:16px 18px;box-shadow:var(--sh-1);margin:12px 0}
+  .defect .dh{display:flex;align-items:center;gap:11px;margin-bottom:8px}
+  .defect .dh .n{width:26px;height:26px;border-radius:8px;background:var(--fail-soft);color:var(--fail);display:grid;place-items:center;flex:none;font-family:var(--mono);font-weight:600;font-size:12px}
+  .defect .dh .nm{font-family:var(--display);font-weight:700;font-size:15px}
+  .defect p{font-size:14px;margin-bottom:9px}
+  .defect .meta{display:grid;grid-template-columns:auto 1fr;gap:5px 12px;font-size:13px;align-items:start}
+  .defect .meta .lab{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);padding-top:3px;white-space:nowrap}
+  .defect .meta .val{color:#33312a;line-height:1.5}
+  .defect .rep{font-family:var(--mono);font-size:11px;background:var(--slate-soft);border-radius:8px;padding:8px 11px;color:var(--slate-deep);line-height:1.5;margin-top:8px}.defect .rep b{color:var(--slate-deep)}
+
+  .pills{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 6px}
+  .pill{font-family:var(--mono);font-size:11.5px;background:var(--surf);border:1px solid var(--line);color:var(--ink-2);padding:6px 12px;border-radius:20px}.pill b{color:var(--brass-deep)}
+  .tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px;background:var(--surf);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .tbl th{background:var(--slate-deep);color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;text-align:left;padding:9px 12px;font-weight:600}
+  .tbl td{padding:9px 12px;border-top:1px solid var(--line-2);color:#33312a}
+  .tbl td:first-child{font-family:var(--mono);font-weight:600;color:var(--brass-deep);white-space:nowrap}
+
+  /* ---- quiz (multi-question) ---- */
+  .quiz{background:var(--surf);border:1.5px solid var(--line-brass);border-radius:var(--r);padding:24px;margin:30px 0 0;box-shadow:var(--sh-1)}
+  .quiz .qh{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-deep);display:flex;align-items:center;gap:8px;margin-bottom:4px}.quiz .qh svg{width:15px;height:15px}
+  .quiz .qt{font-family:var(--display);font-weight:700;font-size:18px}.quiz .qsub{font-size:13.5px;color:var(--ink-2);margin:4px 0 4px}
+  .qblock{border-top:1px solid var(--line-2);padding-top:18px;margin-top:18px}.qblock:first-of-type{border-top:none;padding-top:14px}
+  .qnum{font-family:var(--mono);font-size:11px;color:var(--brass-deep);font-weight:600;margin-bottom:6px}
+  .q{font-family:var(--display);font-weight:600;font-size:15.5px;margin-bottom:13px;line-height:1.4}
+  .opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:11px 14px;border:1.5px solid var(--line);border-radius:10px;margin-bottom:8px;transition:.13s;font-size:14px;font-weight:500;background:var(--surf-2)}
+  .opt:hover:not(.lk){border-color:var(--brass);background:var(--surf)}
+  .opt .k{font-family:var(--mono);font-weight:600;width:23px;height:23px;border-radius:6px;background:var(--surf-3);display:grid;place-items:center;font-size:11px;flex:none;color:var(--ink-2)}
+  .opt.correct{border-color:var(--pass);background:var(--pass-soft)}.opt.correct .k{background:var(--pass);color:#fff}
+  .opt.wrong{border-color:var(--fail);background:var(--fail-soft)}.opt.wrong .k{background:var(--fail);color:#fff}
+  .opt .mk{margin-left:auto}.opt .mk svg{width:16px;height:16px}.opt.lk{cursor:default}
+  .exp{font-size:13px;color:var(--ink-2);line-height:1.62;padding:11px 13px;background:var(--surf-2);border-left:3px solid var(--brass);border-radius:0 9px 9px 0;margin-top:4px}.exp b{color:var(--ink)}
+  .qscore{margin-top:20px;padding-top:18px;border-top:1px solid var(--line-2);font-family:var(--mono);font-size:13px;color:var(--ink-2);display:flex;align-items:center;gap:10px}.qscore svg{width:18px;height:18px;flex:none}.qscore b{font-size:15px}
+
+  .foot{display:flex;align-items:center;gap:12px;margin:30px 0 10px;padding-top:22px;border-top:1px solid var(--line)}.foot .sp{flex:1}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:14px;padding:12px 18px;border-radius:11px;transition:.15s;font-family:var(--body)}.btn svg{width:16px;height:16px}
+  .btn.brass{background:linear-gradient(150deg,var(--brass-2),var(--brass));color:#fff;box-shadow:0 5px 14px rgba(168,109,16,.28)}.btn.brass:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(168,109,16,.36)}
+  .btn.brass:disabled{opacity:.5;filter:grayscale(.3);cursor:not-allowed;transform:none;box-shadow:none}
+  .btn.ghost{background:var(--surf);border:1px solid var(--line);color:var(--ink-2)}.btn.ghost:hover{color:var(--ink);border-color:var(--ink-3)}
+  .btn.slate{background:var(--slate);color:#fff}.btn.slate:hover{background:var(--slate-deep)}
+
+  /* ---- WIDGETS ---- */
+  .wlabel{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:var(--brass);padding:4px 9px;border-radius:20px;display:inline-block;margin-bottom:6px}
+  .wtitle{font-family:var(--display);font-weight:700;font-size:16px;margin-bottom:3px}
+  .wsub{font-size:13.5px;color:var(--ink-2);margin-bottom:14px}
+  .widget{background:var(--surf-2);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;margin:24px 0;box-shadow:var(--sh-1)}
+
+  .sd-wrap{display:grid;grid-template-columns:1fr 260px;gap:16px}@media(max-width:760px){.sd-wrap{grid-template-columns:1fr}}
+  .sd-stage{background:#bdb8a8;border:1px solid var(--line);border-radius:13px;padding:8px;position:relative;overflow:hidden}
+  .sd-stage::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(44,65,83,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(44,65,83,.09) 1px,transparent 1px);background-size:24px 24px;pointer-events:none}
+  .sd-stage svg{display:block;width:100%;height:auto;position:relative}
+  .hot{cursor:pointer}.hot circle.zone{fill:transparent;stroke:transparent}
+  .hot.found circle.zone{fill:rgba(61,125,80,.16);stroke:var(--pass);stroke-width:2.5;stroke-dasharray:4 3}
+  .sd-side{display:flex;flex-direction:column;gap:11px}
+  .sd-count{background:var(--slate-deep);color:#fff;border-radius:12px;padding:13px 15px;text-align:center}
+  .sd-count .big{font-family:var(--mono);font-weight:600;font-size:28px;line-height:1}.sd-count .lbl{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-2);margin-top:5px}
+  .sd-found{display:flex;flex-direction:column;gap:7px;max-height:280px;overflow-y:auto}
+  .fcard{background:var(--surf);border:1px solid var(--line);border-left:3px solid var(--pass);border-radius:9px;padding:9px 11px;animation:pop .3s}@keyframes pop{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:none}}
+  .fcard .fn{font-family:var(--display);font-weight:700;font-size:13px;color:var(--pass)}.fcard .fd{font-size:12px;color:var(--ink-2);margin-top:2px;line-height:1.45}
+  .sd-empty{font-size:12.5px;color:var(--ink-3);font-style:italic;text-align:center;padding:18px 8px}
+  .sd-done{background:var(--pass-soft);border:1px solid var(--pass);border-radius:11px;padding:12px;text-align:center;font-size:13px;color:var(--pass);font-weight:600}
+
+  .gfi-stage{background:var(--slate-deep);border-radius:13px;padding:20px;position:relative;overflow:hidden;height:220px}
+  .lane{position:absolute;left:120px;right:120px;height:3px;background:rgba(255,255,255,.18);border-radius:3px}.lane.hot{top:66px}.lane.neu{top:146px}
+  .lane .lab{position:absolute;top:-19px;left:0;font-family:var(--mono);font-size:10px;color:#9fb0bd}
+  .dot{position:absolute;width:9px;height:9px;border-radius:50%;top:-3px}
+  .dot.h{background:var(--brass-2);animation:flowR 2.4s linear infinite}.dot.n{background:#7fa8c4;animation:flowL 2.4s linear infinite}
+  @keyframes flowR{from{left:0}to{left:100%}}@keyframes flowL{from{left:100%}to{left:0}}
+  .gbox{position:absolute;left:28px;top:66px;width:68px;height:80px;border:2px solid #9fb0bd;border-radius:8px;display:grid;place-items:center;text-align:center}
+  .gbox .gt{font-family:var(--mono);font-size:10px;color:#fff}.gbox .gs{font-family:var(--mono);font-size:8px;color:#7fa8c4;margin-top:3px}
+  .load{position:absolute;right:28px;top:66px;width:68px;height:80px;border:2px solid #9fb0bd;border-radius:8px;display:grid;place-items:center}.load .lt{font-family:var(--mono);font-size:10px;color:#fff}
+  .leak{position:absolute;left:50%;top:69px;width:2px;height:88px;background:repeating-linear-gradient(180deg,var(--fail),var(--fail) 5px,transparent 5px,transparent 10px);opacity:0;transition:.3s}.leak.on{opacity:1}
+  .person{position:absolute;left:calc(50% - 13px);top:160px;font-size:22px;opacity:0;transition:.3s}.person.on{opacity:1}
+  .trip{position:absolute;inset:0;background:rgba(184,84,54,.92);display:grid;place-items:center;opacity:0;pointer-events:none;transition:.3s}.trip.on{opacity:1}
+  .trip .tw{text-align:center;color:#fff}.trip .tw .b{font-family:var(--display);font-weight:800;font-size:25px}.trip .tw .s{font-family:var(--mono);font-size:11px;letter-spacing:.1em;margin-top:6px;opacity:.9}
+  .gfi-status{display:flex;align-items:center;gap:10px;margin-top:14px;font-size:14px;font-weight:600}.gfi-status .pip{width:11px;height:11px;border-radius:50%;background:var(--pass)}.gfi-status.fault .pip{background:var(--fail)}
+  .gfi-controls{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}.gfi-read{font-family:var(--mono);font-size:12px;color:var(--ink-2);margin-top:10px}.gfi-read b{color:var(--brass-deep)}
+
+  .match{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:600px){.match{grid-template-columns:1fr}}
+  .mcol{display:flex;flex-direction:column;gap:9px}.mcol .ch{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);text-align:center;margin-bottom:2px}
+  .chip{padding:13px;border:1.5px solid var(--line);border-radius:11px;background:var(--surf);font-family:var(--mono);font-weight:600;font-size:14px;text-align:center;transition:.13s;color:var(--ink)}
+  .chip:hover:not(.locked){border-color:var(--brass)}.chip.sel{border-color:var(--brass);background:var(--brass-soft);color:var(--brass-deep)}
+  .chip.locked{border-color:var(--pass);background:var(--pass-soft);color:var(--pass);cursor:default;opacity:.85}
+  .chip.miss{border-color:var(--fail);background:var(--fail-soft);animation:shake .3s}@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+  .w-done{margin-top:14px;background:var(--pass-soft);border:1px solid var(--pass);border-radius:11px;padding:12px;text-align:center;font-size:13px;color:var(--pass);font-weight:600}
+
+  .est{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:600px){.est{grid-template-columns:1fr}}
+  .est label{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:6px}
+  .est select{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--surf);font-family:var(--mono);font-size:14px;color:var(--ink);font-weight:600}
+  .est-out{grid-column:1/-1;margin-top:4px;border-radius:12px;padding:15px 17px;border:1px solid var(--line);background:var(--surf);transition:.2s}
+  .est-out.ok{border-color:var(--pass);background:var(--pass-soft)}.est-out.bad{border-color:var(--fail);background:var(--fail-soft)}
+  .est-out .ev{font-family:var(--display);font-weight:800;font-size:19px}.est-out .ed{font-size:13px;color:var(--ink-2);margin-top:5px;line-height:1.5}
+  .est-out.ok .ev{color:var(--pass)}.est-out.bad .ev{color:var(--fail)}
+
+  .sort{display:grid;gap:14px}
+  .sort-items{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;min-height:20px}
+  .sitem{padding:10px 14px;border:1.5px solid var(--line);border-radius:10px;background:var(--surf);font-size:13.5px;font-weight:500;transition:.13s}.sitem:hover:not(.placed){border-color:var(--brass)}.sitem.sel{border-color:var(--brass);background:var(--brass-soft);color:var(--brass-deep)}.sitem.placed{display:none}
+  .bins{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:600px){.bins{grid-template-columns:1fr}}
+  .bin{border:1.5px dashed var(--line);border-radius:12px;padding:14px;min-height:90px;background:var(--surf)}
+  .bin.activeb{border-color:var(--brass);background:var(--brass-soft)}
+  .bin .bt{font-family:var(--display);font-weight:700;font-size:14px;text-align:center;margin-bottom:10px}
+  .bin .drop{font-size:11px;color:var(--ink-3);text-align:center;font-style:italic}
+  .binitem{padding:8px 11px;border-radius:8px;font-size:13px;font-weight:500;margin-bottom:6px;display:flex;align-items:center;gap:7px}.binitem svg{width:13px;height:13px;flex:none}
+  .binitem.right{background:var(--pass-soft);color:var(--pass)}.binitem.wrong{background:var(--fail-soft);color:var(--fail)}
+
+  .era{display:flex;flex-direction:column;gap:0;position:relative;margin:6px 0 4px;padding-left:8px}
+  .era .line{position:absolute;left:14px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .erow{display:flex;align-items:flex-start;gap:14px;padding:9px 0;position:relative;cursor:pointer}
+  .erow .ed{width:12px;height:12px;border-radius:50%;background:var(--surf-3);border:2px solid var(--line);flex:none;margin-top:3px;z-index:1;transition:.15s}
+  .erow:hover .ed,.erow.open .ed{background:var(--brass);border-color:var(--brass)}
+  .erow .et{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--brass-deep);width:130px;flex:none}
+  .erow .en{font-size:14px;color:#33312a;font-weight:600}
+  .erow .ex{font-size:13px;color:var(--ink-2);line-height:1.5;margin-top:4px;display:none}.erow.open .ex{display:block}
+
+  .panelcard{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-2);padding:34px;text-align:center}
+  .panelcard .ic{width:56px;height:56px;border-radius:14px;background:var(--brass-soft);color:var(--brass-deep);display:grid;place-items:center;margin:0 auto 16px}.panelcard .ic svg{width:27px;height:27px}
+  .panelcard h2{margin:0 0 8px}.panelcard p{max-width:48ch;margin:0 auto 22px}
+  .ring{width:150px;height:150px;margin:0 auto 18px;position:relative}.ring .rv{position:absolute;inset:0;display:grid;place-items:center}.ring .rv .n{font-family:var(--mono);font-weight:600;font-size:38px;line-height:1}.ring .rv .p{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-top:4px}
+  .verdict{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;display:inline-block;padding:5px 13px;border-radius:20px;margin-bottom:16px}.verdict.pass{background:var(--pass-soft);color:var(--pass)}.verdict.fail{background:var(--fail-soft);color:var(--fail)}
+
+  .scen{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-2);margin-bottom:16px}
+  .scen .sh{background:linear-gradient(120deg,#1f6f73,#123f43);color:#fff;padding:16px 20px}.scen .sh .t{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-2)}.scen .sh .n{font-family:var(--display);font-weight:700;font-size:17px;margin-top:3px}
+  .scen .body{padding:20px 22px}.scen .situation{font-size:15.5px;color:#33312a;line-height:1.7;margin-bottom:6px}.scen .ask{font-family:var(--display);font-weight:600;font-size:15px;margin:16px 0 14px;color:var(--ink)}
+  .scount{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-bottom:10px}
+
+  .gloss{display:grid;gap:10px}.term{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:13px 16px;box-shadow:var(--sh-1)}
+  .term .tw{font-family:var(--display);font-weight:700;font-size:14.5px;color:var(--brass-deep)}.term .td{font-size:13.5px;color:var(--ink-2);margin-top:3px;line-height:1.55}
+  .srcframe{width:100%;height:78vh;border:1px solid var(--line);border-radius:var(--r);background:var(--surf);box-shadow:var(--sh-1)}
+  .srcnote{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:14px 17px;font-size:13.5px;color:var(--ink-2);margin:14px 0;line-height:1.6}.srcnote a{color:var(--brass-deep);font-weight:600}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--slate-deep);color:#fff;padding:12px 18px;border-radius:11px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;box-shadow:var(--sh-2);z-index:100;opacity:0;transition:.3s}.toast.show{transform:translateX(-50%) translateY(0);opacity:1}.toast svg{width:16px;height:16px;color:var(--brass-2)}
+  @media(max-width:880px){.wrap{grid-template-columns:1fr}.rail{display:none}.top .prog .bar{width:90px}}
+  em{font-style:italic;color:inherit}
+</style>
+
+<div class="top"><div class="row">
+  <a href="index.html" class="mark" style="text-decoration:none" title="Back to Module II"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8c2.2 0 2.2-2 4.5-2S9.7 8 12 8s2.2-2 4.5-2S18.7 8 21 8"/><path d="M3 13c2.2 0 2.2-2 4.5-2S9.7 13 12 13s2.2-2 4.5-2S18.7 13 21 13"/><path d="M3 18c2.2 0 2.2-2 4.5-2S9.7 18 12 18s2.2-2 4.5-2S18.7 18 21 18"/></svg></a>
+  <div><div class="tt">ATI · Module I — <b>Interior &amp; Components</b></div><span class="sub">Property &amp; Building Inspection · interactive</span></div>
+  <div class="prog"><a href="index.html" style="font-family:var(--mono);font-size:11px;font-weight:600;color:var(--brass-deep);text-decoration:none;margin-right:2px" title="All systems">↩ Systems</a><div class="bar"><i id="pbar"></i></div><span class="pc" id="ppc">0%</span></div>
+</div></div>
+<div class="wrap"><aside class="rail"><div class="h">Section contents</div><div id="rail"></div></aside><main class="view" id="view"></main></div>
+<div class="toast" id="toast"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span id="tmsg"></span></div>
+
+<script src="/storage.js"></script>
+<script>
+/* ---- storage adapter: native window.storage in Claude; localStorage when deployed (GitHub Pages); memory as last resort ---- */
+(function(){if(typeof window==='undefined')return;if(window.storage&&window.storage.get)return;var mem={};window.storage={get:function(k){try{var v=window.localStorage.getItem(k);return Promise.resolve(v!=null?{value:v}:null);}catch(e){return Promise.resolve(mem[k]!=null?{value:mem[k]}:null);}},set:function(k,v){try{window.localStorage.setItem(k,v);}catch(e){mem[k]=v;}return Promise.resolve({value:v});},delete:function(k){try{window.localStorage.removeItem(k);}catch(e){delete mem[k];}return Promise.resolve({deleted:true});}};})();
+
+const ic={check:'<path d="M20 6 9 17l-5-5"/>',x:'<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',arrow:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',back:'<path d="M19 12H5"/><path d="m12 19-7-7 7-7"/>',brain:'<path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44A2.5 2.5 0 0 1 4 17.5a2.5 2.5 0 0 1-.5-4.9 2.5 2.5 0 0 1 0-4.2A2.5 2.5 0 0 1 5 3.5 2.5 2.5 0 0 1 9.5 2z"/>',flag:'<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>',alert:'<path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="9"/>',bolt:'<path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/>',book:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',open:'<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/>',award:'<circle cx="12" cy="8" r="6"/><path d="M15.5 12.9 17 22l-5-3-5 3 1.5-9.1"/>',retake:'<path d="M3 12a9 9 0 1 0 9-9 9 9 0 0 0-6.4 2.6L3 8"/><path d="M3 3v5h5"/>',coffee:'<path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/><line x1="6" y1="2" x2="6" y2="5"/><line x1="10" y1="2" x2="10" y2="5"/><line x1="14" y1="2" x2="14" y2="5"/>'};
+const sv=(p,w=2)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+function conds(title,items){return `<h3>${title}</h3><ul class="clean">${items.map(([n,d])=>`<li><b>${n}</b> — ${d}</li>`).join('')}</ul>`;}
+function story(title,text){return `<div class="story"><div class="st">${sv(ic.coffee)} ${title}</div><p>${text}</p></div>`;}
+
+/* ================= WIDGET LIBRARY ================= */
+const SPOT={}, MATCH={}, SORT={}, ERA={};
+const WID={
+  spot(el,k){const c=SPOT[k];let found=new Set();
+    el.innerHTML=`<span class="wlabel">Spot the defect</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div>
+     <div class="sd-wrap"><div class="sd-stage"><svg viewBox="${c.vb}" class="hot">${c.svg}<g class="hsg"></g></svg></div>
+     <div class="sd-side"><div class="sd-count"><div class="big"><span class="sdn">0</span>/${c.defects.length}</div><div class="lbl">defects found</div></div><div class="sd-found"><div class="sd-empty">Click a defect to log it…</div></div></div></div>`;
+    const g=el.querySelector('.hsg'),cnt=el.querySelector('.sdn'),fw=el.querySelector('.sd-found');
+    c.defects.forEach((d,i)=>{const gg=document.createElementNS('http://www.w3.org/2000/svg','g');gg.setAttribute('class','hot');gg.innerHTML=`<circle class="zone" cx="${d.x}" cy="${d.y}" r="${d.r}"/>`;gg.style.cursor='pointer';
+      gg.addEventListener('click',()=>{if(found.has(i))return;found.add(i);gg.classList.add('found');cnt.textContent=found.size;if(fw.querySelector('.sd-empty'))fw.innerHTML='';
+        const card=document.createElement('div');card.className='fcard';card.innerHTML=`<div class="fn">${found.size}. ${d.n}</div><div class="fd">${d.d}</div>`;fw.appendChild(card);
+        if(found.size===c.defects.length){const dn=document.createElement('div');dn.className='sd-done';dn.textContent='All found — that\'s the scan. Nicely done.';fw.appendChild(dn);}});
+      g.appendChild(gg);});},
+  gfi(el){el.innerHTML=`<span class="wlabel">Animated diagram</span><div class="wtitle">Watch the GFI work</div><div class="wsub">Current flows out the hot and back on the neutral — equal. Introduce a leak and see what happens.</div>
+    <div class="gfi-stage"><div class="gbox"><div><div class="gt">GFI</div><div class="gs">in vs out</div></div></div><div class="load"><div class="lt">LOAD</div></div><div class="lane hot"><span class="lab">hot — out</span></div><div class="lane neu"><span class="lab">neutral — back</span></div><div class="leak"></div><div class="person">🧍</div><div class="trip"><div class="tw"><div class="b">⚡ GFI TRIPPED</div><div class="s">imbalance &gt; 5 mA — cut in milliseconds</div></div></div></div>
+    <div class="gfi-status"><span class="pip"></span><span class="gtxt">Balanced — out equals back. Holding.</span></div>
+    <div class="gfi-read">Hot out: <b>15.000 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b>0 mA</b></div>
+    <div class="gfi-controls"><button class="btn brass gflt">Introduce a ground fault</button><button class="btn ghost grst">Reset</button></div>`;
+    const stage=el.querySelector('.gfi-stage'),st=el.querySelector('.gfi-status'),txt=el.querySelector('.gtxt'),read=el.querySelector('.gfi-read'),trip=el.querySelector('.trip'),fbtn=el.querySelector('.gflt');let f=false,to;
+    function dots(){stage.querySelectorAll('.dot').forEach(d=>d.remove());for(let i=0;i<5;i++){const d=document.createElement('span');d.className='dot h';d.style.animationDelay=(-i*0.48)+'s';stage.querySelector('.lane.hot').appendChild(d);}const nc=f?2:5;for(let i=0;i<nc;i++){const d=document.createElement('span');d.className='dot n';d.style.animationDelay=(-i*0.48)+'s';stage.querySelector('.lane.neu').appendChild(d);}}
+    function reset(){f=false;clearTimeout(to);el.querySelector('.leak').classList.remove('on');el.querySelector('.person').classList.remove('on');trip.classList.remove('on');st.classList.remove('fault');txt.textContent='Balanced — out equals back. Holding.';read.innerHTML='Hot out: <b>15.000 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b>0 mA</b>';fbtn.textContent='Introduce a ground fault';dots();}
+    fbtn.onclick=()=>{f=!f;if(f){el.querySelector('.leak').classList.add('on');el.querySelector('.person').classList.add('on');st.classList.add('fault');txt.textContent='Imbalance — current is leaking to ground.';read.innerHTML='Hot out: <b>15.006 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b style="color:var(--fail)">6 mA</b>';fbtn.textContent='Clear the fault';dots();to=setTimeout(()=>trip.classList.add('on'),650);}else reset();};
+    el.querySelector('.grst').onclick=reset;dots();},
+  match(el,k){const c=MATCH[k];const sh=a=>a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v[1]);let sel=null,locked=0;
+    el.innerHTML=`<span class="wlabel">Match drill</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="match"><div class="mcol"><div class="ch">${c.left}</div><div class=" L"></div></div><div class="mcol"><div class="ch">${c.right}</div><div class="R"></div></div></div><div class="md"></div>`;
+    const L=el.querySelector('.L'),R=el.querySelector('.R'),done=el.querySelector('.md');
+    c.pairs.forEach(p=>{const b=document.createElement('button');b.className='chip';b.textContent=p[0];b.dataset.a=p[0];b.dataset.s='L';L.appendChild(b);});
+    sh(c.pairs.map(p=>p[1])).forEach(v=>{const b=document.createElement('button');b.className='chip';b.textContent=v;b.dataset.b=v;b.dataset.s='R';R.appendChild(b);});
+    el.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{if(b.classList.contains('locked'))return;
+      if(!sel){sel=b;b.classList.add('sel');return;}if(sel===b){b.classList.remove('sel');sel=null;return;}if(sel.dataset.s===b.dataset.s){sel.classList.remove('sel');sel=b;b.classList.add('sel');return;}
+      const left=sel.dataset.s==='L'?sel:b,right=sel.dataset.s==='R'?sel:b,ok=c.pairs.find(p=>p[0]===left.dataset.a)[1]===right.dataset.b;
+      if(ok){[left,right].forEach(x=>{x.classList.remove('sel');x.classList.add('locked');});locked++;if(locked===c.pairs.length)done.innerHTML=`<div class="w-done">${c.done}</div>`;}
+      else{[left,right].forEach(x=>{x.classList.add('miss');setTimeout(()=>x.classList.remove('miss','sel'),350);});}sel=null;});},
+  sort(el,k){const c=SORT[k];let sel=null,placed=0;
+    el.innerHTML=`<span class="wlabel">Sort it</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="sort"><div class="sort-items">${c.items.map((it,i)=>`<button class="sitem" data-i="${i}">${it.t}</button>`).join('')}</div><div class="bins">${c.bins.map((b,bi)=>`<div class="bin" data-bin="${bi}"><div class="bt">${b}</div><div class="drop">tap an item, then tap here</div></div>`).join('')}</div></div><div class="md"></div>`;
+    const items=el.querySelectorAll('.sitem'),bins=el.querySelectorAll('.bin'),done=el.querySelector('.md');
+    items.forEach(it=>it.onclick=()=>{if(it.classList.contains('placed'))return;el.querySelectorAll('.sitem').forEach(x=>x.classList.remove('sel'));sel=it;it.classList.add('sel');});
+    bins.forEach(bin=>bin.onclick=()=>{if(!sel)return;const i=+sel.dataset.i,bi=+bin.dataset.bin,ok=c.items[i].bin===bi;
+      const row=document.createElement('div');row.className='binitem '+(ok?'right':'wrong');row.innerHTML=(ok?sv(ic.check,2.6):sv(ic.x,2.6))+' '+c.items[i].t;bin.querySelector('.drop').remove?bin.querySelector('.drop')&&(bin.querySelector('.drop').style.display='none'):0;bin.appendChild(row);
+      sel.classList.add('placed');sel=null;placed++;if(placed===c.items.length)done.innerHTML=`<div class="w-done">${c.done}</div>`;});},
+  est(el){el.innerHTML=`<span class="wlabel">Field tool</span><div class="wtitle">Service-size estimator</div><div class="wsub">Set what you'd read on site; it calls the size and flags an unsafe mismatch — your on-site logic.</div>
+    <div class="est"><div><label>Service-entrance conductor (copper)</label><select class="sew"><option value="6">#6 AWG</option><option value="4">#4 AWG</option><option value="2" selected>2/0 AWG</option><option value="0">4/0 AWG</option></select></div><div><label>Main breaker rating</label><select class="mbk"><option value="60">60 A</option><option value="100">100 A</option><option value="200" selected>200 A</option><option value="400">400 A</option></select></div><div class="est-out"></div></div>`;
+    const WA={'6':60,'4':100,'2':200,'0':400},WL={'6':'#6 AWG','4':'#4 AWG','2':'2/0 AWG','0':'4/0 AWG'},sew=el.querySelector('.sew'),mbk=el.querySelector('.mbk'),out=el.querySelector('.est-out');
+    function go(){const w=sew.value,b=+mbk.value,sup=WA[w];if(b>sup){out.className='est-out bad';out.innerHTML=`<div class="ev">⚠ Overfused — unsafe</div><div class="ed">A ${b} A main on ${WL[w]} copper (good for ~${sup} A) won't shut off before the conductor overheats. Report: overcurrent device oversized for the service-entrance conductor.</div>`;}else{const ap=Math.min(b,sup);out.className='est-out ok';out.innerHTML=`<div class="ev">${ap} A service</div><div class="ed">${WL[w]} copper supports ~${sup} A and the main is ${b} A — conductor protected. Report the service size as ${ap} A${b<sup?' (limited by the main breaker)':''}.</div>`;}}
+    sew.onchange=go;mbk.onchange=go;go();},
+  era(el,k){const c=ERA[k];el.innerHTML=`<span class="wlabel">Explore</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="era"><div class="line"></div>${c.rows.map((r,i)=>`<div class="erow" data-i="${i}"><span class="ed"></span><span class="et">${r.d}</span><div><div class="en">${r.n}</div><div class="ex">${r.x}</div></div></div>`).join('')}</div>`;
+    el.querySelectorAll('.erow').forEach(r=>r.onclick=()=>r.classList.toggle('open'));}
+};
+function wireWidgets(root){root.querySelectorAll('.wmount').forEach(el=>{const w=el.dataset.w,k=el.dataset.k;if(WID[w])WID[w](el,k);});}
+function W(w,k){return `<div class="widget wmount" data-w="${w}" data-k="${k||''}"></div>`;}
+
+/* ================= ENGINE ================= */
+const KEY='ati_interior_ix_v1';
+let S={done:{},quiz:{},assessBest:0,cur:0};
+async function load(){try{const r=await window.storage.get(KEY,false);if(r&&r.value)S=JSON.parse(r.value);}catch(e){}S.done=S.done||{};S.quiz=S.quiz||{};}
+async function save(){try{await window.storage.set(KEY,JSON.stringify(S),false);}catch(e){}}
+const stepDone=i=>!!S.done[STEPS[i].id];
+const pct=()=>Math.round(Object.keys(S.done).length/STEPS.length*100);
+const unlocked=i=>i===0?true:stepDone(i-1);
+const view=document.getElementById('view');
+function updTop(){const p=pct();document.getElementById('pbar').style.width=p+'%';document.getElementById('ppc').textContent=p+'%';}
+function rail(){document.getElementById('rail').innerHTML=STEPS.map((s,i)=>{const d=stepDone(i),u=unlocked(i),a=i===S.cur;return `<button class="step ${d?'done':''} ${a?'active':''} ${u?'':'locked'}" ${u?`onclick="goStep(${i})"`:''}><span class="dot">${d?sv(ic.check,3):(i+1)}</span><span class="lbl">${s.label}<span class="kind">${s.kind}</span></span></button>`;}).join('');}
+function goStep(i){if(!unlocked(i))return;S.cur=i;save();render();window.scrollTo({top:0,behavior:'smooth'});}
+function markDoneAndNext(){S.done[STEPS[S.cur].id]=true;save();updTop();rail();if(S.cur<STEPS.length-1)goStep(S.cur+1);else render();}
+function render(){updTop();rail();const s=STEPS[S.cur];({lesson:renderLesson,scenario:renderScenarios,assess:renderAssess,glossary:renderGlossary,source:renderSource}[s.type])(s);}
+function navFoot(label,gated){const last=S.cur===STEPS.length-1;return `<div class="foot">${S.cur>0?`<button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button>`:''}<div class="sp"></div><button class="btn brass" id="nextBtn" ${gated?'disabled':''} onclick="markDoneAndNext()">${label||(last?'Finish section':'Mark complete & continue')} ${sv(ic.arrow)}</button></div>`;}
+
+function renderLesson(s){
+  let h=(typeof s.body==='function'?s.body():s.body);
+  if(s.quiz&&s.quiz.length){
+    h+=`<div class="quiz"><div class="qh">${sv(ic.brain)} Check your understanding</div><div class="qt">${s.label}</div><div class="qsub">${s.quiz.length} questions covering the lesson — answer each to see the reasoning.</div><div class="qbody">${
+      s.quiz.map((q,qi)=>`<div class="qblock"><div class="qnum">Question ${qi+1} of ${s.quiz.length}</div><div class="q">${q.q}</div><div class="opts" data-qi="${qi}">${q.o.map((o,k)=>`<button class="opt" onclick="qAns(${qi},${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="qexp" data-qi="${qi}"></div></div>`).join('')
+    }</div><div class="qscore" style="display:none"></div></div>`;
+  }
+  const gated=!!(s.quiz&&s.quiz.length&&!S.quiz[s.id]);
+  view.innerHTML=h+navFoot(null,gated);
+  wireWidgets(view);
+  window._ql={answered:{},total:s.quiz?s.quiz.length:0};
+}
+function qAns(qi,k){const s=STEPS[S.cur],q=s.quiz[qi];if(window._ql.answered[qi]!==undefined)return;window._ql.answered[qi]=k;
+  const opts=view.querySelector('.opts[data-qi="'+qi+'"]');opts.querySelectorAll('.opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===q.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});
+  view.querySelector('.qexp[data-qi="'+qi+'"]').innerHTML=`<div class="exp"><b>${k===q.a?'Correct.':'Review:'}</b> ${q.e}</div>`;
+  if(Object.keys(window._ql.answered).length===window._ql.total){
+    const right=s.quiz.filter((q,i)=>window._ql.answered[i]===q.a).length,sc=view.querySelector('.qscore');sc.style.display='flex';
+    sc.innerHTML=`${sv(ic.check,2.4)}<span>You scored <b style="color:${right>=Math.ceil(s.quiz.length*0.8)?'var(--pass)':'var(--fail)'}">${right}/${s.quiz.length}</b> on this lesson.</span>`;
+    sc.querySelector('svg').style.color=right>=Math.ceil(s.quiz.length*0.8)?'var(--pass)':'var(--fail)';
+    S.quiz[s.id]=true;save();const b=document.getElementById('nextBtn');if(b)b.disabled=false;}
+}
+
+let SC={i:0,answered:false};
+function renderScenarios(){SC={i:0,answered:false};paintScen();}
+function paintScen(){const sc=SCEN[SC.i];view.innerHTML=`<span class="eyebrow">Apply it · Inspector's Call</span><h1>Make the call</h1><p class="lead">The decisions you'll actually make standing in front of the system. Read it, choose, see the reasoning.</p><div class="scount mono">Scenario ${SC.i+1} of ${SCEN.length}</div><div class="scen"><div class="sh"><div class="t">${sc.t}</div><div class="n">${sc.n}</div></div><div class="body"><div class="situation">${sc.s}</div><div class="ask">${sc.ask}</div><div class="scopts">${sc.o.map((o,k)=>`<button class="opt" onclick="scAns(${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="scexp"></div></div></div><div class="foot"><button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button><div class="sp"></div><div class="scnext"></div></div>`;}
+function scAns(k){if(SC.answered)return;SC.answered=true;const sc=SCEN[SC.i];view.querySelectorAll('.scopts .opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===sc.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});view.querySelector('.scexp').innerHTML=`<div class="exp"><b>${k===sc.a?'Right call.':'Here\'s the call:'}</b> ${sc.e}</div>`;const last=SC.i===SCEN.length-1;view.querySelector('.scnext').innerHTML=`<button class="btn brass" onclick="${last?'markDoneAndNext()':'scNext()'}">${last?'Mark complete & continue':'Next scenario'} ${sv(ic.arrow)}</button>`;}
+function scNext(){SC.i++;SC.answered=false;paintScen();window.scrollTo({top:0,behavior:'smooth'});}
+
+let AS=null;
+function renderAssess(){if(!AS||AS.done)AS={i:0,answers:[],done:false};view.innerHTML=`<span class="eyebrow">Assessment</span><h1>Mastery check — Interior &amp; Components</h1><p class="lead">${ASSESS.length} application questions across the whole chapter. 80% to pass; reasoning shown on every answer.</p><div class="panelcard" style="text-align:left;padding:0;overflow:hidden"><div style="background:linear-gradient(120deg,#1f6f73,#123f43);color:#fff;padding:18px 22px;display:flex;justify-content:space-between;align-items:center"><div><div style="font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-2)">Interior &amp; Components</div><div style="font-family:var(--display);font-weight:700;font-size:17px;margin-top:3px">${ASSESS.length} questions · 80% to pass</div></div><div style="color:var(--brass-2)">${sv(ic.award)}</div></div><div style="padding:26px 22px;text-align:center">${S.assessBest?`<div class="mono" style="font-size:13px;color:var(--ink-2);margin-bottom:16px">Best score: <b style="color:${S.assessBest>=80?'var(--pass)':'var(--fail)'}">${S.assessBest}%</b></div>`:''}<button class="btn brass" style="margin:0 auto" onclick="asStart()">${S.assessBest?'Retake assessment':'Begin assessment'} ${sv(ic.arrow)}</button></div></div>`;}
+function asStart(){AS={i:0,answers:[],done:false};asPaint();window.scrollTo({top:0,behavior:'smooth'});}
+function asPaint(){const q=ASSESS[AS.i];view.innerHTML=`<span class="eyebrow">Assessment · Interior &amp; Components</span><h1 style="font-size:24px">Question ${AS.i+1} <span style="color:var(--ink-3)">/ ${ASSESS.length}</span></h1><div style="margin:14px 0 0"><div style="width:100%;height:6px;background:var(--surf-3);border-radius:6px;overflow:hidden;border:1px solid var(--line)"><i style="display:block;height:100%;width:${AS.i/ASSESS.length*100}%;background:var(--brass)"></i></div></div><div class="quiz" style="border-color:var(--line);margin-top:22px"><div class="q">${q.q}</div><div class="opts">${q.o.map((o,k)=>`<button class="opt" onclick="asAns(${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="asexp"></div></div><div class="foot"><div class="sp"></div><div class="asnext"></div></div>`;}
+function asAns(k){if(AS.answers[AS.i]!==undefined)return;AS.answers[AS.i]=k;const q=ASSESS[AS.i];view.querySelectorAll('.opts .opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===q.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});view.querySelector('.asexp').innerHTML=`<div class="exp"><b>${k===q.a?'Correct.':'Review:'}</b> ${q.e}</div>`;const last=AS.i===ASSESS.length-1;view.querySelector('.asnext').innerHTML=`<button class="btn brass" onclick="${last?'asFinish()':'asNext()'}">${last?'See results':'Next'} ${sv(ic.arrow)}</button>`;}
+function asNext(){AS.i++;asPaint();window.scrollTo({top:0,behavior:'smooth'});}
+function asFinish(){const correct=AS.answers.filter((a,i)=>a===ASSESS[i].a).length,p=Math.round(correct/ASSESS.length*100),pass=p>=80;S.assessBest=Math.max(S.assessBest||0,p);AS.done=true;if(pass)S.done['assess']=true;save();updTop();rail();const circ=2*Math.PI*62;
+  view.innerHTML=`<span class="eyebrow">Assessment · Result</span><h1 style="margin-bottom:18px">${pass?'Section mastered':'Not quite there'}</h1><div class="panelcard"><div class="ring"><svg width="150" height="150" viewBox="0 0 150 150" style="transform:rotate(-90deg)"><circle cx="75" cy="75" r="62" fill="none" stroke="var(--surf-3)" stroke-width="11"/><circle cx="75" cy="75" r="62" fill="none" stroke="${pass?'var(--pass)':'var(--fail)'}" stroke-width="11" stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${circ}"><animate attributeName="stroke-dashoffset" from="${circ}" to="${circ-circ*p/100}" dur=".8s" fill="freeze" calcMode="spline" keySplines=".2 .7 .2 1"/></circle></svg><div class="rv"><div><div class="n" style="color:${pass?'var(--pass)':'var(--fail)'}">${p}%</div><div class="p">${correct}/${ASSESS.length} correct</div></div></div></div><span class="verdict ${pass?'pass':'fail'}">${pass?'Passed':'Below 80%'}</span><p>${pass?'You\'ve mastered Interior &amp; Components — that read of walls, doors, stairs, fireplaces, garages, and life-safety devices carries into every room you\'ll inspect.':'You need 80% to pass. Revisit the lessons and explanations, then retake — your best score counts.'}</p><div style="display:flex;gap:12px;justify-content:center"><button class="btn ghost" onclick="asStart()">${sv(ic.retake)} Retake</button>${pass?`<button class="btn brass" onclick="goStep(${STEPS.length-1})">Continue ${sv(ic.arrow)}</button>`:`<button class="btn brass" onclick="goStep(1)">Review lessons ${sv(ic.arrow)}</button>`}</div></div><div style="height:30px"></div>`;}
+
+function renderGlossary(){view.innerHTML=`<span class="eyebrow">Reference</span><h1>Interior &amp; Components glossary</h1><p class="lead">Every key term in one place — quick reference for a real inspection.</p><div class="gloss" style="margin-top:20px">${GLOSSARY.map(([w,d])=>`<div class="term"><div class="tw">${w}</div><div class="td">${d}</div></div>`).join('')}</div>${navFoot('Continue')}`;}
+function renderSource(){view.innerHTML=`<span class="eyebrow">Reference · wrap-up</span><h1>Reference &amp; summary</h1><p class="lead">Everything required is taught in the lessons above. This is the one-screen recap to carry into the field — what you observe room by room and the life-safety findings you never let slide.</p><div class="srcnote">${sv(ic.book,2)} Built on the Interior &amp; Components portions of the TREC Standards of Practice (§535.228–535.230) and <i>Principles of Home Inspection: Systems and Standards</i>. There's no separate PDF for this system — the interactive lessons are the complete reference.</div><div class="gloss" style="margin-top:18px"><div class="term"><div class="tw">1 · Surfaces — walls, ceilings &amp; floors</div><div class="td">Read finishes for cracks, bows, and stains; separate an active leak (soft, damp, growing) from an old, dry, painted-over one. Note out-of-level floors, soft spots, and squeaks as clues to framing or moisture.</div></div><div class="term"><div class="tw">2 · Doors &amp; windows</div><div class="td">Operate a representative sample. Report painted-shut or inoperable units, failed glazing, missing safety glass at hazardous locations, and any bedroom that lacks an egress-sized opening.</div></div><div class="term"><div class="tw">3 · Stairs, handrails &amp; guards</div><div class="td">Consistent rise/run, a graspable handrail on flights of four or more risers, guards roughly 36 in at walking surfaces, and balusters that won't pass a 4-inch sphere. Report loose or missing rails and guards.</div></div><div class="term"><div class="tw">4 · Fireplaces &amp; chimneys</div><div class="td">Firebox, damper, hearth extension, clearances to combustibles, gas-log valve, and a chimney cap/crown/spark arrestor. Report cracked fireboxes, short hearths, mantels too close, and heavy creosote.</div></div><div class="term"><div class="tw">5 · Garages — the fire separation</div><div class="td">Intact separation between the vehicle area and living space, a self-closing 20-minute fire-rated door (never into a sleeping room), gas-appliance ignition sources raised, and all penetrations sealed.</div></div><div class="term"><div class="tw">6 · Life-safety devices</div><div class="td">Smoke alarms in each bedroom, outside each sleeping area, and on every level; CO alarms outside sleeping areas where there's fuel-burning equipment or an attached garage. Missing or absent alarms are a safety report item.</div></div></div><div class="foot"><button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button><div class="sp"></div><a class="btn slate" href="index.html" style="text-decoration:none;margin-right:10px">${sv(ic.back)} Module I</a><button class="btn brass" onclick="finishAll()">${sv(ic.check)} Complete section</button></div>`;}
+function finishAll(){S.done['source']=true;save();updTop();rail();toast('Interior & Components section complete');}
+let tT;function toast(m){const t=document.getElementById('toast');document.getElementById('tmsg').textContent=m;t.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('show'),2400);}
+
+/* ================= DATA: scenarios / assessment / glossary ================= */
+const SCEN=[
+ {t:'Reading the ceiling',n:'Stain over the dining room',s:'A brown, irregular stain spreads across the dining-room ceiling. It is dry to the touch, has a hard crusty edge, and a moisture meter reads the same as the surrounding drywall. The bath directly above was remodeled two years ago.',ask:'How do you report it?',o:['Active leak — call a plumber immediately','Note a moisture stain that reads dry today with a defined, hardened edge — consistent with a past, repaired event; recommend monitoring and disclosure, and re-check if conditions change.','Cosmetic only — ignore it','Recommend replacing the whole ceiling'],a:1,e:'A dry stain with a crisp, hardened border and a normal meter reading points to an old, resolved leak. You don\'t guarantee it\'s dead — you describe what you observe, note it may be historic, and recommend monitoring. A soft, expanding, damp stain would be reported as active.'},
+ {t:'In a bedroom',n:'The window that won\'t budge',s:'A second-floor bedroom has one window that is painted shut and a second that opens but only about eight inches before hitting a stop. There is no other door to the exterior.',ask:'What\'s the priority finding?',o:['Note the paint and move on','Report the inoperable/painted-shut window AND that the room may lack a code-sized emergency egress opening — a life-safety concern for a sleeping room.','Recommend repainting the trim','Nothing — bedrooms only need one working window'],a:1,e:'A sleeping room needs an operable emergency escape and rescue opening (egress). A painted-shut window and a second that opens only 8 in raise a real egress concern. Report the inoperable window and flag the possible egress deficiency for evaluation — that\'s the life-safety call.'},
+ {t:'On the stairs',n:'A rail you can\'t grab',s:'A straight run of nine steps to the basement has a 2×6 laid flat on brackets as a "handrail." It is solid, but you can\'t wrap your hand around it, and the open side of the stair has no guard.',ask:'Your write-up?',o:['Acceptable — there is a rail and it\'s sturdy','Report a non-graspable handrail (a flat 2×6 isn\'t a graspable section) and a missing guard at the open side — both are fall-safety deficiencies; recommend a graspable handrail and a guard.','Only note the missing guard','Recommend carpet on the treads'],a:1,e:'A handrail must be graspable — roughly 1¼–2 in round or an equivalent shape your hand can encircle. A flat 2×6 isn\'t. The open side of a raised stair also needs a guard. Report both as fall hazards on a flight of four or more risers.'},
+ {t:'At the railing',n:'A ball goes through',s:'A balcony guard is a solid 38 inches tall, but the vertical balusters are spaced so your 4-inch sphere passes between them with room to spare.',ask:'How do you call it?',o:['Fine — the guard is tall enough','Report the baluster spacing: openings that pass a 4-inch sphere are a child-fall/entrapment hazard, even though the guard height is adequate. Recommend reducing the spacing.','Recommend a taller guard','Nothing — spacing is cosmetic'],a:1,e:'Guard height (about 36 in, here 38) is only half the test. Openings in a required guard must not allow a 4-inch sphere to pass. Wide baluster spacing is a recognized child-safety hazard; report it for correction regardless of the guard\'s height.'},
+ {t:'At the fireplace',n:'Mantel and hearth',s:'A wood-burning masonry fireplace has a heavy wood mantel set 5 inches above the opening, the brick hearth extends only 10 inches in front of the firebox, and there are scorch marks on the floor just past the hearth.',ask:'What do you flag?',o:['Looks original — no action','Flag the combustible mantel clearance and the short hearth extension — the scorch marks confirm ember/heat exposure beyond the noncombustible area; recommend evaluation and correction.','Recommend a gas insert','Only note the scorch marks'],a:1,e:'Combustible trim above the opening needs clearance (commonly ~6 in, more if it projects), and the hearth extension must reach well past the opening (typically 16–20 in front). A short hearth plus scorch marks is exactly the ember/heat hazard you report — recommend evaluation by a qualified specialist.'},
+ {t:'In the garage',n:'The door to the house',s:'The passage door from an attached garage into the kitchen is a hollow-core door with a louvered vent in the bottom panel and no self-closing hardware. The garage ceiling has exposed, unsealed openings into the attic.',ask:'The primary safety findings?',o:['Note the missing weatherstrip only','Report a breached vehicle-area/living-space fire separation: the hollow-core, louvered, non-self-closing door is not a rated barrier, and the unsealed ceiling penetrations defeat the separation; recommend a self-closing 20-minute fire-rated door and sealing the penetrations.','Recommend a deadbolt','Nothing — garages don\'t need rated doors'],a:1,e:'The garage must be separated from living space. The house door must be solid/20-minute fire-rated and self-closing, with no louvers or vents, and never open into a sleeping room. A hollow-core louvered door and open ceiling penetrations breach the separation — report both and recommend correction.'},
+ {t:'Listening to the floor',n:'Slope and a soft spot',s:'In an older home a hallway floor slopes noticeably toward one wall, a board near the bathroom feels spongy underfoot, and the floor squeaks along the same line.',ask:'How do you handle it?',o:['Squeaks are normal — ignore everything','Report the observed slope, the soft/spongy area (possible subfloor moisture damage or framing issue), and the squeaks; recommend further evaluation of the floor structure and a moisture check at the bath.','Recommend new flooring only','Tell the client it\'s cosmetic'],a:1,e:'Squeaks alone are minor, but a pronounced slope plus a spongy spot near a wet area suggests possible structural movement or hidden moisture/subfloor damage. Describe what you observe and recommend evaluation rather than guessing the cause.'},
+];
+const ASSESS=[
+ {q:'The home inspector\'s job with interior components is to:',o:['Repair the deficiencies found','Observe accessible interior elements, recognize deficiencies, and report them — especially safety items','Certify the home meets the building code','Re-finish damaged surfaces'],a:1,e:'You observe and report a representative sample of accessible interior elements and call out deficiencies, with extra weight on life-safety items. You don\'t repair or certify.'},
+ {q:'A ceiling stain that is dry, has a hardened crusty edge, and reads normal on a moisture meter is best reported as:',o:['An active leak needing immediate repair','A moisture stain consistent with a past event — describe it, recommend monitoring/disclosure','Cosmetic and not worth noting','Proof the roof is failing'],a:1,e:'A dry stain with a defined, hardened border and normal meter reading typically indicates an old, resolved leak. Report what you observe and recommend monitoring; don\'t declare it active without evidence.'},
+ {q:'Which sign points to an ACTIVE leak rather than an old one?',o:['A crisp, dry, painted-over ring','A soft, damp, expanding stain with elevated meter readings','A faint yellow tint','A stain that has not changed in years'],a:1,e:'Soft, damp, growing stains with high moisture readings indicate ongoing water entry. Hard-edged, dry, stable stains usually reflect a past, repaired event.'},
+ {q:'Interior doors and windows are inspected by:',o:['Operating every single opening in the home','Operating a representative number and reporting inoperable, painted-shut, or damaged units','Removing them to check the frames','Measuring each for code compliance'],a:1,e:'You operate a representative sample and report units that won\'t function, are painted shut, have failed glazing, or are otherwise deficient.'},
+ {q:'A sleeping room (bedroom) is generally required to have:',o:['Two exterior doors','At least one operable emergency escape and rescue (egress) opening','A skylight','Bars on the windows'],a:1,e:'Each sleeping room needs an operable egress opening sized and located so an occupant can escape and be rescued. A painted-shut or undersized window can be an egress deficiency.'},
+ {q:'Safety glazing (tempered/laminated glass) is required at hazardous locations such as:',o:['Only at skylights','Doors, glazing next to doors, near floors, and at tubs/showers and stair landings','Only in commercial buildings','Wherever the owner prefers'],a:1,e:'Glazing in and adjacent to doors, near walking surfaces and floors, and at wet/fall locations like tubs, showers, and stairs must be safety glazing. Missing safety glass at these spots is a reportable hazard.'},
+ {q:'A handrail is considered graspable when it is:',o:['A flat 2×6 laid on edge','Roughly 1¼–2 in round (or an equivalent graspable shape) so a hand can encircle it','At least 6 in wide','Any rail that is firmly attached'],a:1,e:'Graspable means the hand can wrap around it — about 1¼–2 in round or an equivalent profile. A flat, wide board you can\'t encircle is not a graspable handrail.'},
+ {q:'A handrail is generally required on a stair flight with:',o:['Any number of steps','Four or more risers','Ten or more risers','Only exterior stairs'],a:1,e:'A graspable handrail is generally required on flights of four or more risers. Report missing or loose handrails as a fall hazard.'},
+ {q:'Openings in a required guard must not allow passage of a:',o:['2-inch sphere','4-inch sphere','6-inch sphere','Hand'],a:1,e:'Balusters/infill in a guard must reject a 4-inch sphere to prevent a child from falling or becoming entrapped. Wider spacing is reportable even when the guard height is adequate.'},
+ {q:'A guard at an open walking surface, balcony, or landing is typically required to be about:',o:['24 inches high','30 inches high','36 inches high','48 inches high'],a:2,e:'Guards at raised walking surfaces are generally around 36 in high (stairs often allow ~34 in for the handrail). Adequate height plus correct infill spacing are both required.'},
+ {q:'Which is a reportable fireplace/chimney deficiency?',o:['A clean firebox with a working damper','A combustible mantel set too close to the opening and a hearth extension that is too short','A chimney cap with a spark arrestor','Gas logs with a working shut-off valve'],a:1,e:'Combustible trim too close to the opening and a short hearth extension are ember/heat hazards. Cracked fireboxes, missing dampers, and heavy creosote are likewise reportable.'},
+ {q:'A chimney spark arrestor / cap is there to:',o:['Increase draft only','Keep out rain, animals, and debris and stop sparks/embers from leaving the flue','Hold up the crown','Improve appearance'],a:1,e:'The cap with a spark arrestor screen keeps water, animals, and debris out and prevents embers from escaping onto the roof. A missing cap and a cracked crown are common reportable findings.'},
+ {q:'The passage door from an attached garage into living space should be:',o:['Hollow-core with a louvered vent','Solid or 20-minute fire-rated, self-closing, and never opening into a sleeping room','Any lockable door','Propped open for ventilation'],a:1,e:'The garage-to-house door must be a self-closing 20-minute fire-rated (or solid 1⅜-in) door with no louvers/openings, and it must not open into a sleeping room. The whole barrier maintains the fire separation.'},
+ {q:'In an attached garage, a gas-fired water heater or furnace with an open flame should have its ignition source:',o:['At floor level','Elevated (commonly ~18 in) above the floor unless listed as flammable-vapor-ignition-resistant','Inside a sleeping area','Removed entirely'],a:1,e:'Heavier-than-air flammable vapors pool low in a garage. Ignition sources are traditionally elevated about 18 in above the floor (newer FVIR units are excepted). Note appliances installed at floor level for evaluation.'},
+ {q:'Penetrations through the garage fire separation (for wiring, pipes, or ducts) should be:',o:['Left open for airflow','Sealed/fire-stopped to maintain the separation','Covered with tape','Ignored — they don\'t matter'],a:1,e:'Unsealed holes in the common wall or ceiling defeat the separation between the garage and living space. Report open penetrations and recommend proper sealing.'},
+ {q:'Smoke alarms are generally required:',o:['Only in the kitchen','In each sleeping room, outside each sleeping area, and on every level of the home','Only on the top floor','Only where the owner wants them'],a:1,e:'Smoke alarms belong in each bedroom, just outside the sleeping areas, and on every level including basements. Missing or absent alarms are a life-safety report item.'},
+ {q:'Carbon monoxide (CO) alarms are generally needed:',o:['In every room of every house','Outside sleeping areas in homes with fuel-burning appliances or an attached garage','Only in all-electric homes','Only in the garage'],a:1,e:'CO alarms are needed near sleeping areas where there is a combustion appliance or an attached garage — the sources of CO. Report missing CO alarms in those homes.'},
+];
+const GLOSSARY=[
+ ['Active vs. old stain','An active stain is soft, damp, expanding, and reads wet; an old stain is dry, hard-edged, stable, and reads normal. You describe what you observe and recommend monitoring when uncertain.'],
+ ['Moisture meter','A hand tool that reads relative moisture in a surface — used to help distinguish an active leak from a dry, historic stain.'],
+ ['Out-of-level / out-of-plumb','A floor that isn\'t level or a wall/door that isn\'t plumb — a clue to settlement, framing movement, or moisture damage worth noting.'],
+ ['Floor squeak','Noise from subfloor or framing moving against fasteners; minor by itself, but worth noting alongside slope or soft spots.'],
+ ['Egress opening','The operable emergency escape and rescue window (or door) a sleeping room must have so an occupant can get out and be rescued.'],
+ ['Safety glazing','Tempered or laminated glass required at hazardous locations — in/near doors, near floors and walking surfaces, and at tubs, showers, and stairs.'],
+ ['Hazardous location (glazing)','A spot where glass is likely to be struck — doors, sidelites, low glazing, wet areas, stair landings — requiring safety glazing.'],
+ ['Rise / run','The height of each step (rise) and the depth of each tread (run); they should be consistent throughout a flight to prevent trips.'],
+ ['Graspable handrail','A rail your hand can encircle — about 1¼–2 in round or an equivalent profile — required on flights of four or more risers.'],
+ ['Guard','A barrier (about 36 in high) at an open walking surface, balcony, or landing that prevents falls to the level below.'],
+ ['Baluster spacing','The gap between vertical guard members; openings must reject a 4-inch sphere to prevent a child falling through or being entrapped.'],
+ ['4-inch sphere rule','The test for guard infill: a 4-inch ball must not pass through the openings of a required guard.'],
+ ['Firebox','The combustion chamber of a fireplace; inspected for cracks, gaps, missing refractory, and damaged mortar.'],
+ ['Damper','The movable plate in the throat or cap of a chimney that opens for use and closes to stop drafts; checked for operation.'],
+ ['Hearth extension','The noncombustible floor area in front of and beside a fireplace opening (typically 16–20 in front) that catches embers.'],
+ ['Clearance to combustibles','The required gap between a fireplace/mantel/appliance and nearby wood or other combustible materials.'],
+ ['Gas log / valve','A gas burner set in a firebox with a shut-off valve; checked for an accessible, operable valve and proper installation.'],
+ ['Chimney cap / crown / arrestor','The top assembly: a crown (concrete wash), a cap, and a spark-arrestor screen that keep out water/animals and stop escaping embers.'],
+ ['Creosote','Flammable tar-like deposit from wood burning that builds up in a flue; heavy buildup is a fire hazard worth reporting.'],
+ ['Garage fire separation','The rated barrier (walls and ceiling) between the vehicle area and living space that resists fire spread into the home.'],
+ ['20-minute fire-rated door','The self-closing, solid or rated door required between an attached garage and living space; never opens into a sleeping room.'],
+ ['Self-closing door','A door fitted with hardware (spring hinge or closer) that returns it to the closed position on its own — required at the garage.'],
+ ['Ignition-source elevation','Raising the burner/ignition of a garage gas appliance (commonly ~18 in) above floor level, away from pooling flammable vapors.'],
+ ['Penetration sealing (fire-stop)','Closing the holes where wiring, pipes, or ducts pass through the garage separation so the barrier stays intact.'],
+ ['Smoke alarm','A life-safety device required in each sleeping room, outside each sleeping area, and on every level of the home.'],
+ ['Carbon monoxide (CO) alarm','A device required near sleeping areas in homes with fuel-burning appliances or an attached garage, where CO can be produced.'],
+ ['Cabinet / countertop','Built-in casework and work surfaces; checked for secure mounting, operable doors/drawers, and damaged or loose tops.'],
+ ['Representative sample','The inspection standard of operating/observing a portion of like items (windows, doors, outlets) rather than every one.'],
+ ['Drywall / plaster','The common interior wall and ceiling finishes; read for cracks, bows, nail pops, and water staining.'],
+ ['Settlement crack','A wall or ceiling crack from foundation or framing movement — distinguished from minor cosmetic cracking by size, pattern, and trend.'],
+];
+
+/* ================= WIDGET CONTENT REGISTRIES ================= */
+const _gs='fill="none" stroke="#3c5870" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"';
+const _mono=(x,y,s,t,c='#2c4153',a='middle')=>`<text x="${x}" y="${y}" text-anchor="${a}" font-family="JetBrains Mono" font-size="${s}" fill="${c}">${t}</text>`;
+
+SPOT.stairs={title:'Walk the stairway',sub:'Six stair, handrail, and guard problems on this flight — click each one you spot.',vb:'0 0 540 320',
+ svg:`<g ${_gs}>
+   <path d="M60 70 L60 110 L120 110 L120 150 L180 150 L180 190 L240 190 L240 230 L300 230 L300 270 L420 270" />
+   <line x1="60" y1="110" x2="60" y2="300"/><line x1="420" y1="270" x2="420" y2="300"/><line x1="60" y1="300" x2="420" y2="300"/>
+   ${_mono(150,300,9,'flight of steps','#918c7d')}
+   <rect x="180" y="150" width="60" height="40" fill="#f0d8b8" opacity="0.45" stroke="#b85436" stroke-dasharray="3 2"/><rect x="240" y="190" width="60" height="40" fill="none" stroke="#b85436" stroke-dasharray="3 2"/>${_mono(210,144,8,'tall riser','#b85436')}
+   <path d="M70 60 L300 220" stroke="#6a6557" stroke-width="9"/>${_mono(150,52,8,'flat 2x6 rail','#b85436')}
+   <circle cx="300" cy="220" r="4" fill="#b85436"/>${_mono(330,222,8,'rail stops short','#b85436','start')}
+   <line x1="300" y1="160" x2="430" y2="160" stroke="#6a6557" stroke-width="2"/>
+   <g stroke="#6a6557" stroke-width="1.6"><line x1="320" y1="160" x2="320" y2="230"/><line x1="365" y1="160" x2="365" y2="245"/><line x1="410" y1="160" x2="410" y2="260"/></g>
+   ${_mono(365,150,8,'wide balusters','#b85436')}
+   <circle cx="342" cy="200" r="9" fill="#b85436" opacity="0.5" stroke="#b85436"/>${_mono(342,184,8,'ball fits','#b85436')}
+   <circle cx="84" cy="72" r="6" stroke="#b85436"/><path d="M84 72 l8 6" stroke="#b85436"/>${_mono(70,40,8,'loose bracket','#b85436','start')}
+   <line x1="60" y1="70" x2="60" y2="40" stroke="#b85436" stroke-dasharray="4 3"/>${_mono(40,34,8,'no guard','#b85436','start')}
+ </g>`,
+ defects:[
+  {x:210,y:170,r:22,n:'Inconsistent riser height',d:'One riser is taller than the others. Variation in rise/run within a flight is a recognized trip hazard — report the inconsistent step for evaluation.'},
+  {x:150,y:90,r:20,n:'Non-graspable handrail',d:'A flat slab you can\'t wrap your hand around isn\'t a graspable handrail. Recommend a rail roughly 1¼–2 in round or an equivalent graspable profile.'},
+  {x:312,y:222,r:18,n:'Handrail ends short of the bottom',d:'The rail stops part-way down the flight. A handrail should be continuous and graspable the full length of the stairs — report the gap.'},
+  {x:342,y:200,r:20,n:'Baluster spacing passes a 4-inch sphere',d:'The open guard\'s balusters are wide enough for a 4-inch ball to pass — a child-fall/entrapment hazard. Recommend reducing the spacing.'},
+  {x:84,y:72,r:16,n:'Loose handrail bracket',d:'A rail that moves under load can\'t arrest a fall. Note the loose/insecure mounting and recommend resecuring.'},
+  {x:60,y:52,r:16,n:'Missing guard at the landing edge',d:'The open edge of the raised landing has no guard. Report the missing fall protection at the open side.'},
+ ]};
+
+SPOT.garage={title:'Inspect the attached garage',sub:'Six fire-separation and safety problems in this garage. Click each one you find.',vb:'0 0 540 320',
+ svg:`<g ${_gs}>
+   <rect x="40" y="50" width="460" height="210"/><line x1="360" y1="50" x2="360" y2="260" stroke-width="2"/>
+   ${_mono(60,44,9,'garage','#918c7d','start')}${_mono(430,44,9,'living space','#918c7d')}
+   <line x1="40" y1="260" x2="500" y2="260"/>${_mono(120,278,9,'vehicle area','#918c7d')}
+   <line x1="40" y1="84" x2="360" y2="84" stroke-width="1"/>${_mono(60,98,8,'ceiling','#918c7d','start')}
+   <rect x="150" y="78" width="20" height="6" fill="#bdb8a8" stroke="#b85436" stroke-dasharray="3 2"/><path d="M160 78 v-14" stroke="#b85436"/>${_mono(160,58,8,'open penetration','#b85436')}
+   <rect x="360" y="150" width="10" height="100" stroke="#b85436"/><g stroke="#b85436" stroke-width="1"><line x1="362" y1="215" x2="368" y2="215"/><line x1="362" y1="225" x2="368" y2="225"/><line x1="362" y1="235" x2="368" y2="235"/></g>${_mono(372,150,8,'louvered door','#b85436','start')}
+   <rect x="300" y="200" width="40" height="60" rx="3" stroke="#b85436"/><path d="M312 252 h16" stroke="#b85436"/><circle cx="320" cy="248" r="3" fill="#b85436"/>${_mono(320,194,8,'floor-level flame','#b85436')}
+   <path d="M360 258 h-30" stroke="#b85436" stroke-width="2" stroke-dasharray="4 3"/>${_mono(330,250,8,'wall breach','#b85436','end')}
+   <circle cx="430" cy="120" r="9" stroke="#b85436" stroke-dasharray="3 2"/>${_mono(430,104,8,'no alarm','#b85436')}
+ </g>`,
+ defects:[
+  {x:160,y:80,r:16,n:'Unsealed ceiling penetration',d:'An open hole through the garage ceiling into the attic defeats the fire separation. Recommend fire-stopping/sealing the penetration.'},
+  {x:365,y:200,r:20,n:'Hollow-core louvered house door',d:'The door to living space must be solid or 20-minute fire-rated with no louvers. A hollow-core, vented door is not a rated barrier — recommend a fire-rated, self-closing door.'},
+  {x:320,y:248,r:18,n:'Gas appliance ignition source at floor level',d:'Heavier-than-air vapors pool low. A burner at floor level (unless FVIR-listed) is an ignition hazard — note the low ignition source for evaluation.'},
+  {x:345,y:258,r:16,n:'Breach at the common wall',d:'A gap at the base of the garage/house wall opens the separation. Report the breach and recommend restoring the rated barrier.'},
+  {x:430,y:120,r:18,n:'Missing CO/smoke alarm near the door',d:'No alarm where the garage meets living space. Recommend smoke and CO alarms per the required locations.'},
+  {x:160,y:84,r:30,n:'Defeated fire separation overall',d:'Open penetrations plus a non-rated door mean the vehicle-area-to-living-space separation is not intact — call out the system, not just one part.'},
+ ]};
+
+MATCH.devices={title:'Safety device ↔ where it goes',sub:'Tap a device or requirement, then its correct location. Correct pairs lock green.',left:'Device / item',right:'Required location',
+ pairs:[['Smoke alarm','Inside each bedroom'],['Smoke alarm (level)','On every floor level'],['CO alarm','Outside sleeping areas'],['Egress opening','In each sleeping room'],['Self-closing fire door','Garage to living space']],done:'That\'s the life-safety map — alarms by the sleeping areas and on every level, egress in each bedroom, a rated self-closing door at the garage.'};
+MATCH.dims={title:'Interior element ↔ rule of thumb',sub:'Tap an element, then the figure inspectors carry in their head. Correct pairs lock green.',left:'Element',right:'Figure',
+ pairs:[['Guard infill','Reject a 4-in sphere'],['Guard height','About 36 in'],['Graspable handrail','About 1¼–2 in round'],['Handrail required','4+ risers'],['Garage house door','20-minute rated']],done:'Locked in — the dimensions you eyeball at every stair, guard, and garage door.'};
+
+SORT.activeold={title:'Active leak, or old/cosmetic?',sub:'You\'re reading interior surfaces. Tap each clue, then the right bin.',bins:['Likely ACTIVE — report & investigate','OLD / COSMETIC — note & monitor'],
+ items:[{t:'Soft, damp drywall that reads wet',bin:0},{t:'A stain that has grown since last visit',bin:0},{t:'Water dripping during the inspection',bin:0},{t:'Dry stain with a hard, crusty edge',bin:1},{t:'Hairline cosmetic crack, no displacement',bin:1},{t:'Old painted-over ring, normal meter reading',bin:1}],
+ done:'Right — wet, soft, and growing means active; dry, hard-edged, and stable usually means a past event. When unsure, describe it and recommend monitoring.'};
+SORT.safety={title:'Safety report item, or minor note?',sub:'Not every finding is a hazard. Tap each, then sort it.',bins:['SAFETY item — call it out','MINOR — note only'],
+ items:[{t:'No smoke alarm in a bedroom',bin:0},{t:'Baluster spacing passes a 4-in sphere',bin:0},{t:'Hollow-core garage-to-house door',bin:0},{t:'Painted-shut bedroom egress window',bin:0},{t:'A single squeaky floor board',bin:1},{t:'A small ding in a cabinet door',bin:1}],
+ done:'Exactly — missing alarms, fall hazards, egress, and a breached garage separation are life-safety items; cosmetic squeaks and dings are minor notes.'};
+
+ERA.codes={title:'Interior safety requirements over time',sub:'Tap each era to see when a familiar interior rule took hold — and what it means on an inspection.',
+ rows:[
+  {d:'pre-1960s',n:'Few interior rules',x:'Steep stairs, low or open guards, wide balusters, and no required alarms are common in older homes. Report deficiencies against today\'s safety practice while noting the age.'},
+  {d:'1970s',n:'Smoke alarms arrive',x:'Smoke detection began spreading into codes. Many homes were retrofitted unevenly — check for alarms in and outside bedrooms and on every level.'},
+  {d:'1970s – 1980s',n:'Safety glazing & egress',x:'Tempered/laminated glass at hazardous locations and emergency egress for sleeping rooms became standard expectations.'},
+  {d:'1990s',n:'The 4-inch sphere',x:'Guard infill tightened so a 4-inch sphere can\'t pass. Older wide-baluster guards are a frequent, reportable child-safety finding.'},
+  {d:'1990s – 2000s',n:'Garage fire separation',x:'Self-closing, fire-rated garage-to-house doors and sealed separations became the norm — and a key safety check on attached garages.'},
+  {d:'2000s – today',n:'CO alarms required',x:'Carbon-monoxide alarms near sleeping areas became standard where there\'s combustion equipment or an attached garage. Note where they\'re missing.'},
+ ]};
+
+/* ================= STEPS ================= */
+const STEPS=[
+/* ===== ORIENTATION ===== */
+{id:'intro',kind:'Start here',label:'Inside the house',type:'lesson',
+ body:()=>`<span class="eyebrow">Interior &amp; Components · Orientation</span><h1>Walk the rooms the way a careful occupant never has to.</h1>
+ <p class="lead">The interior is where your client will actually live — and where the most direct <b>life-safety</b> findings hide in plain sight. Your job isn't to repair anything or to certify the house to code. It's to <b>observe a representative sample of accessible components, recognize what's deficient, and report it</b> — with extra weight on the things that hurt people.</p>
+ <p>Almost everything inside falls into one of two buckets, and you read them differently:</p>
+ <ul class="num"><li><b>Performance &amp; condition</b> — finishes, cracks, stains, doors and windows that work, cabinets and counters.</li><li><b>Life safety</b> — stairs, handrails and guards, fireplaces, the garage fire separation, and smoke/CO alarms.</li></ul>
+ <p>A cracked cabinet door is a note. A missing guard, a painted-shut bedroom window, or a breached garage separation is a <em>finding you never let slide</em>. Keeping the two buckets straight is what makes an interior inspection professional rather than a list of cosmetics.</p>
+ <p>Every component runs through the same five-step loop you've used in the other systems:</p>
+ <div class="loop"><div class="seg on"><div class="n">01</div><div class="w">Component</div></div><div class="seg"><div class="n">02</div><div class="w">Function</div></div><div class="seg"><div class="n">03</div><div class="w">Common defect</div></div><div class="seg"><div class="n">04</div><div class="w">Implication</div></div><div class="seg"><div class="n">05</div><div class="w">How you report</div></div></div>
+ <h2>What you'll inspect</h2>
+ <ul class="clean"><li><b>Walls, ceilings &amp; floors</b> — finishes, cracks, water stains, level and plumb</li><li><b>Doors &amp; windows</b> — operation, glazing, safety glass, bedroom egress</li><li><b>Stairways, handrails &amp; guards</b> — rise/run, graspability, height, baluster spacing</li><li><b>Cabinets &amp; countertops</b> — mounting, operation, condition</li><li><b>Fireplaces &amp; chimneys</b> — firebox, damper, hearth, clearances, cap</li><li><b>Garages</b> — the vehicle-area-to-living-space fire separation</li><li><b>Safety devices</b> — smoke and carbon-monoxide alarms</li></ul>
+ <div class="field"><div class="ic">${sv(ic.alert)}</div><div><div class="t">Scope &amp; the TREC standard</div><p>You inspect what's <b>visible and accessible</b> and operate a <b>representative number</b> of like items — not every window or outlet. You report deficiencies; you don't move furniture, open sealed areas, or guarantee future performance. Under the TREC Standards of Practice, the interior, stairways, fireplaces, garages, and safety devices are explicitly within scope.</p></div></div>`,
+ quiz:[
+  {q:'The inspector\'s role with interior components is to:',o:['Repair the deficiencies that are found','Observe accessible components, recognize deficiencies, and report them — especially safety items','Certify the home to the building code','Refinish damaged surfaces'],a:1,e:'Observe and report a representative sample, with extra weight on life-safety items. You don\'t repair or certify.'},
+  {q:'Which finding belongs in the "never let it slide" life-safety bucket?',o:['A scratched cabinet door','A missing guard at an open stair','A faded paint color','A squeaky hinge'],a:1,e:'Missing guards, egress problems, breached garage separations, and missing alarms are life-safety findings; cosmetics are minor notes.'},
+  {q:'"Representative number" means you:',o:['Inspect every single window and outlet','Operate/observe a sample of like items rather than all of them','Skip the interior entirely','Only check the rooms the owner points out'],a:1,e:'The standard is a representative sample of like components — enough to characterize the home without testing every unit.'},
+  {q:'A painted-shut bedroom window is significant mainly because it:',o:['Looks bad','May defeat the required emergency egress for a sleeping room','Wastes energy','Is hard to clean'],a:1,e:'A sleeping room needs an operable egress opening. A painted-shut window is both an operation defect and a possible egress (life-safety) deficiency.'},
+ ]},
+
+/* ===== L1 WALLS, CEILINGS & FLOORS ===== */
+{id:'l1',kind:'Lesson 1',label:'Walls, Ceilings & Floors',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 1 · Reading the surfaces</span><h1>The finishes are a diary of everything behind them.</h1>
+ <p class="lead">Walls, ceilings, and floors don't just look a certain way — they record movement, moisture, and framing problems. You're reading the surface to infer what you can't see.</p>
+ <h2>Cracks: cosmetic or structural?</h2>
+ ${conds('',[['Cosmetic cracks','Hairline cracks at drywall seams, corners of doors and windows, and from normal settling. No displacement, no offset — note them and move on.'],['Movement cracks','Wider, stair-step, or offset cracks; doors that won\'t latch; floors out of level. These suggest framing or foundation movement — describe and recommend evaluation.'],['Nail pops &amp; bows','Fasteners backing out and bowed surfaces — usually minor, but a bowed wall or sagging ceiling can mean overloaded or failing framing.']])}
+ <h2>Water stains — active vs. old</h2>
+ <p>The single most useful interior skill is telling a <b>live leak</b> from a <b>healed scar</b>. An <b>active</b> stain is soft, damp, often expanding, and reads wet on a moisture meter. An <b>old</b> stain is dry, has a hard, well-defined edge, and reads the same as the wall around it. When you can't be sure, you describe what you see and recommend monitoring — you don't guarantee a stain is dead.</p>
+ <div class="dgm"><svg viewBox="0 0 720 240">
+   <g ${_gs}>
+     <rect x="60" y="40" width="280" height="170"/>${_mono(200,30,11,'ACTIVE stain','#b85436')}
+     <rect x="380" y="40" width="280" height="170"/>${_mono(520,30,11,'OLD stain','#3c5870')}
+   </g>
+   <path d="M150 70 q60 30 30 90 q-50 40 -90 -10 q-20 -60 60 -80 z" fill="#b85436" opacity="0.28" stroke="#b85436" stroke-width="1.4" stroke-dasharray="4 3"/>
+   ${_mono(200,150,10,'soft · damp · growing','#b85436')}
+   <path d="M470 70 q60 30 30 90 q-50 40 -90 -10 q-20 -60 60 -80 z" fill="#caa46a" opacity="0.3" stroke="#7f520a" stroke-width="2"/>
+   ${_mono(520,150,10,'dry · hard edge · stable','#7f520a')}
+ </svg><div class="cap">Active stains are soft, damp, and spreading; old stains are dry with a crisp, hardened border and a normal meter reading.</div></div>
+ ${W('sort','activeold')}
+ <h2>Floors — level, slope, and soft spots</h2>
+ <p>Walk the floors. <b>Out-of-level</b> floors and a noticeable <b>slope</b> can indicate settlement, framing deflection, or past repairs. <b>Soft or spongy</b> spots — especially near tubs, toilets, and exterior doors — suggest subfloor moisture damage. <b>Squeaks</b> alone are minor (subfloor moving against fasteners), but a squeak <em>plus</em> slope or sponginess deserves a closer look and a recommendation to evaluate the structure.</p>
+ ${story('Inspector in the house',`A flawless repaint hid a tell: the ceiling under the upstairs bath had one stain the painter missed in the closet. It was dry and hard-edged — an old, fixed leak — but the floor by the tub above was spongy. **The dry scar was history; the soft floor was the present.** The report separated the two: monitor the stain, evaluate the floor.`)}`,
+ quiz:[
+  {q:'A water stain that is dry, hard-edged, and reads normal on a meter is best reported as:',o:['A active leak needing urgent repair','Consistent with a past, likely-repaired event — describe and recommend monitoring','Not worth noting','Proof the roof failed'],a:1,e:'Dry, crisp-edged, stable stains usually reflect an old, resolved leak. Describe what you observe and recommend monitoring rather than declaring it active.'},
+  {q:'Which is the strongest sign of an ACTIVE leak?',o:['A faint yellow ring','Soft, damp material that reads wet and is spreading','A painted-over stain','A hairline crack'],a:1,e:'Soft, damp, growing stains with elevated moisture readings indicate ongoing water entry.'},
+  {q:'A stair-step crack with offset and a door that won\'t latch suggests:',o:['Normal cosmetic settling','Possible framing or foundation movement — recommend evaluation','A painting defect','Nothing structural'],a:1,e:'Offset, stair-step cracking plus binding doors points to movement. Describe it and recommend further evaluation.'},
+  {q:'A squeaky floor board by itself is:',o:['A major structural defect','Generally minor — subfloor moving against fasteners','Always a moisture problem','A reason to replace the floor'],a:1,e:'Squeaks alone are minor. They matter more when paired with slope or soft spots that suggest a structural or moisture issue.'},
+  {q:'A spongy spot in the floor near a tub most likely indicates:',o:['Normal flooring','Possible subfloor moisture/rot — recommend evaluation and a moisture check','A squeak only','A code violation in the framing size'],a:1,e:'Sponginess near wet areas suggests hidden subfloor damage. Note it and recommend evaluation rather than guessing the cause.'},
+ ]},
+
+/* ===== L2 DOORS & WINDOWS ===== */
+{id:'l2',kind:'Lesson 2',label:'Doors & Windows',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 2 · Operation &amp; safety</span><h1>Open it, close it, and ask one safety question.</h1>
+ <p class="lead">You operate a representative sample of interior doors and windows and report what doesn't work — but the findings that matter most are about <b>safety glass</b> and <b>bedroom egress</b>.</p>
+ <h2>What you check on operation</h2>
+ ${conds('',[['Doors','Open, close, and latch; binding, dragging, or won\'t-latch hint at framing movement. Note damaged, missing, or hollow-core where solid is needed.'],['Windows','Operate a sample: do they open, stay open, and lock? Report painted-shut, inoperable, or broken sash hardware, and failed (fogged) thermal seals.'],['Glazing','Look for cracked, broken, or missing glass — and for missing safety glazing where it\'s required.']])}
+ <h2>Safety glazing at hazardous locations</h2>
+ <p>Ordinary glass breaks into knife-like shards; <b>safety glazing</b> (tempered or laminated) breaks safely. It's required at <b>hazardous locations</b>: in and right next to doors, large panes close to the floor or walking surfaces, and glazing at tubs, showers, and stair landings. A tempered pane carries an etched mark in a corner. <b>Missing safety glass at these spots is a reportable hazard.</b></p>
+ <div class="dgm"><svg viewBox="0 0 720 250">
+   <g ${_gs}>
+     <line x1="40" y1="210" x2="680" y2="210"/>${_mono(60,204,9,'floor','#918c7d','start')}
+     <rect x="90" y="70" width="70" height="140"/><line x1="125" y1="70" x2="125" y2="210" stroke-width="1"/>${_mono(125,62,9,'door','#3d7d50')}
+     <rect x="175" y="90" width="55" height="120" fill="#dbe7ee" opacity="0.5"/>${_mono(202,84,8,'sidelite','#b85436')}
+     <rect x="300" y="120" width="90" height="90" fill="#dbe7ee" opacity="0.5"/>${_mono(345,114,8,'low glazing','#b85436')}
+     <rect x="470" y="150" width="120" height="60" fill="#dbe7ee" opacity="0.5"/>${_mono(530,144,8,'tub / shower glass','#b85436')}
+   </g>
+   <g>${_mono(125,150,9,'SG','#3d7d50')}${_mono(202,150,9,'SG','#3d7d50')}${_mono(345,170,9,'SG','#3d7d50')}${_mono(530,184,9,'SG','#3d7d50')}</g>
+ </svg><div class="cap">Hazardous locations needing safety glazing (SG): in/next to doors, low glazing near floors, and at tubs, showers, and stairs.</div></div>
+ <h2>Bedroom egress — the life-safety question</h2>
+ <p>Every <b>sleeping room</b> needs an operable <b>emergency escape and rescue opening</b> — a window (or door) sized so an occupant can climb out and a firefighter can climb in. The rules of thumb: roughly a <b>minimum clear opening</b>, a low enough <b>sill height</b> to reach, and it must <b>open without tools or keys</b>. A painted-shut window, a sash that opens only a few inches, security bars without a release, or a basement bedroom with no egress are all <b>egress deficiencies</b> you flag.</p>
+ ${W('match','dims')}
+ ${story('Inspector in the house',`A finished basement had a charming "guest bedroom" with one small, high window painted shut. Pretty room — no way out. **A bedroom you can\'t escape from isn\'t a bedroom.** The report named it: sleeping room lacks a compliant emergency egress opening; recommend evaluation and correction before it\'s used as a bedroom.`)}`,
+ quiz:[
+  {q:'Safety glazing (tempered/laminated) is required at:',o:['Only skylights','Doors, glazing next to doors, low glazing near floors, and tubs/showers/stairs','Only commercial buildings','Wherever the owner wants it'],a:1,e:'Hazardous locations — in and next to doors, near floors and walking surfaces, and at wet/fall areas — require safety glazing.'},
+  {q:'A sleeping room must have:',o:['Two exterior doors','At least one operable emergency egress opening','A skylight','A second closet'],a:1,e:'Each bedroom needs an operable escape-and-rescue opening sized and located for escape and rescue.'},
+  {q:'A bedroom window painted shut is reported as:',o:['Cosmetic only','An inoperable window AND a possible egress (life-safety) deficiency','A glazing problem','Nothing — one window is enough'],a:1,e:'It\'s both an operation defect and a possible egress deficiency for a sleeping room.'},
+  {q:'You inspect interior windows by:',o:['Operating every window in the house','Operating a representative sample and reporting inoperable or damaged units','Removing the sashes','Measuring each pane'],a:1,e:'Operate a representative number and report painted-shut, inoperable, failed-seal, or broken units.'},
+  {q:'A fogged, hazy double-pane window indicates:',o:['Dirty glass to wipe off','A failed insulating-glass (thermal) seal','Missing safety glazing','A structural crack'],a:1,e:'Condensation between the panes means the sealed insulating-glass unit has failed — report it.'},
+ ]},
+
+/* ===== L3 STAIRWAYS, HANDRAILS & GUARDS ===== */
+{id:'l3',kind:'Lesson 3',label:'Stairs, Handrails & Guards',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 3 · Don\'t fall</span><h1>Stairs are where the house tries hardest to hurt someone.</h1>
+ <p class="lead">Falls on stairs are among the most common serious home injuries, so this is prime life-safety territory. Four things drive almost every finding: <b>consistent steps, a graspable handrail, an adequate guard, and tight infill.</b></p>
+ <h2>Rise, run, and consistency</h2>
+ <p>Each step has a <b>rise</b> (height) and a <b>run</b> (tread depth). The exact numbers vary, but the rule that matters on inspection is <b>consistency</b>: risers and treads within a flight should be uniform. A single odd step — one riser noticeably taller or shorter — is a recognized <b>trip hazard</b> because the foot expects the previous rhythm. Note it.</p>
+ <h2>Handrails — graspable and continuous</h2>
+ <p>A <b>handrail</b> is generally required on a flight of <b>four or more risers</b>. It has to be <b>graspable</b> — roughly <b>1¼–2 in round</b>, or an equivalent shape your hand can encircle — and continuous along the flight at a usable height. A flat 2×6 on brackets is sturdy but <em>not</em> graspable; a rail that stops part-way down leaves you with nothing where you need it. <b>Loose</b> rails that move under load can\'t arrest a fall.</p>
+ <h2>Guards and the 4-inch sphere</h2>
+ <p>A <b>guard</b> protects the open side of a raised walking surface — a landing, balcony, or the open side of a stair. Two tests, and you need both:</p>
+ <ul class="clean"><li><b>Height</b> — generally about <b>36 in</b> at walking surfaces (a bit less is allowed for a stair handrail).</li><li><b>Infill</b> — the openings must <b>reject a 4-inch sphere</b>. If a 4-inch ball passes between the balusters, that\'s a child-fall and entrapment hazard, regardless of how tall the guard is.</li></ul>
+ <div class="dgm"><svg viewBox="0 0 720 230">
+   <g ${_gs}>
+     <line x1="60" y1="190" x2="660" y2="190"/>${_mono(80,184,9,'walking surface','#918c7d','start')}
+     <line x1="120" y1="190" x2="120" y2="70"/><line x1="540" y1="190" x2="540" y2="70"/><line x1="120" y1="70" x2="540" y2="70" stroke-width="2"/>
+     <g stroke-width="1.6"><line x1="170" y1="70" x2="170" y2="190"/><line x1="210" y1="70" x2="210" y2="190"/><line x1="250" y1="70" x2="250" y2="190"/><line x1="290" y1="70" x2="290" y2="190"/></g>
+     <g stroke-width="1.6"><line x1="400" y1="70" x2="400" y2="190"/><line x1="470" y1="70" x2="470" y2="190"/></g>
+     <line x1="120" y1="70" x2="120" y2="40" stroke="#3d7d50"/><line x1="540" y1="70" x2="540" y2="40" stroke="#3d7d50"/>${_mono(330,52,9,'~36 in high','#3d7d50')}
+   </g>
+   <circle cx="435" cy="130" r="16" fill="#b85436" opacity="0.5" stroke="#b85436" stroke-width="1.6"/>${_mono(435,108,8,'4-in ball passes','#b85436')}
+   <circle cx="230" cy="130" r="16" fill="none" stroke="#3d7d50" stroke-width="1.6" stroke-dasharray="3 2"/>${_mono(230,108,8,'ball rejected','#3d7d50')}
+ </svg><div class="cap">Left: tight balusters reject the 4-inch sphere. Right: wide spacing lets it pass — a reportable fall hazard even at full height.</div></div>
+ ${W('spot','stairs')}
+ <h2>The conditions you'll write up</h2>
+ <div class="defect"><div class="dh"><span class="n">1</span><span class="nm">Missing or non-graspable handrail</span></div><p>No rail on a flight of four-plus risers, a flat slab you can\'t grip, or a rail that stops short.</p><div class="meta"><span class="lab">Implication</span><span class="val">No way to catch a fall — a direct injury hazard.</span><span class="lab">Report</span><span class="val">Recommend a continuous, graspable handrail the full length of the flight.</span></div></div>
+ <div class="defect"><div class="dh"><span class="n">2</span><span class="nm">Missing or low guard</span></div><p>An open raised edge with no guard, or one below typical height.</p><div class="meta"><span class="lab">Implication</span><span class="val">Fall to the level below.</span><span class="lab">Report</span><span class="val">Recommend a guard at the open side at adequate height.</span></div></div>
+ <div class="defect"><div class="dh"><span class="n">3</span><span class="nm">Improper baluster spacing</span></div><p>Guard openings that pass a 4-inch sphere.</p><div class="meta"><span class="lab">Implication</span><span class="val">Child-fall and entrapment hazard.</span><span class="lab">Report</span><span class="val">Recommend reducing the spacing so a 4-inch sphere can\'t pass.</span></div></div>
+ ${story('Inspector in the house',`A renovated loft had a gorgeous open stair — and a guard with balusters a hand\'s-width apart. The owner loved the "airy" look. Your 4-inch ball dropped right through. **Beautiful and dangerous aren\'t mutually exclusive.** The report flagged the spacing as a child-safety hazard, height notwithstanding.`)}`,
+ quiz:[
+  {q:'A graspable handrail is generally required on a flight of:',o:['Any number of steps','Four or more risers','Ten or more risers','Exterior stairs only'],a:1,e:'Flights of four or more risers generally require a graspable handrail.'},
+  {q:'A handrail is "graspable" when it is:',o:['A flat 2×6 you can\'t encircle','About 1¼–2 in round (or an equivalent shape a hand can wrap around)','At least 6 in wide','Any rail screwed to the wall'],a:1,e:'Graspable means the hand can encircle it — roughly 1¼–2 in round or an equivalent profile.'},
+  {q:'Guard infill openings must reject a:',o:['2-inch sphere','4-inch sphere','6-inch sphere','Closed fist'],a:1,e:'A 4-inch sphere must not pass through a required guard\'s openings.'},
+  {q:'A guard at a raised walking surface is typically about:',o:['24 in high','30 in high','36 in high','48 in high'],a:2,e:'Guards at walking surfaces are generally around 36 in; both height and 4-inch-sphere infill must be satisfied.'},
+  {q:'One step in a flight is noticeably taller than the rest. That is:',o:['Acceptable if it\'s only one','A recognized trip hazard from inconsistent rise — report it','Only a problem on exterior stairs','A cosmetic issue'],a:1,e:'Inconsistent rise/run within a flight is a trip hazard because the foot expects the established rhythm.'},
+ ]},
+
+/* ===== L4 CABINETS & COUNTERTOPS ===== */
+{id:'l4',kind:'Lesson 4',label:'Cabinets & Countertops',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 4 · Built-ins</span><h1>The quick stop between the big-ticket systems.</h1>
+ <p class="lead">Cabinets and countertops are mostly a condition-and-operation check — but a few findings here overlap with safety and water, so they earn a real look, not a glance.</p>
+ <h2>What you operate and observe</h2>
+ ${conds('',[['Mounting &amp; security','Wall cabinets must be securely fastened to framing — a loose upper cabinet full of dishes is a real hazard. Push and check for movement.'],['Doors &amp; drawers','Open and close a representative number; note broken hinges, missing hardware, and drawers off their slides.'],['Countertops','Look for loose, cracked, or delaminating tops and unsealed seams — especially around the sink, where water gets in.'],['Water &amp; the sink base','The cabinet under the sink is a moisture detector: stains, swelling, or soft particleboard means a current or past leak — coordinate with your plumbing findings.']])}
+ <p>None of this is glamorous, but a loose wall cabinet over a counter, or a sink base quietly rotting from a slow supply leak, are exactly the kinds of things a buyer is glad you caught. Report condition and operation deficiencies plainly, and flag any moisture damage as a possible active leak to investigate.</p>
+ <div class="field brass"><div class="ic">${sv(ic.alert)}</div><div><div class="t">Where built-ins meet safety</div><p>Two crossovers to watch: a <b>loose upper cabinet</b> that could pull off the wall, and <b>moisture damage in a sink base</b> that signals a plumbing leak. Both are more than cosmetic — call them out and tie the water finding to your plumbing notes.</p></div></div>
+ ${story('Inspector in the house',`A kitchen looked move-in perfect until a wall cabinet shifted a half-inch when nudged — installed into drywall, not studs. **Full of dishes, that\'s a falling hazard over a work area.** The countertop story was under the sink, where a swollen, dark cabinet floor gave away a slow trap leak the gleaming surfaces hid.`)}`,
+ quiz:[
+  {q:'A wall cabinet that moves when pushed should be:',o:['Ignored if the doors work','Reported — it may not be secured to framing and is a falling hazard','Re-stained','Filled with lighter items'],a:1,e:'Cabinets must be securely fastened to framing. A loose, loaded upper cabinet is a real hazard worth reporting.'},
+  {q:'A swollen, dark, soft cabinet floor under the sink most likely means:',o:['Normal wear','Moisture damage from a current or past leak — investigate and coordinate with plumbing','A finish defect','Heavy use only'],a:1,e:'The sink base is a moisture detector; swelling and softness point to a leak to investigate.'},
+  {q:'Countertops are checked for:',o:['Brand and price','Loose, cracked, or delaminating tops and unsealed seams, especially at the sink','R-value','Fire rating'],a:1,e:'Look for damage and unsealed seams where water can enter — the sink area is the usual trouble spot.'},
+  {q:'For cabinet doors and drawers you:',o:['Operate every one','Operate a representative number and note broken or missing hardware','Remove them to inspect','Leave them closed'],a:1,e:'Operate a representative sample and report broken hinges, missing hardware, and off-track drawers.'},
+ ]},
+
+/* ===== L5 FIREPLACES & CHIMNEYS ===== */
+{id:'l5',kind:'Lesson 5',label:'Fireplaces & Chimneys',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 5 · Fire in the house, on purpose</span><h1>A fireplace is a controlled fire — your job is the word "controlled."</h1>
+ <p class="lead">Fireplaces and chimneys combine fire, combustibles, and a path to the roof, so the findings are squarely life-safety. You inspect what\'s readily visible and accessible — you don\'t light fires or take the chimney apart.</p>
+ <h2>From the firebox up</h2>
+ ${conds('',[['Firebox','The combustion chamber. Look for cracked or missing firebrick, gaps, and deteriorated mortar joints — paths for heat to reach framing.'],['Damper','The plate that opens for use and closes to stop drafts. Check that it opens, closes, and isn\'t rusted shut or missing.'],['Hearth extension','The noncombustible floor area in front of the opening (typically 16–20 in out, more for large openings). It catches rolling embers — a short or combustible hearth is a fire hazard.'],['Clearances to combustibles','Mantels, trim, and framing need clearance from the opening. A combustible mantel set too close (commonly needs ~6 in, more if it projects) can ignite.']])}
+ <div class="dgm"><svg viewBox="0 0 720 250">
+   <g ${_gs}>
+     <line x1="60" y1="210" x2="660" y2="210"/>${_mono(80,204,9,'floor','#918c7d','start')}
+     <rect x="220" y="90" width="180" height="120"/>${_mono(310,84,9,'firebox','#3d7d50')}
+     <rect x="200" y="60" width="220" height="14" fill="#caa46a" opacity="0.45" stroke="#7f520a"/>${_mono(310,52,8,'mantel — needs clearance','#b85436')}
+     <rect x="400" y="200" width="150" height="10" fill="#bdb8a8" stroke="#7f520a"/>${_mono(470,224,8,'hearth extension 16–20 in','#7f520a')}
+     <line x1="400" y1="200" x2="400" y2="190" stroke="#3c5870"/><line x1="550" y1="200" x2="550" y2="190" stroke="#3c5870"/>
+   </g>
+ </svg><div class="cap">The combustibles around the fire: a mantel needing clearance above the opening and a noncombustible hearth extending in front of it.</div></div>
+ <h2>Gas logs and the chimney top</h2>
+ <p>For <b>gas logs</b>, confirm there\'s an <b>accessible, operable shut-off valve</b> and that the installation looks proper; note unvented sets and any gas odor. Up top, the <b>chimney cap</b> (with a <b>spark arrestor</b> screen) and the <b>crown</b> (the concrete wash) keep out water, animals, and debris and stop embers from landing on the roof. A <b>missing cap</b>, a <b>cracked crown</b>, or no spark arrestor are common reportable findings.</p>
+ <h2>Creosote</h2>
+ <p><b>Creosote</b> is the flammable, tar-like residue wood smoke leaves in a flue. Heavy, glazed buildup is a chimney-fire hazard. You note visible heavy creosote and recommend cleaning and a Level 2 evaluation by a qualified chimney specialist.</p>
+ <div class="defect"><div class="dh"><span class="n">1</span><span class="nm">Cracked firebox / deteriorated mortar</span></div><p>Cracks or missing firebrick and crumbling joints.</p><div class="meta"><span class="lab">Implication</span><span class="val">Heat path toward framing — fire risk.</span><span class="lab">Report</span><span class="val">Recommend evaluation/repair by a qualified chimney specialist.</span></div></div>
+ <div class="defect"><div class="dh"><span class="n">2</span><span class="nm">Short or combustible hearth extension</span></div><p>Hearth too shallow, or combustible flooring at the opening.</p><div class="meta"><span class="lab">Implication</span><span class="val">Rolling embers reach combustibles — burn/fire hazard.</span><span class="lab">Report</span><span class="val">Recommend a proper noncombustible hearth extension.</span></div></div>
+ <div class="defect"><div class="dh"><span class="n">3</span><span class="nm">Missing cap / cracked crown / no arrestor</span></div><p>Open flue top, spalling crown, or no spark screen.</p><div class="meta"><span class="lab">Implication</span><span class="val">Water and animal entry; escaping embers on the roof.</span><span class="lab">Report</span><span class="val">Recommend a proper cap with spark arrestor and crown repair.</span></div></div>
+ ${story('Inspector in the house',`A handsome stone fireplace had a reclaimed-timber mantel set two inches over the opening and scorch marks creeping past a 10-inch hearth. **The look was the hazard.** The report named both: combustible mantel clearance and short hearth extension, with the scorch marks as the evidence — evaluate and correct before use.`)}`,
+ quiz:[
+  {q:'The hearth extension is there to:',o:['Look decorative','Provide a noncombustible area in front of the opening to catch embers','Support the mantel','Improve draft'],a:1,e:'It\'s the noncombustible floor (typically 16–20 in out) that protects against rolling embers; short or combustible hearths are hazards.'},
+  {q:'A combustible wood mantel set too close to the firebox opening is:',o:['Fine if it\'s solid','A clearance-to-combustibles hazard that can ignite — report it','Required for the look','Only a concern with gas logs'],a:1,e:'Combustible trim needs clearance from the opening; too close is an ignition hazard.'},
+  {q:'The chimney cap with a spark arrestor:',o:['Holds up the crown','Keeps out water/animals/debris and stops escaping embers','Increases creosote','Is purely decorative'],a:1,e:'The cap and arrestor keep the flue clear and prevent embers from landing on the roof; a missing cap is reportable.'},
+  {q:'Heavy, glazed creosote in a flue is:',o:['Normal and harmless','A flammable buildup and chimney-fire hazard — recommend cleaning/evaluation','A sign of a good fire','Only a smell problem'],a:1,e:'Creosote is flammable; heavy buildup is a fire hazard warranting cleaning and a qualified evaluation.'},
+  {q:'For a gas-log set, the inspector confirms:',o:['The exact BTU output','An accessible, operable shut-off valve and a proper-looking installation','The brand of logs','The color temperature'],a:1,e:'Check for an accessible, operable gas shut-off valve and a proper installation; note unvented sets and any gas odor.'},
+ ]},
+
+/* ===== L6 GARAGES & THE FIRE SEPARATION ===== */
+{id:'l6',kind:'Lesson 6',label:'Garages & Fire Separation',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 6 · The wall between the car and the kids</span><h1>An attached garage is a small fire and fume problem next to the bedrooms.</h1>
+ <p class="lead">A garage holds a hot engine, fuel, paint, and pooling fumes — right against the living space. The whole inspection of an attached garage is really one idea: <b>is the separation between the vehicle area and the living space intact?</b></p>
+ <h2>The fire separation</h2>
+ <p>The common <b>walls and ceiling</b> between the garage and the house form a fire-resistant <b>separation</b>. It only works if it\'s <b>continuous</b> — every breach is a hole the fire and fumes can use.</p>
+ ${conds('',[['The house door','The passage door from garage to living space must be <b>solid or 20-minute fire-rated</b>, <b>self-closing</b>, and have <b>no louvers or openings</b>. And it must <b>never open into a sleeping room</b>.'],['Penetrations','Holes for wiring, pipes, and ducts through the separation must be <b>sealed/fire-stopped</b>. Open ceiling penetrations into the attic are a classic breach.'],['Wall &amp; ceiling integrity','The separation surfaces should be intact — gaps at the base of the common wall, missing drywall, or unsealed joints defeat it.'],['Ducts &amp; openings','No HVAC return air or duct openings should communicate between the garage and the house.']])}
+ <div class="dgm"><svg viewBox="0 0 720 250">
+   <g ${_gs}>
+     <rect x="60" y="50" width="600" height="170"/><line x1="430" y1="50" x2="430" y2="220" stroke-width="2"/>
+     ${_mono(200,44,9,'GARAGE','#918c7d')}${_mono(560,44,9,'LIVING SPACE','#918c7d')}
+     <line x1="60" y1="90" x2="430" y2="90" stroke-width="1"/>${_mono(120,84,8,'rated ceiling','#3d7d50','start')}
+     <rect x="430" y="130" width="10" height="90" stroke="#3d7d50"/>${_mono(470,124,8,'self-closing rated door','#3d7d50','start')}
+     <path d="M425 175 a18 18 0 0 1 18 -18" stroke="#3d7d50" stroke-width="1.4"/>
+   </g>
+ </svg><div class="cap">An intact separation: rated walls and ceiling, and a self-closing, fire-rated door that does not open into a sleeping room.</div></div>
+ <h2>Ignition sources and fumes</h2>
+ <p>Gasoline and many garage chemicals give off <b>heavier-than-air</b> vapors that pool near the floor. That\'s why a gas-fired <b>water heater or furnace</b> in a garage traditionally has its <b>ignition source elevated</b> (commonly ~18 in above the floor) — unless it\'s a newer flammable-vapor-ignition-resistant (FVIR) unit. An appliance with an open flame at floor level is a finding to note for evaluation.</p>
+ ${W('spot','garage')}
+ <div class="defect"><div class="dh"><span class="n">1</span><span class="nm">Breached fire separation</span></div><p>Non-rated/hollow-core or louvered house door, missing self-closer, or unsealed penetrations.</p><div class="meta"><span class="lab">Implication</span><span class="val">Fire and fumes can pass into the living space.</span><span class="lab">Report</span><span class="val">Recommend a self-closing 20-minute fire-rated door and sealing all penetrations.</span></div></div>
+ <div class="defect"><div class="dh"><span class="n">2</span><span class="nm">Door opens into a sleeping room</span></div><p>The garage passage door connects directly to a bedroom.</p><div class="meta"><span class="lab">Implication</span><span class="val">Prohibited — fumes/fire route straight into where people sleep.</span><span class="lab">Report</span><span class="val">Flag as a safety defect; recommend evaluation/correction.</span></div></div>
+ <div class="defect"><div class="dh"><span class="n">3</span><span class="nm">Floor-level ignition source</span></div><p>Gas appliance with an open flame at floor level (non-FVIR).</p><div class="meta"><span class="lab">Implication</span><span class="val">Pooled flammable vapors can ignite.</span><span class="lab">Report</span><span class="val">Recommend evaluation; ignition source typically elevated ~18 in.</span></div></div>
+ ${story('Inspector in the house',`The seller had replaced the garage-to-kitchen door with a pretty six-panel — hollow-core, with a cute louver at the bottom "for ventilation," and no closer. **Every upgrade made the separation worse.** The report was blunt: this door is not a rated, self-closing barrier, and the louver is an opening — replace it and add a closer.`)}`,
+ quiz:[
+  {q:'The garage-to-house passage door must be:',o:['Hollow-core with a louver','Solid or 20-minute fire-rated, self-closing, with no openings — and not into a sleeping room','Any lockable door','Propped open'],a:1,e:'It must be a self-closing, solid/rated door with no louvers, and it must not open into a sleeping room.'},
+  {q:'Open penetrations through the garage ceiling into the attic are:',o:['Fine for airflow','A breach of the fire separation — recommend sealing/fire-stopping','Required for venting','Only a cosmetic issue'],a:1,e:'Unsealed penetrations defeat the separation; they must be sealed/fire-stopped.'},
+  {q:'A gas water heater\'s ignition source in a garage is traditionally:',o:['At floor level','Elevated (commonly ~18 in) unless the unit is FVIR-listed','Inside a bedroom','Removed'],a:1,e:'Heavier-than-air vapors pool low, so ignition sources are elevated about 18 in (newer FVIR units excepted).'},
+  {q:'The garage passage door may NOT open into:',o:['A hallway','A sleeping room','The kitchen','A laundry room'],a:1,e:'It must never open directly into a sleeping room — that routes fumes and fire toward sleepers.'},
+  {q:'The unifying idea of garage inspection is:',o:['Door hardware quality','Whether the vehicle-area-to-living-space separation is intact','Floor cleanliness','Storage organization'],a:1,e:'Every finding ties back to maintaining the fire/fume separation between the garage and the living space.'},
+ ]},
+
+/* ===== L7 SMOKE & CO ALARMS ===== */
+{id:'l7',kind:'Lesson 7',label:'Smoke & CO Alarms',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 7 · The cheapest life-savers in the house</span><h1>The smallest devices carry the biggest safety weight.</h1>
+ <p class="lead">Smoke and carbon-monoxide alarms are inexpensive, easy to overlook, and they save lives. You check that they\'re <b>present in the right places</b> — and you report where they\'re missing, because a missing alarm is a direct life-safety finding.</p>
+ <h2>Smoke alarms — where they go</h2>
+ <p>The locations are the thing to memorize. Smoke alarms belong:</p>
+ <ul class="clean"><li><b>In each sleeping room (bedroom)</b></li><li><b>Outside each separate sleeping area</b>, in the immediate vicinity (the hallway serving the bedrooms)</li><li><b>On every level of the home</b>, including basements and habitable attics</li></ul>
+ <p>Note alarms that are <b>missing</b>, obviously <b>disabled</b> (hanging, no battery), or clearly <b>past end of life</b> (typically ~10 years). You report presence and location — you\'re not certifying the internal electronics.</p>
+ <div class="dgm"><svg viewBox="0 0 720 240">
+   <g ${_gs}>
+     <rect x="60" y="60" width="600" height="150"/>
+     <line x1="240" y1="60" x2="240" y2="210"/><line x1="430" y1="60" x2="430" y2="210"/>
+     ${_mono(150,200,9,'bedroom','#918c7d')}${_mono(335,200,9,'hall','#918c7d')}${_mono(545,200,9,'bedroom','#918c7d')}
+     <circle cx="150" cy="95" r="9" stroke="#3d7d50"/>${_mono(150,80,8,'smoke','#3d7d50')}
+     <circle cx="335" cy="95" r="9" stroke="#3d7d50"/>${_mono(335,80,8,'smoke','#3d7d50')}
+     <circle cx="545" cy="95" r="9" stroke="#3d7d50"/>${_mono(545,80,8,'smoke','#3d7d50')}
+     <circle cx="335" cy="150" r="9" stroke="#7f520a"/>${_mono(335,168,8,'CO','#7f520a')}
+   </g>
+ </svg><div class="cap">Smoke alarms in each bedroom, just outside the sleeping area, and on every level; a CO alarm near the sleeping area.</div></div>
+ <h2>Carbon-monoxide alarms</h2>
+ <p>CO is the colorless, odorless gas combustion produces. <b>CO alarms</b> are needed near the sleeping areas in homes that have a <b>fuel-burning appliance</b> (gas/oil furnace, water heater, fireplace, range) or an <b>attached garage</b> — the sources of CO. An all-electric home with no attached garage may not need them. Report missing CO alarms where the sources are present.</p>
+ ${W('match','devices')}
+ ${W('sort','safety')}
+ <div class="field"><div class="ic">${sv(ic.alert)}</div><div><div class="t">Report it, don\'t shrug it</div><p>It\'s tempting to treat a missing alarm as trivial because it\'s a $20 fix. Don\'t. A bedroom with no smoke alarm, or a house with gas appliances and no CO alarm, is a <b>life-safety deficiency</b> — name the missing locations clearly so your client adds them on day one.</p></div></div>
+ ${story('Inspector in the house',`A tidy home had one smoke alarm — in the hallway — and a gas furnace, gas water heater, and attached garage with zero CO alarms. **One hallway alarm isn\'t a system.** The report listed every missing location: a smoke alarm in each of the three bedrooms and on the basement level, and CO alarms near the sleeping areas.`)}`,
+ quiz:[
+  {q:'Smoke alarms are required:',o:['Only in the kitchen','In each bedroom, outside each sleeping area, and on every level','Only on the top floor','Only where the owner wants them'],a:1,e:'Each sleeping room, just outside the sleeping areas, and every level — including basements.'},
+  {q:'CO alarms are needed near sleeping areas when the home has:',o:['Only electric appliances and no garage','A fuel-burning appliance or an attached garage','No fireplace','A finished basement only'],a:1,e:'CO comes from combustion. Homes with fuel-burning equipment or an attached garage need CO alarms near sleeping areas.'},
+  {q:'A bedroom with no smoke alarm should be:',o:['Ignored — it\'s a cheap fix','Reported as a life-safety deficiency with the missing locations named','Noted only if the owner asks','Left for the buyer to notice'],a:1,e:'Missing alarms are life-safety findings; identify the missing locations clearly.'},
+  {q:'A smoke alarm hanging by its wires with no battery is:',o:['Acceptable','A disabled alarm — report it','Not your concern','Fine if others work'],a:1,e:'A disabled or missing alarm is reportable regardless of others present.'},
+  {q:'On smoke/CO alarms, the inspector primarily reports:',o:['The internal circuit health','Presence and correct location, and obvious disabled/expired units','The manufacturer','The exact install date'],a:1,e:'You report presence, location, and obvious problems — you don\'t certify the internal electronics.'},
+ ]},
+
+/* ===== L8 PUTTING IT TOGETHER ===== */
+{id:'l8',kind:'Lesson 8',label:'Putting It Together',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 8 · The interior walkthrough</span><h1>Two buckets, one disciplined walk through every room.</h1>
+ <p class="lead">The interior rewards a routine. You move room to room reading <b>condition</b> on one track and <b>life safety</b> on the other — and you never let a safety item get lost among the cosmetics.</p>
+ <h2>The condition track</h2>
+ <p>Surfaces for cracks and stains (active vs. old), floors for level and soft spots, doors and windows operating, cabinets secure, counters sound. These are mostly <b>note-and-recommend</b> items — important to the client, rarely emergencies.</p>
+ <h2>The life-safety track</h2>
+ <p>These are the findings you call out plainly, every time:</p>
+ <ul class="clean"><li><b>Egress</b> — every sleeping room has an operable escape opening</li><li><b>Safety glazing</b> — present at hazardous locations</li><li><b>Stairs</b> — graspable handrails, adequate guards, 4-inch-sphere infill</li><li><b>Fireplace</b> — sound firebox, proper hearth and clearances, capped chimney</li><li><b>Garage</b> — intact separation, self-closing rated door, sealed penetrations</li><li><b>Alarms</b> — smoke alarms in/near bedrooms and on every level; CO where there\'s combustion or an attached garage</li></ul>
+ <p>Notice how the same idea repeats: <b>keep people from falling, from fire, and from fumes.</b> If you read every room with those three risks in mind, the safety findings practically announce themselves.</p>
+ ${W('era','codes')}
+ <div class="field"><div class="ic">${sv(ic.alert)}</div><div><div class="t">The inspector's summary</div><p>Walk every room twice over in your head: <b>condition</b> (finishes, floors, doors/windows, built-ins) and <b>life safety</b> (egress, glazing, stairs, fireplace, garage separation, alarms). Name the deficiency, the implication, and the recommendation — and weight the safety items so they can\'t be missed. That\'s a complete interior inspection.</p></div></div>
+ ${story('Inspector in the house',`A buyer loved a remodeled split-level and almost skipped the basement bedroom. You didn\'t. No egress window, no smoke alarm, a guard at the open stair with balusters a fist apart, and a hollow-core door to the garage. **One walk, four life-safety findings.** The cosmetics were perfect; the safety was the whole report.`)}`,
+ quiz:[
+  {q:'The two tracks of an interior inspection are:',o:['Plumbing and electrical','Condition and life safety','Inside and outside','New and old'],a:1,e:'Read condition (finishes, floors, doors/windows, built-ins) and life safety (egress, glazing, stairs, fireplace, garage, alarms) together.'},
+  {q:'Which list is entirely life-safety items?',o:['Paint color, cabinet style, counter finish','Egress, safety glazing, guards, garage separation, alarms','Squeaks, dings, scuffs','Window brand, door style'],a:1,e:'Egress, glazing, stairs/guards, the garage separation, and alarms are the core life-safety findings.'},
+  {q:'The three risks the safety track guards against are:',o:['Heat, cold, and damp','Falling, fire, and fumes','Noise, glare, and dust','Theft, flood, and wind'],a:1,e:'Keep people from falling (stairs/guards/egress), from fire (fireplace/garage), and from fumes (CO/garage).'},
+  {q:'A perfect-looking remodel with no egress in a basement bedroom is:',o:['Fine because it looks good','Still a life-safety deficiency to report','Out of scope','Only a resale issue'],a:1,e:'Appearance doesn\'t change the finding — a sleeping room without egress is reportable.'},
+  {q:'The inspector\'s through-line for the interior is:',o:['Recommend a full remodel','Read every room for condition and the three safety risks, then name deficiency, implication, and recommendation','Measure every component','Only report what the seller discloses'],a:1,e:'Condition plus the falling/fire/fumes safety lens, reported as deficiency-implication-recommendation, is the whole job.'},
+ ]},
+/*LESSONS*/
+ {id:'scenarios',kind:'Apply it',label:'Inspector\'s Call',type:'scenario'},
+ {id:'assess',kind:'Assessment',label:'Mastery check',type:'assess'},
+ {id:'glossary',kind:'Reference',label:'Glossary',type:'glossary'},
+ {id:'source',kind:'Deep reading',label:'Reference & summary',type:'source'},
+];
+(async()=>{await load();render();})();
+</script>

@@ -1,0 +1,702 @@
+<!-- ATI · Module II · Appliances — full interactive section -->
+<title>ATI · Module II — Appliances</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..900&family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#f4f2ea;--surf:#fffdf8;--surf-2:#faf7ef;--surf-3:#efeae0;
+    --line:#e6e1d4;--line-2:#efeae0;--line-brass:rgba(197,129,42,.32);
+    --ink:#21242b;--ink-2:#5b616b;--ink-3:#8b909a;
+    --brass:#c5812a;--brass-2:#e0a043;--brass-deep:#9a6214;--brass-soft:#f4e7cd;
+    --slate:#1f6f73;--slate-2:#2f8a8d;--slate-soft:#dde9e9;--slate-deep:#123f43;
+    --pass:#2f7a4e;--pass-soft:#e2efe5;--fail:#bd4a31;--fail-soft:#f6e6df;
+    --r:16px;--display:'Fraunces',Georgia,serif;--body:'Hanken Grotesk',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;
+    --sh-1:0 1px 2px rgba(25,28,34,.05),0 1px 3px rgba(25,28,34,.05);--sh-2:0 4px 14px rgba(25,28,34,.06),0 12px 32px rgba(25,28,34,.09);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.55;background-image:radial-gradient(120% 80% at 88% -8%,rgba(197,129,42,.06),transparent 52%),radial-gradient(90% 60% at -8% 108%,rgba(31,111,115,.06),transparent 52%)}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  .mono{font-family:var(--mono)}
+  ::selection{background:var(--brass);color:#fff}
+  ::-webkit-scrollbar{width:11px;height:11px}::-webkit-scrollbar-thumb{background:#d2ccbd;border-radius:11px;border:3px solid var(--bg)}
+
+  .top{position:sticky;top:0;z-index:30;background:rgba(244,242,234,.82);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid var(--line)}
+  .top .row{max-width:1150px;margin:0 auto;padding:13px 24px;display:flex;align-items:center;gap:14px}
+  .mark{width:36px;height:36px;border-radius:10px;flex:none;display:grid;place-items:center;background:linear-gradient(150deg,var(--brass-2),var(--brass-deep));box-shadow:0 3px 12px rgba(168,109,16,.3),inset 0 1px 0 rgba(255,255,255,.35)}
+  .mark svg{width:20px;height:20px;color:#fff}
+  .top .tt{font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:-.01em;line-height:1.1}.top .tt b{color:var(--brass-deep)}
+  .top .sub{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);display:block;margin-top:2px}
+  .top .prog{margin-left:auto;display:flex;align-items:center;gap:12px}
+  .top .prog .bar{width:150px;height:7px;background:var(--surf-3);border-radius:7px;overflow:hidden;border:1px solid var(--line)}
+  .top .prog .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--brass-deep),var(--brass));border-radius:7px;transition:width .5s cubic-bezier(.2,.7,.2,1)}
+  .top .prog .pc{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--brass-deep);min-width:34px;text-align:right}
+
+  .wrap{max-width:1150px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:250px 1fr;gap:32px;align-items:start}
+  .rail{position:sticky;top:88px;margin-top:28px;max-height:calc(100vh - 110px);overflow-y:auto;padding-right:4px}
+  .rail .h{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);padding:0 8px 10px}
+  .step{display:block;padding:9px 10px 9px 43px;border-radius:10px;width:100%;text-align:left;transition:.13s;color:var(--ink-2);font-size:12.5px;font-weight:500;position:relative}
+  .step:hover{background:var(--surf-2)}
+  .step.active{background:var(--surf);box-shadow:var(--sh-1);color:var(--ink)}
+  .step.active::before{content:"";position:absolute;left:-8px;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--brass)}
+  .step .dot{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-family:var(--mono);font-size:10px;color:var(--ink-3);background:var(--bg);transition:.2s}
+  .step.done .dot{background:var(--brass);border-color:var(--brass);color:#fff}.step.done .dot svg{width:11px;height:11px}
+  .step .lbl{flex:1;line-height:1.2}
+  .step .kind{font-family:var(--mono);font-size:8.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);display:block;margin-top:1px}
+  .step.locked{opacity:.42;pointer-events:none}
+
+  .view{min-width:0;margin-top:28px;animation:rise .38s cubic-bezier(.2,.7,.2,1);padding-bottom:40px}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--brass-deep);font-weight:600}
+  h1{font-family:var(--display);font-weight:800;font-size:31px;letter-spacing:-.02em;line-height:1.08;margin:8px 0 0}
+  h2{font-family:var(--display);font-weight:700;font-size:21px;letter-spacing:-.01em;margin:32px 0 10px}
+  h3{font-family:var(--display);font-weight:700;font-size:16px;margin:24px 0 8px}
+  p{font-size:15.5px;color:#33312a;margin-bottom:14px;line-height:1.74}
+  p b,li b{color:var(--ink);font-weight:700}
+  .lead{font-size:16.5px;color:var(--ink-2);margin-top:12px;max-width:64ch}
+  ul.clean{list-style:none;margin:2px 0 16px}
+  ul.clean li{font-size:14.5px;color:#33312a;padding-left:22px;position:relative;margin-bottom:9px;line-height:1.6}
+  ul.clean li::before{content:"";position:absolute;left:2px;top:8px;width:7px;height:7px;border-radius:2px;background:var(--brass);transform:rotate(45deg)}
+  ul.num{margin:0 0 16px 20px}ul.num li{font-size:14.5px;color:#33312a;margin-bottom:7px;line-height:1.6}
+
+  .field{background:var(--slate-deep);color:#e9edf0;border-radius:13px;padding:18px 20px;margin:22px 0;display:flex;gap:14px}
+  .field.brass{background:linear-gradient(135deg,#3a3526,#2c2818)}
+  .field .ic{flex:none;color:var(--brass-2)}.field .ic svg{width:20px;height:20px}
+  .field .t{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-2);margin-bottom:5px}
+  .field p{color:#c4cdd4;font-size:14px;margin:0 0 8px;line-height:1.65}.field p:last-child{margin-bottom:0}.field p b{color:#fff}
+
+  .story{background:var(--surf);border:1px solid var(--line);border-left:4px solid var(--brass);border-radius:0 13px 13px 0;padding:16px 19px;margin:22px 0;box-shadow:var(--sh-1)}
+  .story .st{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-deep);display:flex;align-items:center;gap:8px;margin-bottom:7px}
+  .story .st svg{width:14px;height:14px}
+  .story p{font-size:14.5px;color:#403d33;font-style:italic;margin:0;line-height:1.7}
+  .story p b{font-style:normal}
+
+  .loop{display:flex;align-items:stretch;background:var(--surf);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin:18px 0 8px;box-shadow:var(--sh-1)}
+  .loop .seg{flex:1;padding:13px 10px;text-align:center;border-right:1px solid var(--line-2)}.loop .seg:last-child{border-right:none}
+  .loop .seg .n{font-family:var(--mono);font-size:9px;color:var(--ink-3);letter-spacing:.1em}
+  .loop .seg .w{font-family:var(--display);font-weight:700;font-size:12.5px;margin-top:3px}
+  .loop .seg.on{background:var(--brass-soft)}.loop .seg.on .w{color:var(--brass-deep)}
+
+  .dgm{background:#bdb8a8;border:1px solid var(--line);border-radius:var(--r);padding:8px;margin:20px 0;box-shadow:var(--sh-1);position:relative;overflow:hidden}
+  .dgm::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(44,65,83,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(44,65,83,.1) 1px,transparent 1px);background-size:26px 26px;pointer-events:none}
+  .dgm svg{display:block;width:100%;height:auto;position:relative}
+  .dgm .cap{position:relative;text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:.04em;color:var(--slate-deep);padding:4px 6px 8px}
+
+  .defect{background:var(--surf);border:1px solid var(--line);border-radius:13px;padding:16px 18px;box-shadow:var(--sh-1);margin:12px 0}
+  .defect .dh{display:flex;align-items:center;gap:11px;margin-bottom:8px}
+  .defect .dh .n{width:26px;height:26px;border-radius:8px;background:var(--fail-soft);color:var(--fail);display:grid;place-items:center;flex:none;font-family:var(--mono);font-weight:600;font-size:12px}
+  .defect .dh .nm{font-family:var(--display);font-weight:700;font-size:15px}
+  .defect p{font-size:14px;margin-bottom:9px}
+  .defect .meta{display:grid;grid-template-columns:auto 1fr;gap:5px 12px;font-size:13px;align-items:start}
+  .defect .meta .lab{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);padding-top:3px;white-space:nowrap}
+  .defect .meta .val{color:#33312a;line-height:1.5}
+  .defect .rep{font-family:var(--mono);font-size:11px;background:var(--slate-soft);border-radius:8px;padding:8px 11px;color:var(--slate-deep);line-height:1.5;margin-top:8px}.defect .rep b{color:var(--slate-deep)}
+
+  .pills{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 6px}
+  .pill{font-family:var(--mono);font-size:11.5px;background:var(--surf);border:1px solid var(--line);color:var(--ink-2);padding:6px 12px;border-radius:20px}.pill b{color:var(--brass-deep)}
+  .tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px;background:var(--surf);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .tbl th{background:var(--slate-deep);color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;text-align:left;padding:9px 12px;font-weight:600}
+  .tbl td{padding:9px 12px;border-top:1px solid var(--line-2);color:#33312a}
+  .tbl td:first-child{font-family:var(--mono);font-weight:600;color:var(--brass-deep);white-space:nowrap}
+
+  /* ---- quiz (multi-question) ---- */
+  .quiz{background:var(--surf);border:1.5px solid var(--line-brass);border-radius:var(--r);padding:24px;margin:30px 0 0;box-shadow:var(--sh-1)}
+  .quiz .qh{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-deep);display:flex;align-items:center;gap:8px;margin-bottom:4px}.quiz .qh svg{width:15px;height:15px}
+  .quiz .qt{font-family:var(--display);font-weight:700;font-size:18px}.quiz .qsub{font-size:13.5px;color:var(--ink-2);margin:4px 0 4px}
+  .qblock{border-top:1px solid var(--line-2);padding-top:18px;margin-top:18px}.qblock:first-of-type{border-top:none;padding-top:14px}
+  .qnum{font-family:var(--mono);font-size:11px;color:var(--brass-deep);font-weight:600;margin-bottom:6px}
+  .q{font-family:var(--display);font-weight:600;font-size:15.5px;margin-bottom:13px;line-height:1.4}
+  .opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:11px 14px;border:1.5px solid var(--line);border-radius:10px;margin-bottom:8px;transition:.13s;font-size:14px;font-weight:500;background:var(--surf-2)}
+  .opt:hover:not(.lk){border-color:var(--brass);background:var(--surf)}
+  .opt .k{font-family:var(--mono);font-weight:600;width:23px;height:23px;border-radius:6px;background:var(--surf-3);display:grid;place-items:center;font-size:11px;flex:none;color:var(--ink-2)}
+  .opt.correct{border-color:var(--pass);background:var(--pass-soft)}.opt.correct .k{background:var(--pass);color:#fff}
+  .opt.wrong{border-color:var(--fail);background:var(--fail-soft)}.opt.wrong .k{background:var(--fail);color:#fff}
+  .opt .mk{margin-left:auto}.opt .mk svg{width:16px;height:16px}.opt.lk{cursor:default}
+  .exp{font-size:13px;color:var(--ink-2);line-height:1.62;padding:11px 13px;background:var(--surf-2);border-left:3px solid var(--brass);border-radius:0 9px 9px 0;margin-top:4px}.exp b{color:var(--ink)}
+  .qscore{margin-top:20px;padding-top:18px;border-top:1px solid var(--line-2);font-family:var(--mono);font-size:13px;color:var(--ink-2);display:flex;align-items:center;gap:10px}.qscore svg{width:18px;height:18px;flex:none}.qscore b{font-size:15px}
+
+  .foot{display:flex;align-items:center;gap:12px;margin:30px 0 10px;padding-top:22px;border-top:1px solid var(--line)}.foot .sp{flex:1}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:14px;padding:12px 18px;border-radius:11px;transition:.15s;font-family:var(--body)}.btn svg{width:16px;height:16px}
+  .btn.brass{background:linear-gradient(150deg,var(--brass-2),var(--brass));color:#fff;box-shadow:0 5px 14px rgba(168,109,16,.28)}.btn.brass:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(168,109,16,.36)}
+  .btn.brass:disabled{opacity:.5;filter:grayscale(.3);cursor:not-allowed;transform:none;box-shadow:none}
+  .btn.ghost{background:var(--surf);border:1px solid var(--line);color:var(--ink-2)}.btn.ghost:hover{color:var(--ink);border-color:var(--ink-3)}
+  .btn.slate{background:var(--slate);color:#fff}.btn.slate:hover{background:var(--slate-deep)}
+
+  /* ---- WIDGETS ---- */
+  .wlabel{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:var(--brass);padding:4px 9px;border-radius:20px;display:inline-block;margin-bottom:6px}
+  .wtitle{font-family:var(--display);font-weight:700;font-size:16px;margin-bottom:3px}
+  .wsub{font-size:13.5px;color:var(--ink-2);margin-bottom:14px}
+  .widget{background:var(--surf-2);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;margin:24px 0;box-shadow:var(--sh-1)}
+
+  .sd-wrap{display:grid;grid-template-columns:1fr 260px;gap:16px}@media(max-width:760px){.sd-wrap{grid-template-columns:1fr}}
+  .sd-stage{background:#bdb8a8;border:1px solid var(--line);border-radius:13px;padding:8px;position:relative;overflow:hidden}
+  .sd-stage::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(44,65,83,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(44,65,83,.09) 1px,transparent 1px);background-size:24px 24px;pointer-events:none}
+  .sd-stage svg{display:block;width:100%;height:auto;position:relative}
+  .hot{cursor:pointer}.hot circle.zone{fill:transparent;stroke:transparent}
+  .hot.found circle.zone{fill:rgba(61,125,80,.16);stroke:var(--pass);stroke-width:2.5;stroke-dasharray:4 3}
+  .sd-side{display:flex;flex-direction:column;gap:11px}
+  .sd-count{background:var(--slate-deep);color:#fff;border-radius:12px;padding:13px 15px;text-align:center}
+  .sd-count .big{font-family:var(--mono);font-weight:600;font-size:28px;line-height:1}.sd-count .lbl{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-2);margin-top:5px}
+  .sd-found{display:flex;flex-direction:column;gap:7px;max-height:280px;overflow-y:auto}
+  .fcard{background:var(--surf);border:1px solid var(--line);border-left:3px solid var(--pass);border-radius:9px;padding:9px 11px;animation:pop .3s}@keyframes pop{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:none}}
+  .fcard .fn{font-family:var(--display);font-weight:700;font-size:13px;color:var(--pass)}.fcard .fd{font-size:12px;color:var(--ink-2);margin-top:2px;line-height:1.45}
+  .sd-empty{font-size:12.5px;color:var(--ink-3);font-style:italic;text-align:center;padding:18px 8px}
+  .sd-done{background:var(--pass-soft);border:1px solid var(--pass);border-radius:11px;padding:12px;text-align:center;font-size:13px;color:var(--pass);font-weight:600}
+
+  .gfi-stage{background:var(--slate-deep);border-radius:13px;padding:20px;position:relative;overflow:hidden;height:220px}
+  .lane{position:absolute;left:120px;right:120px;height:3px;background:rgba(255,255,255,.18);border-radius:3px}.lane.hot{top:66px}.lane.neu{top:146px}
+  .lane .lab{position:absolute;top:-19px;left:0;font-family:var(--mono);font-size:10px;color:#9fb0bd}
+  .dot{position:absolute;width:9px;height:9px;border-radius:50%;top:-3px}
+  .dot.h{background:var(--brass-2);animation:flowR 2.4s linear infinite}.dot.n{background:#7fa8c4;animation:flowL 2.4s linear infinite}
+  @keyframes flowR{from{left:0}to{left:100%}}@keyframes flowL{from{left:100%}to{left:0}}
+  .gbox{position:absolute;left:28px;top:66px;width:68px;height:80px;border:2px solid #9fb0bd;border-radius:8px;display:grid;place-items:center;text-align:center}
+  .gbox .gt{font-family:var(--mono);font-size:10px;color:#fff}.gbox .gs{font-family:var(--mono);font-size:8px;color:#7fa8c4;margin-top:3px}
+  .load{position:absolute;right:28px;top:66px;width:68px;height:80px;border:2px solid #9fb0bd;border-radius:8px;display:grid;place-items:center}.load .lt{font-family:var(--mono);font-size:10px;color:#fff}
+  .leak{position:absolute;left:50%;top:69px;width:2px;height:88px;background:repeating-linear-gradient(180deg,var(--fail),var(--fail) 5px,transparent 5px,transparent 10px);opacity:0;transition:.3s}.leak.on{opacity:1}
+  .person{position:absolute;left:calc(50% - 13px);top:160px;font-size:22px;opacity:0;transition:.3s}.person.on{opacity:1}
+  .trip{position:absolute;inset:0;background:rgba(184,84,54,.92);display:grid;place-items:center;opacity:0;pointer-events:none;transition:.3s}.trip.on{opacity:1}
+  .trip .tw{text-align:center;color:#fff}.trip .tw .b{font-family:var(--display);font-weight:800;font-size:25px}.trip .tw .s{font-family:var(--mono);font-size:11px;letter-spacing:.1em;margin-top:6px;opacity:.9}
+  .gfi-status{display:flex;align-items:center;gap:10px;margin-top:14px;font-size:14px;font-weight:600}.gfi-status .pip{width:11px;height:11px;border-radius:50%;background:var(--pass)}.gfi-status.fault .pip{background:var(--fail)}
+  .gfi-controls{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}.gfi-read{font-family:var(--mono);font-size:12px;color:var(--ink-2);margin-top:10px}.gfi-read b{color:var(--brass-deep)}
+
+  .match{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:600px){.match{grid-template-columns:1fr}}
+  .mcol{display:flex;flex-direction:column;gap:9px}.mcol .ch{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);text-align:center;margin-bottom:2px}
+  .chip{padding:13px;border:1.5px solid var(--line);border-radius:11px;background:var(--surf);font-family:var(--mono);font-weight:600;font-size:14px;text-align:center;transition:.13s;color:var(--ink)}
+  .chip:hover:not(.locked){border-color:var(--brass)}.chip.sel{border-color:var(--brass);background:var(--brass-soft);color:var(--brass-deep)}
+  .chip.locked{border-color:var(--pass);background:var(--pass-soft);color:var(--pass);cursor:default;opacity:.85}
+  .chip.miss{border-color:var(--fail);background:var(--fail-soft);animation:shake .3s}@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+  .w-done{margin-top:14px;background:var(--pass-soft);border:1px solid var(--pass);border-radius:11px;padding:12px;text-align:center;font-size:13px;color:var(--pass);font-weight:600}
+
+  .est{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:600px){.est{grid-template-columns:1fr}}
+  .est label{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:6px}
+  .est select{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--surf);font-family:var(--mono);font-size:14px;color:var(--ink);font-weight:600}
+  .est-out{grid-column:1/-1;margin-top:4px;border-radius:12px;padding:15px 17px;border:1px solid var(--line);background:var(--surf);transition:.2s}
+  .est-out.ok{border-color:var(--pass);background:var(--pass-soft)}.est-out.bad{border-color:var(--fail);background:var(--fail-soft)}
+  .est-out .ev{font-family:var(--display);font-weight:800;font-size:19px}.est-out .ed{font-size:13px;color:var(--ink-2);margin-top:5px;line-height:1.5}
+  .est-out.ok .ev{color:var(--pass)}.est-out.bad .ev{color:var(--fail)}
+
+  .sort{display:grid;gap:14px}
+  .sort-items{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;min-height:20px}
+  .sitem{padding:10px 14px;border:1.5px solid var(--line);border-radius:10px;background:var(--surf);font-size:13.5px;font-weight:500;transition:.13s}.sitem:hover:not(.placed){border-color:var(--brass)}.sitem.sel{border-color:var(--brass);background:var(--brass-soft);color:var(--brass-deep)}.sitem.placed{display:none}
+  .bins{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:600px){.bins{grid-template-columns:1fr}}
+  .bin{border:1.5px dashed var(--line);border-radius:12px;padding:14px;min-height:90px;background:var(--surf)}
+  .bin.activeb{border-color:var(--brass);background:var(--brass-soft)}
+  .bin .bt{font-family:var(--display);font-weight:700;font-size:14px;text-align:center;margin-bottom:10px}
+  .bin .drop{font-size:11px;color:var(--ink-3);text-align:center;font-style:italic}
+  .binitem{padding:8px 11px;border-radius:8px;font-size:13px;font-weight:500;margin-bottom:6px;display:flex;align-items:center;gap:7px}.binitem svg{width:13px;height:13px;flex:none}
+  .binitem.right{background:var(--pass-soft);color:var(--pass)}.binitem.wrong{background:var(--fail-soft);color:var(--fail)}
+
+  .era{display:flex;flex-direction:column;gap:0;position:relative;margin:6px 0 4px;padding-left:8px}
+  .era .line{position:absolute;left:14px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .erow{display:flex;align-items:flex-start;gap:14px;padding:9px 0;position:relative;cursor:pointer}
+  .erow .ed{width:12px;height:12px;border-radius:50%;background:var(--surf-3);border:2px solid var(--line);flex:none;margin-top:3px;z-index:1;transition:.15s}
+  .erow:hover .ed,.erow.open .ed{background:var(--brass);border-color:var(--brass)}
+  .erow .et{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--brass-deep);width:130px;flex:none}
+  .erow .en{font-size:14px;color:#33312a;font-weight:600}
+  .erow .ex{font-size:13px;color:var(--ink-2);line-height:1.5;margin-top:4px;display:none}.erow.open .ex{display:block}
+
+  .panelcard{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-2);padding:34px;text-align:center}
+  .panelcard .ic{width:56px;height:56px;border-radius:14px;background:var(--brass-soft);color:var(--brass-deep);display:grid;place-items:center;margin:0 auto 16px}.panelcard .ic svg{width:27px;height:27px}
+  .panelcard h2{margin:0 0 8px}.panelcard p{max-width:48ch;margin:0 auto 22px}
+  .ring{width:150px;height:150px;margin:0 auto 18px;position:relative}.ring .rv{position:absolute;inset:0;display:grid;place-items:center}.ring .rv .n{font-family:var(--mono);font-weight:600;font-size:38px;line-height:1}.ring .rv .p{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-top:4px}
+  .verdict{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;display:inline-block;padding:5px 13px;border-radius:20px;margin-bottom:16px}.verdict.pass{background:var(--pass-soft);color:var(--pass)}.verdict.fail{background:var(--fail-soft);color:var(--fail)}
+
+  .scen{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-2);margin-bottom:16px}
+  .scen .sh{background:linear-gradient(120deg,#1f6f73,#123f43);color:#fff;padding:16px 20px}.scen .sh .t{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-2)}.scen .sh .n{font-family:var(--display);font-weight:700;font-size:17px;margin-top:3px}
+  .scen .body{padding:20px 22px}.scen .situation{font-size:15.5px;color:#33312a;line-height:1.7;margin-bottom:6px}.scen .ask{font-family:var(--display);font-weight:600;font-size:15px;margin:16px 0 14px;color:var(--ink)}
+  .scount{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-bottom:10px}
+
+  .gloss{display:grid;gap:10px}.term{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:13px 16px;box-shadow:var(--sh-1)}
+  .term .tw{font-family:var(--display);font-weight:700;font-size:14.5px;color:var(--brass-deep)}.term .td{font-size:13.5px;color:var(--ink-2);margin-top:3px;line-height:1.55}
+  .srcframe{width:100%;height:78vh;border:1px solid var(--line);border-radius:var(--r);background:var(--surf);box-shadow:var(--sh-1)}
+  .srcnote{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:14px 17px;font-size:13.5px;color:var(--ink-2);margin:14px 0;line-height:1.6}.srcnote a{color:var(--brass-deep);font-weight:600}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--slate-deep);color:#fff;padding:12px 18px;border-radius:11px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;box-shadow:var(--sh-2);z-index:100;opacity:0;transition:.3s}.toast.show{transform:translateX(-50%) translateY(0);opacity:1}.toast svg{width:16px;height:16px;color:var(--brass-2)}
+  @media(max-width:880px){.wrap{grid-template-columns:1fr}.rail{display:none}.top .prog .bar{width:90px}}
+  em{font-style:italic;color:inherit}
+</style>
+
+<div class="top"><div class="row">
+  <a href="index.html" class="mark" style="text-decoration:none" title="Back to Module II"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8c2.2 0 2.2-2 4.5-2S9.7 8 12 8s2.2-2 4.5-2S18.7 8 21 8"/><path d="M3 13c2.2 0 2.2-2 4.5-2S9.7 13 12 13s2.2-2 4.5-2S18.7 13 21 13"/><path d="M3 18c2.2 0 2.2-2 4.5-2S9.7 18 12 18s2.2-2 4.5-2S18.7 18 21 18"/></svg></a>
+  <div><div class="tt">ATI · Module II — <b>Appliances</b></div><span class="sub">Property & Building Inspection · interactive</span></div>
+  <div class="prog"><a href="index.html" style="font-family:var(--mono);font-size:11px;font-weight:600;color:var(--brass-deep);text-decoration:none;margin-right:2px" title="All systems">↩ Systems</a><div class="bar"><i id="pbar"></i></div><span class="pc" id="ppc">0%</span></div>
+</div></div>
+<div class="wrap"><aside class="rail"><div class="h">Section contents</div><div id="rail"></div></aside><main class="view" id="view"></main></div>
+<div class="toast" id="toast"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span id="tmsg"></span></div>
+
+<script src="/storage.js"></script>
+<script>
+/* ---- storage adapter: native window.storage in Claude; localStorage when deployed (GitHub Pages); memory as last resort ---- */
+(function(){if(typeof window==='undefined')return;if(window.storage&&window.storage.get)return;var mem={};window.storage={get:function(k){try{var v=window.localStorage.getItem(k);return Promise.resolve(v!=null?{value:v}:null);}catch(e){return Promise.resolve(mem[k]!=null?{value:mem[k]}:null);}},set:function(k,v){try{window.localStorage.setItem(k,v);}catch(e){mem[k]=v;}return Promise.resolve({value:v});},delete:function(k){try{window.localStorage.removeItem(k);}catch(e){delete mem[k];}return Promise.resolve({deleted:true});}};})();
+
+const ic={check:'<path d="M20 6 9 17l-5-5"/>',x:'<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',arrow:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',back:'<path d="M19 12H5"/><path d="m12 19-7-7 7-7"/>',brain:'<path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44A2.5 2.5 0 0 1 4 17.5a2.5 2.5 0 0 1-.5-4.9 2.5 2.5 0 0 1 0-4.2A2.5 2.5 0 0 1 5 3.5 2.5 2.5 0 0 1 9.5 2z"/>',flag:'<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>',alert:'<path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="9"/>',bolt:'<path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/>',book:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',open:'<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/>',award:'<circle cx="12" cy="8" r="6"/><path d="M15.5 12.9 17 22l-5-3-5 3 1.5-9.1"/>',retake:'<path d="M3 12a9 9 0 1 0 9-9 9 9 0 0 0-6.4 2.6L3 8"/><path d="M3 3v5h5"/>',coffee:'<path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/><line x1="6" y1="2" x2="6" y2="5"/><line x1="10" y1="2" x2="10" y2="5"/><line x1="14" y1="2" x2="14" y2="5"/>'};
+const sv=(p,w=2)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+function conds(title,items){return `<h3>${title}</h3><ul class="clean">${items.map(([n,d])=>`<li><b>${n}</b> — ${d}</li>`).join('')}</ul>`;}
+function story(title,text){return `<div class="story"><div class="st">${sv(ic.coffee)} ${title}</div><p>${text}</p></div>`;}
+
+/* ================= WIDGET LIBRARY ================= */
+const SPOT={}, MATCH={}, SORT={}, ERA={};
+const WID={
+  spot(el,k){const c=SPOT[k];let found=new Set();
+    el.innerHTML=`<span class="wlabel">Spot the defect</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div>
+     <div class="sd-wrap"><div class="sd-stage"><svg viewBox="${c.vb}" class="hot">${c.svg}<g class="hsg"></g></svg></div>
+     <div class="sd-side"><div class="sd-count"><div class="big"><span class="sdn">0</span>/${c.defects.length}</div><div class="lbl">defects found</div></div><div class="sd-found"><div class="sd-empty">Click a defect to log it…</div></div></div></div>`;
+    const g=el.querySelector('.hsg'),cnt=el.querySelector('.sdn'),fw=el.querySelector('.sd-found');
+    c.defects.forEach((d,i)=>{const gg=document.createElementNS('http://www.w3.org/2000/svg','g');gg.setAttribute('class','hot');gg.innerHTML=`<circle class="zone" cx="${d.x}" cy="${d.y}" r="${d.r}"/>`;gg.style.cursor='pointer';
+      gg.addEventListener('click',()=>{if(found.has(i))return;found.add(i);gg.classList.add('found');cnt.textContent=found.size;if(fw.querySelector('.sd-empty'))fw.innerHTML='';
+        const card=document.createElement('div');card.className='fcard';card.innerHTML=`<div class="fn">${found.size}. ${d.n}</div><div class="fd">${d.d}</div>`;fw.appendChild(card);
+        if(found.size===c.defects.length){const dn=document.createElement('div');dn.className='sd-done';dn.textContent='All found — that\'s the scan. Nicely done.';fw.appendChild(dn);}});
+      g.appendChild(gg);});},
+  gfi(el){el.innerHTML=`<span class="wlabel">Animated diagram</span><div class="wtitle">Watch the GFI work</div><div class="wsub">Current flows out the hot and back on the neutral — equal. Introduce a leak and see what happens.</div>
+    <div class="gfi-stage"><div class="gbox"><div><div class="gt">GFI</div><div class="gs">in vs out</div></div></div><div class="load"><div class="lt">LOAD</div></div><div class="lane hot"><span class="lab">hot — out</span></div><div class="lane neu"><span class="lab">neutral — back</span></div><div class="leak"></div><div class="person">🧍</div><div class="trip"><div class="tw"><div class="b">⚡ GFI TRIPPED</div><div class="s">imbalance &gt; 5 mA — cut in milliseconds</div></div></div></div>
+    <div class="gfi-status"><span class="pip"></span><span class="gtxt">Balanced — out equals back. Holding.</span></div>
+    <div class="gfi-read">Hot out: <b>15.000 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b>0 mA</b></div>
+    <div class="gfi-controls"><button class="btn brass gflt">Introduce a ground fault</button><button class="btn ghost grst">Reset</button></div>`;
+    const stage=el.querySelector('.gfi-stage'),st=el.querySelector('.gfi-status'),txt=el.querySelector('.gtxt'),read=el.querySelector('.gfi-read'),trip=el.querySelector('.trip'),fbtn=el.querySelector('.gflt');let f=false,to;
+    function dots(){stage.querySelectorAll('.dot').forEach(d=>d.remove());for(let i=0;i<5;i++){const d=document.createElement('span');d.className='dot h';d.style.animationDelay=(-i*0.48)+'s';stage.querySelector('.lane.hot').appendChild(d);}const nc=f?2:5;for(let i=0;i<nc;i++){const d=document.createElement('span');d.className='dot n';d.style.animationDelay=(-i*0.48)+'s';stage.querySelector('.lane.neu').appendChild(d);}}
+    function reset(){f=false;clearTimeout(to);el.querySelector('.leak').classList.remove('on');el.querySelector('.person').classList.remove('on');trip.classList.remove('on');st.classList.remove('fault');txt.textContent='Balanced — out equals back. Holding.';read.innerHTML='Hot out: <b>15.000 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b>0 mA</b>';fbtn.textContent='Introduce a ground fault';dots();}
+    fbtn.onclick=()=>{f=!f;if(f){el.querySelector('.leak').classList.add('on');el.querySelector('.person').classList.add('on');st.classList.add('fault');txt.textContent='Imbalance — current is leaking to ground.';read.innerHTML='Hot out: <b>15.006 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b style="color:var(--fail)">6 mA</b>';fbtn.textContent='Clear the fault';dots();to=setTimeout(()=>trip.classList.add('on'),650);}else reset();};
+    el.querySelector('.grst').onclick=reset;dots();},
+  match(el,k){const c=MATCH[k];const sh=a=>a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v[1]);let sel=null,locked=0;
+    el.innerHTML=`<span class="wlabel">Match drill</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="match"><div class="mcol"><div class="ch">${c.left}</div><div class=" L"></div></div><div class="mcol"><div class="ch">${c.right}</div><div class="R"></div></div></div><div class="md"></div>`;
+    const L=el.querySelector('.L'),R=el.querySelector('.R'),done=el.querySelector('.md');
+    c.pairs.forEach(p=>{const b=document.createElement('button');b.className='chip';b.textContent=p[0];b.dataset.a=p[0];b.dataset.s='L';L.appendChild(b);});
+    sh(c.pairs.map(p=>p[1])).forEach(v=>{const b=document.createElement('button');b.className='chip';b.textContent=v;b.dataset.b=v;b.dataset.s='R';R.appendChild(b);});
+    el.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{if(b.classList.contains('locked'))return;
+      if(!sel){sel=b;b.classList.add('sel');return;}if(sel===b){b.classList.remove('sel');sel=null;return;}if(sel.dataset.s===b.dataset.s){sel.classList.remove('sel');sel=b;b.classList.add('sel');return;}
+      const left=sel.dataset.s==='L'?sel:b,right=sel.dataset.s==='R'?sel:b,ok=c.pairs.find(p=>p[0]===left.dataset.a)[1]===right.dataset.b;
+      if(ok){[left,right].forEach(x=>{x.classList.remove('sel');x.classList.add('locked');});locked++;if(locked===c.pairs.length)done.innerHTML=`<div class="w-done">${c.done}</div>`;}
+      else{[left,right].forEach(x=>{x.classList.add('miss');setTimeout(()=>x.classList.remove('miss','sel'),350);});}sel=null;});},
+  sort(el,k){const c=SORT[k];let sel=null,placed=0;
+    el.innerHTML=`<span class="wlabel">Sort it</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="sort"><div class="sort-items">${c.items.map((it,i)=>`<button class="sitem" data-i="${i}">${it.t}</button>`).join('')}</div><div class="bins">${c.bins.map((b,bi)=>`<div class="bin" data-bin="${bi}"><div class="bt">${b}</div><div class="drop">tap an item, then tap here</div></div>`).join('')}</div></div><div class="md"></div>`;
+    const items=el.querySelectorAll('.sitem'),bins=el.querySelectorAll('.bin'),done=el.querySelector('.md');
+    items.forEach(it=>it.onclick=()=>{if(it.classList.contains('placed'))return;el.querySelectorAll('.sitem').forEach(x=>x.classList.remove('sel'));sel=it;it.classList.add('sel');});
+    bins.forEach(bin=>bin.onclick=()=>{if(!sel)return;const i=+sel.dataset.i,bi=+bin.dataset.bin,ok=c.items[i].bin===bi;
+      const row=document.createElement('div');row.className='binitem '+(ok?'right':'wrong');row.innerHTML=(ok?sv(ic.check,2.6):sv(ic.x,2.6))+' '+c.items[i].t;bin.querySelector('.drop').remove?bin.querySelector('.drop')&&(bin.querySelector('.drop').style.display='none'):0;bin.appendChild(row);
+      sel.classList.add('placed');sel=null;placed++;if(placed===c.items.length)done.innerHTML=`<div class="w-done">${c.done}</div>`;});},
+  est(el){el.innerHTML=`<span class="wlabel">Field tool</span><div class="wtitle">Service-size estimator</div><div class="wsub">Set what you'd read on site; it calls the size and flags an unsafe mismatch — your on-site logic.</div>
+    <div class="est"><div><label>Service-entrance conductor (copper)</label><select class="sew"><option value="6">#6 AWG</option><option value="4">#4 AWG</option><option value="2" selected>2/0 AWG</option><option value="0">4/0 AWG</option></select></div><div><label>Main breaker rating</label><select class="mbk"><option value="60">60 A</option><option value="100">100 A</option><option value="200" selected>200 A</option><option value="400">400 A</option></select></div><div class="est-out"></div></div>`;
+    const WA={'6':60,'4':100,'2':200,'0':400},WL={'6':'#6 AWG','4':'#4 AWG','2':'2/0 AWG','0':'4/0 AWG'},sew=el.querySelector('.sew'),mbk=el.querySelector('.mbk'),out=el.querySelector('.est-out');
+    function go(){const w=sew.value,b=+mbk.value,sup=WA[w];if(b>sup){out.className='est-out bad';out.innerHTML=`<div class="ev">⚠ Overfused — unsafe</div><div class="ed">A ${b} A main on ${WL[w]} copper (good for ~${sup} A) won't shut off before the conductor overheats. Report: overcurrent device oversized for the service-entrance conductor.</div>`;}else{const ap=Math.min(b,sup);out.className='est-out ok';out.innerHTML=`<div class="ev">${ap} A service</div><div class="ed">${WL[w]} copper supports ~${sup} A and the main is ${b} A — conductor protected. Report the service size as ${ap} A${b<sup?' (limited by the main breaker)':''}.</div>`;}}
+    sew.onchange=go;mbk.onchange=go;go();},
+  era(el,k){const c=ERA[k];el.innerHTML=`<span class="wlabel">Explore</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="era"><div class="line"></div>${c.rows.map((r,i)=>`<div class="erow" data-i="${i}"><span class="ed"></span><span class="et">${r.d}</span><div><div class="en">${r.n}</div><div class="ex">${r.x}</div></div></div>`).join('')}</div>`;
+    el.querySelectorAll('.erow').forEach(r=>r.onclick=()=>r.classList.toggle('open'));}
+};
+function wireWidgets(root){root.querySelectorAll('.wmount').forEach(el=>{const w=el.dataset.w,k=el.dataset.k;if(WID[w])WID[w](el,k);});}
+function W(w,k){return `<div class="widget wmount" data-w="${w}" data-k="${k||''}"></div>`;}
+
+/* ================= ENGINE ================= */
+const KEY='ati_appliances_ix_v1';
+let S={done:{},quiz:{},assessBest:0,cur:0};
+async function load(){try{const r=await window.storage.get(KEY,false);if(r&&r.value)S=JSON.parse(r.value);}catch(e){}S.done=S.done||{};S.quiz=S.quiz||{};}
+async function save(){try{await window.storage.set(KEY,JSON.stringify(S),false);}catch(e){}}
+const stepDone=i=>!!S.done[STEPS[i].id];
+const pct=()=>Math.round(Object.keys(S.done).length/STEPS.length*100);
+const unlocked=i=>i===0?true:stepDone(i-1);
+const view=document.getElementById('view');
+function updTop(){const p=pct();document.getElementById('pbar').style.width=p+'%';document.getElementById('ppc').textContent=p+'%';}
+function rail(){document.getElementById('rail').innerHTML=STEPS.map((s,i)=>{const d=stepDone(i),u=unlocked(i),a=i===S.cur;return `<button class="step ${d?'done':''} ${a?'active':''} ${u?'':'locked'}" ${u?`onclick="goStep(${i})"`:''}><span class="dot">${d?sv(ic.check,3):(i+1)}</span><span class="lbl">${s.label}<span class="kind">${s.kind}</span></span></button>`;}).join('');}
+function goStep(i){if(!unlocked(i))return;S.cur=i;save();render();window.scrollTo({top:0,behavior:'smooth'});}
+function markDoneAndNext(){S.done[STEPS[S.cur].id]=true;save();updTop();rail();if(S.cur<STEPS.length-1)goStep(S.cur+1);else render();}
+function render(){updTop();rail();const s=STEPS[S.cur];({lesson:renderLesson,scenario:renderScenarios,assess:renderAssess,glossary:renderGlossary,source:renderSource}[s.type])(s);}
+function navFoot(label,gated){const last=S.cur===STEPS.length-1;return `<div class="foot">${S.cur>0?`<button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button>`:''}<div class="sp"></div><button class="btn brass" id="nextBtn" ${gated?'disabled':''} onclick="markDoneAndNext()">${label||(last?'Finish section':'Mark complete & continue')} ${sv(ic.arrow)}</button></div>`;}
+
+function renderLesson(s){
+  let h=(typeof s.body==='function'?s.body():s.body);
+  if(s.quiz&&s.quiz.length){
+    h+=`<div class="quiz"><div class="qh">${sv(ic.brain)} Check your understanding</div><div class="qt">${s.label}</div><div class="qsub">${s.quiz.length} questions covering the lesson — answer each to see the reasoning.</div><div class="qbody">${
+      s.quiz.map((q,qi)=>`<div class="qblock"><div class="qnum">Question ${qi+1} of ${s.quiz.length}</div><div class="q">${q.q}</div><div class="opts" data-qi="${qi}">${q.o.map((o,k)=>`<button class="opt" onclick="qAns(${qi},${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="qexp" data-qi="${qi}"></div></div>`).join('')
+    }</div><div class="qscore" style="display:none"></div></div>`;
+  }
+  const gated=!!(s.quiz&&s.quiz.length&&!S.quiz[s.id]);
+  view.innerHTML=h+navFoot(null,gated);
+  wireWidgets(view);
+  window._ql={answered:{},total:s.quiz?s.quiz.length:0};
+}
+function qAns(qi,k){const s=STEPS[S.cur],q=s.quiz[qi];if(window._ql.answered[qi]!==undefined)return;window._ql.answered[qi]=k;
+  const opts=view.querySelector('.opts[data-qi="'+qi+'"]');opts.querySelectorAll('.opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===q.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});
+  view.querySelector('.qexp[data-qi="'+qi+'"]').innerHTML=`<div class="exp"><b>${k===q.a?'Correct.':'Review:'}</b> ${q.e}</div>`;
+  if(Object.keys(window._ql.answered).length===window._ql.total){
+    const right=s.quiz.filter((q,i)=>window._ql.answered[i]===q.a).length,sc=view.querySelector('.qscore');sc.style.display='flex';
+    sc.innerHTML=`${sv(ic.check,2.4)}<span>You scored <b style="color:${right>=Math.ceil(s.quiz.length*0.8)?'var(--pass)':'var(--fail)'}">${right}/${s.quiz.length}</b> on this lesson.</span>`;
+    sc.querySelector('svg').style.color=right>=Math.ceil(s.quiz.length*0.8)?'var(--pass)':'var(--fail)';
+    S.quiz[s.id]=true;save();const b=document.getElementById('nextBtn');if(b)b.disabled=false;}
+}
+
+let SC={i:0,answered:false};
+function renderScenarios(){SC={i:0,answered:false};paintScen();}
+function paintScen(){const sc=SCEN[SC.i];view.innerHTML=`<span class="eyebrow">Apply it · Inspector's Call</span><h1>Make the call</h1><p class="lead">The decisions you'll actually make standing in front of the system. Read it, choose, see the reasoning.</p><div class="scount mono">Scenario ${SC.i+1} of ${SCEN.length}</div><div class="scen"><div class="sh"><div class="t">${sc.t}</div><div class="n">${sc.n}</div></div><div class="body"><div class="situation">${sc.s}</div><div class="ask">${sc.ask}</div><div class="scopts">${sc.o.map((o,k)=>`<button class="opt" onclick="scAns(${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="scexp"></div></div></div><div class="foot"><button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button><div class="sp"></div><div class="scnext"></div></div>`;}
+function scAns(k){if(SC.answered)return;SC.answered=true;const sc=SCEN[SC.i];view.querySelectorAll('.scopts .opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===sc.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});view.querySelector('.scexp').innerHTML=`<div class="exp"><b>${k===sc.a?'Right call.':'Here\'s the call:'}</b> ${sc.e}</div>`;const last=SC.i===SCEN.length-1;view.querySelector('.scnext').innerHTML=`<button class="btn brass" onclick="${last?'markDoneAndNext()':'scNext()'}">${last?'Mark complete & continue':'Next scenario'} ${sv(ic.arrow)}</button>`;}
+function scNext(){SC.i++;SC.answered=false;paintScen();window.scrollTo({top:0,behavior:'smooth'});}
+
+let AS=null;
+function renderAssess(){if(!AS||AS.done)AS={i:0,answers:[],done:false};view.innerHTML=`<span class="eyebrow">Assessment</span><h1>Mastery check — Appliances</h1><p class="lead">${ASSESS.length} application questions across the whole chapter. 80% to pass; reasoning shown on every answer.</p><div class="panelcard" style="text-align:left;padding:0;overflow:hidden"><div style="background:linear-gradient(120deg,#1f6f73,#123f43);color:#fff;padding:18px 22px;display:flex;justify-content:space-between;align-items:center"><div><div style="font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-2)">Appliances</div><div style="font-family:var(--display);font-weight:700;font-size:17px;margin-top:3px">${ASSESS.length} questions · 80% to pass</div></div><div style="color:var(--brass-2)">${sv(ic.award)}</div></div><div style="padding:26px 22px;text-align:center">${S.assessBest?`<div class="mono" style="font-size:13px;color:var(--ink-2);margin-bottom:16px">Best score: <b style="color:${S.assessBest>=80?'var(--pass)':'var(--fail)'}">${S.assessBest}%</b></div>`:''}<button class="btn brass" style="margin:0 auto" onclick="asStart()">${S.assessBest?'Retake assessment':'Begin assessment'} ${sv(ic.arrow)}</button></div></div>`;}
+function asStart(){AS={i:0,answers:[],done:false};asPaint();window.scrollTo({top:0,behavior:'smooth'});}
+function asPaint(){const q=ASSESS[AS.i];view.innerHTML=`<span class="eyebrow">Assessment · Appliances</span><h1 style="font-size:24px">Question ${AS.i+1} <span style="color:var(--ink-3)">/ ${ASSESS.length}</span></h1><div style="margin:14px 0 0"><div style="width:100%;height:6px;background:var(--surf-3);border-radius:6px;overflow:hidden;border:1px solid var(--line)"><i style="display:block;height:100%;width:${AS.i/ASSESS.length*100}%;background:var(--brass)"></i></div></div><div class="quiz" style="border-color:var(--line);margin-top:22px"><div class="q">${q.q}</div><div class="opts">${q.o.map((o,k)=>`<button class="opt" onclick="asAns(${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="asexp"></div></div><div class="foot"><div class="sp"></div><div class="asnext"></div></div>`;}
+function asAns(k){if(AS.answers[AS.i]!==undefined)return;AS.answers[AS.i]=k;const q=ASSESS[AS.i];view.querySelectorAll('.opts .opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===q.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});view.querySelector('.asexp').innerHTML=`<div class="exp"><b>${k===q.a?'Correct.':'Review:'}</b> ${q.e}</div>`;const last=AS.i===ASSESS.length-1;view.querySelector('.asnext').innerHTML=`<button class="btn brass" onclick="${last?'asFinish()':'asNext()'}">${last?'See results':'Next'} ${sv(ic.arrow)}</button>`;}
+function asNext(){AS.i++;asPaint();window.scrollTo({top:0,behavior:'smooth'});}
+function asFinish(){const correct=AS.answers.filter((a,i)=>a===ASSESS[i].a).length,p=Math.round(correct/ASSESS.length*100),pass=p>=80;S.assessBest=Math.max(S.assessBest||0,p);AS.done=true;if(pass)S.done['assess']=true;save();updTop();rail();const circ=2*Math.PI*62;
+  view.innerHTML=`<span class="eyebrow">Assessment · Result</span><h1 style="margin-bottom:18px">${pass?'Section mastered':'Not quite there'}</h1><div class="panelcard"><div class="ring"><svg width="150" height="150" viewBox="0 0 150 150" style="transform:rotate(-90deg)"><circle cx="75" cy="75" r="62" fill="none" stroke="var(--surf-3)" stroke-width="11"/><circle cx="75" cy="75" r="62" fill="none" stroke="${pass?'var(--pass)':'var(--fail)'}" stroke-width="11" stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${circ}"><animate attributeName="stroke-dashoffset" from="${circ}" to="${circ-circ*p/100}" dur=".8s" fill="freeze" calcMode="spline" keySplines=".2 .7 .2 1"/></circle></svg><div class="rv"><div><div class="n" style="color:${pass?'var(--pass)':'var(--fail)'}">${p}%</div><div class="p">${correct}/${ASSESS.length} correct</div></div></div></div><span class="verdict ${pass?'pass':'fail'}">${pass?'Passed':'Below 80%'}</span><p>${pass?'You\'ve mastered Appliances — that habit of operating each unit through its normal controls and reading the safety devices carries into every kitchen, laundry, and garage you\'ll inspect.':'You need 80% to pass. Revisit the lessons and explanations, then retake — your best score counts.'}</p><div style="display:flex;gap:12px;justify-content:center"><button class="btn ghost" onclick="asStart()">${sv(ic.retake)} Retake</button>${pass?`<button class="btn brass" onclick="goStep(${STEPS.length-1})">Continue ${sv(ic.arrow)}</button>`:`<button class="btn brass" onclick="goStep(1)">Review lessons ${sv(ic.arrow)}</button>`}</div></div><div style="height:30px"></div>`;}
+
+function renderGlossary(){view.innerHTML=`<span class="eyebrow">Reference</span><h1>Appliances glossary</h1><p class="lead">Every key term in one place — quick reference for a real inspection.</p><div class="gloss" style="margin-top:20px">${GLOSSARY.map(([w,d])=>`<div class="term"><div class="tw">${w}</div><div class="td">${d}</div></div>`).join('')}</div>${navFoot('Continue')}`;}
+function renderSource(){view.innerHTML=`<span class="eyebrow">Reference · wrap-up</span><h1>Reference &amp; summary</h1><p class="lead">Everything required is taught in the lessons above. This is the one-screen recap to carry into the kitchen, laundry, and garage — the appliances TREC has you operate and the safety findings that flow from each.</p><div class="srcnote">${sv(ic.book,2)} Built on the appliances section of the TREC Standards of Practice (§535.232) and the Appliances chapter of <i>Principles of Home Inspection: Systems and Standards</i>. There's no separate PDF for this system — the interactive lessons are the complete reference.</div><div class="gloss" style="margin-top:18px"><div class="term"><div class="tw">1 · Operate through the normal controls</div><div class="td">Run each permanently installed appliance through one ordinary cycle using its own controls — dishwasher, disposer, range/oven/cooktop, vent hood, built-in microwave, trash compactor, garage opener. Report what fails to operate and what's missing.</div></div><div class="term"><div class="tw">2 · Range &amp; oven — anti-tip, gas, electric</div><div class="td">Confirm a free-standing range has its <b>anti-tip bracket</b>; test bake/broil and each surface burner. Report missing brackets, gas leaks, improper flexible connectors, and any 240 V cook unit on a deficient circuit.</div></div><div class="term"><div class="tw">3 · Venting — to the exterior, the right way</div><div class="td">A range hood is either ducted to the outside or a <b>recirculating</b> (filter) type — report and distinguish. The <b>dryer exhaust duct</b> must terminate outside, never into an attic or crawlspace, and be the rigid/semi-rigid metal type.</div></div><div class="term"><div class="tw">4 · Garage door operator — the two safety reverses</div><div class="td">Test <b>auto-reverse</b> (contact: it backs off an obstruction) and the <b>photo-eye</b> (non-contact: breaking the beam reverses a closing door). Report either reversing system that fails or is missing — it's a child-entrapment hazard.</div></div><div class="term"><div class="tw">5 · Electrical protection &amp; dishwasher hookup</div><div class="td">Report missing <b>GFCI</b> where required (kitchen counter receptacles, etc.) and missing <b>AFCI</b> where applicable. Confirm dishwasher drainage uses an <b>air gap or high loop</b> to prevent back-siphoning; report leaks.</div></div><div class="term"><div class="tw">Method &amp; SOP limits</div><div class="td">You operate using ordinary controls and report deficiencies — you don't test self-cleaning cycles, calibrate thermostats, evaluate appliances not connected, or move them to inspect behind. Say what you didn't operate and why.</div></div></div><div class="foot"><button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button><div class="sp"></div><a class="btn slate" href="index.html" style="text-decoration:none;margin-right:10px">${sv(ic.back)} Module II</a><button class="btn brass" onclick="finishAll()">${sv(ic.check)} Complete section</button></div>`;}
+function finishAll(){S.done['source']=true;save();updTop();rail();toast('Appliances section complete');}
+let tT;function toast(m){const t=document.getElementById('toast');document.getElementById('tmsg').textContent=m;t.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('show'),2400);}
+
+/* ================= DATA: scenarios / assessment / glossary ================= */
+const SCEN=[
+ {t:'In the kitchen',n:'The range that walks',s:'A free-standing electric range sits in its slot. You press down on the open oven door and the whole range rocks forward and starts to tip. Reaching behind, you find no bracket anchoring it to the floor or wall.',ask:'What do you write up?',o:['Nothing — the range works and the burners heat','Missing anti-tip bracket — a child climbing or leaning on the door can pull the range over. Report it as a safety deficiency and recommend installing the listed bracket.','Recommend a heavier range','Tell the client to keep the oven door closed'],a:1,e:'Free-standing ranges are required to have an anti-tip bracket so weight on the open door can\'t tip the unit. A missing or disconnected bracket is a recognized tip-over/scald hazard — report it and recommend correction.'},
+ {t:'Under the sink',n:'The loop that isn\'t',s:'A dishwasher drains through a hose that runs straight from the unit down to the disposer inlet, with no air gap on the counter and no high loop under the sink. The cabinet floor below shows a faint water stain.',ask:'Your call?',o:['Fine — the dishwasher drains, so it works','No backflow protection: with no air gap or high loop, dirty sink water can siphon back into the dishwasher. Report the missing high loop/air gap and the leak evidence.','Recommend a bigger drain hose','Recommend running the disposer first'],a:1,e:'A dishwasher needs an air gap or a high loop (drain hose looped up high under the counter) so wastewater can\'t back-siphon into the clean tub. Report the missing backflow protection and the staining as evidence of a leak.'},
+ {t:'In the laundry',n:'Lint in the rafters',s:'A clothes dryer\'s exhaust connects to a flexible white-vinyl duct that runs up and simply ends a few feet into the attic. Lint is matted on the nearby framing and insulation.',ask:'The concern?',o:['Nothing — the dryer still tumbles and heats','Dryer exhaust dumped into the attic is a fire and moisture hazard, and the vinyl duct is combustible. Report it; the duct must be metal and terminate outside.','Recommend a longer vinyl duct','Recommend cleaning the lint and leaving it'],a:1,e:'Dryer exhaust must terminate outside the building — never into an attic, crawlspace, or wall cavity — and the duct should be smooth rigid or semi-rigid metal, not combustible vinyl. Lint plus heat in the attic is a fire risk.'},
+ {t:'At the garage',n:'The door that won\'t back off',s:'You set a 2×4 flat under the closing garage door. The door contacts the wood, keeps pushing, and stalls — it does not reverse. The photo-eyes near the floor are present but one is twisted sideways.',ask:'What do you report?',o:['Nothing — it stopped, so it\'s safe','The auto-reverse failed the contact test and a photo-eye is misaligned — both safety reverses are deficient. Report it as an entrapment hazard and recommend service.','Recommend a stronger spring','Recommend removing the opener'],a:1,e:'A powered garage door must reverse on contact (the 2×4 test) and reverse when the photo-eye beam is broken. A door that pushes instead of reversing, plus a misaligned eye, is a child-entrapment hazard — report and recommend repair.'},
+ {t:'In the kitchen',n:'A burner you can smell',s:'On a gas cooktop, you light each burner. One lights fine, but at the connection behind the range you catch the faint smell of gas, and the unit is fed by a kinked, corroded flexible connector that runs through the back panel.',ask:'Your call?',o:['Ignore it — the burners all light','Suspected gas leak and an improper/old flexible connector — report it as a safety hazard, recommend the gas be shut off, and refer to a qualified technician.','Recommend a bigger burner','Light all burners at once to test capacity'],a:1,e:'A gas odor at a connection signals a leak. Older or kinked flexible connectors (and connectors run through cabinet walls) are improper. Report the suspected leak and connector, and recommend evaluation/repair by a qualified gas technician.'},
+ {t:'In the kitchen',n:'Two appliances, no power',s:'The built-in microwave above the range is dead, and the dishwasher won\'t start. Both have power at the panel breaker. The countertop receptacles near the sink are not GFCI-protected.',ask:'How do you handle it?',o:['Skip them — they\'re built in, not your scope','Report each unit as inoperable using normal controls, and separately note the missing GFCI protection at the kitchen counter receptacles.','Open the microwave to find the fuse','Assume the breaker is the only issue and reset it repeatedly'],a:1,e:'You operate built-in appliances with their normal controls and report any that don\'t function. The GFCI deficiency at kitchen counter receptacles is a separate, reportable electrical finding — you don\'t dismantle units to diagnose them.'},
+ {t:'In the kitchen',n:'Vented, or just stirred?',s:'A range hood over the cooktop runs and the fan is strong, but the duct on top of the cabinet is capped and goes nowhere — the air blows through a charcoal filter and back into the room. The client asks if it vents outside.',ask:'What do you tell them and report?',o:['It vents outside — all hoods do','It\'s a recirculating (ductless) hood: it filters and returns air to the room rather than ducting outside. Report it accurately as recirculating; note it doesn\'t remove moisture/heat outdoors.',"Report it as a defective ducted hood",'Recommend sealing the kitchen'],a:1,e:'Hoods are either ducted to the exterior or recirculating (charcoal-filter) types. Neither is wrong by itself — but you identify and report which it is so the client understands a recirculating hood doesn\'t exhaust moisture, odor, or heat outside.'},
+];
+const ASSESS=[
+ {q:'The home inspector\'s job with installed appliances is to:',o:['Repair any unit that doesn\'t work','Operate each one through its ordinary controls and report deficiencies','Certify the appliances meet the manufacturer\'s specs','Test every cycle and feature the unit offers'],a:1,e:'You operate permanently installed appliances using their normal controls and report what\'s deficient — you don\'t repair, certify, or run special cycles like self-clean.'},
+ {q:'A free-standing range must be equipped with:',o:['A GFCI cord','An anti-tip bracket anchoring it so weight on the door can\'t tip it','A recirculating hood','A high loop'],a:1,e:'The anti-tip bracket keeps the range from tipping when someone leans or climbs on the open oven door. A missing or disconnected bracket is a reportable safety hazard.'},
+ {q:'A dishwasher\'s drain needs an air gap or a high loop in order to:',o:['Drain faster','Prevent dirty sink/disposer water from back-siphoning into the dishwasher','Quiet the pump','Reduce energy use'],a:1,e:'The air gap or high loop is backflow protection — it keeps contaminated wastewater from siphoning back into the clean tub. Report it missing.'},
+ {q:'A clothes dryer exhaust duct must terminate:',o:['In the attic, away from insulation','Outside the building','Into the crawlspace','At the nearest soffit'],a:1,e:'Dryer exhaust must vent to the exterior — never into an attic, crawlspace, or wall cavity. Lint plus heat indoors is a fire and moisture hazard.'},
+ {q:'The preferred material for a dryer exhaust duct is:',o:['Flexible white vinyl','Smooth rigid or semi-rigid metal','PVC pipe','Insulated flex'],a:1,e:'Smooth metal duct resists lint buildup and won\'t melt or burn. Combustible vinyl/plastic flex is a reportable fire hazard.'},
+ {q:'A powered garage door operator must reverse:',o:['Only when the wall button is pressed','On contact with an obstruction AND when the photo-eye beam is broken','Only in cold weather','Only if the door is wood'],a:1,e:'Two independent safety reverses: contact (the 2×4 test) and the non-contact photo-eye. Either one failing or missing is a child-entrapment hazard.'},
+ {q:'You place a 2×4 flat under a closing garage door and the door keeps pushing without backing off. That means:',o:['The door is working normally','The contact auto-reverse failed — report it as a safety deficiency','The photo-eye is fine','The spring is too strong'],a:1,e:'A properly adjusted opener reverses when it meets the obstruction. Pushing instead of reversing is a failed auto-reverse — a reportable entrapment hazard.'},
+ {q:'A faint gas smell and a kinked, corroded flexible connector behind a gas range should be:',o:['Ignored if the burners light','Reported as a suspected leak/improper connector; recommend shut-off and a qualified technician','Fixed by the inspector','Tested by lighting all burners at once'],a:1,e:'A gas odor signals a leak; old/kinked connectors run through panels are improper. Report it and refer to a qualified gas technician — don\'t attempt repairs.'},
+ {q:'A range hood whose duct is capped and blows air back into the room through a charcoal filter is:',o:['Defective and must be reported as broken','A recirculating (ductless) hood — report it accurately as recirculating','Illegal in all homes','A ducted hood'],a:1,e:'Recirculating hoods filter and return air to the room; ducted hoods exhaust outside. Neither is inherently a defect — identify and report which type it is.'},
+ {q:'Kitchen countertop receptacles serving the appliances generally require:',o:['AFCI only','GFCI protection','No special protection','A dedicated 240 V circuit'],a:1,e:'GFCI protection is required at kitchen counter receptacles. Report missing GFCI as an electrical safety deficiency.'},
+ {q:'When you find a built-in microwave that won\'t power on with its normal controls, you should:',o:['Open the cabinet and replace the fuse','Report it as inoperable using ordinary controls','Skip it because it\'s built in','Assume it\'s fine and move on'],a:1,e:'You operate built-ins with their normal controls and report any that don\'t function. You don\'t dismantle the unit to diagnose it.'},
+ {q:'A food waste disposer that hums but won\'t turn, with no movement at the splines, is best reported as:',o:['Working normally','Jammed/inoperable — recommend evaluation and note you don\'t reach into the unit','A plumbing leak','A GFCI problem'],a:1,e:'A disposer that hums without turning is jammed or has a failed motor. Report it inoperable; you operate the switch but don\'t reach into the grinding chamber.'},
+ {q:'A 240-volt electric cooktop or wall oven should be:',o:['On a standard 15 A receptacle','On an appropriately sized 240 V circuit; report obvious wiring deficiencies','Plugged into a GFCI countertop receptacle','Fed by an extension cord'],a:1,e:'Cooking units draw heavy loads and need a properly sized 240 V circuit. Report obvious deficiencies like undersized wiring, scorching, or improper connections.'},
+ {q:'A trash compactor is inspected by:',o:['Loading it with trash to test capacity','Operating it through its normal cycle with the controls and reporting if it won\'t run','Disassembling the ram','Ignoring it entirely'],a:1,e:'Like other built-ins, you run it through a normal cycle using its controls and report if it fails to operate; you don\'t load or dismantle it.'},
+ {q:'The inspector\'s through-line for the appliances system is:',o:['Repair what\'s broken before the buyer moves in','Operate each unit normally, verify the safety devices, and report deficiencies','Recommend replacing every aging appliance','Test only the appliances the seller points out'],a:1,e:'Operate through ordinary controls, confirm the safety devices (anti-tip, garage reverses, GFCI, proper venting/connectors), and report deficiencies — that\'s the whole job.'},
+];
+const GLOSSARY=[
+ ['Permanently installed appliance','A built-in or fixed appliance (dishwasher, disposer, range, hood, built-in microwave, compactor, opener) the inspector operates with its normal controls.'],
+ ['Operate by normal controls','Running an appliance through one ordinary cycle using its own switches/dials — the SOP method for testing appliances.'],
+ ['Anti-tip bracket','A floor- or wall-anchored bracket that keeps a free-standing range from tipping when weight is applied to the open oven door.'],
+ ['Air gap','A counter-mounted fitting that provides an open break in the dishwasher drain so wastewater can\'t siphon back into the unit.'],
+ ['High loop','The dishwasher drain hose looped up high under the counter as backflow protection where no air gap is installed.'],
+ ['Back-siphoning','Contaminated drain water being drawn back into a clean appliance — what the air gap or high loop prevents.'],
+ ['Food waste disposer','The grinding unit under the sink; operated by its switch and reported as inoperable, leaking, or jammed (humming without turning).'],
+ ['Range','The combined cooktop-and-oven unit; free-standing ranges require an anti-tip bracket.'],
+ ['Cooktop','The surface-burner unit (gas or electric) set into a counter; tested by operating each burner.'],
+ ['Wall oven','A built-in oven; tested through bake and broil and reported for inoperable elements or deficient circuits.'],
+ ['Anti-tip / 240 V circuit','Cooking units draw heavy loads and need an appropriately sized 240-volt circuit; report obvious wiring deficiencies.'],
+ ['Flexible gas connector','The corrugated connector feeding a gas appliance; old, kinked, or panel-routed connectors are improper and reportable.'],
+ ['Gas leak','A suspected leak (odor, bubbles, hissing) at an appliance connection — report it and refer to a qualified technician; don\'t repair it.'],
+ ['Range hood — ducted','A vent hood that exhausts cooking air to the exterior through a duct.'],
+ ['Range hood — recirculating','A ductless hood that filters air through charcoal and returns it to the room; identify and report which type is present.'],
+ ['Built-in microwave','A fixed microwave (often an over-the-range unit); operated with its controls and reported if inoperable.'],
+ ['Trash compactor','A built-in unit that compresses waste; run through its normal cycle and reported if it won\'t operate.'],
+ ['Garage door operator','The powered opener; tested for both the contact auto-reverse and the photo-eye safety reverse.'],
+ ['Auto-reverse (contact)','The opener\'s ability to reverse when the door meets an obstruction — verified with the flat 2×4 test.'],
+ ['Photo-eye (safety reverse)','Paired beam sensors near the floor that reverse a closing door when the beam is broken — a required non-contact safety.'],
+ ['Dryer exhaust duct','The duct carrying dryer exhaust outside; must terminate to the exterior and be smooth rigid/semi-rigid metal.'],
+ ['GFCI','Ground-fault protection required at kitchen counter receptacles and other wet locations; report it missing.'],
+ ['AFCI','Arc-fault protection required on certain branch circuits; note where applicable protection is missing.'],
+];
+
+/* ================= WIDGET CONTENT REGISTRIES ================= */
+const _gs='fill="none" stroke="#3c5870" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"';
+const _mono=(x,y,s,t,c='#2c4153',a='middle')=>`<text x="${x}" y="${y}" text-anchor="${a}" font-family="JetBrains Mono" font-size="${s}" fill="${c}">${t}</text>`;
+
+SPOT.kitchen={title:'Walk the kitchen',sub:'Six appliance deficiencies in this kitchen — click each one you spot.',vb:'0 0 540 340',
+ svg:`<g ${_gs}>
+   <line x1="40" y1="300" x2="500" y2="300"/>${_mono(50,294,9,'floor','#918c7d','start')}
+   <!-- range / oven, free-standing -->
+   <rect x="70" y="200" width="90" height="100"/><rect x="78" y="214" width="74" height="40"/>${_mono(115,240,8,'oven','#918c7d')}
+   <line x1="78" y1="206" x2="152" y2="206"/><circle cx="90" cy="200" r="3"/><circle cx="106" cy="200" r="3"/><circle cx="124" cy="200" r="3"/><circle cx="140" cy="200" r="3"/>
+   <!-- open oven door with weight, no bracket -->
+   <path d="M78 260 l-26 22 h74 v-6" stroke="#b85436"/>${_mono(64,298,8,'open door','#b85436','start')}
+   <path d="M70 300 q-8 -10 0 -16" stroke="#6a6557" stroke-dasharray="3 2"/>${_mono(60,316,8,'no bracket','#b85436','start')}
+   <!-- recirculating hood capped -->
+   <rect x="78" y="150" width="74" height="20"/><rect x="106" y="134" width="18" height="16"/><line x1="106" y1="134" x2="124" y2="134" stroke="#b85436" stroke-width="1.6"/>${_mono(160,150,8,'hood','#918c7d','start')}
+   <path d="M115 134 v-14" stroke="#6a6557" stroke-dasharray="3 2"/><path d="M108 120 h14 v-4 h-14 z" stroke="#b85436"/>${_mono(150,118,8,'capped','#b85436','start')}
+   <!-- counter & sink -->
+   <line x1="200" y1="200" x2="500" y2="200"/><line x1="200" y1="200" x2="200" y2="300"/><line x1="500" y1="200" x2="500" y2="300"/>
+   <rect x="300" y="180" width="70" height="20"/>${_mono(335,174,8,'sink','#918c7d')}
+   <!-- counter receptacle no GFCI -->
+   <rect x="410" y="186" width="20" height="12"/><line x1="416" y1="189" x2="416" y2="195"/><line x1="424" y1="189" x2="424" y2="195"/>${_mono(420,178,8,'recept','#b85436')}
+   <!-- dishwasher under counter, drain straight no high loop -->
+   <rect x="220" y="210" width="70" height="86"/>${_mono(255,256,8,'dishwasher','#918c7d')}
+   <path d="M290 230 l30 0 l0 60 l16 0" stroke="#b85436"/>${_mono(330,224,8,'no high loop','#b85436','start')}
+   <!-- built-in microwave dead -->
+   <rect x="380" y="210" width="90" height="40"/><rect x="388" y="218" width="50" height="24"/>${_mono(450,234,8,'micro','#918c7d')}
+   <path d="M448 230 l14 -8 m0 8 l-14 -8" stroke="#b85436" stroke-width="1.4"/>${_mono(425,206,8,'dead','#b85436','start')}
+ </g>`,
+ defects:[
+  {x:64,y:288,r:24,n:'Range missing anti-tip bracket',d:'Weight on the open oven door tips a free-standing range. No bracket anchoring it is a recognized tip-over/scald hazard — recommend the listed anti-tip bracket.'},
+  {x:115,y:122,r:18,n:'Range hood capped / recirculating',d:'The hood duct is capped and just recirculates through a filter. Not a defect by itself — but identify and report it as recirculating, not ducted to the exterior.'},
+  {x:420,y:190,r:18,n:'Kitchen counter receptacle without GFCI',d:'Receptacles serving the kitchen counter require GFCI protection. Report the missing GFCI as an electrical safety deficiency.'},
+  {x:320,y:288,r:22,n:'Dishwasher drain — no high loop / air gap',d:'The drain runs straight with no high loop or air gap, so sink water can back-siphon into the tub. Report the missing backflow protection.'},
+  {x:455,y:230,r:18,n:'Built-in microwave inoperable',d:'The over-range microwave won\'t power on with its normal controls. Report it inoperable; you operate built-ins by their controls, you don\'t dismantle them.'},
+  {x:300,y:188,r:16,n:'Sink area — verify disposer & supply',d:'At the sink, confirm the disposer operates and check for leaks at the dishwasher and supply connections — a common spot for the conditions that follow.'},
+ ]};
+
+SPOT.utility={title:'Read the laundry & garage',sub:'Five appliance/safety problems in this utility area. Click each one.',vb:'0 0 540 300',
+ svg:`<g ${_gs}>
+   <line x1="40" y1="250" x2="500" y2="250"/>${_mono(50,244,9,'floor','#918c7d','start')}
+   <!-- ceiling / attic line -->
+   <line x1="40" y1="60" x2="500" y2="60"/>${_mono(50,54,9,'attic above','#918c7d','start')}
+   <!-- dryer -->
+   <rect x="70" y="170" width="80" height="80"/><circle cx="110" cy="210" r="22"/>${_mono(110,250,8,'dryer','#918c7d')}
+   <!-- vinyl duct into attic -->
+   <path d="M150 190 q30 -6 40 -40 q4 -30 18 -40" stroke="#b85436" stroke-dasharray="4 2"/><circle cx="208" cy="78" r="3" fill="#b85436"/>${_mono(214,72,8,'vinyl → attic','#b85436','start')}
+   <!-- gas line / connector behind appliance -->
+   <path d="M170 250 v-20 q0 -10 10 -10 h10" stroke="#b85436"/>${_mono(196,222,8,'kinked connector','#b85436','start')}
+   <!-- garage door -->
+   <line x1="300" y1="60" x2="500" y2="60"/><rect x="300" y="60" width="200" height="120" stroke-width="1"/><line x1="300" y1="100" x2="500" y2="100" stroke-width="1"/><line x1="300" y1="140" x2="500" y2="140" stroke-width="1"/>${_mono(400,176,8,'garage door','#918c7d')}
+   <!-- opener motor -->
+   <rect x="386" y="40" width="28" height="16"/>${_mono(400,34,8,'opener','#918c7d')}
+   <!-- 2x4 test, door pushing -->
+   <rect x="360" y="240" width="40" height="8" fill="#b85436" opacity="0.5" stroke="#b85436"/>${_mono(380,236,8,'2×4 test','#b85436')}
+   <path d="M380 180 v52" stroke="#b85436" stroke-width="1.4"/><path d="M374 226 l6 8 l6 -8" stroke="#b85436" stroke-width="1.4"/>${_mono(412,210,8,'won\'t reverse','#b85436','start')}
+   <!-- photo eye twisted -->
+   <circle cx="306" cy="240" r="4"/><circle cx="494" cy="240" r="4"/><path d="M306 240 l16 -10" stroke="#b85436" stroke-width="1.4"/>${_mono(330,256,8,'eye twisted','#b85436','start')}
+ </g>`,
+ defects:[
+  {x:200,y:80,r:24,n:'Dryer exhaust — vinyl duct into the attic',d:'Combustible vinyl duct ending in the attic is a fire and moisture hazard. Report it: the duct must be smooth metal and terminate outside.'},
+  {x:185,y:230,r:20,n:'Improper / kinked gas connector',d:'A kinked, corroded, or panel-routed flexible gas connector is improper. Report it and recommend a qualified gas technician — especially with any gas odor.'},
+  {x:380,y:208,r:22,n:'Garage door auto-reverse failed (2×4)',d:'The door pushes the 2×4 instead of backing off — the contact auto-reverse failed. Report it as a child-entrapment hazard; recommend service.'},
+  {x:312,y:236,r:18,n:'Garage photo-eye misaligned',d:'A twisted photo-eye can\'t reliably reverse a closing door on the broken beam. Report the misaligned non-contact safety and recommend realignment.'},
+  {x:400,y:48,r:16,n:'Opener — verify operation & both reverses',d:'Confirm the opener runs from its controls and that BOTH safety reverses (contact and photo-eye) work. Either one missing or failing is reportable.'},
+ ]};
+
+MATCH.duty={title:'Appliance ↔ key check',sub:'Tap an appliance, then the one thing TREC has you verify on it. Correct pairs lock green.',left:'Appliance',right:'Key check',
+ pairs:[['Free-standing range','Anti-tip bracket'],['Dishwasher','High loop / air gap'],['Clothes dryer','Vents to exterior'],['Garage door opener','Auto-reverse + photo-eye'],['Gas cooktop','Connector & leaks']],done:'That\'s the appliance-by-appliance habit — each unit has one safety item you confirm before you call it good.'};
+MATCH.term={title:'Term ↔ what it does',sub:'Tap a term, then the function it serves. Correct pairs lock green.',left:'Term',right:'Function',
+ pairs:[['Air gap','Stops drain back-siphon'],['Photo-eye','Reverses on broken beam'],['Anti-tip bracket','Stops range tipping'],['GFCI','Cuts ground-fault current']],done:'Good — each device exists to stop one specific failure: backflow, entrapment, tip-over, or shock.'};
+
+SORT.terminate={title:'Vents outside — or it\'s a deficiency?',sub:'Where each exhaust ends decides the call. Tap an item, then the right bin.',bins:['PROPER — terminates outside','DEFICIENCY — report it'],
+ items:[{t:'Dryer duct ducted through the wall to a hooded cap',bin:0},{t:'Range hood ducted to a roof cap',bin:0},{t:'Bath fan run to an exterior wall vent',bin:0},{t:'Dryer duct ending in the attic',bin:1},{t:'Range hood duct capped, blowing back into the room',bin:1},{t:'Dryer exhaust into a crawlspace',bin:1}],
+ done:'Right — exhaust must reach the exterior. A duct that ends in an attic, crawl, or back into the room is a reportable deficiency (recirculating hoods are reported as their type).'};
+SORT.report={title:'Report it — or out of scope?',sub:'Sort what you write up from what the SOP excludes. Tap an item, then the bin.',bins:['REPORT — deficiency','OUT OF SCOPE'],
+ items:[{t:'Missing anti-tip bracket on a range',bin:0},{t:'Garage door that won\'t reverse on contact',bin:0},{t:'Missing GFCI at kitchen counter receptacles',bin:0},{t:'Running the oven\'s self-cleaning cycle',bin:1},{t:'Calibrating the oven thermostat',bin:1},{t:'Evaluating an appliance that isn\'t connected',bin:1}],
+ done:'Exactly — you report safety and operating deficiencies, but you don\'t run self-clean, calibrate, or evaluate appliances that aren\'t hooked up.'};
+
+ERA.safety={title:'Appliance safety devices — how they came to be',sub:'Tap each milestone to see what you\'re looking for and why it matters on an inspection.',
+ rows:[
+  {d:'1970s',n:'GFCI at the kitchen',x:'Ground-fault protection spread to kitchens and wet areas. On older homes, expect missing GFCI at counter receptacles — a common, reportable deficiency.'},
+  {d:'1982',n:'Garage photo-eye era begins',x:'Powered openers gained automatic reverse; later, photo-eye sensors near the floor became standard. Test both the contact reverse and the beam on every opener.'},
+  {d:'1991',n:'Anti-tip brackets required',x:'After tip-over injuries, free-standing ranges were required to ship with an anti-tip bracket. Many are never installed — check behind every range.'},
+  {d:'1993',n:'Photo-eyes mandated',x:'Federal rule required external entrapment protection (photo-eye or edge sensor) on residential openers. A door that won\'t reverse on a broken beam is reportable.'},
+  {d:'ongoing',n:'Dryer-duct fire awareness',x:'Lint-fed dryer fires drove codes toward smooth metal duct that terminates outside. Vinyl flex and attic/crawl terminations are persistent field findings.'},
+  {d:'today',n:'AFCI / GFCI expansion',x:'Arc-fault and ground-fault requirements keep expanding to more circuits and locations. Note where applicable protection is missing on the appliance circuits you can see.'},
+ ]};
+
+/* ================= STEPS ================= */
+const STEPS=[
+/* ===== ORIENTATION ===== */
+{id:'intro',kind:'Start here',label:'Operate & report',type:'lesson',
+ body:()=>`<span class="eyebrow">Appliances · Orientation</span><h1>Run it, watch it, and report what's deficient.</h1>
+ <p class="lead">Appliances are the most hands-on system you'll inspect — you actually <b>operate</b> each permanently installed unit. Your job isn't to repair, certify, or grade them. It's to <b>run each one through its ordinary controls, confirm the safety devices, and report deficiencies</b> so your client can decide.</p>
+ <p>Under the TREC Standards of Practice (§535.232), you inspect and operate the appliances that are <em>built in and connected</em>. Three ideas run through every finding in this section:</p>
+ <ul class="num"><li><b>Operation</b> — does it run normally from its own controls?</li><li><b>Safety device</b> — is the anti-tip bracket, garage reverse, GFCI, or proper vent present and working?</li><li><b>Connection</b> — gas, drain, and exhaust hooked up the right way, to the right place.</li></ul>
+ <p>Get those three right on each unit and you've inspected the system. Miss the safety device — the bracket that isn't there, the door that won't reverse — and you've missed the part that actually hurts people.</p>
+ <p>Every appliance runs through the same five-step loop you've used in the other systems:</p>
+ <div class="loop"><div class="seg on"><div class="n">01</div><div class="w">Appliance</div></div><div class="seg"><div class="n">02</div><div class="w">Operate</div></div><div class="seg"><div class="n">03</div><div class="w">Common defect</div></div><div class="seg"><div class="n">04</div><div class="w">Implication</div></div><div class="seg"><div class="n">05</div><div class="w">How you report</div></div></div>
+ <h2>What you'll inspect</h2>
+ <ul class="clean"><li><b>Dishwasher</b> — operation, air gap / high loop, leaks</li><li><b>Food waste disposer</b> — operation, leaks, jams</li><li><b>Range, oven &amp; cooktop</b> — gas &amp; electric, anti-tip bracket, connections</li><li><b>Range exhaust / hood</b> — ducted to exterior vs. recirculating</li><li><b>Built-in microwave &amp; trash compactor</b> — operation</li><li><b>Garage door operator</b> — auto-reverse and photo-eye</li><li><b>Dryer exhaust duct</b> — to the exterior, the right material</li></ul>
+ <div class="field"><div class="ic">${sv(ic.alert)}</div><div><div class="t">Safety &amp; scope</div><p>You operate appliances <b>using their normal controls only</b> — you don't run self-cleaning cycles, calibrate thermostats, dismantle units, or evaluate appliances that aren't connected. Watch for <b>gas odors</b> at connections and <b>tip-over and entrapment hazards</b> (ranges, garage doors). You report what's <em>operable and accessible</em> and note anything you couldn't operate, and why.</p></div></div>`,
+ quiz:[
+  {q:'The inspector\'s role with appliances is to:',o:['Repair units that don\'t work and certify the rest','Operate each installed unit by its normal controls and report deficiencies','Run every special cycle the unit offers','Replace aging appliances'],a:1,e:'You operate permanently installed appliances with their ordinary controls and report deficiencies — you don\'t repair, certify, or run special cycles.'},
+  {q:'Which is NOT part of operating appliances under the SOP?',o:['Running the dishwasher through a cycle','Testing each cooktop burner','Running the oven\'s self-cleaning cycle','Operating the garage door from its controls'],a:2,e:'You use ordinary controls. Self-clean, thermostat calibration, and dismantling are outside the standard.'},
+  {q:'The three things to confirm on each appliance are:',o:['Brand, age, and color','Operation, safety device, and proper connection','Energy rating, price, and warranty','Size, weight, and finish'],a:1,e:'Does it operate normally; is the safety device present and working; is gas/drain/exhaust connected correctly. That\'s the whole read.'},
+  {q:'If an appliance is present but not connected, you:',o:['Operate it anyway','Don\'t evaluate it — note it isn\'t connected','Connect it to test it','Report it as broken'],a:1,e:'You inspect installed and connected appliances. An unconnected unit is outside scope — note that you didn\'t evaluate it and why.'},
+ ]},
+
+/* ===== L1 DISHWASHER & DISPOSER ===== */
+{id:'l1',kind:'Lesson 1',label:'Dishwasher & Disposer',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 1 · Under the sink</span><h1>The two wet appliances — and where they back up.</h1>
+ <p class="lead">The dishwasher and food waste disposer live at the sink, and both fail in ways that put dirty water where it shouldn't be. Operate each, then check the one connection that protects the clean side.</p>
+ <h2>Dishwasher — operate, then check backflow</h2>
+ <p>Run the dishwasher through a portion of a normal cycle from its own controls. You're confirming it fills, runs, and drains — and watching for <b>leaks</b> at the door, hoses, and the cabinet floor below. The key safety check is <b>backflow protection</b>: a counter-mounted <b>air gap</b>, or a <b>high loop</b> (the drain hose looped up high under the counter) so dirty sink or disposer water can't <em>back-siphon</em> into the clean tub.</p>
+ <div class="dgm"><svg viewBox="0 0 720 250">
+   <g ${_gs}>
+     <line x1="60" y1="60" x2="660" y2="60"/>${_mono(70,52,10,'counter','#918c7d','start')}
+     <rect x="300" y="40" width="120" height="20"/>${_mono(360,34,9,'sink','#918c7d')}
+     <rect x="90" y="80" width="150" height="150"/>${_mono(165,160,10,'dishwasher','#918c7d')}
+     <rect x="470" y="44" width="20" height="16" stroke="#3d7d50"/>${_mono(480,34,9,'air gap','#3d7d50')}
+     <rect x="520" y="120" width="60" height="110"/>${_mono(550,180,9,'disposer','#918c7d')}
+   </g>
+   <path d="M240 110 H 470 V 70" stroke="#3d7d50" stroke-width="2.4" fill="none"/>${_mono(360,100,9,'high loop — up high, then down','#3d7d50','start')}
+   <path d="M490 70 q40 10 40 50" stroke="#3c5870" stroke-width="2" fill="none"/>
+   <text x="300" y="245" font-family="JetBrains Mono" font-size="9" fill="#3d7d50">looped high so wastewater can't siphon back into the tub</text>
+ </svg><div class="cap">Backflow protection: an air gap or a high loop keeps drain water from siphoning back into the dishwasher.</div></div>
+ <h2>Food waste disposer — operate and listen</h2>
+ ${conds('',[['Operation','Run it from its switch with water flowing. It should spin freely with a steady grind sound.'],['Hums but won\'t turn','A jam or failed motor. Report it inoperable — you operate the switch, you don\'t reach into the grinding chamber.'],['Leaks','Check the housing and the connections to the sink and dishwasher drain for drips.']])}
+ ${W('match','duty')}
+ ${story('Inspector in the house',`A spotless kitchen had a faint stain on the cabinet floor under the sink. The dishwasher ran fine — but its drain hose went straight to the disposer with no high loop and no air gap. **The dishwasher worked; the connection didn't.** The report named the missing backflow protection and the stain as evidence, and recommended a high loop or air gap.`)}`,
+ quiz:[
+  {q:'A dishwasher is operated by:',o:['Running its self-cleaning cycle','Running a portion of a normal cycle with its own controls','Disconnecting the drain to test it','Filling it with dishes'],a:1,e:'You run it through a normal cycle using its controls, confirming it fills, runs, and drains, and watching for leaks.'},
+  {q:'An air gap or high loop on the dishwasher drain prevents:',o:['Slow draining','Dirty water from back-siphoning into the clean tub','Noise','High energy use'],a:1,e:'It\'s backflow protection — keeping contaminated sink/disposer water from siphoning back into the dishwasher. Report it missing.'},
+  {q:'A disposer that hums but doesn\'t turn is:',o:['Working normally','Jammed or failed — report it inoperable','A GFCI issue','A drain problem only'],a:1,e:'Humming without spinning means a jam or failed motor. Report it inoperable; you operate the switch but don\'t reach into the chamber.'},
+  {q:'A water stain on the cabinet floor under the sink should be:',o:['Ignored if appliances run','Reported as evidence of a leak and traced to its source','Wiped up and forgotten','Assumed to be condensation'],a:1,e:'Staining is evidence. Report the leak and its likely source (dishwasher, supply, drain, or disposer connection).'},
+ ]},
+
+/* ===== L2 RANGE, OVEN & COOKTOP ===== */
+{id:'l2',kind:'Lesson 2',label:'Range, Oven & Cooktop',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 2 · The cooking appliances</span><h1>The range that can tip — and the gas that can leak.</h1>
+ <p class="lead">Ranges, ovens, and cooktops carry the section's two biggest hazards: a free-standing range that can <b>tip over</b>, and a gas unit that can <b>leak</b>. Operate the cooking functions, then check the safety items.</p>
+ <h2>Operate the cooking functions</h2>
+ <ul class="clean"><li><b>Oven</b> — run <em>bake</em> and <em>broil</em>; confirm the elements or burner heat and the unit responds to its controls.</li><li><b>Cooktop / surface burners</b> — operate <em>each</em> burner; gas burners should light promptly with a steady blue flame, electric elements should heat.</li><li><b>Report</b> inoperable elements, burners that won't light, and damaged controls.</li></ul>
+ <h2>The anti-tip bracket — check behind every free-standing range</h2>
+ <p>A <b>free-standing range</b> must be anchored by an <b>anti-tip bracket</b> so a child climbing or an adult leaning on the open oven door can't pull the range over onto themselves. Required on new ranges since the early 1990s, the bracket is one of the most commonly <em>missing</em> items — it ships in the box and never gets installed. Press down gently on the open oven door, or look behind the unit for the floor/wall bracket engaging a rear leg.</p>
+ <div class="dgm"><svg viewBox="0 0 720 250">
+   <g ${_gs}>
+     <line x1="60" y1="210" x2="660" y2="210"/>${_mono(70,204,9,'floor','#918c7d','start')}
+     <rect x="120" y="90" width="150" height="120"/>${_mono(195,150,10,'free-standing range','#918c7d')}
+     <line x1="120" y1="110" x2="270" y2="110"/>
+     <!-- open door + weight -->
+     <path d="M120 170 l-46 30 h90" stroke="#b85436" stroke-width="2"/><circle cx="95" cy="194" r="6" fill="#b85436" opacity="0.5" stroke="#b85436"/>${_mono(60,222,9,'weight on open door','#b85436','start')}
+     <!-- bracket at rear -->
+     <path d="M270 200 l16 0 l0 -14" stroke="#3d7d50" stroke-width="2.4"/>${_mono(300,196,9,'anti-tip bracket','#3d7d50','start')}
+   </g>
+   <path d="M300 150 q40 -20 0 -40" stroke="#3d7d50" stroke-width="2" fill="none"/>
+   <text x="305" y="120" font-family="JetBrains Mono" font-size="9" fill="#3d7d50">rear leg captured — can't tip forward</text>
+ </svg><div class="cap">A free-standing range must be held by an anti-tip bracket so weight on the open door can't tip it forward.</div></div>
+ <h2>Gas connections — odor, connectors, and electric circuits</h2>
+ ${conds('',[['Gas leaks','A gas odor, hiss, or bubble test at a connection means a suspected leak. Report it, recommend shut-off, and refer to a qualified technician — you don\'t repair gas.'],['Flexible connectors','The corrugated connector should be in good condition and not kinked, corroded, or routed through the cabinet/floor. Old or improper connectors are reportable.'],['Electric cooktops &amp; wall ovens','These 240-volt units need an appropriately sized circuit. Report obvious deficiencies — undersized wiring, scorching, improper connections.']])}
+ ${W('spot','kitchen')}
+ ${story('Inspector in the house',`A remodel left a gleaming gas range — and a faint gas smell at the back where the prior connector had been reused, kinked tight against the wall. The burners all lit beautifully. **A unit can work perfectly and still be unsafe.** The report flagged the suspected leak and improper connector and recommended a qualified gas technician before close.`)}`,
+ quiz:[
+  {q:'A free-standing range is required to have:',o:['A GFCI cord','An anti-tip bracket','A recirculating hood','A high loop'],a:1,e:'The anti-tip bracket keeps the range from tipping when weight is applied to the open oven door. A missing bracket is a reportable safety hazard.'},
+  {q:'Each surface burner on a cooktop should be:',o:['Tested all at once','Operated individually and confirmed to light/heat','Left alone if the oven works','Tested only if gas'],a:1,e:'Operate each burner. Gas should light promptly with a steady flame; electric elements should heat. Report any that don\'t.'},
+  {q:'A faint gas odor at a range connection should be:',o:['Ignored if burners light','Reported as a suspected leak; recommend shut-off and a qualified technician','Fixed by tightening the fitting','Tested by lighting all burners'],a:1,e:'A gas odor signals a leak. Report it and refer to a qualified technician — you don\'t repair gas systems.'},
+  {q:'An electric cooktop or wall oven should be on:',o:['A 15 A countertop circuit','An appropriately sized 240 V circuit','A GFCI receptacle','An extension cord'],a:1,e:'These heavy-draw units need a properly sized 240 V circuit. Report obvious wiring deficiencies.'},
+  {q:'An old, kinked flexible gas connector routed through the cabinet is:',o:['Acceptable if it doesn\'t leak','Improper and reportable','Required by code','Only a cosmetic issue'],a:1,e:'Kinked, corroded, or panel-routed connectors are improper. Report the connector even before considering a leak.'},
+ ]},
+
+/* ===== L3 VENTILATION: HOOD & DRYER ===== */
+{id:'l3',kind:'Lesson 3',label:'Hood & Dryer Exhaust',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 3 · Where the air goes</span><h1>Exhaust has to go outside — or it's a finding.</h1>
+ <p class="lead">Two appliances move air: the range hood and the clothes dryer. The whole inspection question for both is <em>where does the exhaust end up</em> — and for the dryer, <em>what is the duct made of</em>.</p>
+ <h2>Range hood — ducted or recirculating</h2>
+ <p>A range hood is one of two types, and your job is to identify and report which:</p>
+ ${conds('',[['Ducted to the exterior','The hood exhausts cooking air, moisture, and grease outside through a duct and an exterior cap. Confirm the fan runs and the duct goes outside.'],['Recirculating (ductless)','Air passes through a charcoal filter and returns to the room — no outside duct. Not a defect, but report it as recirculating so the client knows it doesn\'t remove moisture, heat, or odor outdoors.']])}
+ <p>The mistake to avoid is assuming every hood vents outside. A capped duct that blows back into the room is a recirculating hood — report it accurately, not as "broken."</p>
+ <h2>Dryer exhaust — outside, in metal</h2>
+ <p>The <b>dryer exhaust duct</b> has two firm requirements, and both are common field failures:</p>
+ <ul class="clean"><li><b>Terminate outside</b> — to the exterior with a proper hooded cap. <em>Never</em> into an attic, crawlspace, or wall cavity. Moisture and lint dumped indoors cause condensation, mold, and a fire hazard.</li><li><b>Smooth metal duct</b> — rigid or semi-rigid metal, not combustible white-vinyl or foil flex, which traps lint and can melt or burn.</li></ul>
+ <div class="dgm"><svg viewBox="0 0 720 250">
+   <g ${_gs}>
+     <path d="M60 70 L360 30 L660 70"/><line x1="60" y1="70" x2="60" y2="210"/><line x1="660" y1="70" x2="660" y2="210"/><line x1="60" y1="210" x2="660" y2="210"/>
+     <line x1="60" y1="120" x2="660" y2="120" stroke-width="1"/>${_mono(360,112,9,'ceiling','#918c7d')}
+     <rect x="110" y="150" width="70" height="60"/>${_mono(145,184,9,'dryer','#918c7d')}
+     <!-- bad: into attic -->
+     <path d="M180 165 q40 -6 50 -50" stroke="#b85436" stroke-width="2" fill="none" stroke-dasharray="4 2"/><circle cx="232" cy="108" r="3" fill="#b85436"/>${_mono(238,100,9,'into attic — WRONG','#b85436','start')}
+     <!-- good: out the wall -->
+     <rect x="470" y="150" width="70" height="60"/>${_mono(505,184,9,'dryer','#918c7d')}
+     <path d="M540 170 H 660" stroke="#3d7d50" stroke-width="2.4" fill="none"/><path d="M654 164 l8 6 l-8 6" stroke="#3d7d50" stroke-width="2.4" fill="none"/>${_mono(600,162,9,'out the wall — RIGHT','#3d7d50')}
+   </g>
+ </svg><div class="cap">Dryer exhaust must terminate outside through metal duct — never into the attic, crawlspace, or a wall cavity.</div></div>
+ ${W('sort','terminate')}
+ ${story('Inspector in the house',`A finished laundry room hid a white-vinyl dryer duct snaking up and ending a few feet into the attic, lint matted on the joists. The dryer tumbled and heated fine. **The appliance was the least of it — the duct was a fire waiting on a spark.** Report: combustible duct, attic termination, both corrected to metal venting to the exterior.`)}`,
+ quiz:[
+  {q:'A range hood that filters air through charcoal and returns it to the room is:',o:['Defective','A recirculating (ductless) hood — report its type','A ducted hood','Illegal'],a:1,e:'Recirculating hoods are a legitimate type. Identify and report it as recirculating so the client knows it doesn\'t exhaust outside.'},
+  {q:'A clothes dryer exhaust must terminate:',o:['In the attic','Outside the building','In the crawlspace','At a wall cavity'],a:1,e:'Always to the exterior with a hooded cap — never into an attic, crawl, or wall cavity. Indoor lint and moisture are a fire/mold hazard.'},
+  {q:'The proper dryer duct material is:',o:['White vinyl flex','Smooth rigid or semi-rigid metal','PVC','Foil flex'],a:1,e:'Smooth metal resists lint buildup and won\'t burn. Combustible vinyl/foil flex is a reportable fire hazard.'},
+  {q:'A range hood duct that is capped and blows back into the room is:',o:['A broken ducted hood','A recirculating hood — report it as such','A code violation in all cases','A dryer duct'],a:1,e:'It\'s functioning as a recirculating hood. Report the type accurately rather than calling it broken.'},
+  {q:'A dryer venting into the attic is a problem because it adds:',o:['Only a little efficiency loss','Moisture and lint indoors — condensation, mold, and fire risk','Helpful attic humidity','Nothing if the attic is vented'],a:1,e:'Moist, lint-laden exhaust inside the envelope causes condensation, mold, and fire risk. It must vent outside.'},
+ ]},
+
+/* ===== L4 BUILT-IN MICROWAVE & TRASH COMPACTOR ===== */
+{id:'l4',kind:'Lesson 4',label:'Microwave & Compactor',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 4 · The other built-ins</span><h1>Operate it normally, report if it won't run.</h1>
+ <p class="lead">The built-in microwave and the trash compactor are simpler: you operate each through one normal cycle with its own controls and report whether it works. You don't test radiation leakage, capacity, or take anything apart.</p>
+ <h2>Built-in microwave</h2>
+ ${conds('',[['Operation','Run a short cycle (a cup of water is the usual test). Confirm it powers on, runs, and the turntable/light/fan respond.'],['Over-the-range units','Many double as the range hood — note whether that hood is ducted or recirculating, just like a standalone hood.'],['Limits','You report whether it operates. You don\'t test microwave leakage or evaluate cooking performance.']])}
+ <h2>Trash compactor</h2>
+ ${conds('',[['Operation','Run it through its normal cycle from the controls; confirm the ram cycles and the unit stops. Report if it won\'t run.'],['Don\'t load or dismantle','You operate the controls — you don\'t fill it with trash to test capacity or take the ram apart.'],['Leaks &amp; damage','Note any leaks, damage, or missing components.']])}
+ <h2>Other built-in appliances</h2>
+ <p>The same method covers <b>any other permanently installed appliance</b> you find — wine coolers, built-in coffee systems, warming drawers, instant-hot dispensers. Operate it with its normal controls, confirm it runs, check the connection, and report deficiencies. If it isn't connected, you note that you didn't evaluate it.</p>
+ ${W('match','term')}
+ ${story('Inspector in the house',`An over-the-range microwave was dead — no display, nothing. The breaker was on. **You don't pull the unit to chase a fuse; you report it inoperable using normal controls.** The same morning, the trash compactor wouldn't cycle. Two built-ins, two simple findings: operate, observe, report — and move on.`)}`,
+ quiz:[
+  {q:'A built-in microwave is tested by:',o:['Measuring radiation leakage','Running a short normal cycle with its controls','Dismantling it to find the fuse','Checking the manufacturer\'s label only'],a:1,e:'Operate it with normal controls — a cup of water is the usual test. You report whether it runs; you don\'t test leakage or dismantle it.'},
+  {q:'A trash compactor is operated by:',o:['Filling it with trash to test capacity','Running its normal cycle from the controls','Taking the ram apart','Ignoring it'],a:1,e:'Run it through a normal cycle with its controls and report if it won\'t run. You don\'t load or disassemble it.'},
+  {q:'A dead built-in microwave with the breaker on should be:',o:['Disassembled to find the fault','Reported as inoperable using normal controls','Left out of the report','Reset repeatedly'],a:1,e:'You operate built-ins with their controls and report any that don\'t function. You don\'t dismantle the unit to diagnose it.'},
+  {q:'An over-the-range microwave with a vent function is:',o:['Always ducted outside','Either ducted or recirculating — report its hood type like any hood','Exempt from venting rules','Not an appliance'],a:1,e:'Its hood is either ducted to the exterior or recirculating. Identify and report which, just as you would a standalone range hood.'},
+ ]},
+
+/* ===== L5 GARAGE DOOR OPERATOR ===== */
+{id:'l5',kind:'Lesson 5',label:'Garage Door Operator',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 5 · The opener &amp; its two reverses</span><h1>The appliance most likely to crush a child — test both reverses.</h1>
+ <p class="lead">The powered garage door operator is an appliance under the SOP, and it's the one with the highest stakes. It has <b>two independent safety reverses</b>, and you test both — because a door that won't back off is an entrapment hazard.</p>
+ <h2>Two safety reverses</h2>
+ ${conds('',[['Auto-reverse (contact)','Place a flat 2×4 (or a roll of paper towels) on the floor in the door\'s path. When the closing door contacts it, the door must reverse. A door that keeps pushing or stalls without reversing has failed.'],['Photo-eye (non-contact)','Paired sensors mounted low (within ~6 in of the floor). When the door is closing and you break the beam, the door must reverse. Misaligned, blocked, or mounted-too-high eyes fail this test.']])}
+ <div class="dgm"><svg viewBox="0 0 720 250">
+   <g ${_gs}>
+     <line x1="60" y1="40" x2="660" y2="40"/>${_mono(70,32,9,'ceiling','#918c7d','start')}
+     <rect x="330" y="44" width="40" height="18"/>${_mono(350,76,9,'opener','#918c7d')}
+     <line x1="120" y1="40" x2="120" y2="210"/><line x1="580" y1="40" x2="580" y2="210"/><line x1="120" y1="210" x2="580" y2="210"/>
+     <rect x="120" y="60" width="460" height="90" stroke-width="1"/><line x1="120" y1="105" x2="580" y2="105" stroke-width="1"/>${_mono(350,128,9,'door (closing)','#918c7d')}
+     <path d="M350 150 v50" stroke="#b85436" stroke-width="2"/><path d="M344 194 l6 8 l6 -8" stroke="#b85436" stroke-width="2"/>
+     <!-- 2x4 -->
+     <rect x="330" y="200" width="40" height="8" fill="#b85436" opacity="0.5" stroke="#b85436"/>${_mono(350,224,9,'2×4 — must reverse','#b85436')}
+     <!-- photo eyes -->
+     <circle cx="126" cy="200" r="4" stroke="#3d7d50"/><circle cx="574" cy="200" r="4" stroke="#3d7d50"/><path d="M130 200 H 570" stroke="#3d7d50" stroke-width="1.4" stroke-dasharray="6 4"/>${_mono(150,194,9,'photo-eye beam','#3d7d50','start')}
+   </g>
+ </svg><div class="cap">Test both: the door reverses on contact with the 2×4, and reverses when the low photo-eye beam is broken.</div></div>
+ <h2>What you report</h2>
+ <ul class="clean"><li><b>Failed contact reverse</b> — door pushes or stalls on the 2×4 instead of backing off.</li><li><b>Failed / missing photo-eye</b> — door doesn't reverse on a broken beam, or sensors are misaligned, blocked, or mounted too high.</li><li><b>Other deficiencies</b> — damaged springs/cables, missing manual release, or an opener that won't run from its controls.</li></ul>
+ ${W('spot','utility')}
+ ${W('era','safety')}
+ ${story('Inspector in the house',`The seller swore the garage door was "brand new and safe." The 2×4 test told the truth: the door met the wood, pushed hard, and stalled — no reverse — and one photo-eye was twisted to the side. **Both safety systems were down on a door a toddler opens by reaching up.** Report: failed auto-reverse and misaligned photo-eye, recommend service before occupancy.`)}`,
+ quiz:[
+  {q:'A powered garage door operator must reverse:',o:['Only from the wall button','On contact with an obstruction AND on a broken photo-eye beam','Only in summer','Only on metal doors'],a:1,e:'Two independent reverses: contact (the 2×4 test) and the non-contact photo-eye. Either failing or missing is an entrapment hazard.'},
+  {q:'The 2×4 test checks:',o:['The photo-eye','The contact auto-reverse','The spring tension','The wall switch'],a:1,e:'A flat 2×4 in the door\'s path checks that the door reverses on contact. Pushing or stalling without reversing is a failure.'},
+  {q:'Photo-eye sensors should be mounted:',o:['Near the ceiling','Low, within about 6 inches of the floor','On the door itself','Anywhere convenient'],a:1,e:'Low mounting (about 6 in) catches a child or pet in the door\'s path. Eyes mounted too high, misaligned, or blocked fail the test.'},
+  {q:'A door that contacts the 2×4 and keeps pushing without reversing is:',o:['Working normally','A failed contact auto-reverse — report it as an entrapment hazard','A photo-eye problem only','Fine if the photo-eye works'],a:1,e:'The door must reverse on contact. Pushing instead is a failed auto-reverse and a reportable child-entrapment hazard.'},
+  {q:'A misaligned photo-eye is:',o:['Cosmetic','A failed non-contact safety reverse — report and recommend realignment','Not part of the inspection','Acceptable if the contact reverse works'],a:1,e:'A twisted or blocked eye can\'t reliably reverse a closing door. Report the misaligned non-contact safety and recommend service.'},
+ ]},
+
+/* ===== L6 ELECTRICAL PROTECTION & GAS ===== */
+{id:'l6',kind:'Lesson 6',label:'GFCI, AFCI & Gas',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 6 · The protection behind the plug</span><h1>The appliance works — but is the circuit protected?</h1>
+ <p class="lead">Appliances live on electrical circuits and gas lines, and several findings have nothing to do with whether the unit runs. Two protections come up again and again: <b>GFCI</b> on the receptacles, and proper handling of the <b>gas</b> connections.</p>
+ <h2>GFCI — ground-fault protection</h2>
+ <p>A <b>GFCI</b> watches the current going out against the current coming back; the instant they don't match (current leaking through a person to ground), it cuts power in milliseconds. It's required at <b>kitchen counter receptacles</b> and other wet or outdoor locations. Missing GFCI where it's required is a reportable electrical safety deficiency.</p>
+ ${W('gfi')}
+ <h2>AFCI — arc-fault protection</h2>
+ <p>An <b>AFCI</b> detects the erratic signature of a dangerous arc (a frayed cord, a loose connection) and trips before it starts a fire. Arc-fault requirements keep expanding to more circuits. Where applicable protection is clearly missing on a circuit you can see, note it.</p>
+ <h2>Gas connections — the appliance side</h2>
+ ${conds('',[['Suspected leaks','Odor, hiss, or a bubble test at an appliance connection — report it, recommend shut-off, refer to a qualified technician. You don\'t repair gas.'],['Improper connectors','Kinked, corroded, over-long, or panel-routed flexible connectors are reportable on ranges, dryers, and other gas appliances.'],['Shutoffs &amp; sediment','Note a missing appliance shutoff valve where one should be present.']])}
+ ${W('sort','report')}
+ ${story('Inspector in the house',`Every appliance in the kitchen ran. But the counter receptacles by the sink had no GFCI, and the gas range\'s connector was kinked behind the unit. **None of that shows when you just turn things on.** The report carried three clean findings — missing GFCI, improper gas connector — separate from the appliances themselves, each with its own recommendation.`)}`,
+ quiz:[
+  {q:'GFCI protection is required at:',o:['Bedroom receptacles only','Kitchen counter receptacles and other wet/outdoor locations','Nowhere in a kitchen','240 V circuits only'],a:1,e:'GFCI is required at kitchen counter receptacles and wet/outdoor locations. Report missing GFCI as an electrical safety deficiency.'},
+  {q:'A GFCI protects against:',o:['Overloads','A ground fault — current leaking to ground through a person','Arc faults','Gas leaks'],a:1,e:'It compares current out vs. back and trips on the tiny imbalance of a ground fault, cutting power in milliseconds.'},
+  {q:'An AFCI is designed to detect:',o:['Ground faults','The signature of a dangerous electrical arc, to prevent fires','Gas odors','Water leaks'],a:1,e:'Arc-fault protection trips on the erratic signature of a dangerous arc (frayed cords, loose connections). Note missing protection where applicable.'},
+  {q:'A suspected gas leak at an appliance connection is handled by:',o:['Tightening it yourself','Reporting it, recommending shut-off, and referring to a qualified technician','Lighting the burner to burn it off','Ignoring it if the unit works'],a:1,e:'Report the suspected leak and refer to a qualified gas technician. Inspectors don\'t repair gas systems.'},
+  {q:'Whether an appliance runs and whether its circuit is GFCI-protected are:',o:['The same finding','Separate findings — report each on its own','Only relevant for gas units','Out of scope'],a:1,e:'Operation and protection are distinct. A unit can run perfectly while its required GFCI is missing — report both, separately.'},
+ ]},
+
+/* ===== L7 PUTTING IT TOGETHER ===== */
+{id:'l7',kind:'Lesson 7',label:'The Full Walk-through',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 7 · Putting it together</span><h1>One method, every appliance: operate, check the safety, report.</h1>
+ <p class="lead">The appliances section is a checklist of small, repeatable reads. The skill isn't any single test — it's running the <em>same three questions</em> on each unit without skipping the one that matters.</p>
+ <h2>The walk-through, appliance by appliance</h2>
+ <ul class="num"><li><b>Dishwasher</b> — runs a cycle, drains, no leaks; air gap or high loop present.</li><li><b>Disposer</b> — spins and grinds, no leak; not jammed (humming without turning).</li><li><b>Range / oven / cooktop</b> — bake, broil, each burner; <b>anti-tip bracket</b>; gas connector and any odor.</li><li><b>Range hood</b> — runs; identified as ducted or recirculating.</li><li><b>Built-in microwave</b> — runs a short cycle; hood type if over-the-range.</li><li><b>Trash compactor</b> — cycles from its controls.</li><li><b>Garage door operator</b> — <b>contact reverse</b> (2×4) and <b>photo-eye</b> both pass.</li><li><b>Dryer exhaust duct</b> — metal, terminates outside.</li><li><b>Electrical / gas</b> — GFCI where required, AFCI where applicable, gas connections sound.</li></ul>
+ <h2>The conditions you'll write up most</h2>
+ <div class="defect"><div class="dh"><span class="n">1</span><span class="nm">Missing anti-tip bracket</span></div><p>Free-standing range not anchored against tipping.</p><div class="meta"><span class="lab">Implication</span><span class="val">Tip-over and scald hazard, especially to children.</span><span class="lab">Report</span><span class="val">Recommend installing the listed anti-tip bracket.</span></div></div>
+ <div class="defect"><div class="dh"><span class="n">2</span><span class="nm">Garage door won't reverse</span></div><p>Failed contact auto-reverse and/or missing/misaligned photo-eye.</p><div class="meta"><span class="lab">Implication</span><span class="val">Child-entrapment / crush hazard.</span><span class="lab">Report</span><span class="val">Report the failed safety and recommend service before occupancy.</span></div></div>
+ <div class="defect"><div class="dh"><span class="n">3</span><span class="nm">Improper venting</span></div><p>Dryer exhaust into the attic/crawl, vinyl duct, or a capped hood reported as ducted.</p><div class="meta"><span class="lab">Implication</span><span class="val">Fire and moisture hazard; misrepresented hood type.</span><span class="lab">Report</span><span class="val">Recommend metal duct terminating outside; report the hood\'s true type.</span></div></div>
+ <div class="field"><div class="ic">${sv(ic.alert)}</div><div><div class="t">The inspector's summary</div><p>Operate every permanently installed appliance with its <b>normal controls</b>, confirm the <b>safety device</b> (anti-tip bracket, garage reverses, GFCI, proper venting and connectors), and verify the <b>connection</b> (gas, drain, exhaust). Name the deficiency, the implication, and the recommendation — and note anything you couldn't operate, and why.</p></div></div>
+ ${story('Inspector in the house',`A house full of new appliances looked like a five-minute walkthrough. But the range had no bracket, the dryer vented to the attic, the garage door wouldn't reverse, and the counter had no GFCI — four serious findings behind four units that all "worked." **Operation is the easy part; the safety devices are the inspection.** Same three questions, every appliance, no skips.`)}`,
+ quiz:[
+  {q:'The inspector\'s through-line for the appliances system is:',o:['Replace what\'s aging','Operate each unit normally, verify its safety device, and report deficiencies','Test only what the seller points out','Repair what\'s broken'],a:1,e:'Operate through ordinary controls, confirm the safety devices and connections, and report deficiencies — the same three questions on every unit.'},
+  {q:'The two highest-stakes safety findings in this section are:',o:['Microwave and compactor operation','Missing range anti-tip bracket and a garage door that won\'t reverse','Hood noise and dishwasher cycle time','Disposer and ice-maker leaks'],a:1,e:'A tip-over range and a non-reversing garage door are the life-safety findings — never skip the bracket check or both door reverses.'},
+  {q:'For any appliance you couldn\'t operate, you should:',o:['Assume it works','Note that you didn\'t operate it, and why','Leave it off the report','Operate it by force'],a:1,e:'Report what you couldn\'t evaluate and the reason (not connected, inaccessible, unsafe to operate) — that\'s part of a complete report.'},
+  {q:'A kitchen of brand-new appliances that all power on:',o:['Needs no further inspection','Can still have missing brackets, improper venting, failed garage reverses, or missing GFCI','Is automatically compliant','Only needs the gas checked'],a:1,e:'Operation is the easy part. The safety devices, venting, and protection are where the real findings hide — check them on every unit.'},
+ ]},
+/*LESSONS*/
+ {id:'scenarios',kind:'Apply it',label:'Inspector\'s Call',type:'scenario'},
+ {id:'assess',kind:'Assessment',label:'Mastery check',type:'assess'},
+ {id:'glossary',kind:'Reference',label:'Glossary',type:'glossary'},
+ {id:'source',kind:'Reference',label:'Reference & summary',type:'source'},
+];
+(async()=>{await load();render();})();
+</script>

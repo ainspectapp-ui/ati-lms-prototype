@@ -1,0 +1,788 @@
+<!-- ATI · Module I · Structure & Foundation — full interactive section -->
+<title>ATI · Module I — Structure &amp; Foundation</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..900&family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#f4f2ea;--surf:#fffdf8;--surf-2:#faf7ef;--surf-3:#efeae0;
+    --line:#e6e1d4;--line-2:#efeae0;--line-brass:rgba(197,129,42,.32);
+    --ink:#21242b;--ink-2:#5b616b;--ink-3:#8b909a;
+    --brass:#c5812a;--brass-2:#e0a043;--brass-deep:#9a6214;--brass-soft:#f4e7cd;
+    --slate:#1f6f73;--slate-2:#2f8a8d;--slate-soft:#dde9e9;--slate-deep:#123f43;
+    --pass:#2f7a4e;--pass-soft:#e2efe5;--fail:#bd4a31;--fail-soft:#f6e6df;
+    --r:16px;--display:'Fraunces',Georgia,serif;--body:'Hanken Grotesk',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;
+    --sh-1:0 1px 2px rgba(25,28,34,.05),0 1px 3px rgba(25,28,34,.05);--sh-2:0 4px 14px rgba(25,28,34,.06),0 12px 32px rgba(25,28,34,.09);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.55;background-image:radial-gradient(120% 80% at 88% -8%,rgba(197,129,42,.06),transparent 52%),radial-gradient(90% 60% at -8% 108%,rgba(31,111,115,.06),transparent 52%)}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  .mono{font-family:var(--mono)}
+  ::selection{background:var(--brass);color:#fff}
+  ::-webkit-scrollbar{width:11px;height:11px}::-webkit-scrollbar-thumb{background:#d2ccbd;border-radius:11px;border:3px solid var(--bg)}
+
+  .top{position:sticky;top:0;z-index:30;background:rgba(244,242,234,.82);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid var(--line)}
+  .top .row{max-width:1150px;margin:0 auto;padding:13px 24px;display:flex;align-items:center;gap:14px}
+  .mark{width:36px;height:36px;border-radius:10px;flex:none;display:grid;place-items:center;background:linear-gradient(150deg,var(--brass-2),var(--brass-deep));box-shadow:0 3px 12px rgba(168,109,16,.3),inset 0 1px 0 rgba(255,255,255,.35)}
+  .mark svg{width:20px;height:20px;color:#fff}
+  .top .tt{font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:-.01em;line-height:1.1}.top .tt b{color:var(--brass-deep)}
+  .top .sub{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);display:block;margin-top:2px}
+  .top .prog{margin-left:auto;display:flex;align-items:center;gap:12px}
+  .top .prog .bar{width:150px;height:7px;background:var(--surf-3);border-radius:7px;overflow:hidden;border:1px solid var(--line)}
+  .top .prog .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--brass-deep),var(--brass));border-radius:7px;transition:width .5s cubic-bezier(.2,.7,.2,1)}
+  .top .prog .pc{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--brass-deep);min-width:34px;text-align:right}
+
+  .wrap{max-width:1150px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:250px 1fr;gap:32px;align-items:start}
+  .rail{position:sticky;top:88px;margin-top:28px;max-height:calc(100vh - 110px);overflow-y:auto;padding-right:4px}
+  .rail .h{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);padding:0 8px 10px}
+  .step{display:block;padding:9px 10px 9px 43px;border-radius:10px;width:100%;text-align:left;transition:.13s;color:var(--ink-2);font-size:12.5px;font-weight:500;position:relative}
+  .step:hover{background:var(--surf-2)}
+  .step.active{background:var(--surf);box-shadow:var(--sh-1);color:var(--ink)}
+  .step.active::before{content:"";position:absolute;left:-8px;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--brass)}
+  .step .dot{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-family:var(--mono);font-size:10px;color:var(--ink-3);background:var(--bg);transition:.2s}
+  .step.done .dot{background:var(--brass);border-color:var(--brass);color:#fff}.step.done .dot svg{width:11px;height:11px}
+  .step .lbl{flex:1;line-height:1.2}
+  .step .kind{font-family:var(--mono);font-size:8.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);display:block;margin-top:1px}
+  .step.locked{opacity:.42;pointer-events:none}
+
+  .view{min-width:0;margin-top:28px;animation:rise .38s cubic-bezier(.2,.7,.2,1);padding-bottom:40px}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--brass-deep);font-weight:600}
+  h1{font-family:var(--display);font-weight:800;font-size:31px;letter-spacing:-.02em;line-height:1.08;margin:8px 0 0}
+  h2{font-family:var(--display);font-weight:700;font-size:21px;letter-spacing:-.01em;margin:32px 0 10px}
+  h3{font-family:var(--display);font-weight:700;font-size:16px;margin:24px 0 8px}
+  p{font-size:15.5px;color:#33312a;margin-bottom:14px;line-height:1.74}
+  p b,li b{color:var(--ink);font-weight:700}
+  .lead{font-size:16.5px;color:var(--ink-2);margin-top:12px;max-width:64ch}
+  ul.clean{list-style:none;margin:2px 0 16px}
+  ul.clean li{font-size:14.5px;color:#33312a;padding-left:22px;position:relative;margin-bottom:9px;line-height:1.6}
+  ul.clean li::before{content:"";position:absolute;left:2px;top:8px;width:7px;height:7px;border-radius:2px;background:var(--brass);transform:rotate(45deg)}
+  ul.num{margin:0 0 16px 20px}ul.num li{font-size:14.5px;color:#33312a;margin-bottom:7px;line-height:1.6}
+
+  .field{background:var(--slate-deep);color:#e9edf0;border-radius:13px;padding:18px 20px;margin:22px 0;display:flex;gap:14px}
+  .field.brass{background:linear-gradient(135deg,#3a3526,#2c2818)}
+  .field .ic{flex:none;color:var(--brass-2)}.field .ic svg{width:20px;height:20px}
+  .field .t{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-2);margin-bottom:5px}
+  .field p{color:#c4cdd4;font-size:14px;margin:0 0 8px;line-height:1.65}.field p:last-child{margin-bottom:0}.field p b{color:#fff}
+
+  .story{background:var(--surf);border:1px solid var(--line);border-left:4px solid var(--brass);border-radius:0 13px 13px 0;padding:16px 19px;margin:22px 0;box-shadow:var(--sh-1)}
+  .story .st{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-deep);display:flex;align-items:center;gap:8px;margin-bottom:7px}
+  .story .st svg{width:14px;height:14px}
+  .story p{font-size:14.5px;color:#403d33;font-style:italic;margin:0;line-height:1.7}
+  .story p b{font-style:normal}
+
+  .loop{display:flex;align-items:stretch;background:var(--surf);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin:18px 0 8px;box-shadow:var(--sh-1)}
+  .loop .seg{flex:1;padding:13px 10px;text-align:center;border-right:1px solid var(--line-2)}.loop .seg:last-child{border-right:none}
+  .loop .seg .n{font-family:var(--mono);font-size:9px;color:var(--ink-3);letter-spacing:.1em}
+  .loop .seg .w{font-family:var(--display);font-weight:700;font-size:12.5px;margin-top:3px}
+  .loop .seg.on{background:var(--brass-soft)}.loop .seg.on .w{color:var(--brass-deep)}
+
+  .dgm{background:#bdb8a8;border:1px solid var(--line);border-radius:var(--r);padding:8px;margin:20px 0;box-shadow:var(--sh-1);position:relative;overflow:hidden}
+  .dgm::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(44,65,83,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(44,65,83,.1) 1px,transparent 1px);background-size:26px 26px;pointer-events:none}
+  .dgm svg{display:block;width:100%;height:auto;position:relative}
+  .dgm .cap{position:relative;text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:.04em;color:var(--slate-deep);padding:4px 6px 8px}
+
+  .defect{background:var(--surf);border:1px solid var(--line);border-radius:13px;padding:16px 18px;box-shadow:var(--sh-1);margin:12px 0}
+  .defect .dh{display:flex;align-items:center;gap:11px;margin-bottom:8px}
+  .defect .dh .n{width:26px;height:26px;border-radius:8px;background:var(--fail-soft);color:var(--fail);display:grid;place-items:center;flex:none;font-family:var(--mono);font-weight:600;font-size:12px}
+  .defect .dh .nm{font-family:var(--display);font-weight:700;font-size:15px}
+  .defect p{font-size:14px;margin-bottom:9px}
+  .defect .meta{display:grid;grid-template-columns:auto 1fr;gap:5px 12px;font-size:13px;align-items:start}
+  .defect .meta .lab{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);padding-top:3px;white-space:nowrap}
+  .defect .meta .val{color:#33312a;line-height:1.5}
+  .defect .rep{font-family:var(--mono);font-size:11px;background:var(--slate-soft);border-radius:8px;padding:8px 11px;color:var(--slate-deep);line-height:1.5;margin-top:8px}.defect .rep b{color:var(--slate-deep)}
+
+  .pills{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 6px}
+  .pill{font-family:var(--mono);font-size:11.5px;background:var(--surf);border:1px solid var(--line);color:var(--ink-2);padding:6px 12px;border-radius:20px}.pill b{color:var(--brass-deep)}
+  .tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px;background:var(--surf);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .tbl th{background:var(--slate-deep);color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;text-align:left;padding:9px 12px;font-weight:600}
+  .tbl td{padding:9px 12px;border-top:1px solid var(--line-2);color:#33312a}
+  .tbl td:first-child{font-family:var(--mono);font-weight:600;color:var(--brass-deep);white-space:nowrap}
+
+  /* ---- quiz (multi-question) ---- */
+  .quiz{background:var(--surf);border:1.5px solid var(--line-brass);border-radius:var(--r);padding:24px;margin:30px 0 0;box-shadow:var(--sh-1)}
+  .quiz .qh{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-deep);display:flex;align-items:center;gap:8px;margin-bottom:4px}.quiz .qh svg{width:15px;height:15px}
+  .quiz .qt{font-family:var(--display);font-weight:700;font-size:18px}.quiz .qsub{font-size:13.5px;color:var(--ink-2);margin:4px 0 4px}
+  .qblock{border-top:1px solid var(--line-2);padding-top:18px;margin-top:18px}.qblock:first-of-type{border-top:none;padding-top:14px}
+  .qnum{font-family:var(--mono);font-size:11px;color:var(--brass-deep);font-weight:600;margin-bottom:6px}
+  .q{font-family:var(--display);font-weight:600;font-size:15.5px;margin-bottom:13px;line-height:1.4}
+  .opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:11px 14px;border:1.5px solid var(--line);border-radius:10px;margin-bottom:8px;transition:.13s;font-size:14px;font-weight:500;background:var(--surf-2)}
+  .opt:hover:not(.lk){border-color:var(--brass);background:var(--surf)}
+  .opt .k{font-family:var(--mono);font-weight:600;width:23px;height:23px;border-radius:6px;background:var(--surf-3);display:grid;place-items:center;font-size:11px;flex:none;color:var(--ink-2)}
+  .opt.correct{border-color:var(--pass);background:var(--pass-soft)}.opt.correct .k{background:var(--pass);color:#fff}
+  .opt.wrong{border-color:var(--fail);background:var(--fail-soft)}.opt.wrong .k{background:var(--fail);color:#fff}
+  .opt .mk{margin-left:auto}.opt .mk svg{width:16px;height:16px}.opt.lk{cursor:default}
+  .exp{font-size:13px;color:var(--ink-2);line-height:1.62;padding:11px 13px;background:var(--surf-2);border-left:3px solid var(--brass);border-radius:0 9px 9px 0;margin-top:4px}.exp b{color:var(--ink)}
+  .qscore{margin-top:20px;padding-top:18px;border-top:1px solid var(--line-2);font-family:var(--mono);font-size:13px;color:var(--ink-2);display:flex;align-items:center;gap:10px}.qscore svg{width:18px;height:18px;flex:none}.qscore b{font-size:15px}
+
+  .foot{display:flex;align-items:center;gap:12px;margin:30px 0 10px;padding-top:22px;border-top:1px solid var(--line)}.foot .sp{flex:1}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:14px;padding:12px 18px;border-radius:11px;transition:.15s;font-family:var(--body)}.btn svg{width:16px;height:16px}
+  .btn.brass{background:linear-gradient(150deg,var(--brass-2),var(--brass));color:#fff;box-shadow:0 5px 14px rgba(168,109,16,.28)}.btn.brass:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(168,109,16,.36)}
+  .btn.brass:disabled{opacity:.5;filter:grayscale(.3);cursor:not-allowed;transform:none;box-shadow:none}
+  .btn.ghost{background:var(--surf);border:1px solid var(--line);color:var(--ink-2)}.btn.ghost:hover{color:var(--ink);border-color:var(--ink-3)}
+  .btn.slate{background:var(--slate);color:#fff}.btn.slate:hover{background:var(--slate-deep)}
+
+  /* ---- WIDGETS ---- */
+  .wlabel{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:var(--brass);padding:4px 9px;border-radius:20px;display:inline-block;margin-bottom:6px}
+  .wtitle{font-family:var(--display);font-weight:700;font-size:16px;margin-bottom:3px}
+  .wsub{font-size:13.5px;color:var(--ink-2);margin-bottom:14px}
+  .widget{background:var(--surf-2);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;margin:24px 0;box-shadow:var(--sh-1)}
+
+  .sd-wrap{display:grid;grid-template-columns:1fr 260px;gap:16px}@media(max-width:760px){.sd-wrap{grid-template-columns:1fr}}
+  .sd-stage{background:#bdb8a8;border:1px solid var(--line);border-radius:13px;padding:8px;position:relative;overflow:hidden}
+  .sd-stage::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(44,65,83,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(44,65,83,.09) 1px,transparent 1px);background-size:24px 24px;pointer-events:none}
+  .sd-stage svg{display:block;width:100%;height:auto;position:relative}
+  .hot{cursor:pointer}.hot circle.zone{fill:transparent;stroke:transparent}
+  .hot.found circle.zone{fill:rgba(61,125,80,.16);stroke:var(--pass);stroke-width:2.5;stroke-dasharray:4 3}
+  .sd-side{display:flex;flex-direction:column;gap:11px}
+  .sd-count{background:var(--slate-deep);color:#fff;border-radius:12px;padding:13px 15px;text-align:center}
+  .sd-count .big{font-family:var(--mono);font-weight:600;font-size:28px;line-height:1}.sd-count .lbl{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-2);margin-top:5px}
+  .sd-found{display:flex;flex-direction:column;gap:7px;max-height:280px;overflow-y:auto}
+  .fcard{background:var(--surf);border:1px solid var(--line);border-left:3px solid var(--pass);border-radius:9px;padding:9px 11px;animation:pop .3s}@keyframes pop{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:none}}
+  .fcard .fn{font-family:var(--display);font-weight:700;font-size:13px;color:var(--pass)}.fcard .fd{font-size:12px;color:var(--ink-2);margin-top:2px;line-height:1.45}
+  .sd-empty{font-size:12.5px;color:var(--ink-3);font-style:italic;text-align:center;padding:18px 8px}
+  .sd-done{background:var(--pass-soft);border:1px solid var(--pass);border-radius:11px;padding:12px;text-align:center;font-size:13px;color:var(--pass);font-weight:600}
+
+  .gfi-stage{background:var(--slate-deep);border-radius:13px;padding:20px;position:relative;overflow:hidden;height:220px}
+  .lane{position:absolute;left:120px;right:120px;height:3px;background:rgba(255,255,255,.18);border-radius:3px}.lane.hot{top:66px}.lane.neu{top:146px}
+  .lane .lab{position:absolute;top:-19px;left:0;font-family:var(--mono);font-size:10px;color:#9fb0bd}
+  .dot{position:absolute;width:9px;height:9px;border-radius:50%;top:-3px}
+  .dot.h{background:var(--brass-2);animation:flowR 2.4s linear infinite}.dot.n{background:#7fa8c4;animation:flowL 2.4s linear infinite}
+  @keyframes flowR{from{left:0}to{left:100%}}@keyframes flowL{from{left:100%}to{left:0}}
+  .gbox{position:absolute;left:28px;top:66px;width:68px;height:80px;border:2px solid #9fb0bd;border-radius:8px;display:grid;place-items:center;text-align:center}
+  .gbox .gt{font-family:var(--mono);font-size:10px;color:#fff}.gbox .gs{font-family:var(--mono);font-size:8px;color:#7fa8c4;margin-top:3px}
+  .load{position:absolute;right:28px;top:66px;width:68px;height:80px;border:2px solid #9fb0bd;border-radius:8px;display:grid;place-items:center}.load .lt{font-family:var(--mono);font-size:10px;color:#fff}
+  .leak{position:absolute;left:50%;top:69px;width:2px;height:88px;background:repeating-linear-gradient(180deg,var(--fail),var(--fail) 5px,transparent 5px,transparent 10px);opacity:0;transition:.3s}.leak.on{opacity:1}
+  .person{position:absolute;left:calc(50% - 13px);top:160px;font-size:22px;opacity:0;transition:.3s}.person.on{opacity:1}
+  .trip{position:absolute;inset:0;background:rgba(184,84,54,.92);display:grid;place-items:center;opacity:0;pointer-events:none;transition:.3s}.trip.on{opacity:1}
+  .trip .tw{text-align:center;color:#fff}.trip .tw .b{font-family:var(--display);font-weight:800;font-size:25px}.trip .tw .s{font-family:var(--mono);font-size:11px;letter-spacing:.1em;margin-top:6px;opacity:.9}
+  .gfi-status{display:flex;align-items:center;gap:10px;margin-top:14px;font-size:14px;font-weight:600}.gfi-status .pip{width:11px;height:11px;border-radius:50%;background:var(--pass)}.gfi-status.fault .pip{background:var(--fail)}
+  .gfi-controls{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}.gfi-read{font-family:var(--mono);font-size:12px;color:var(--ink-2);margin-top:10px}.gfi-read b{color:var(--brass-deep)}
+
+  .match{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:600px){.match{grid-template-columns:1fr}}
+  .mcol{display:flex;flex-direction:column;gap:9px}.mcol .ch{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);text-align:center;margin-bottom:2px}
+  .chip{padding:13px;border:1.5px solid var(--line);border-radius:11px;background:var(--surf);font-family:var(--mono);font-weight:600;font-size:14px;text-align:center;transition:.13s;color:var(--ink)}
+  .chip:hover:not(.locked){border-color:var(--brass)}.chip.sel{border-color:var(--brass);background:var(--brass-soft);color:var(--brass-deep)}
+  .chip.locked{border-color:var(--pass);background:var(--pass-soft);color:var(--pass);cursor:default;opacity:.85}
+  .chip.miss{border-color:var(--fail);background:var(--fail-soft);animation:shake .3s}@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+  .w-done{margin-top:14px;background:var(--pass-soft);border:1px solid var(--pass);border-radius:11px;padding:12px;text-align:center;font-size:13px;color:var(--pass);font-weight:600}
+
+  .est{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:600px){.est{grid-template-columns:1fr}}
+  .est label{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:6px}
+  .est select{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--surf);font-family:var(--mono);font-size:14px;color:var(--ink);font-weight:600}
+  .est-out{grid-column:1/-1;margin-top:4px;border-radius:12px;padding:15px 17px;border:1px solid var(--line);background:var(--surf);transition:.2s}
+  .est-out.ok{border-color:var(--pass);background:var(--pass-soft)}.est-out.bad{border-color:var(--fail);background:var(--fail-soft)}
+  .est-out .ev{font-family:var(--display);font-weight:800;font-size:19px}.est-out .ed{font-size:13px;color:var(--ink-2);margin-top:5px;line-height:1.5}
+  .est-out.ok .ev{color:var(--pass)}.est-out.bad .ev{color:var(--fail)}
+
+  .sort{display:grid;gap:14px}
+  .sort-items{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;min-height:20px}
+  .sitem{padding:10px 14px;border:1.5px solid var(--line);border-radius:10px;background:var(--surf);font-size:13.5px;font-weight:500;transition:.13s}.sitem:hover:not(.placed){border-color:var(--brass)}.sitem.sel{border-color:var(--brass);background:var(--brass-soft);color:var(--brass-deep)}.sitem.placed{display:none}
+  .bins{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:600px){.bins{grid-template-columns:1fr}}
+  .bin{border:1.5px dashed var(--line);border-radius:12px;padding:14px;min-height:90px;background:var(--surf)}
+  .bin.activeb{border-color:var(--brass);background:var(--brass-soft)}
+  .bin .bt{font-family:var(--display);font-weight:700;font-size:14px;text-align:center;margin-bottom:10px}
+  .bin .drop{font-size:11px;color:var(--ink-3);text-align:center;font-style:italic}
+  .binitem{padding:8px 11px;border-radius:8px;font-size:13px;font-weight:500;margin-bottom:6px;display:flex;align-items:center;gap:7px}.binitem svg{width:13px;height:13px;flex:none}
+  .binitem.right{background:var(--pass-soft);color:var(--pass)}.binitem.wrong{background:var(--fail-soft);color:var(--fail)}
+
+  .era{display:flex;flex-direction:column;gap:0;position:relative;margin:6px 0 4px;padding-left:8px}
+  .era .line{position:absolute;left:14px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .erow{display:flex;align-items:flex-start;gap:14px;padding:9px 0;position:relative;cursor:pointer}
+  .erow .ed{width:12px;height:12px;border-radius:50%;background:var(--surf-3);border:2px solid var(--line);flex:none;margin-top:3px;z-index:1;transition:.15s}
+  .erow:hover .ed,.erow.open .ed{background:var(--brass);border-color:var(--brass)}
+  .erow .et{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--brass-deep);width:130px;flex:none}
+  .erow .en{font-size:14px;color:#33312a;font-weight:600}
+  .erow .ex{font-size:13px;color:var(--ink-2);line-height:1.5;margin-top:4px;display:none}.erow.open .ex{display:block}
+
+  .panelcard{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-2);padding:34px;text-align:center}
+  .panelcard .ic{width:56px;height:56px;border-radius:14px;background:var(--brass-soft);color:var(--brass-deep);display:grid;place-items:center;margin:0 auto 16px}.panelcard .ic svg{width:27px;height:27px}
+  .panelcard h2{margin:0 0 8px}.panelcard p{max-width:48ch;margin:0 auto 22px}
+  .ring{width:150px;height:150px;margin:0 auto 18px;position:relative}.ring .rv{position:absolute;inset:0;display:grid;place-items:center}.ring .rv .n{font-family:var(--mono);font-weight:600;font-size:38px;line-height:1}.ring .rv .p{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-top:4px}
+  .verdict{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;display:inline-block;padding:5px 13px;border-radius:20px;margin-bottom:16px}.verdict.pass{background:var(--pass-soft);color:var(--pass)}.verdict.fail{background:var(--fail-soft);color:var(--fail)}
+
+  .scen{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-2);margin-bottom:16px}
+  .scen .sh{background:linear-gradient(120deg,#1f6f73,#123f43);color:#fff;padding:16px 20px}.scen .sh .t{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-2)}.scen .sh .n{font-family:var(--display);font-weight:700;font-size:17px;margin-top:3px}
+  .scen .body{padding:20px 22px}.scen .situation{font-size:15.5px;color:#33312a;line-height:1.7;margin-bottom:6px}.scen .ask{font-family:var(--display);font-weight:600;font-size:15px;margin:16px 0 14px;color:var(--ink)}
+  .scount{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-bottom:10px}
+
+  .gloss{display:grid;gap:10px}.term{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:13px 16px;box-shadow:var(--sh-1)}
+  .term .tw{font-family:var(--display);font-weight:700;font-size:14.5px;color:var(--brass-deep)}.term .td{font-size:13.5px;color:var(--ink-2);margin-top:3px;line-height:1.55}
+  .srcframe{width:100%;height:78vh;border:1px solid var(--line);border-radius:var(--r);background:var(--surf);box-shadow:var(--sh-1)}
+  .srcnote{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:14px 17px;font-size:13.5px;color:var(--ink-2);margin:14px 0;line-height:1.6}.srcnote a{color:var(--brass-deep);font-weight:600}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--slate-deep);color:#fff;padding:12px 18px;border-radius:11px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;box-shadow:var(--sh-2);z-index:100;opacity:0;transition:.3s}.toast.show{transform:translateX(-50%) translateY(0);opacity:1}.toast svg{width:16px;height:16px;color:var(--brass-2)}
+  @media(max-width:880px){.wrap{grid-template-columns:1fr}.rail{display:none}.top .prog .bar{width:90px}}
+  em{font-style:italic;color:inherit}
+</style>
+<div class="top"><div class="row">
+  <a href="index.html" class="mark" style="text-decoration:none" title="Back to Module I"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8c2.2 0 2.2-2 4.5-2S9.7 8 12 8s2.2-2 4.5-2S18.7 8 21 8"/><path d="M3 13c2.2 0 2.2-2 4.5-2S9.7 13 12 13s2.2-2 4.5-2S18.7 13 21 13"/><path d="M3 18c2.2 0 2.2-2 4.5-2S9.7 18 12 18s2.2-2 4.5-2S18.7 18 21 18"/></svg></a>
+  <div><div class="tt">ATI · Module I — <b>Structure &amp; Foundation</b></div><span class="sub">Property &amp; Building Inspection · interactive</span></div>
+  <div class="prog"><a href="index.html" style="font-family:var(--mono);font-size:11px;font-weight:600;color:var(--brass-deep);text-decoration:none;margin-right:2px" title="All systems">↩ Systems</a><div class="bar"><i id="pbar"></i></div><span class="pc" id="ppc">0%</span></div>
+</div></div>
+<div class="wrap"><aside class="rail"><div class="h">Section contents</div><div id="rail"></div></aside><main class="view" id="view"></main></div>
+<div class="toast" id="toast"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span id="tmsg"></span></div>
+<script src="/storage.js"></script>
+<script>
+/* ---- storage adapter: native window.storage in Claude; localStorage when deployed (GitHub Pages); memory as last resort ---- */
+(function(){if(typeof window==='undefined')return;if(window.storage&&window.storage.get)return;var mem={};window.storage={get:function(k){try{var v=window.localStorage.getItem(k);return Promise.resolve(v!=null?{value:v}:null);}catch(e){return Promise.resolve(mem[k]!=null?{value:mem[k]}:null);}},set:function(k,v){try{window.localStorage.setItem(k,v);}catch(e){mem[k]=v;}return Promise.resolve({value:v});},delete:function(k){try{window.localStorage.removeItem(k);}catch(e){delete mem[k];}return Promise.resolve({deleted:true});}};})();
+
+const ic={check:'<path d="M20 6 9 17l-5-5"/>',x:'<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',arrow:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',back:'<path d="M19 12H5"/><path d="m12 19-7-7 7-7"/>',brain:'<path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44A2.5 2.5 0 0 1 4 17.5a2.5 2.5 0 0 1-.5-4.9 2.5 2.5 0 0 1 0-4.2A2.5 2.5 0 0 1 5 3.5 2.5 2.5 0 0 1 9.5 2z"/>',flag:'<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>',alert:'<path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="9"/>',bolt:'<path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/>',book:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',open:'<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/>',award:'<circle cx="12" cy="8" r="6"/><path d="M15.5 12.9 17 22l-5-3-5 3 1.5-9.1"/>',retake:'<path d="M3 12a9 9 0 1 0 9-9 9 9 0 0 0-6.4 2.6L3 8"/><path d="M3 3v5h5"/>',coffee:'<path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/><line x1="6" y1="2" x2="6" y2="5"/><line x1="10" y1="2" x2="10" y2="5"/><line x1="14" y1="2" x2="14" y2="5"/>'};
+const sv=(p,w=2)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+function conds(title,items){return `<h3>${title}</h3><ul class="clean">${items.map(([n,d])=>`<li><b>${n}</b> — ${d}</li>`).join('')}</ul>`;}
+function story(title,text){return `<div class="story"><div class="st">${sv(ic.coffee)} ${title}</div><p>${text}</p></div>`;}
+
+/* ================= WIDGET LIBRARY ================= */
+const SPOT={}, MATCH={}, SORT={}, ERA={};
+const WID={
+  spot(el,k){const c=SPOT[k];let found=new Set();
+    el.innerHTML=`<span class="wlabel">Spot the defect</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div>
+     <div class="sd-wrap"><div class="sd-stage"><svg viewBox="${c.vb}" class="hot">${c.svg}<g class="hsg"></g></svg></div>
+     <div class="sd-side"><div class="sd-count"><div class="big"><span class="sdn">0</span>/${c.defects.length}</div><div class="lbl">defects found</div></div><div class="sd-found"><div class="sd-empty">Click a defect to log it…</div></div></div></div>`;
+    const g=el.querySelector('.hsg'),cnt=el.querySelector('.sdn'),fw=el.querySelector('.sd-found');
+    c.defects.forEach((d,i)=>{const gg=document.createElementNS('http://www.w3.org/2000/svg','g');gg.setAttribute('class','hot');gg.innerHTML=`<circle class="zone" cx="${d.x}" cy="${d.y}" r="${d.r}"/>`;gg.style.cursor='pointer';
+      gg.addEventListener('click',()=>{if(found.has(i))return;found.add(i);gg.classList.add('found');cnt.textContent=found.size;if(fw.querySelector('.sd-empty'))fw.innerHTML='';
+        const card=document.createElement('div');card.className='fcard';card.innerHTML=`<div class="fn">${found.size}. ${d.n}</div><div class="fd">${d.d}</div>`;fw.appendChild(card);
+        if(found.size===c.defects.length){const dn=document.createElement('div');dn.className='sd-done';dn.textContent='All found — that\'s the scan. Nicely done.';fw.appendChild(dn);}});
+      g.appendChild(gg);});},
+  gfi(el){el.innerHTML=`<span class="wlabel">Animated diagram</span><div class="wtitle">Watch the GFI work</div><div class="wsub">Current flows out the hot and back on the neutral — equal. Introduce a leak and see what happens.</div>
+    <div class="gfi-stage"><div class="gbox"><div><div class="gt">GFI</div><div class="gs">in vs out</div></div></div><div class="load"><div class="lt">LOAD</div></div><div class="lane hot"><span class="lab">hot — out</span></div><div class="lane neu"><span class="lab">neutral — back</span></div><div class="leak"></div><div class="person">🧍</div><div class="trip"><div class="tw"><div class="b">⚡ GFI TRIPPED</div><div class="s">imbalance &gt; 5 mA — cut in milliseconds</div></div></div></div>
+    <div class="gfi-status"><span class="pip"></span><span class="gtxt">Balanced — out equals back. Holding.</span></div>
+    <div class="gfi-read">Hot out: <b>15.000 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b>0 mA</b></div>
+    <div class="gfi-controls"><button class="btn brass gflt">Introduce a ground fault</button><button class="btn ghost grst">Reset</button></div>`;
+    const stage=el.querySelector('.gfi-stage'),st=el.querySelector('.gfi-status'),txt=el.querySelector('.gtxt'),read=el.querySelector('.gfi-read'),trip=el.querySelector('.trip'),fbtn=el.querySelector('.gflt');let f=false,to;
+    function dots(){stage.querySelectorAll('.dot').forEach(d=>d.remove());for(let i=0;i<5;i++){const d=document.createElement('span');d.className='dot h';d.style.animationDelay=(-i*0.48)+'s';stage.querySelector('.lane.hot').appendChild(d);}const nc=f?2:5;for(let i=0;i<nc;i++){const d=document.createElement('span');d.className='dot n';d.style.animationDelay=(-i*0.48)+'s';stage.querySelector('.lane.neu').appendChild(d);}}
+    function reset(){f=false;clearTimeout(to);el.querySelector('.leak').classList.remove('on');el.querySelector('.person').classList.remove('on');trip.classList.remove('on');st.classList.remove('fault');txt.textContent='Balanced — out equals back. Holding.';read.innerHTML='Hot out: <b>15.000 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b>0 mA</b>';fbtn.textContent='Introduce a ground fault';dots();}
+    fbtn.onclick=()=>{f=!f;if(f){el.querySelector('.leak').classList.add('on');el.querySelector('.person').classList.add('on');st.classList.add('fault');txt.textContent='Imbalance — current is leaking to ground.';read.innerHTML='Hot out: <b>15.006 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b style="color:var(--fail)">6 mA</b>';fbtn.textContent='Clear the fault';dots();to=setTimeout(()=>trip.classList.add('on'),650);}else reset();};
+    el.querySelector('.grst').onclick=reset;dots();},
+  match(el,k){const c=MATCH[k];const sh=a=>a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v[1]);let sel=null,locked=0;
+    el.innerHTML=`<span class="wlabel">Match drill</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="match"><div class="mcol"><div class="ch">${c.left}</div><div class=" L"></div></div><div class="mcol"><div class="ch">${c.right}</div><div class="R"></div></div></div><div class="md"></div>`;
+    const L=el.querySelector('.L'),R=el.querySelector('.R'),done=el.querySelector('.md');
+    c.pairs.forEach(p=>{const b=document.createElement('button');b.className='chip';b.textContent=p[0];b.dataset.a=p[0];b.dataset.s='L';L.appendChild(b);});
+    sh(c.pairs.map(p=>p[1])).forEach(v=>{const b=document.createElement('button');b.className='chip';b.textContent=v;b.dataset.b=v;b.dataset.s='R';R.appendChild(b);});
+    el.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{if(b.classList.contains('locked'))return;
+      if(!sel){sel=b;b.classList.add('sel');return;}if(sel===b){b.classList.remove('sel');sel=null;return;}if(sel.dataset.s===b.dataset.s){sel.classList.remove('sel');sel=b;b.classList.add('sel');return;}
+      const left=sel.dataset.s==='L'?sel:b,right=sel.dataset.s==='R'?sel:b,ok=c.pairs.find(p=>p[0]===left.dataset.a)[1]===right.dataset.b;
+      if(ok){[left,right].forEach(x=>{x.classList.remove('sel');x.classList.add('locked');});locked++;if(locked===c.pairs.length)done.innerHTML=`<div class="w-done">${c.done}</div>`;}
+      else{[left,right].forEach(x=>{x.classList.add('miss');setTimeout(()=>x.classList.remove('miss','sel'),350);});}sel=null;});},
+  sort(el,k){const c=SORT[k];let sel=null,placed=0;
+    el.innerHTML=`<span class="wlabel">Sort it</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="sort"><div class="sort-items">${c.items.map((it,i)=>`<button class="sitem" data-i="${i}">${it.t}</button>`).join('')}</div><div class="bins">${c.bins.map((b,bi)=>`<div class="bin" data-bin="${bi}"><div class="bt">${b}</div><div class="drop">tap an item, then tap here</div></div>`).join('')}</div></div><div class="md"></div>`;
+    const items=el.querySelectorAll('.sitem'),bins=el.querySelectorAll('.bin'),done=el.querySelector('.md');
+    items.forEach(it=>it.onclick=()=>{if(it.classList.contains('placed'))return;el.querySelectorAll('.sitem').forEach(x=>x.classList.remove('sel'));sel=it;it.classList.add('sel');});
+    bins.forEach(bin=>bin.onclick=()=>{if(!sel)return;const i=+sel.dataset.i,bi=+bin.dataset.bin,ok=c.items[i].bin===bi;
+      const row=document.createElement('div');row.className='binitem '+(ok?'right':'wrong');row.innerHTML=(ok?sv(ic.check,2.6):sv(ic.x,2.6))+' '+c.items[i].t;bin.querySelector('.drop').remove?bin.querySelector('.drop')&&(bin.querySelector('.drop').style.display='none'):0;bin.appendChild(row);
+      sel.classList.add('placed');sel=null;placed++;if(placed===c.items.length)done.innerHTML=`<div class="w-done">${c.done}</div>`;});},
+  est(el){el.innerHTML=`<span class="wlabel">Field tool</span><div class="wtitle">Service-size estimator</div><div class="wsub">Set what you'd read on site; it calls the size and flags an unsafe mismatch — your on-site logic.</div>
+    <div class="est"><div><label>Service-entrance conductor (copper)</label><select class="sew"><option value="6">#6 AWG</option><option value="4">#4 AWG</option><option value="2" selected>2/0 AWG</option><option value="0">4/0 AWG</option></select></div><div><label>Main breaker rating</label><select class="mbk"><option value="60">60 A</option><option value="100">100 A</option><option value="200" selected>200 A</option><option value="400">400 A</option></select></div><div class="est-out"></div></div>`;
+    const WA={'6':60,'4':100,'2':200,'0':400},WL={'6':'#6 AWG','4':'#4 AWG','2':'2/0 AWG','0':'4/0 AWG'},sew=el.querySelector('.sew'),mbk=el.querySelector('.mbk'),out=el.querySelector('.est-out');
+    function go(){const w=sew.value,b=+mbk.value,sup=WA[w];if(b>sup){out.className='est-out bad';out.innerHTML=`<div class="ev">⚠ Overfused — unsafe</div><div class="ed">A ${b} A main on ${WL[w]} copper (good for ~${sup} A) won't shut off before the conductor overheats. Report: overcurrent device oversized for the service-entrance conductor.</div>`;}else{const ap=Math.min(b,sup);out.className='est-out ok';out.innerHTML=`<div class="ev">${ap} A service</div><div class="ed">${WL[w]} copper supports ~${sup} A and the main is ${b} A — conductor protected. Report the service size as ${ap} A${b<sup?' (limited by the main breaker)':''}.</div>`;}}
+    sew.onchange=go;mbk.onchange=go;go();},
+  era(el,k){const c=ERA[k];el.innerHTML=`<span class="wlabel">Explore</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="era"><div class="line"></div>${c.rows.map((r,i)=>`<div class="erow" data-i="${i}"><span class="ed"></span><span class="et">${r.d}</span><div><div class="en">${r.n}</div><div class="ex">${r.x}</div></div></div>`).join('')}</div>`;
+    el.querySelectorAll('.erow').forEach(r=>r.onclick=()=>r.classList.toggle('open'));}
+};
+function wireWidgets(root){root.querySelectorAll('.wmount').forEach(el=>{const w=el.dataset.w,k=el.dataset.k;if(WID[w])WID[w](el,k);});}
+function W(w,k){return `<div class="widget wmount" data-w="${w}" data-k="${k||''}"></div>`;}
+
+/* ================= ENGINE ================= */
+const KEY='ati_structure_ix_v1';
+let S={done:{},quiz:{},assessBest:0,cur:0};
+async function load(){try{const r=await window.storage.get(KEY,false);if(r&&r.value)S=JSON.parse(r.value);}catch(e){}S.done=S.done||{};S.quiz=S.quiz||{};}
+async function save(){try{await window.storage.set(KEY,JSON.stringify(S),false);}catch(e){}}
+const stepDone=i=>!!S.done[STEPS[i].id];
+const pct=()=>Math.round(Object.keys(S.done).length/STEPS.length*100);
+const unlocked=i=>i===0?true:stepDone(i-1);
+const view=document.getElementById('view');
+function updTop(){const p=pct();document.getElementById('pbar').style.width=p+'%';document.getElementById('ppc').textContent=p+'%';}
+function rail(){document.getElementById('rail').innerHTML=STEPS.map((s,i)=>{const d=stepDone(i),u=unlocked(i),a=i===S.cur;return `<button class="step ${d?'done':''} ${a?'active':''} ${u?'':'locked'}" ${u?`onclick="goStep(${i})"`:''}><span class="dot">${d?sv(ic.check,3):(i+1)}</span><span class="lbl">${s.label}<span class="kind">${s.kind}</span></span></button>`;}).join('');}
+function goStep(i){if(!unlocked(i))return;S.cur=i;save();render();window.scrollTo({top:0,behavior:'smooth'});}
+function markDoneAndNext(){S.done[STEPS[S.cur].id]=true;save();updTop();rail();if(S.cur<STEPS.length-1)goStep(S.cur+1);else render();}
+function render(){updTop();rail();const s=STEPS[S.cur];({lesson:renderLesson,scenario:renderScenarios,assess:renderAssess,glossary:renderGlossary,source:renderSource}[s.type])(s);}
+function navFoot(label,gated){const last=S.cur===STEPS.length-1;return `<div class="foot">${S.cur>0?`<button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button>`:''}<div class="sp"></div><button class="btn brass" id="nextBtn" ${gated?'disabled':''} onclick="markDoneAndNext()">${label||(last?'Finish section':'Mark complete & continue')} ${sv(ic.arrow)}</button></div>`;}
+
+function renderLesson(s){
+  let h=(typeof s.body==='function'?s.body():s.body);
+  if(s.quiz&&s.quiz.length){
+    h+=`<div class="quiz"><div class="qh">${sv(ic.brain)} Check your understanding</div><div class="qt">${s.label}</div><div class="qsub">${s.quiz.length} questions covering the lesson — answer each to see the reasoning.</div><div class="qbody">${
+      s.quiz.map((q,qi)=>`<div class="qblock"><div class="qnum">Question ${qi+1} of ${s.quiz.length}</div><div class="q">${q.q}</div><div class="opts" data-qi="${qi}">${q.o.map((o,k)=>`<button class="opt" onclick="qAns(${qi},${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="qexp" data-qi="${qi}"></div></div>`).join('')
+    }</div><div class="qscore" style="display:none"></div></div>`;
+  }
+  const gated=!!(s.quiz&&s.quiz.length&&!S.quiz[s.id]);
+  view.innerHTML=h+navFoot(null,gated);
+  wireWidgets(view);
+  window._ql={answered:{},total:s.quiz?s.quiz.length:0};
+}
+function qAns(qi,k){const s=STEPS[S.cur],q=s.quiz[qi];if(window._ql.answered[qi]!==undefined)return;window._ql.answered[qi]=k;
+  const opts=view.querySelector('.opts[data-qi="'+qi+'"]');opts.querySelectorAll('.opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===q.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});
+  view.querySelector('.qexp[data-qi="'+qi+'"]').innerHTML=`<div class="exp"><b>${k===q.a?'Correct.':'Review:'}</b> ${q.e}</div>`;
+  if(Object.keys(window._ql.answered).length===window._ql.total){
+    const right=s.quiz.filter((q,i)=>window._ql.answered[i]===q.a).length,sc=view.querySelector('.qscore');sc.style.display='flex';
+    sc.innerHTML=`${sv(ic.check,2.4)}<span>You scored <b style="color:${right>=Math.ceil(s.quiz.length*0.8)?'var(--pass)':'var(--fail)'}">${right}/${s.quiz.length}</b> on this lesson.</span>`;
+    sc.querySelector('svg').style.color=right>=Math.ceil(s.quiz.length*0.8)?'var(--pass)':'var(--fail)';
+    S.quiz[s.id]=true;save();const b=document.getElementById('nextBtn');if(b)b.disabled=false;}
+}
+
+let SC={i:0,answered:false};
+function renderScenarios(){SC={i:0,answered:false};paintScen();}
+function paintScen(){const sc=SCEN[SC.i];view.innerHTML=`<span class="eyebrow">Apply it · Inspector's Call</span><h1>Make the call</h1><p class="lead">The decisions you'll actually make standing in front of the system. Read it, choose, see the reasoning.</p><div class="scount mono">Scenario ${SC.i+1} of ${SCEN.length}</div><div class="scen"><div class="sh"><div class="t">${sc.t}</div><div class="n">${sc.n}</div></div><div class="body"><div class="situation">${sc.s}</div><div class="ask">${sc.ask}</div><div class="scopts">${sc.o.map((o,k)=>`<button class="opt" onclick="scAns(${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="scexp"></div></div></div><div class="foot"><button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button><div class="sp"></div><div class="scnext"></div></div>`;}
+function scAns(k){if(SC.answered)return;SC.answered=true;const sc=SCEN[SC.i];view.querySelectorAll('.scopts .opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===sc.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});view.querySelector('.scexp').innerHTML=`<div class="exp"><b>${k===sc.a?'Right call.':'Here\'s the call:'}</b> ${sc.e}</div>`;const last=SC.i===SCEN.length-1;view.querySelector('.scnext').innerHTML=`<button class="btn brass" onclick="${last?'markDoneAndNext()':'scNext()'}">${last?'Mark complete & continue':'Next scenario'} ${sv(ic.arrow)}</button>`;}
+function scNext(){SC.i++;SC.answered=false;paintScen();window.scrollTo({top:0,behavior:'smooth'});}
+
+let AS=null;
+function renderAssess(){if(!AS||AS.done)AS={i:0,answers:[],done:false};view.innerHTML=`<span class="eyebrow">Assessment</span><h1>Mastery check — Structure &amp; Foundation</h1><p class="lead">${ASSESS.length} application questions across the whole chapter. 80% to pass; reasoning shown on every answer.</p><div class="panelcard" style="text-align:left;padding:0;overflow:hidden"><div style="background:linear-gradient(120deg,#1f6f73,#123f43);color:#fff;padding:18px 22px;display:flex;justify-content:space-between;align-items:center"><div><div style="font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-2)">Structure &amp; Foundation</div><div style="font-family:var(--display);font-weight:700;font-size:17px;margin-top:3px">${ASSESS.length} questions · 80% to pass</div></div><div style="color:var(--brass-2)">${sv(ic.award)}</div></div><div style="padding:26px 22px;text-align:center">${S.assessBest?`<div class="mono" style="font-size:13px;color:var(--ink-2);margin-bottom:16px">Best score: <b style="color:${S.assessBest>=80?'var(--pass)':'var(--fail)'}">${S.assessBest}%</b></div>`:''}<button class="btn brass" style="margin:0 auto" onclick="asStart()">${S.assessBest?'Retake assessment':'Begin assessment'} ${sv(ic.arrow)}</button></div></div>`;}
+function asStart(){AS={i:0,answers:[],done:false};asPaint();window.scrollTo({top:0,behavior:'smooth'});}
+function asPaint(){const q=ASSESS[AS.i];view.innerHTML=`<span class="eyebrow">Assessment · Structure &amp; Foundation</span><h1 style="font-size:24px">Question ${AS.i+1} <span style="color:var(--ink-3)">/ ${ASSESS.length}</span></h1><div style="margin:14px 0 0"><div style="width:100%;height:6px;background:var(--surf-3);border-radius:6px;overflow:hidden;border:1px solid var(--line)"><i style="display:block;height:100%;width:${AS.i/ASSESS.length*100}%;background:var(--brass)"></i></div></div><div class="quiz" style="border-color:var(--line);margin-top:22px"><div class="q">${q.q}</div><div class="opts">${q.o.map((o,k)=>`<button class="opt" onclick="asAns(${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="asexp"></div></div><div class="foot"><div class="sp"></div><div class="asnext"></div></div>`;}
+function asAns(k){if(AS.answers[AS.i]!==undefined)return;AS.answers[AS.i]=k;const q=ASSESS[AS.i];view.querySelectorAll('.opts .opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===q.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});view.querySelector('.asexp').innerHTML=`<div class="exp"><b>${k===q.a?'Correct.':'Review:'}</b> ${q.e}</div>`;const last=AS.i===ASSESS.length-1;view.querySelector('.asnext').innerHTML=`<button class="btn brass" onclick="${last?'asFinish()':'asNext()'}">${last?'See results':'Next'} ${sv(ic.arrow)}</button>`;}
+function asNext(){AS.i++;asPaint();window.scrollTo({top:0,behavior:'smooth'});}
+function asFinish(){const correct=AS.answers.filter((a,i)=>a===ASSESS[i].a).length,p=Math.round(correct/ASSESS.length*100),pass=p>=80;S.assessBest=Math.max(S.assessBest||0,p);AS.done=true;if(pass)S.done['assess']=true;save();updTop();rail();const circ=2*Math.PI*62;
+  view.innerHTML=`<span class="eyebrow">Assessment · Result</span><h1 style="margin-bottom:18px">${pass?'Section mastered':'Not quite there'}</h1><div class="panelcard"><div class="ring"><svg width="150" height="150" viewBox="0 0 150 150" style="transform:rotate(-90deg)"><circle cx="75" cy="75" r="62" fill="none" stroke="var(--surf-3)" stroke-width="11"/><circle cx="75" cy="75" r="62" fill="none" stroke="${pass?'var(--pass)':'var(--fail)'}" stroke-width="11" stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${circ}"><animate attributeName="stroke-dashoffset" from="${circ}" to="${circ-circ*p/100}" dur=".8s" fill="freeze" calcMode="spline" keySplines=".2 .7 .2 1"/></circle></svg><div class="rv"><div><div class="n" style="color:${pass?'var(--pass)':'var(--fail)'}">${p}%</div><div class="p">${correct}/${ASSESS.length} correct</div></div></div></div><span class="verdict ${pass?'pass':'fail'}">${pass?'Passed':'Below 80%'}</span><p>${pass?'You\'ve mastered Structure &amp; Foundation — you can read a foundation\'s performance, tell shrinkage from real movement, trace distress to its cause, and know when to call in a structural engineer.':'You need 80% to pass. Revisit the lessons and explanations, then retake — your best score counts.'}</p><div style="display:flex;gap:12px;justify-content:center"><button class="btn ghost" onclick="asStart()">${sv(ic.retake)} Retake</button>${pass?`<button class="btn brass" onclick="goStep(${STEPS.length-1})">Continue ${sv(ic.arrow)}</button>`:`<button class="btn brass" onclick="goStep(1)">Review lessons ${sv(ic.arrow)}</button>`}</div></div><div style="height:30px"></div>`;}
+
+function renderGlossary(){view.innerHTML=`<span class="eyebrow">Reference</span><h1>Structure &amp; Foundation glossary</h1><p class="lead">Every key term in one place — quick reference for a real inspection.</p><div class="gloss" style="margin-top:20px">${GLOSSARY.map(([w,d])=>`<div class="term"><div class="tw">${w}</div><div class="td">${d}</div></div>`).join('')}</div>${navFoot('Continue')}`;}
+function renderSource(){view.innerHTML=`<span class="eyebrow">Reference · wrap-up</span><h1>Reference &amp; summary</h1><p class="lead">Everything required is taught in the lessons above. This is the one-screen recap to carry into the field — what you inspect, what you report, and where the line is between reporting distress and certifying a structure.</p><div class="srcnote">${sv(ic.book,2)} Built on the Structure &amp; Foundation chapters of <i>Principles of Home Inspection: Systems and Standards</i> and aligned with the <b>TREC Standards of Practice</b> (Structural Systems). There's no separate PDF for this system — the interactive lessons are the complete reference.</div><div class="gloss" style="margin-top:18px"><div class="term"><div class="tw">1 · Foundation type &amp; soil</div><div class="td">Identify slab-on-grade, pier &amp; beam / crawlspace, or basement. In Texas, expansive clay drives most movement — soil swells when wet (heave) and shrinks when dry (settlement) with the seasons.</div></div><div class="term"><div class="tw">2 · Read the distress, not just the crack</div><div class="td">Stair-step cracks in masonry, drywall cracks at door and window corners, sticking doors/windows, sloping or uneven floors, brick separations, and trim gaps are movement indicators. Hairline shrinkage is normal; widening, displaced, or stair-step cracking points to structural movement.</div></div><div class="term"><div class="tw">3 · Framing &amp; load path</div><div class="td">Follow the load down: roof → walls → floor joists &amp; girders → foundation → soil. Report cut, notched, or over-spanned members, deflection, moisture and rot, and unsafe owner modifications.</div></div><div class="term"><div class="tw">4 · What drives the movement</div><div class="td">Drainage and grading, plumbing leaks under the slab, and large trees pulling water from clay are the usual causes. The fix for a foundation almost always starts with managing water around it.</div></div><div class="term"><div class="tw">The inspector's line</div><div class="td">Report performance and visible distress; recommend evaluation by a licensed professional (structural / foundation) engineer for significant distress. A home inspection is <b>not</b> a structural certification or an engineering report.</div></div></div><div class="foot"><button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button><div class="sp"></div><a class="btn slate" href="index.html" style="text-decoration:none;margin-right:10px">${sv(ic.back)} Module I</a><button class="btn brass" onclick="finishAll()">${sv(ic.check)} Complete section</button></div>`;}
+function finishAll(){S.done['source']=true;save();updTop();rail();toast('Structure & Foundation section complete');}
+let tT;function toast(m){const t=document.getElementById('toast');document.getElementById('tmsg').textContent=m;t.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('show'),2400);}
+
+/* ================= DATA: scenarios / assessment / glossary ================= */
+const SCEN=[
+ {t:'In the yard',n:'Stair-steps in the brick',s:'On a 1990s slab-on-grade home in North Texas, the front brick veneer shows a diagonal stair-step crack climbing the mortar joints from a corner of the garage opening, about 3/8 in wide at its widest, with the brick on one side pushed slightly proud of the other.',ask:'How do you report it?',o:['Cosmetic mortar cracking — recommend tuckpointing','Movement indicator — report the stair-step cracking and offset as signs of foundation movement and recommend evaluation by a licensed structural/foundation engineer','Ignore it — all brick cracks','Recommend the brick be replaced'],a:1,e:'A stair-step crack that is wide, offset, and concentrated at an opening is a classic sign of differential foundation movement, not just mortar shrinkage. You report the performance you observe and recommend a licensed engineer evaluate — you do not diagnose the cause or certify the foundation.'},
+ {t:'Inside the house',n:'The door that won\'t latch',s:'A bedroom door drags on the jamb and won\'t latch; above it a drywall crack runs diagonally from the upper corner of the door frame. The floor in that corner of the room feels like it slopes toward the exterior wall.',ask:'What\'s the most likely story, and what do you write?',o:['A bad door install — recommend a carpenter re-hang it','Together the sticking door, corner crack, and sloping floor are consistent movement indicators; report the pattern and recommend a structural evaluation','Humidity swelled the door — note seasonal','Nothing — sloping floors are normal in old homes'],a:1,e:'One symptom alone is weak; the pattern is strong. A sticking door PLUS a diagonal crack at the opening PLUS a sloping floor in the same area points to foundation/framing movement. You report the cluster and its location and recommend evaluation — you connect the dots without guessing the repair.'},
+ {t:'Texas seasons',n:'The crack that comes and goes',s:'A homeowner says the drywall cracks over the windows open up every summer in the drought and close again after the fall rains. You\'re inspecting in a wet October and the cracks are nearly shut.',ask:'How does this inform your report?',o:['No active cracks today, so report none','Seasonal opening and closing is the signature of expansive-clay movement; note the reported seasonal pattern and visible evidence and recommend evaluation','Tell the buyer it\'s solved by the rain','Recommend the windows be replaced'],a:1,e:'Expansive clay swells when wet and shrinks when dry, so cracks that open in drought and close in wet weather are textbook seasonal soil movement. You document what you see today AND the reported seasonal behavior, and recommend evaluation plus moisture management around the foundation.'},
+ {t:'In the crawlspace',n:'Notched joist under the bath',s:'In a pier-and-beam crawlspace under a bathroom, a plumber has notched the bottom of a floor joist more than halfway through to run a drain line. The joist sags visibly and the floor above is springy.',ask:'Your call?',o:['Acceptable — plumbers do this all the time','Report the over-notched, weakened joist and visible deflection as framing damage from an improper modification; recommend repair by a qualified contractor','Recommend a new bathroom floor','Only a concern if it has fully broken'],a:1,e:'Notching the bottom edge of a joist near mid-span removes material from the tension zone and dramatically weakens it — an improper modification. You report the cut/notched member, the deflection, and the cause (the plumbing run), and recommend a qualified repair.'},
+ {t:'Around the slab',n:'Negative grade and a thirsty oak',s:'A slab home has soil sloping back toward the house on the north side, a downspout discharging right at the foundation, and a large live oak about eight feet from that same corner — which shows the most interior cracking.',ask:'What do you emphasize?',o:['Just report the cracks','Tie the cracking to its drivers — poor grading, roof water at the foundation, and a large tree drawing moisture from the clay — and recommend corrective drainage plus engineering evaluation','Recommend the tree be removed immediately','Slabs don\'t care about water'],a:1,e:'Foundation performance on clay is mostly a water story. Negative grade and a downspout keep that corner wet (heave) while a big tree pulls it dry (settlement) — both feed differential movement. You report the distress and its likely drivers and recommend correcting drainage/grading and a structural evaluation.'},
+ {t:'Reading cracks',n:'Hairline over the garage header',s:'A vertical hairline crack, barely the width of a business card edge, runs up from the corner of a garage door opening in the drywall. It is uniform width, not offset, with no sticking doors, no sloping floors, and no exterior cracking anywhere.',ask:'How do you report it?',o:['Recommend an engineer for every crack','Describe it as minor cosmetic/shrinkage cracking with no associated movement indicators; note it and recommend normal monitoring/repair','Call it structural movement','Refuse to comment'],a:1,e:'Not every crack is structural. A thin, uniform-width, non-offset crack with no corroborating indicators (no sticking doors, sloping floors, or exterior cracking) reads as shrinkage/cosmetic. You still document it, but you distinguish it from movement — over-calling erodes your credibility as much as under-calling.'},
+ {t:'In the basement',n:'Horizontal crack, bowing wall',s:'In a poured-concrete basement (a Hill Country walkout), a long horizontal crack runs across one wall about mid-height, and a straightedge shows the wall bows inward a noticeable amount at that line. There is damp staining below the crack.',ask:'Your call?',o:['Vertical shrinkage — no concern','A horizontal crack with inward bowing suggests lateral soil/water pressure on the wall — report it as significant structural distress with moisture intrusion and recommend prompt engineering evaluation','Recommend painting the wall','Only report the moisture'],a:1,e:'Horizontal cracking with inward deflection in a basement wall is a hallmark of lateral pressure (saturated/expansive soil) and is among the more serious foundation findings. You report the crack, the bowing, and the moisture, flag it as significant, and recommend prompt evaluation by a structural engineer.'},
+];
+const ASSESS=[
+ {q:'The home inspector\'s job with the structural system is to:',o:['Certify that the foundation is sound','Observe and report visible structural performance and distress, and recommend further evaluation where warranted','Calculate the load on each member','Design the repair'],a:1,e:'Under the TREC SOP you observe accessible components and report deficiencies and performance. You do not certify, engineer, or guarantee the structure.'},
+ {q:'The three foundation types you must be able to identify are:',o:['Brick, block, and stone','Slab-on-grade; pier &amp; beam (crawlspace); and basement','Floating, fixed, and hybrid','Wood, steel, and concrete only'],a:1,e:'Slab-on-grade, pier &amp; beam / crawlspace, and full basement are the core types. Each fails and is accessed differently.'},
+ {q:'Texas foundation movement is dominated by:',o:['Earthquakes','Expansive clay soils that swell when wet and shrink when dry','Frost heave','Termites'],a:1,e:'Much of Texas sits on expansive (montmorillonite) clay. Seasonal moisture changes make it swell and shrink, driving heave and settlement under foundations.'},
+ {q:'In expansive clay, "heave" refers to:',o:['Soil shrinking and the foundation dropping','Soil swelling with moisture and pushing the foundation upward','A type of crack','The roof lifting'],a:1,e:'Heave is upward movement from clay swelling when it gets wet; settlement is downward movement when the clay dries and shrinks. Both can occur differentially across one foundation.'},
+ {q:'A diagonal "stair-step" crack climbing the mortar joints of a brick wall is a classic sign of:',o:['Normal brick aging','Differential foundation movement','Poor paint','Lateral wind load'],a:1,e:'Stair-step cracking follows the weak mortar joints as one part of the foundation moves relative to another — a primary movement indicator in masonry.'},
+ {q:'Which of these is NOT a typical sign of foundation movement?',o:['Doors and windows that stick or won\'t latch','Diagonal drywall cracks from the corners of openings','Uniform paint fading on a sunny wall','Sloping or uneven floors'],a:2,e:'Sticking doors/windows, corner cracks, sloping floors, brick separations, and trim gaps are movement indicators. Uniform sun-fading of paint is not structural.'},
+ {q:'Distinguishing shrinkage cracks from structural-movement cracks: a likely STRUCTURAL crack is:',o:['Thin, uniform width, and not offset','Wide, tapering, offset/displaced, or stair-stepped — especially with other indicators','Always perfectly vertical','Found only in new homes'],a:1,e:'Shrinkage cracks tend to be hairline and uniform; movement cracks tend to widen, taper, offset, or stair-step and travel from stress points like openings — and they cluster with other indicators.'},
+ {q:'Drywall cracks from foundation movement most often radiate from:',o:['The center of a blank wall','The corners of door and window openings','The ceiling fan box','Electrical outlets'],a:1,e:'Openings concentrate stress, so movement cracks typically start at the upper corners of doors and windows and run diagonally.'},
+ {q:'Following the "load path," weight travels:',o:['From the soil up to the roof','From the roof and floors down through walls and framing to the foundation and into the soil','Sideways through the windows','It does not move'],a:1,e:'Loads flow downward: roof → bearing walls → floor joists/girders → foundation → soil. A break anywhere in that path shows up as sagging, cracking, or deflection.'},
+ {q:'In conventional floor framing, joists typically bear on:',o:['The drywall','A girder/beam and the foundation or sill','The roof rafters','Nothing — they float'],a:1,e:'Floor joists span between the foundation/sill and an intermediate girder (beam), which is in turn supported by piers or columns. That is the chain you trace in a crawlspace.'},
+ {q:'Cutting or notching the bottom edge of a floor joist near mid-span is a problem because:',o:['It looks bad','It removes material from the tension zone and seriously weakens the member','It voids the paint warranty','It has no effect'],a:1,e:'The bottom of a simply-supported joist is in tension at mid-span; notching there is an improper modification that can cause deflection or failure. Report it as framing damage.'},
+ {q:'A floor that bounces and visibly sags between supports most likely indicates:',o:['A normal new floor','Over-spanned, undersized, or damaged framing (deflection)','Too much insulation','A painting defect'],a:1,e:'Excessive deflection points to members spanning too far, undersized, cut/notched, or weakened by rot — all reportable framing conditions.'},
+ {q:'Wood-destroying conditions like rot in floor framing are usually driven by:',o:['Sunlight','Persistent moisture — plumbing leaks, poor crawlspace ventilation, or ground contact','Cold temperatures','Paint'],a:1,e:'Moisture is the enemy of wood framing. Leaks, damp crawlspaces, and earth-to-wood contact lead to rot and conducive conditions you must report.'},
+ {q:'The biggest single driver of foundation performance you can actually advise on is:',o:['The color of the brick','Water management — drainage, grading, gutters/downspouts, and plumbing leaks','The age of the roof','The brand of paint'],a:1,e:'Keep moisture around the foundation stable: positive grade away from the house, downspouts discharging away, and no under-slab plumbing leaks. Most clay movement is a water-balance problem.'},
+ {q:'A large tree close to a slab on clay can cause:',o:['No effect','Localized settlement as roots draw moisture out and shrink the clay (and heave if later removed)','The slab to float','Only shade'],a:1,e:'Big trees transpire huge amounts of water, drying and shrinking nearby clay and causing differential settlement; removing a mature tree can later let the soil rehydrate and heave.'},
+ {q:'When you find significant structural distress, the correct action is to:',o:['Tell the client the exact repair and cost','Report the visible distress and recommend evaluation by a licensed structural/foundation engineer','Certify the home is safe','Say nothing to avoid alarming the buyer'],a:1,e:'You report performance and recommend the right professional. Diagnosing cause, designing repairs, and certifying are an engineer\'s job — your inspection is not a structural certification.'},
+ {q:'A horizontal crack with inward bowing in a basement wall most likely indicates:',o:['Harmless curing shrinkage','Lateral soil/water pressure pushing the wall in — a significant finding','A plumbing issue only','Normal settlement'],a:1,e:'Horizontal cracking plus inward deflection signals lateral pressure from saturated or expansive soil and is among the more serious foundation findings — report it as significant and recommend prompt evaluation.'},
+];
+const GLOSSARY=[
+ ['Slab-on-grade','A foundation where the floor is a concrete slab poured directly on prepared ground; common in Texas. Limited access to the underside — you read it from cracks and performance above.'],
+ ['Pier &amp; beam','A foundation that raises the structure on piers/posts and beams (girders) over a crawlspace, leaving the underside accessible for inspection of framing and supports.'],
+ ['Crawlspace','The accessible void beneath a pier-and-beam (or raised) floor where you inspect joists, girders, piers, moisture, and ventilation.'],
+ ['Basement','A below-grade story with foundation walls retaining soil; less common in much of Texas but seen in the Hill Country and North. Read its walls for cracks and bowing.'],
+ ['Expansive clay','Clay soil (often montmorillonite) that swells when wet and shrinks when dry; the dominant cause of seasonal foundation movement across much of Texas.'],
+ ['Heave','Upward foundation movement caused by expansive soil swelling as it gains moisture.'],
+ ['Settlement','Downward foundation movement, often from soil drying and shrinking, consolidation, or poor compaction.'],
+ ['Differential movement','Uneven movement across one foundation — part heaving while part settles — which is what actually cracks finishes and racks framing.'],
+ ['Stair-step crack','A diagonal crack that follows the mortar joints up a masonry wall; a classic indicator of differential foundation movement.'],
+ ['Shrinkage crack','A typically thin, uniform-width, non-offset crack from normal curing/drying — distinguished from movement cracks that widen, offset, or stair-step.'],
+ ['Movement indicators','The cluster of signs of foundation movement: stair-step masonry cracks, diagonal drywall cracks at openings, sticking doors/windows, sloping floors, brick separations, and trim gaps.'],
+ ['Load path','The route loads travel from roof and floors down through walls and framing to the foundation and into the soil; a break in it shows as sagging or cracking.'],
+ ['Floor joist','A horizontal framing member that supports the floor, spanning between the foundation/sill and a girder.'],
+ ['Girder / beam','A main horizontal member that carries floor joists and transfers their load to piers or columns.'],
+ ['Bearing wall','A wall that carries structural load from above down to the framing or foundation below — not to be removed or altered casually.'],
+ ['Deflection','Bending or sag of a framing member under load; excessive deflection points to over-spanned, undersized, or weakened framing.'],
+ ['Notch / cut member','Material removed from a joist, beam, or stud — often for plumbing or wiring; improper notching (especially in the tension zone) weakens the member.'],
+ ['Over-span','A framing member spanning farther than its size and species allow, leading to deflection and a springy or sagging floor.'],
+ ['Sill / sill plate','The wood member that sits on the foundation and ties the framing to it; check for rot, anchorage, and earth-to-wood contact.'],
+ ['Wood rot / decay','Fungal breakdown of wood from sustained moisture; a wood-destroying condition that compromises framing and must be reported.'],
+ ['Grading','The slope of the soil around the house; positive grade falls away from the foundation to shed water — negative grade ponds water against it.'],
+ ['Drainage','How roof and surface water is carried away — gutters, downspouts, and grade. Poor drainage is a leading driver of foundation movement on clay.'],
+ ['Conducive conditions','Situations that invite moisture or wood-destroying organisms — earth-to-wood contact, poor drainage, damp crawlspaces — reported even before damage appears.'],
+ ['Crawlspace ventilation','Airflow that helps keep a crawlspace dry; inadequate ventilation traps moisture and promotes rot and mold under the floor.'],
+ ['Structural/foundation engineer','The licensed professional you refer significant distress to; they diagnose cause, design repairs, and can certify — an inspector does none of these.'],
+ ['Structural certification','A formal opinion that a structure is sound or repaired correctly — outside the scope of a home inspection, which reports observed performance only.'],
+];
+
+/* ================= WIDGET CONTENT REGISTRIES ================= */
+const _gs='fill="none" stroke="#3c5870" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"';
+const _mono=(x,y,s,t,c='#2c4153',a='middle')=>`<text x="${x}" y="${y}" text-anchor="${a}" font-family="JetBrains Mono" font-size="${s}" fill="${c}">${t}</text>`;
+
+SPOT.facade={title:'Walk the elevation',sub:'Six exterior movement indicators on this brick-veneer slab home — click each one you spot.',vb:'0 0 540 340',
+ svg:`<g ${_gs}>
+   <path d="M60 70 L270 30 L480 70"/><path d="M60 70 L60 280 L480 280 L480 70 Z"/>
+   <line x1="60" y1="280" x2="480" y2="280" stroke-width="2.2"/>${_mono(70,298,9,'slab / grade line','#918c7d','start')}
+   <!-- brick coursing hint -->
+   <g stroke="#b8a98f" stroke-width="0.8">${Array.from({length:9},(_,i)=>`<line x1="60" y1="${92+i*20}" x2="480" y2="${92+i*20}"/>`).join('')}</g>
+   <!-- garage opening (left) -->
+   <rect x="86" y="170" width="120" height="110" stroke-width="1.4"/>${_mono(146,164,8,'garage','#918c7d')}
+   <!-- window (upper right) -->
+   <rect x="350" y="110" width="70" height="64" stroke-width="1.4"/>
+   <!-- door (right) -->
+   <rect x="300" y="190" width="46" height="90" stroke-width="1.4"/>
+   <!-- stair-step crack up from garage corner -->
+   <path d="M206 170 l14 -2 l0 -18 l16 -2 l0 -18 l14 -2 l0 -18" stroke="#b85436" stroke-width="2.2"/>${_mono(252,108,8,'stair-step','#b85436','start')}
+   <!-- diagonal crack from window corner -->
+   <path d="M350 110 l-22 -16" stroke="#b85436" stroke-width="2"/>${_mono(322,86,8,'crack','#b85436','end')}
+   <!-- separated trim gap at door head -->
+   <path d="M300 190 h46" stroke="#b85436" stroke-width="2.6" stroke-dasharray="4 3"/>${_mono(323,184,8,'gap','#b85436')}
+   <!-- brick separation / offset at wall corner -->
+   <path d="M480 150 l-2 130" stroke="#b85436" stroke-width="2.4"/>${_mono(470,200,8,'separation','#b85436','end')}
+   <!-- negative grade toward house (left) -->
+   <path d="M20 268 q26 16 40 12" stroke="#5a7b97" stroke-width="2"/><path d="M52 282 l10 -2 l-2 9" stroke="#5a7b97" stroke-width="1.6"/>${_mono(20,258,8,'water to house','#5a7b97','start')}
+   <!-- downspout dumping at foundation -->
+   <line x1="466" y1="92" x2="466" y2="276" stroke="#5a7b97" stroke-width="2"/><path d="M466 276 q-6 8 -16 8" stroke="#5a7b97" stroke-width="1.6"/>${_mono(452,300,8,'downspout','#5a7b97','end')}
+ </g>`,
+ defects:[
+  {x:230,y:128,r:26,n:'Stair-step crack in the brick',d:'A diagonal crack climbing the mortar joints from the garage corner is a classic differential-movement indicator. Report it and recommend evaluation by a structural/foundation engineer.'},
+  {x:338,y:98,r:18,n:'Diagonal crack from a window corner',d:'Openings concentrate stress; a crack running off the corner of the window suggests movement. Note its width and whether it is offset.'},
+  {x:323,y:190,r:18,n:'Trim gap / separation at the door head',d:'A widening gap where trim meets the wall at an opening is a movement indicator — the opening is racking out of square.'},
+  {x:478,y:210,r:18,n:'Vertical brick separation at the corner',d:'A vertical separation at the wall corner shows the veneer pulling apart as the foundation moves differentially. Report the location and width.'},
+  {x:40,y:276,r:22,n:'Negative grade toward the house',d:'Soil sloping back toward the foundation keeps the clay wet at that corner (heave). Recommend re-grading to fall away from the house.'},
+  {x:462,y:280,r:20,n:'Downspout discharging at the foundation',d:'Roof water dumped right at the slab saturates the soil and feeds differential movement. Recommend extending the discharge away from the foundation.'},
+ ]};
+
+SPOT.crawl={title:'Drop into the crawlspace',sub:'Five framing and moisture problems under this pier-and-beam floor. Click each one.',vb:'0 0 540 300',
+ svg:`<g ${_gs}>
+   <!-- subfloor -->
+   <rect x="40" y="48" width="460" height="12" fill="#d8d2c4" opacity="0.5" stroke="none"/>
+   <line x1="40" y1="48" x2="500" y2="48"/><line x1="40" y1="60" x2="500" y2="60"/>
+   ${_mono(60,42,9,'floor above','#918c7d','start')}
+   <!-- joists hanging down -->
+   <g stroke-width="1.4">
+     <rect x="90" y="60" width="14" height="70"/><rect x="170" y="60" width="14" height="70"/>
+     <rect x="250" y="60" width="14" height="70"/><rect x="330" y="60" width="14" height="70"/><rect x="410" y="60" width="14" height="70"/>
+   </g>
+   <!-- girder under joists -->
+   <rect x="60" y="130" width="420" height="18"/>${_mono(70,143,8,'girder','#918c7d','start')}
+   <!-- pier (good) -->
+   <rect x="120" y="148" width="26" height="80"/><line x1="40" y1="228" x2="500" y2="228"/>
+   <!-- pier shimmed/leaning (bad) -->
+   <path d="M300 148 l30 0 l4 80 l-30 0 z" stroke="#b85436" stroke-width="2"/><path d="M300 220 h34" stroke="#b85436" stroke-dasharray="3 2"/>${_mono(317,242,8,'shimmed','#b85436')}
+   <!-- notched joist -->
+   <path d="M250 130 l0 -16 l-9 0 l0 16" fill="#bdb8a8" stroke="#b85436" stroke-width="2"/>${_mono(238,108,8,'notched','#b85436','end')}
+   <!-- sagging/deflecting joist -->
+   <path d="M410 60 q-14 36 0 70" stroke="#b85436" stroke-width="2.2"/>${_mono(440,96,8,'sag','#b85436','start')}
+   <!-- standing water / damp soil -->
+   <ellipse cx="200" cy="226" rx="55" ry="7" fill="#5a7b97" opacity="0.45" stroke="none"/><path d="M148 226 h104" stroke="#5a7b97"/>${_mono(200,214,8,'damp / water','#5a7b97')}
+   <!-- rot at sill end -->
+   <rect x="40" y="48" width="10" height="12" fill="#b85436" opacity="0.5" stroke="none"/><path d="M40 54 h-14" stroke="#b85436"/>${_mono(28,54,8,'rot','#b85436','end')}
+ </g>`,
+ defects:[
+  {x:246,y:120,r:18,n:'Over-notched floor joist',d:'A joist notched deeply (here for a pipe) loses strength in the tension zone — an improper modification. Report the cut member and recommend repair by a qualified contractor.'},
+  {x:410,y:96,r:22,n:'Sagging / deflecting joist',d:'Visible sag and a springy floor above point to an over-spanned, undersized, or weakened member. Report the deflection and its location.'},
+  {x:317,y:200,r:24,n:'Improperly shimmed / leaning pier',d:'A pier built up on loose shims or out of plumb is not reliably carrying the girder. Note the support condition and recommend evaluation.'},
+  {x:200,y:226,r:30,n:'Standing water / damp soil',d:'Liquid water or saturated soil under the floor drives rot, mold, and clay movement. Find the source (drainage or a plumbing leak) and report the moisture intrusion.'},
+  {x:46,y:54,r:16,n:'Rot at the sill / joist end',d:'Soft, decayed wood where framing meets the foundation is a wood-destroying condition, usually from sustained moisture. Report the rot and recommend repair and moisture correction.'},
+ ]};
+
+MATCH.signs={title:'Indicator ↔ what it suggests',sub:'Tap a field observation, then what it points to. Correct pairs lock green.',left:'You observe',right:'It suggests',
+ pairs:[['Stair-step brick crack','Differential foundation movement'],['Door won\'t latch','Opening racked out of square'],['Sloping / uneven floor','Foundation or framing settlement'],['Thin uniform hairline crack','Shrinkage / cosmetic'],['Horizontal crack, wall bows in','Lateral soil pressure']],done:'That\'s the read — the cluster of movement indicators on one side, and shrinkage and lateral pressure called out for what they are.'};
+MATCH.driver={title:'Cause ↔ effect on the foundation',sub:'Texas clay performance is a water story. Tap a site condition, then its effect.',left:'Site condition',right:'Effect on clay',
+ pairs:[['Downspout at the foundation','Local heave (clay swells wet)'],['Large tree near the slab','Local settlement (clay dries)'],['Under-slab plumbing leak','Localized heave / erosion'],['Drought after wet years','Seasonal shrinkage cracks']],done:'Good — wet clay swells and heaves, dry clay shrinks and settles, and differences between spots are what crack the house.'};
+
+SORT.crackread={title:'Shrinkage, or structural movement?',sub:'Sort each crack description by how you\'d read it. Tap an item, then the right bin.',bins:['Likely SHRINKAGE / cosmetic','Likely STRUCTURAL movement'],
+ items:[{t:'Thin, uniform-width hairline, not offset',bin:0},{t:'Fine map-cracking on a new slab surface',bin:0},{t:'Small vertical crack, no other indicators',bin:0},{t:'Wide stair-step crack in brick, offset',bin:1},{t:'Diagonal crack from a door corner + sticking door',bin:1},{t:'Horizontal crack with the wall bowing inward',bin:1}],
+ done:'Right — uniform, thin, isolated cracks read cosmetic; wide, offset, stair-step, or clustered cracks read as movement. You still document both.'};
+SORT.scope={title:'Report it, or refer to an engineer?',sub:'Where\'s the line on your call? Tap an item, then the right bin.',bins:['INSPECTOR reports / monitors','REFER to a structural engineer'],
+ items:[{t:'Minor cosmetic shrinkage crack',bin:0},{t:'A single sticking door, nothing else',bin:0},{t:'Note a slightly sloping floor for monitoring',bin:0},{t:'Significant differential cracking + sloping floors',bin:1},{t:'A bowing basement wall with a horizontal crack',bin:1},{t:'Over-notched, sagging joists you can\'t evaluate fully',bin:1}],
+ done:'Exactly — you report and monitor minor findings, but significant distress goes to a licensed structural/foundation engineer. An inspection is not a certification.'};
+
+ERA.found={title:'Foundations &amp; framing through the eras',sub:'Tap each era to see what you\'re likely looking at — and what it means on an inspection.',
+ rows:[
+  {d:'pre-1900',n:'Stone / brick &amp; post foundations',x:'Rubble stone, brick piers, or wood posts on grade. Expect movement, earth-to-wood contact, and decay; report performance and recommend evaluation, not alarm.'},
+  {d:'1900s – 1940s',n:'Pier &amp; beam, balloon framing',x:'Raised floors over a crawlspace with continuous (balloon) wall studs. Watch joist/girder sag, pier condition, sill rot, and crawlspace moisture.'},
+  {d:'1940s – 1960s',n:'Early slab-on-grade spreads',x:'Post-war slabs become common on Texas clay. Often unreinforced or lightly reinforced by today\'s standards — read the distress above the slab.'},
+  {d:'1960s – 1990s',n:'Platform framing + post-tension slabs',x:'Platform (stick) framing becomes standard; post-tensioned slabs appear on expansive soils. Note never to drill/cut a PT slab and to read cable-zone cautions.'},
+  {d:'1990s – today',n:'Engineered framing &amp; piers',x:'I-joists, trusses, and engineered beams; pier-and-beam revivals and drilled piers on clay. Over-notched I-joists and altered trusses are common reportable findings.'},
+ ]};
+
+/* ================= STEPS ================= */
+const STEPS=[
+/* ===== ORIENTATION ===== */
+{id:'intro',kind:'Start here',label:'The structure, top to bottom',type:'lesson',
+ body:()=>`<span class="eyebrow">Structure &amp; Foundation · Orientation</span><h1>The house stands on one idea — and you learn to read it.</h1>
+ <p class="lead">The structural system is what holds everything up and ties it to the ground. Your job is not to certify it or engineer a repair. It is to <b>observe what's accessible, recognize visible distress, and report the performance and implications</b> so your client — and, when it matters, a licensed engineer — can decide.</p>
+ <p>Every load in a building follows one route, and almost every structural finding is really about a break somewhere on it:</p>
+ <ul class="num"><li><b>Roof &amp; ceiling framing</b> collect the load up top.</li><li><b>Walls</b> carry it down — bearing walls especially.</li><li><b>Floor joists &amp; girders</b> hand it to the supports.</li><li><b>The foundation</b> spreads it onto the <b>soil</b> — which, in Texas, moves.</li></ul>
+ <p>When any link weakens — a cut joist, a settling pier, swelling clay — the load finds another path and the house tells on itself: cracks, sticking doors, sloping floors. You learn to read those signals and trace them back to the link that failed.</p>
+ <p>Every component runs through the same five-step loop you've used in the other systems:</p>
+ <div class="loop"><div class="seg on"><div class="n">01</div><div class="w">Component</div></div><div class="seg"><div class="n">02</div><div class="w">Function</div></div><div class="seg"><div class="n">03</div><div class="w">Common defect</div></div><div class="seg"><div class="n">04</div><div class="w">Implication</div></div><div class="seg"><div class="n">05</div><div class="w">How you report</div></div></div>
+ <h2>What you'll inspect</h2>
+ <ul class="clean"><li><b>Foundations</b> — slab-on-grade, pier &amp; beam, and basement</li><li><b>Soil &amp; movement</b> — Texas expansive clay, heave and settlement</li><li><b>Distress indicators</b> — cracks, sticking openings, sloping floors</li><li><b>Reading cracks</b> — shrinkage vs. structural movement</li><li><b>Framing</b> — joists, girders, walls, ceiling and roof, load paths</li><li><b>Framing damage</b> — cut/notched/over-spanned members, deflection, rot</li><li><b>Water &amp; the foundation</b> — drainage, grading, plumbing, trees</li></ul>
+ <div class="field"><div class="ic">${sv(ic.alert)}</div><div><div class="t">Scope &amp; the TREC line</div><p>Under the <b>TREC Standards of Practice</b>, you inspect and report on the structural components that are <em>visible and accessible</em>. You note significant distress and recommend evaluation by a licensed professional engineer — you do <b>not</b> certify the foundation, quantify movement, or design repairs. Crawlspaces and attics are the most hazardous spaces you'll enter; report where access was limited.</p></div></div>`,
+ quiz:[
+  {q:'The inspector\'s role with the structural system is to:',o:['Certify the foundation is sound','Observe accessible components, recognize distress, and report performance and implications','Calculate the load on each member','Design the repair'],a:1,e:'You observe and report under the TREC SOP. Certifying, engineering, and quantifying movement are outside a home inspection.'},
+  {q:'The "load path" describes:',o:['How wiring is routed','How loads travel from roof and floors down through framing to the foundation and soil','The route water takes off the roof','The path of the inspector through the house'],a:1,e:'Loads flow downward: roof → walls → joists/girders → foundation → soil. A break anywhere shows up as cracking, sagging, or deflection.'},
+  {q:'In Texas, the soil under the foundation is significant because:',o:['It never moves','Expansive clay swells and shrinks with moisture, moving the foundation','It is always rock','It is irrelevant to structure'],a:1,e:'Much of Texas sits on expansive clay; seasonal moisture changes drive heave and settlement — the root of most foundation distress here.'},
+  {q:'When you find significant structural distress, you should:',o:['Tell the client the exact repair','Report the visible distress and recommend evaluation by a licensed structural/foundation engineer','Certify the home is safe','Say nothing'],a:1,e:'Report performance and refer significant distress to an engineer. The inspection is not a structural certification.'},
+ ]},
+
+/* ===== L1 LOAD PATH & SCOPE ===== */
+{id:'l1',kind:'Lesson 1',label:'Load Path & the Inspector',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 1 · How a house carries weight</span><h1>Follow the load down, and the structure makes sense.</h1>
+ <p class="lead">Before you can spot a problem you have to know how the building is supposed to work. Every structural finding is a break somewhere on a single chain that runs from the roof to the dirt.</p>
+ <h2>The chain of support</h2>
+ ${conds('',[['Roof &amp; ceiling framing','Rafters or trusses collect roof loads and ceiling weight and push them onto the walls below.'],['Walls','Bearing walls carry the load straight down; non-bearing (partition) walls mostly divide space. Knowing which is which matters when owners remove them.'],['Floor joists &amp; girders','Joists span the floor and rest on a girder (beam) and the foundation; the girder hands its load to piers or columns.'],['Foundation &amp; soil','The foundation spreads all of it onto the soil. If the soil moves, everything above moves with it.']])}
+ <div class="dgm"><svg viewBox="0 0 720 280">
+   <g ${_gs}>
+     <path d="M150 90 L360 30 L570 90"/>
+     <line x1="180" y1="90" x2="180" y2="210"/><line x1="540" y1="90" x2="540" y2="210"/>
+     <line x1="360" y1="60" x2="360" y2="210" stroke-width="1"/>
+     <line x1="180" y1="150" x2="540" y2="150" stroke-width="1"/>
+     <line x1="180" y1="210" x2="540" y2="210" stroke-width="2.2"/>
+     ${_mono(360,128,9,'floor joists / girder','#918c7d')}${_mono(360,205,9,'foundation','#918c7d')}
+     <rect x="160" y="210" width="400" height="22" fill="#cdb892" opacity="0.5" stroke="none"/>${_mono(360,226,9,'soil','#8a8475')}
+   </g>
+   <g stroke="#b85436" stroke-width="2.6" fill="none" stroke-linecap="round">
+     <path d="M360 44 V 200"/><path d="M353 192 l7 9 l7 -9"/>
+     <path d="M220 96 V 144"/><path d="M213 136 l7 9 l7 -9"/>
+     <path d="M500 96 V 144"/><path d="M493 136 l7 9 l7 -9"/>
+   </g>
+   ${_mono(372,120,9,'load travels DOWN','#b85436','start')}
+ </svg><div class="cap">The load path: roof and floor loads run down through walls and framing to the foundation, which spreads them onto the soil.</div></div>
+ <h2>Why this is the inspector's mental model</h2>
+ <p>When you see a crack, a sag, or a sticking door, you ask the same question: <b>where on the load path did something move or weaken?</b> A sloping floor sends you to the joists, girder, and piers below it. A stair-step crack in the brick sends you to the foundation and the soil. The symptom is upstairs; the cause is usually downstairs — or in the ground.</p>
+ ${W('era','found')}
+ ${story('Inspector in the house',`A buyer pointed at a long ceiling crack and asked if the roof was failing. It wasn't. Following the load path down, the real story was a girder sagging between two settled piers in the crawlspace — the ceiling crack was just the top of the house reporting what the bottom was doing. **You read the symptom, then trace the load down to the cause.**`)}`,
+ quiz:[
+  {q:'Loads in a house travel:',o:['Up from the soil to the roof','Down from the roof and floors through walls and framing to the foundation and soil','Sideways through the windows','Randomly'],a:1,e:'The load path runs downward; a break anywhere on it produces visible distress.'},
+  {q:'A bearing wall differs from a partition wall in that it:',o:['Is always brick','Carries structural load from above down to the framing or foundation','Is always exterior','Holds the wiring'],a:1,e:'Bearing walls carry load; partition walls mostly divide space. Removing a bearing wall without proper support causes sagging and cracking.'},
+  {q:'A sloping floor most directly sends you to inspect:',o:['The roof shingles','The joists, girder, and piers/supports beneath that area','The paint','The windows'],a:1,e:'Floor slope is a framing/foundation-support issue below the floor — follow the load path down.'},
+  {q:'The inspector\'s core question when reading distress is:',o:['Who built the house','Where on the load path did something move or weaken','What color to paint over it','How old the carpet is'],a:1,e:'Symptoms appear up top; causes are usually down the load path or in the soil. Trace it down.'},
+ ]},
+
+/* ===== L2 FOUNDATION TYPES ===== */
+{id:'l2',kind:'Lesson 2',label:'Foundation Types',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 2 · What it sits on</span><h1>Three foundations — each fails, and is read, differently.</h1>
+ <p class="lead">You can't inspect a foundation you can't identify. The type tells you how to access it, how it moves, and which symptoms to trust.</p>
+ <h2>The three you'll meet</h2>
+ ${conds('',[['Slab-on-grade','A concrete slab poured on prepared ground — the most common foundation in Texas. You usually can\'t see the underside, so you read it from the performance above: cracks, sloping floors, sticking doors, and separations.'],['Pier &amp; beam (crawlspace)','The structure is raised on piers/posts and beams (girders) over a crawlspace. The big advantage: you can crawl under and directly inspect joists, girders, piers, sill, and moisture.'],['Basement','A below-grade story with foundation walls retaining soil — less common in much of Texas, seen in the Hill Country and the north. You read its walls for vertical, diagonal, and especially horizontal cracking and bowing.']])}
+ <div class="dgm"><svg viewBox="0 0 720 230">
+   <g ${_gs}>
+     <!-- slab -->
+     <rect x="40" y="120" width="170" height="20" fill="#cdc6b4" opacity="0.6"/>${_mono(125,112,9,'slab-on-grade')}
+     <line x1="40" y1="140" x2="210" y2="140" stroke-width="2"/>
+     <!-- pier & beam -->
+     <line x1="260" y1="110" x2="430" y2="110" stroke-width="2.2"/>${_mono(345,102,9,'pier &amp; beam')}
+     <rect x="278" y="140" width="16" height="40"/><rect x="338" y="140" width="16" height="40"/><rect x="398" y="140" width="16" height="40"/>
+     <line x1="260" y1="180" x2="430" y2="180"/>${_mono(345,196,8,'crawlspace','#918c7d')}
+     <!-- basement -->
+     <rect x="500" y="60" width="170" height="120" fill="none"/>${_mono(585,52,9,'basement')}
+     <line x1="500" y1="80" x2="670" y2="80" stroke-width="2"/>
+     <line x1="500" y1="80" x2="500" y2="180" stroke-width="2"/><line x1="670" y1="80" x2="670" y2="180" stroke-width="2"/>
+     <line x1="500" y1="180" x2="670" y2="180"/>${_mono(585,140,8,'below grade','#918c7d')}
+   </g>
+ </svg><div class="cap">Three foundation types: a slab on grade, a raised pier-and-beam over a crawlspace, and a basement with retaining walls.</div></div>
+ <h2>How access shapes the inspection</h2>
+ <p>On a <b>slab</b>, you're inferring foundation behavior from the building above — so the movement indicators carry the report. On <b>pier &amp; beam</b>, you get to look directly, so framing and support conditions dominate. In a <b>basement</b>, the walls themselves are the evidence, and horizontal cracking with bowing is the finding you never wave off.</p>
+ ${W('spot','crawl')}
+ ${story('Inspector in the house',`Two nearly identical-looking ranch homes, two different foundations. The slab home I had to read entirely from the cracks and door swings upstairs; the pier-and-beam next door let me crawl under and see a sagging girder with my own eyes. **Same distress, completely different evidence — identify the foundation first, and you'll know what your report can and can't say.**`)}`,
+ quiz:[
+  {q:'The most common foundation type in much of Texas is:',o:['Full basement','Slab-on-grade','Stone rubble','Floating dock'],a:1,e:'Slab-on-grade dominates Texas residential construction; you typically read it from the performance above since the underside isn\'t accessible.'},
+  {q:'The key inspection advantage of pier &amp; beam is that:',o:['It never moves','You can enter the crawlspace and directly inspect joists, girders, piers, and moisture','It has no soil under it','It needs no foundation'],a:1,e:'Direct access lets you observe framing and support conditions rather than inferring them from above.'},
+  {q:'On a slab-on-grade home, foundation movement is mainly read from:',o:['The underside of the slab','Indicators above: cracks, sloping floors, sticking doors, and separations','The roof','The attic insulation'],a:1,e:'Since the slab underside is hidden, the building above is your evidence — that\'s why the movement indicators carry the report.'},
+  {q:'In a basement, the most serious crack pattern to watch for is:',o:['A thin vertical hairline','A horizontal crack with the wall bowing inward','A painted-over crack','Floor-tile grout cracks'],a:1,e:'Horizontal cracking with inward bowing signals lateral soil/water pressure — among the more serious foundation findings.'},
+ ]},
+
+/* ===== L3 EXPANSIVE CLAY ===== */
+{id:'l3',kind:'Lesson 3',label:'Texas Clay & Movement',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 3 · The ground that moves</span><h1>In Texas, the foundation's worst enemy is the soil itself.</h1>
+ <p class="lead">More than any single construction defect, <b>expansive clay</b> explains the foundation distress you'll see across Texas. Understand how the soil moves and most of this section becomes obvious.</p>
+ <h2>Why the clay moves</h2>
+ <p>Much of Texas — the Blackland Prairie, the Gulf coast, and beyond — sits on <b>expansive clay</b> (high in montmorillonite). The clay particles grab water: when the soil gets wet it <b>swells</b>; when it dries it <b>shrinks</b>. That volume change, repeated season after season, lifts and drops whatever sits on it.</p>
+ ${conds('',[['Heave','Upward movement when the clay gains moisture and swells — after heavy rain, a plumbing leak, or watering one side of the house.'],['Settlement','Downward movement when the clay loses moisture and shrinks — in drought, or where a large tree draws water out of the soil.'],['Differential movement','The real damage-maker: when one part of a foundation heaves while another settles, the structure is racked and finishes crack. Uniform movement rarely cracks a house; <em>uneven</em> movement does.']])}
+ <div class="dgm"><svg viewBox="0 0 720 250">
+   <g ${_gs}>
+     <line x1="60" y1="150" x2="660" y2="150" stroke-width="2"/>${_mono(70,142,9,'foundation','#918c7d','start')}
+     <rect x="60" y="150" width="600" height="60" fill="#cdb892" opacity="0.45" stroke="none"/>${_mono(360,196,9,'expansive clay','#8a8475')}
+     <!-- wet side swelling up -->
+     <path d="M120 150 q40 -22 90 0" stroke="#5a7b97" stroke-width="2.2"/><path d="M160 132 V 110"/><path d="M154 116 l6 -8 l6 8" stroke-width="1.6"/>${_mono(165,104,8,'wet → heave','#5a7b97')}
+     <!-- dry side shrinking down -->
+     <path d="M500 150 q40 26 90 0" stroke="#b85436" stroke-width="2.2"/><path d="M545 178 V 200"/><path d="M539 194 l6 8 l6 -8" stroke="#b85436" stroke-width="1.6"/>${_mono(545,218,8,'dry → settle','#b85436')}
+   </g>
+ </svg><div class="cap">Differential movement: clay swells and heaves on the wet side while it dries, shrinks, and settles on the other — racking the structure between them.</div></div>
+ <h2>The seasonal signature</h2>
+ <p>This is the tell that points straight at clay: distress that <b>changes with the seasons</b>. Drywall cracks that open in the late-summer drought and close after the fall rains; doors that stick in one season and free up in another. When a homeowner describes cracks that "come and go," you're almost certainly hearing expansive-clay movement.</p>
+ ${W('match','driver')}
+ <div class="field brass"><div class="ic">${sv(ic.alert)}</div><div><div class="t">Keep the moisture even</div><p>Because the clay reacts to water, the single best thing an owner can do is keep soil moisture <b>stable and even</b> around the whole foundation — consistent grading and drainage, no downspouts dumping at one corner, no soaker hose on one side only. You'll connect this to drainage in a later lesson; for now, file it as the master cause.</p></div></div>
+ ${story('Inspector in the house',`A seller swore the house was "fixed" because the cracks had closed up. They had — it was a rainy October and the clay had swelled back. Come August they'd be wide open again. **The cracks didn't heal; the soil just inhaled.** I reported the visible distress and the reported seasonal pattern, and recommended evaluation plus steady moisture management.`)}`,
+ quiz:[
+  {q:'Expansive clay causes foundation movement because it:',o:['Burns','Swells when wet and shrinks when dry','Conducts electricity','Attracts termites'],a:1,e:'Clay (montmorillonite) changes volume with moisture — swelling wet, shrinking dry — moving anything resting on it.'},
+  {q:'"Heave" is:',o:['Downward settlement','Upward movement as the clay gains moisture and swells','A type of crack','Roof uplift'],a:1,e:'Heave is upward; it follows added moisture — rain, a leak, or one-sided watering.'},
+  {q:'What actually cracks the house is:',o:['Uniform movement of the whole slab','Differential movement — part heaving while part settles','Sunlight on the brick','New paint'],a:1,e:'Even movement rarely damages finishes; uneven (differential) movement racks the structure and cracks it.'},
+  {q:'Drywall cracks that open in summer drought and close after fall rains indicate:',o:['A roof leak','Seasonal expansive-clay movement','Bad drywall tape','Foundation certification'],a:1,e:'The open/close-with-the-seasons signature is textbook clay: shrink in drought, swell in wet weather.'},
+  {q:'The best owner action against clay movement is to:',o:['Water only one side heavily','Keep soil moisture stable and even around the whole foundation','Remove all the soil','Ignore drainage'],a:1,e:'Even, stable moisture limits the swell/shrink cycle. Uneven watering or drainage causes the differential movement that cracks the house.'},
+ ]},
+
+/* ===== L4 SIGNS OF DISTRESS ===== */
+{id:'l4',kind:'Lesson 4',label:'Signs of Distress',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 4 · Reading the building</span><h1>The house tells you where it moved — if you read the signs together.</h1>
+ <p class="lead">No single crack proves foundation movement. But the <b>cluster</b> of indicators, in the same area, tells a story you can report with confidence.</p>
+ <h2>The movement indicators</h2>
+ ${conds('',[['Stair-step masonry cracks','Diagonal cracks climbing the mortar joints of brick or block — the signature of differential movement in veneer.'],['Diagonal drywall cracks at openings','Cracks running off the upper corners of doors and windows, where stress concentrates.'],['Sticking doors &amp; windows','Doors that drag or won\'t latch, windows that bind — the opening has racked out of square.'],['Sloping or uneven floors','Floors that visibly slope or feel out of level, often toward an exterior wall or a settled support.'],['Brick separations &amp; trim gaps','Vertical separations in the veneer, gaps opening where trim meets the wall, or a fascia/soffit pulling away.']])}
+ ${W('spot','facade')}
+ <h2>The conditions you'll write up</h2>
+ <div class="defect"><div class="dh"><span class="n">1</span><span class="nm">Significant differential cracking</span></div><p>Wide, offset, or stair-step cracks — especially clustered with other indicators.</p><div class="meta"><span class="lab">Implication</span><span class="val">Active or past foundation movement; possible ongoing distress.</span><span class="lab">Report</span><span class="val">Describe location, width, and pattern; recommend evaluation by a structural/foundation engineer.</span></div></div>
+ <div class="defect"><div class="dh"><span class="n">2</span><span class="nm">Sticking openings &amp; sloping floors</span></div><p>Doors that won\'t latch and floors out of level in the same area.</p><div class="meta"><span class="lab">Implication</span><span class="val">The structure is racked or the supports below have moved.</span><span class="lab">Report</span><span class="val">Report the cluster and its location; recommend evaluation.</span></div></div>
+ <div class="defect"><div class="dh"><span class="n">3</span><span class="nm">Brick separations / trim gaps</span></div><p>Veneer pulling apart or trim gaps at openings and corners.</p><div class="meta"><span class="lab">Implication</span><span class="val">Movement of the supporting foundation behind the veneer.</span><span class="lab">Report</span><span class="val">Note the separations and recommend evaluation; don\'t call it cosmetic if it clusters with other signs.</span></div></div>
+ ${W('match','signs')}
+ ${story('Inspector in the house',`A homeowner had repaired and repainted a corner crack three times. By itself, fine. But the same corner also had a door that wouldn't latch and a floor that sloped toward it — three indicators pointing at one spot. **One sign is a question; three signs in one place is an answer.** I reported the cluster and recommended an engineer.`)}`,
+ quiz:[
+  {q:'A stair-step crack in brick veneer is a sign of:',o:['Normal brick aging','Differential foundation movement','Wind load only','Bad paint'],a:1,e:'Stair-step cracking follows the mortar joints as the foundation moves differentially — a primary masonry indicator.'},
+  {q:'Diagonal drywall cracks from foundation movement usually start at:',o:['The middle of a blank wall','The corners of door and window openings','The ceiling fan','Light switches'],a:1,e:'Openings concentrate stress, so movement cracks radiate from their upper corners.'},
+  {q:'Why is a single sticking door weak evidence on its own?',o:['Doors never stick from movement','Many things make a door stick; you want the cluster of indicators in one area to confirm movement','It always means movement','It is irrelevant'],a:1,e:'Humidity, a bad install, or settling hardware can stick a door. The confident call comes from several indicators together in the same location.'},
+  {q:'Which of these is a movement indicator?',o:['Uniform sun-fading of paint','A floor sloping toward a settled support','Clean grout lines','A new light fixture'],a:1,e:'Sloping floors join cracks, sticking openings, separations, and trim gaps as movement indicators; sun-fading is not structural.'},
+  {q:'The most reportable situation is:',o:['One isolated hairline','Several indicators clustered in the same area','A freshly painted wall','A level floor'],a:1,e:'A cluster of indicators in one location is the strong, reportable pattern — recommend an engineer evaluate.'},
+ ]},
+
+/* ===== L5 READING CRACKS ===== */
+{id:'l5',kind:'Lesson 5',label:'Reading Cracks',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 5 · Shrinkage vs. movement</span><h1>Not every crack is structural — and saying so is part of the skill.</h1>
+ <p class="lead">Over-calling cracks scares clients and burns your credibility; under-calling them is worse. The skill is reading a crack's <b>character</b> and <b>company</b> to tell shrinkage from real movement.</p>
+ <h2>Character: what the crack itself looks like</h2>
+ ${conds('',[['Likely shrinkage / cosmetic','Thin and hairline, fairly uniform in width, not offset, often vertical. Concrete cures and dries and almost always develops some fine cracking; map-cracking on a slab surface is usually superficial.'],['Likely structural movement','Wider, often tapering (wider at one end), with the two sides offset/displaced, or running as a stair-step in masonry. Cracks wide enough to slide a coin into, or that have moved out of plane, get your attention.']])}
+ <div class="dgm"><svg viewBox="0 0 720 220">
+   <g ${_gs}>
+     <rect x="60" y="40" width="260" height="150"/>${_mono(190,32,9,'shrinkage — thin, uniform','#3d7d50')}
+     <path d="M190 50 L188 180" stroke="#3d7d50" stroke-width="1.4"/>
+     <rect x="400" y="40" width="260" height="150"/>${_mono(530,32,9,'movement — wide, offset, stepped','#b85436')}
+     <path d="M430 80 l18 0 l0 -22 l20 0 l0 -22" stroke="#b85436" stroke-width="2.6"/>
+     <path d="M540 60 q4 50 -10 110" stroke="#b85436" stroke-width="2.6"/><path d="M540 60 l8 4" stroke="#b85436" stroke-width="2.6"/>
+   </g>
+ </svg><div class="cap">Left: thin, uniform, non-offset shrinkage cracking. Right: wide, offset, and stair-stepped cracking that points to movement.</div></div>
+ <h2>Company: what else is around it</h2>
+ <p>A crack rarely stands alone in a structural problem. Ask: are there <b>sticking doors, sloping floors, exterior cracks, or separations</b> nearby? A thin vertical crack with no other indicators reads cosmetic. The same-looking crack <em>plus</em> a door that won't latch and a sloping floor reads as movement. You document both kinds — but you describe them differently.</p>
+ ${W('sort','crackread')}
+ <div class="field"><div class="ic">${sv(ic.alert)}</div><div><div class="t">Describe, don't diagnose</div><p>Your report records what you <b>see</b> — width, length, location, offset, pattern, and associated indicators — and your <b>recommendation</b>. It does not pronounce the cause, the severity in engineering terms, or whether it's "still moving." Those are an engineer's calls. <b>Width and offset are facts you can state; cause is not.</b></p></div></div>
+ ${story('Inspector in the house',`A nervous buyer wanted me to condemn a house over a thin vertical crack above a doorway. It was uniform, not offset, with no sticking doors, no sloping floors, and nothing outside. I described it as minor cosmetic cracking to monitor — and explained why. **Calling a cosmetic crack structural is as much an error as missing a real one.**`)}`,
+ quiz:[
+  {q:'A crack that is thin, uniform-width, and not offset is most likely:',o:['Structural movement','Shrinkage / cosmetic','A plumbing leak','An engineering emergency'],a:1,e:'Uniform, non-offset, hairline cracks typically come from curing/drying, not movement.'},
+  {q:'A crack that is wide, tapering, and offset/displaced suggests:',o:['Normal shrinkage','Structural movement','Fresh paint','Nothing at all'],a:1,e:'Width, taper, and offset are character clues that point toward movement rather than shrinkage.'},
+  {q:'Beyond the crack itself, the strongest confirmation of movement is:',o:['The wall color','Associated indicators nearby — sticking doors, sloping floors, exterior cracks','The age of the house','The thermostat setting'],a:1,e:'The crack\'s "company" matters: clustered indicators turn a question into an answer.'},
+  {q:'In your report, you should:',o:['State the engineering cause and severity','Describe what you see (width, offset, location, pattern) and recommend evaluation where warranted','Certify whether it is still moving','Say nothing about cracks'],a:1,e:'Describe facts and recommend the right professional; diagnosing cause and severity is an engineer\'s job.'},
+  {q:'Over-calling a cosmetic crack as structural is:',o:['Always the safe choice','A real error that erodes your credibility, just like missing a real one','Required by TREC','Impossible'],a:1,e:'Accuracy cuts both ways — describe cosmetic cracking as such and reserve "movement" for cracks that show it.'},
+ ]},
+
+/* ===== L6 FRAMING SYSTEMS ===== */
+{id:'l6',kind:'Lesson 6',label:'Framing Systems',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 6 · The skeleton</span><h1>Know the skeleton, and you'll know when a bone is broken.</h1>
+ <p class="lead">Between the foundation and the roof is the framing — the network of members that actually carries the load. You need the names and the jobs to describe what you find.</p>
+ <h2>The framing layers</h2>
+ ${conds('',[['Floor framing','Joists span between the foundation/sill and a girder (beam); the girder rests on piers or columns. Subfloor sits on the joists. This is what you see and read in a crawlspace.'],['Wall framing','Vertical studs with a bottom (sole) plate and top plate; headers bridge over door and window openings. Bearing walls stack over the framing/supports below.'],['Ceiling &amp; roof framing','Either stick-framed (ceiling joists + rafters, sometimes with a ridge board) or engineered roof trusses. Both deliver the roof load down to the bearing walls.'],['Engineered members','I-joists, glulam/LVL beams, and trusses are now common. They\'re strong as designed but unforgiving of field modification — never cut or notch them without an engineer\'s say.']])}
+ <div class="dgm"><svg viewBox="0 0 720 250">
+   <g ${_gs}>
+     <!-- foundation -->
+     <line x1="80" y1="200" x2="640" y2="200" stroke-width="2.2"/>${_mono(90,216,9,'foundation','#918c7d','start')}
+     <!-- piers + girder -->
+     <rect x="150" y="170" width="14" height="30"/><rect x="356" y="170" width="14" height="30"/><rect x="556" y="170" width="14" height="30"/>
+     <line x1="100" y1="170" x2="620" y2="170" stroke-width="2"/>${_mono(360,164,8,'girder','#918c7d')}
+     <!-- joists -->
+     <g stroke-width="1.3">${Array.from({length:10},(_,i)=>`<line x1="${110+i*55}" y1="170" x2="${110+i*55}" y2="140"/>`).join('')}</g>
+     <line x1="100" y1="140" x2="620" y2="140" stroke-width="1.6"/>${_mono(360,134,8,'joists / subfloor','#918c7d')}
+     <!-- studs -->
+     <g stroke-width="1.3">${Array.from({length:9},(_,i)=>`<line x1="${130+i*60}" y1="140" x2="${130+i*60}" y2="70"/>`).join('')}</g>
+     <line x1="120" y1="70" x2="600" y2="70" stroke-width="1.6"/>${_mono(360,64,8,'wall top plate','#918c7d')}
+     <!-- roof -->
+     <path d="M120 70 L360 20 L600 70" stroke-width="2"/>${_mono(360,40,8,'rafters / truss','#918c7d')}
+   </g>
+ </svg><div class="cap">The framing skeleton: piers and girder carry joists, joists carry the floor and walls, walls carry the roof.</div></div>
+ <h2>Reading bearing vs. partition</h2>
+ <p>You won't always be certain, but clues help: walls that run <em>perpendicular</em> to the joists above, walls stacked over a girder or beam below, and walls with headers over openings are usually <b>bearing</b>. It matters because a removed or altered bearing wall — a common DIY remodel — drops the load and shows up as sagging ceilings and cracks.</p>
+ ${W('era','found')}
+ ${story('Inspector in the house',`An open-concept remodel had taken out a wall to join the kitchen and living room — and the ceiling above the old wall line now sagged in a gentle smile, with cracks at both ends. The "wall" had been bearing, and nothing replaced its load path. **When a wall disappears, ask what's now carrying what it used to.**`)}`,
+ quiz:[
+  {q:'In conventional floor framing, joists bear on:',o:['The drywall','A girder/beam and the foundation or sill','The roof','Nothing'],a:1,e:'Joists span between the foundation/sill and a girder, which is supported by piers or columns — the chain you trace in a crawlspace.'},
+  {q:'A header in wall framing:',o:['Holds the roof to the foundation','Bridges over a door or window opening to carry the load around it','Is decorative trim','Is part of the slab'],a:1,e:'Headers span openings so the load above can bridge across the door or window.'},
+  {q:'Roof loads are delivered down to:',o:['The windows','The bearing walls and the framing below them','The paint','The gutters'],a:1,e:'Rafters or trusses push the roof load onto bearing walls, which carry it down the load path.'},
+  {q:'Engineered members like I-joists and trusses:',o:['Can be cut and notched freely','Are strong as designed but must not be cut or notched without an engineer','Have no load capacity','Are only decorative'],a:1,e:'Field-modifying engineered members can drastically weaken them — a common and serious reportable defect.'},
+  {q:'A wall is likely bearing if it:',o:['Runs perpendicular to the joists above and/or stacks over a girder below','Is freshly painted','Holds a TV','Has a light switch'],a:1,e:'Perpendicular-to-joist orientation, stacking over supports, and headers over openings are clues to a bearing wall.'},
+ ]},
+
+/* ===== L7 FRAMING PROBLEMS ===== */
+{id:'l7',kind:'Lesson 7',label:'Framing Problems',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 7 · Where framing goes wrong</span><h1>Most framing failures are something added, removed, or soaked.</h1>
+ <p class="lead">In the crawlspace and attic you'll find framing that's been cut, overloaded, modified, or rotted. Each is reportable — and each traces back to the load path.</p>
+ <h2>The problems you'll see</h2>
+ ${conds('',[['Cut &amp; notched members','Joists, beams, and studs hacked for plumbing, ducts, or wiring. Notching the bottom of a joist near mid-span — the tension zone — is especially damaging.'],['Over-spanned / undersized framing','Members spanning farther than their size allows, producing a springy, sagging floor (deflection).'],['Deflection &amp; sag','Visible bow or bounce under load — the symptom of over-spanning, undersizing, damage, or rot.'],['Moisture &amp; rot','Soft, decayed wood from leaks, damp crawlspaces, or earth-to-wood contact — a wood-destroying condition that loses strength.'],['Improper modifications','DIY beam removals, sistered-on scraps, jacks on dirt, missing supports — anything that breaks the intended load path.']])}
+ <div class="dgm"><svg viewBox="0 0 720 230">
+   <g ${_gs}>
+     <!-- supports -->
+     <rect x="90" y="150" width="16" height="50"/><rect x="600" y="150" width="16" height="50"/><line x1="60" y1="200" x2="660" y2="200" stroke-width="2"/>
+     <!-- deflecting joist -->
+     <path d="M106 150 Q 360 210 600 150" stroke="#b85436" stroke-width="2.6" fill="none"/>${_mono(360,200,9,'deflection / sag','#b85436')}
+     <!-- straight reference -->
+     <line x1="106" y1="150" x2="600" y2="150" stroke="#3d7d50" stroke-width="1.2" stroke-dasharray="5 4"/>${_mono(360,142,8,'original line','#3d7d50')}
+     <!-- notch -->
+     <path d="M300 150 l0 18 l-12 0 l0 -18" fill="#bdb8a8" stroke="#b85436" stroke-width="2"/>${_mono(294,186,8,'notch','#b85436')}
+   </g>
+ </svg><div class="cap">An over-notched, over-spanned joist deflects below its original line — a reportable framing condition.</div></div>
+ <h2>The conditions you'll write up</h2>
+ <div class="defect"><div class="dh"><span class="n">1</span><span class="nm">Cut / notched framing member</span></div><p>Significant material removed for a pipe, duct, or wire — especially in the tension zone.</p><div class="meta"><span class="lab">Implication</span><span class="val">Reduced strength; deflection or failure of the member.</span><span class="lab">Report</span><span class="val">Describe the member, the cut, and the location; recommend repair by a qualified contractor.</span></div></div>
+ <div class="defect"><div class="dh"><span class="n">2</span><span class="nm">Excessive deflection / sag</span></div><p>A bouncy, visibly sagging floor between supports.</p><div class="meta"><span class="lab">Implication</span><span class="val">Over-spanned, undersized, or weakened framing.</span><span class="lab">Report</span><span class="val">Report the deflection and location; recommend evaluation and repair.</span></div></div>
+ <div class="defect"><div class="dh"><span class="n">3</span><span class="nm">Moisture damage / rot</span></div><p>Soft, decayed, or fungal-stained framing, often at sills, joist ends, or under leaks.</p><div class="meta"><span class="lab">Implication</span><span class="val">Lost structural capacity; conducive conditions for further decay.</span><span class="lab">Report</span><span class="val">Report the rot and its location, recommend repair, and call out the moisture source to correct.</span></div></div>
+ ${W('sort','scope')}
+ ${story('Inspector in the house',`A "handyman special" crawlspace had a girder propped on a stack of patio pavers, a joist notched halfway through for a drain, and a sistered 2x4 scrap "fixing" a cracked beam. None of it followed the load path. **Improvised support isn't support.** I reported each item, the resulting deflection, and recommended a qualified contractor and, given the extent, an engineer.`)}`,
+ quiz:[
+  {q:'Notching the bottom of a floor joist near mid-span is harmful because it:',o:['Looks messy','Removes material from the tension zone and seriously weakens the joist','Improves drainage','Adds strength'],a:1,e:'The bottom at mid-span is in tension; notching there is an improper modification that can cause deflection or failure.'},
+  {q:'A bouncy, visibly sagging floor most likely indicates:',o:['A perfect new floor','Over-spanned, undersized, or weakened framing (deflection)','Too much paint','Good ventilation'],a:1,e:'Deflection points to members spanning too far, undersized, cut, or rotted — all reportable.'},
+  {q:'Rot in framing is usually caused by:',o:['Sunlight','Sustained moisture — leaks, damp crawlspaces, earth-to-wood contact','Cold air','Fresh lumber'],a:1,e:'Moisture drives fungal decay; report the rot and the moisture source that caused it.'},
+  {q:'A girder propped up on stacked pavers is:',o:['A proper permanent support','An improper modification that doesn\'t follow the load path — report it','Better than a pier','Required by code'],a:1,e:'Improvised supports aren\'t reliable load paths; report the condition and recommend proper repair.'},
+  {q:'Engineered I-joists and trusses found cut or altered in the field should be:',o:['Ignored','Reported, with a recommendation for evaluation — field modification can drastically weaken them','Cut further to match','Painted'],a:1,e:'Modifying engineered members voids their design capacity; report and recommend evaluation.'},
+ ]},
+
+/* ===== L8 WATER & THE FOUNDATION ===== */
+{id:'l8',kind:'Lesson 8',label:'Water & the Foundation',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 8 · The master cause</span><h1>Foundation performance, on clay, is mostly a water story.</h1>
+ <p class="lead">If you understand how water reaches and leaves the soil around a house, you understand why most foundations move — and what an owner can actually do about it.</p>
+ <h2>The four water drivers</h2>
+ ${conds('',[['Drainage','Where roof and surface water goes. Gutters and downspouts that discharge at the foundation soak one area and drive heave; extensions that carry water away stabilize it.'],['Grading','The slope of the soil. Positive grade falls away from the house to shed water; negative grade ponds water against the foundation — a leading cause of movement.'],['Plumbing leaks','Supply or drain leaks under or beside a slab pump water into the clay, causing localized heave (or erosion). A persistent, one-spot wet area is a red flag.'],['Large trees','Big trees transpire enormous amounts of water, drying and shrinking nearby clay and causing localized settlement — and removing a mature tree can later let the soil rehydrate and heave.']])}
+ <div class="dgm"><svg viewBox="0 0 720 250">
+   <g ${_gs}>
+     <path d="M150 90 L300 40 L450 90"/><line x1="150" y1="90" x2="150" y2="180"/><line x1="450" y1="90" x2="450" y2="180"/><line x1="150" y1="180" x2="450" y2="180" stroke-width="2.2"/>
+     ${_mono(300,140,9,'house','#918c7d')}
+     <rect x="120" y="180" width="560" height="50" fill="#cdb892" opacity="0.4" stroke="none"/>${_mono(560,206,9,'clay soil','#8a8475')}
+     <!-- negative grade left -->
+     <path d="M120 200 q20 -18 30 -20" stroke="#5a7b97" stroke-width="2"/><path d="M142 184 l8 -4 l1 9" stroke="#5a7b97" stroke-width="1.6"/>${_mono(120,176,8,'negative grade','#5a7b97','start')}
+     <!-- downspout at foundation -->
+     <line x1="440" y1="92" x2="440" y2="178" stroke="#5a7b97" stroke-width="2"/><path d="M440 178 q-6 8 -16 8" stroke="#5a7b97" stroke-width="1.6"/>${_mono(458,150,8,'downspout','#5a7b97','start')}
+     <!-- tree pulling moisture -->
+     <path d="M600 180 V 150" stroke="#6a6557" stroke-width="2.2"/><circle cx="600" cy="135" r="20" stroke="#3d7d50" stroke-width="1.6"/><path d="M600 180 q-30 6 -55 0" stroke="#b85436" stroke-width="1.6"/>${_mono(600,108,8,'tree dries clay','#b85436')}
+   </g>
+ </svg><div class="cap">Water in, water out: downspouts and negative grade wet the clay (heave); a big tree dries it (settlement). Differences between spots crack the house.</div></div>
+ <h2>What this means for your report</h2>
+ <p>When you see foundation distress, look for its <b>drivers</b> and report them alongside the symptom: the downspout dumping at the corner with the worst cracking, the soil sloping back toward the house, the persistent damp spot under the slab, the big oak by the settling corner. You're not proving cause — you're noting the conditions that contribute, and recommending the corrective steps (drainage, grading, leak repair) plus engineering evaluation where the distress is significant.</p>
+ <ul class="clean"><li><b>Extend downspouts</b> and roof drainage away from the foundation.</li><li><b>Re-grade</b> so soil falls away from the house on all sides.</li><li><b>Repair plumbing leaks</b> promptly — under-slab leaks especially.</li><li><b>Manage trees and watering</b> to keep soil moisture even.</li></ul>
+ ${W('match','driver')}
+ ${story('Inspector in the house',`The worst-cracked corner of a slab home had three things going on at once: a downspout emptying right there, soil graded back toward the house, and a mature pecan ten feet away. **The foundation wasn't the villain — the water around it was.** My report tied the distress to its drivers, recommended the drainage and grading fixes, and referred the movement to an engineer.`)}`,
+ quiz:[
+  {q:'The single biggest driver of foundation performance you can advise on is:',o:['Paint color','Water management — drainage, grading, gutters/downspouts, and plumbing leaks','Roof age','Brick brand'],a:1,e:'On clay, keeping soil moisture stable is the master control: positive grade, downspouts away, and no leaks.'},
+  {q:'Negative grade around a house:',o:['Sheds water away','Ponds water against the foundation and drives movement','Has no effect','Is required'],a:1,e:'Negative grade keeps soil wet at the foundation (heave); positive grade falls away to shed water.'},
+  {q:'A persistent wet spot in one area under a slab suggests:',o:['Good drainage','A possible plumbing leak feeding moisture into the clay (localized heave/erosion)','Nothing','Dry soil'],a:1,e:'Under-slab leaks pump water into the clay and cause localized movement — a red flag to report.'},
+  {q:'A large tree close to a slab on clay tends to cause:',o:['Heave only','Localized settlement as roots dry and shrink the clay (and heave later if removed)','No effect','Floating'],a:1,e:'Trees transpire heavily, drying nearby clay and causing differential settlement; removal can later allow rehydration and heave.'},
+  {q:'In your report, you should treat the downspout, grading, and tree as:',o:['Irrelevant to the foundation','Contributing drivers to note alongside the distress, with corrective recommendations','Proof of the exact cause','Cosmetic only'],a:1,e:'Note the contributing conditions and recommend corrections plus engineering evaluation; you don\'t pronounce the definitive cause.'},
+ ]},
+
+/* ===== L9 THE INSPECTOR'S STANCE ===== */
+{id:'l9',kind:'Lesson 9',label:'The Inspector\'s Stance',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 9 · Where your job ends</span><h1>Report the performance, recommend the engineer, and know the line.</h1>
+ <p class="lead">Everything in this section converges on one professional stance. Get it right and you serve your client without overstepping your scope — or your license.</p>
+ <h2>What you do — and don't — do</h2>
+ ${conds('',[['You report performance &amp; visible distress','Describe what you observe: the cracks (width, location, pattern, offset), the sticking openings, the sloping floors, the framing conditions, and the contributing drivers.'],['You recommend evaluation','For significant distress, recommend evaluation by a licensed <b>structural or foundation engineer</b> — the professional who can diagnose cause, quantify movement, and design repairs.'],['You do NOT certify','A home inspection is <b>not</b> a structural certification, an engineering report, or a guarantee. You don\'t pronounce a foundation "sound," "fixed," or "still moving."'],['You note limits of access','Report where furniture, storage, finishes, or unsafe conditions kept you from inspecting — you\'re responsible for what was visible and accessible.']])}
+ <div class="field"><div class="ic">${sv(ic.alert)}</div><div><div class="t">The TREC through-line</div><p>Under the Standards of Practice you inspect and report the structural components and deficiencies you can <b>see</b> and <b>safely reach</b>, and you refer significant findings to the right professional. Describing distress is your job; diagnosing and certifying are the engineer's. <b>When distress is significant, the safest, most professional sentence in your report is a recommendation for evaluation by a licensed engineer.</b></p></div></div>
+ <h2>The conditions you'll always write up</h2>
+ <ul class="clean"><li><b>Significant cracking</b> — wide, offset, or stair-step cracks, especially clustered with other indicators.</li><li><b>Movement indicators</b> — sticking doors/windows, sloping floors, brick separations, trim gaps.</li><li><b>Framing damage</b> — cut/notched, over-spanned, or rotted members; improper modifications and missing supports.</li><li><b>Moisture intrusion</b> — leaks, standing water, damp soil, and rot in crawlspaces and basements.</li><li><b>Inadequate crawlspace ventilation</b> — trapped moisture that promotes rot and mold under the floor.</li></ul>
+ ${W('sort','scope')}
+ ${story('Inspector in the house',`A seller pushed me to write that the foundation was "fine" because a contractor had installed piers. I couldn't — and didn't. I reported the visible repairs and the remaining distress I observed, recommended the buyer obtain the engineer's documentation and an evaluation, and noted the limits of what I could see. **My signature reports what I observed; it never certifies a structure.**`)}`,
+ quiz:[
+  {q:'For significant structural distress, the professional you refer to is a:',o:['Painter','Licensed structural / foundation engineer','Real estate agent','Roofer'],a:1,e:'An engineer can diagnose cause, quantify movement, and design repairs — work outside a home inspection.'},
+  {q:'A home inspection of the structure is:',o:['A structural certification','A report of observed performance and visible distress, not a certification or guarantee','An engineering report','A repair contract'],a:1,e:'You report what you observe and recommend further evaluation; you don\'t certify, engineer, or guarantee.'},
+  {q:'When access is limited by storage or finishes, you should:',o:['Guess what\'s behind them','Note the limits of access in your report','Move all the furniture yourself','Skip the section'],a:1,e:'You\'re responsible for visible, accessible conditions — document where access was restricted.'},
+  {q:'Inadequate crawlspace ventilation is reportable because it:',o:['Improves the view','Traps moisture that promotes rot and mold in the framing below the floor','Adds strength','Is purely cosmetic'],a:1,e:'Trapped crawlspace moisture is a conducive condition for decay — report it and the resulting/anticipated damage.'},
+  {q:'The safest, most professional response to significant distress is to:',o:['Certify it is fine','Recommend evaluation by a licensed engineer','Tell the client the repair cost','Ignore it'],a:1,e:'Report the distress and recommend the right professional evaluate it — that\'s squarely within your scope.'},
+ ]},
+/*LESSONS*/
+ {id:'scenarios',kind:'Apply it',label:'Inspector\'s Call',type:'scenario'},
+ {id:'assess',kind:'Assessment',label:'Mastery check',type:'assess'},
+ {id:'glossary',kind:'Reference',label:'Glossary',type:'glossary'},
+ {id:'source',kind:'Reference & summary',label:'Reference & summary',type:'source'},
+];
+(async()=>{await load();render();})();
+</script>

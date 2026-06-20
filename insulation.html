@@ -1,0 +1,780 @@
+<!-- ATI · Module II · Insulation & Ventilation — full interactive section -->
+<title>ATI · Module II — Insulation &amp; Ventilation</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..900&family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#f4f2ea;--surf:#fffdf8;--surf-2:#faf7ef;--surf-3:#efeae0;
+    --line:#e6e1d4;--line-2:#efeae0;--line-brass:rgba(197,129,42,.32);
+    --ink:#21242b;--ink-2:#5b616b;--ink-3:#8b909a;
+    --brass:#c5812a;--brass-2:#e0a043;--brass-deep:#9a6214;--brass-soft:#f4e7cd;
+    --slate:#1f6f73;--slate-2:#2f8a8d;--slate-soft:#dde9e9;--slate-deep:#123f43;
+    --pass:#2f7a4e;--pass-soft:#e2efe5;--fail:#bd4a31;--fail-soft:#f6e6df;
+    --r:16px;--display:'Fraunces',Georgia,serif;--body:'Hanken Grotesk',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;
+    --sh-1:0 1px 2px rgba(25,28,34,.05),0 1px 3px rgba(25,28,34,.05);--sh-2:0 4px 14px rgba(25,28,34,.06),0 12px 32px rgba(25,28,34,.09);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.55;background-image:radial-gradient(120% 80% at 88% -8%,rgba(197,129,42,.06),transparent 52%),radial-gradient(90% 60% at -8% 108%,rgba(31,111,115,.06),transparent 52%)}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  .mono{font-family:var(--mono)}
+  ::selection{background:var(--brass);color:#fff}
+  ::-webkit-scrollbar{width:11px;height:11px}::-webkit-scrollbar-thumb{background:#d2ccbd;border-radius:11px;border:3px solid var(--bg)}
+
+  .top{position:sticky;top:0;z-index:30;background:rgba(244,242,234,.82);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid var(--line)}
+  .top .row{max-width:1150px;margin:0 auto;padding:13px 24px;display:flex;align-items:center;gap:14px}
+  .mark{width:36px;height:36px;border-radius:10px;flex:none;display:grid;place-items:center;background:linear-gradient(150deg,var(--brass-2),var(--brass-deep));box-shadow:0 3px 12px rgba(168,109,16,.3),inset 0 1px 0 rgba(255,255,255,.35)}
+  .mark svg{width:20px;height:20px;color:#fff}
+  .top .tt{font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:-.01em;line-height:1.1}.top .tt b{color:var(--brass-deep)}
+  .top .sub{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);display:block;margin-top:2px}
+  .top .prog{margin-left:auto;display:flex;align-items:center;gap:12px}
+  .top .prog .bar{width:150px;height:7px;background:var(--surf-3);border-radius:7px;overflow:hidden;border:1px solid var(--line)}
+  .top .prog .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--brass-deep),var(--brass));border-radius:7px;transition:width .5s cubic-bezier(.2,.7,.2,1)}
+  .top .prog .pc{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--brass-deep);min-width:34px;text-align:right}
+
+  .wrap{max-width:1150px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:250px 1fr;gap:32px;align-items:start}
+  .rail{position:sticky;top:88px;margin-top:28px;max-height:calc(100vh - 110px);overflow-y:auto;padding-right:4px}
+  .rail .h{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);padding:0 8px 10px}
+  .step{display:block;padding:9px 10px 9px 43px;border-radius:10px;width:100%;text-align:left;transition:.13s;color:var(--ink-2);font-size:12.5px;font-weight:500;position:relative}
+  .step:hover{background:var(--surf-2)}
+  .step.active{background:var(--surf);box-shadow:var(--sh-1);color:var(--ink)}
+  .step.active::before{content:"";position:absolute;left:-8px;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--brass)}
+  .step .dot{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-family:var(--mono);font-size:10px;color:var(--ink-3);background:var(--bg);transition:.2s}
+  .step.done .dot{background:var(--brass);border-color:var(--brass);color:#fff}.step.done .dot svg{width:11px;height:11px}
+  .step .lbl{flex:1;line-height:1.2}
+  .step .kind{font-family:var(--mono);font-size:8.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);display:block;margin-top:1px}
+  .step.locked{opacity:.42;pointer-events:none}
+
+  .view{min-width:0;margin-top:28px;animation:rise .38s cubic-bezier(.2,.7,.2,1);padding-bottom:40px}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--brass-deep);font-weight:600}
+  h1{font-family:var(--display);font-weight:800;font-size:31px;letter-spacing:-.02em;line-height:1.08;margin:8px 0 0}
+  h2{font-family:var(--display);font-weight:700;font-size:21px;letter-spacing:-.01em;margin:32px 0 10px}
+  h3{font-family:var(--display);font-weight:700;font-size:16px;margin:24px 0 8px}
+  p{font-size:15.5px;color:#33312a;margin-bottom:14px;line-height:1.74}
+  p b,li b{color:var(--ink);font-weight:700}
+  .lead{font-size:16.5px;color:var(--ink-2);margin-top:12px;max-width:64ch}
+  ul.clean{list-style:none;margin:2px 0 16px}
+  ul.clean li{font-size:14.5px;color:#33312a;padding-left:22px;position:relative;margin-bottom:9px;line-height:1.6}
+  ul.clean li::before{content:"";position:absolute;left:2px;top:8px;width:7px;height:7px;border-radius:2px;background:var(--brass);transform:rotate(45deg)}
+  ul.num{margin:0 0 16px 20px}ul.num li{font-size:14.5px;color:#33312a;margin-bottom:7px;line-height:1.6}
+
+  .field{background:var(--slate-deep);color:#e9edf0;border-radius:13px;padding:18px 20px;margin:22px 0;display:flex;gap:14px}
+  .field.brass{background:linear-gradient(135deg,#3a3526,#2c2818)}
+  .field .ic{flex:none;color:var(--brass-2)}.field .ic svg{width:20px;height:20px}
+  .field .t{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-2);margin-bottom:5px}
+  .field p{color:#c4cdd4;font-size:14px;margin:0 0 8px;line-height:1.65}.field p:last-child{margin-bottom:0}.field p b{color:#fff}
+
+  .story{background:var(--surf);border:1px solid var(--line);border-left:4px solid var(--brass);border-radius:0 13px 13px 0;padding:16px 19px;margin:22px 0;box-shadow:var(--sh-1)}
+  .story .st{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-deep);display:flex;align-items:center;gap:8px;margin-bottom:7px}
+  .story .st svg{width:14px;height:14px}
+  .story p{font-size:14.5px;color:#403d33;font-style:italic;margin:0;line-height:1.7}
+  .story p b{font-style:normal}
+
+  .loop{display:flex;align-items:stretch;background:var(--surf);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin:18px 0 8px;box-shadow:var(--sh-1)}
+  .loop .seg{flex:1;padding:13px 10px;text-align:center;border-right:1px solid var(--line-2)}.loop .seg:last-child{border-right:none}
+  .loop .seg .n{font-family:var(--mono);font-size:9px;color:var(--ink-3);letter-spacing:.1em}
+  .loop .seg .w{font-family:var(--display);font-weight:700;font-size:12.5px;margin-top:3px}
+  .loop .seg.on{background:var(--brass-soft)}.loop .seg.on .w{color:var(--brass-deep)}
+
+  .dgm{background:#bdb8a8;border:1px solid var(--line);border-radius:var(--r);padding:8px;margin:20px 0;box-shadow:var(--sh-1);position:relative;overflow:hidden}
+  .dgm::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(44,65,83,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(44,65,83,.1) 1px,transparent 1px);background-size:26px 26px;pointer-events:none}
+  .dgm svg{display:block;width:100%;height:auto;position:relative}
+  .dgm .cap{position:relative;text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:.04em;color:var(--slate-deep);padding:4px 6px 8px}
+
+  .defect{background:var(--surf);border:1px solid var(--line);border-radius:13px;padding:16px 18px;box-shadow:var(--sh-1);margin:12px 0}
+  .defect .dh{display:flex;align-items:center;gap:11px;margin-bottom:8px}
+  .defect .dh .n{width:26px;height:26px;border-radius:8px;background:var(--fail-soft);color:var(--fail);display:grid;place-items:center;flex:none;font-family:var(--mono);font-weight:600;font-size:12px}
+  .defect .dh .nm{font-family:var(--display);font-weight:700;font-size:15px}
+  .defect p{font-size:14px;margin-bottom:9px}
+  .defect .meta{display:grid;grid-template-columns:auto 1fr;gap:5px 12px;font-size:13px;align-items:start}
+  .defect .meta .lab{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);padding-top:3px;white-space:nowrap}
+  .defect .meta .val{color:#33312a;line-height:1.5}
+  .defect .rep{font-family:var(--mono);font-size:11px;background:var(--slate-soft);border-radius:8px;padding:8px 11px;color:var(--slate-deep);line-height:1.5;margin-top:8px}.defect .rep b{color:var(--slate-deep)}
+
+  .pills{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 6px}
+  .pill{font-family:var(--mono);font-size:11.5px;background:var(--surf);border:1px solid var(--line);color:var(--ink-2);padding:6px 12px;border-radius:20px}.pill b{color:var(--brass-deep)}
+  .tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px;background:var(--surf);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .tbl th{background:var(--slate-deep);color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;text-align:left;padding:9px 12px;font-weight:600}
+  .tbl td{padding:9px 12px;border-top:1px solid var(--line-2);color:#33312a}
+  .tbl td:first-child{font-family:var(--mono);font-weight:600;color:var(--brass-deep);white-space:nowrap}
+
+  /* ---- quiz (multi-question) ---- */
+  .quiz{background:var(--surf);border:1.5px solid var(--line-brass);border-radius:var(--r);padding:24px;margin:30px 0 0;box-shadow:var(--sh-1)}
+  .quiz .qh{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-deep);display:flex;align-items:center;gap:8px;margin-bottom:4px}.quiz .qh svg{width:15px;height:15px}
+  .quiz .qt{font-family:var(--display);font-weight:700;font-size:18px}.quiz .qsub{font-size:13.5px;color:var(--ink-2);margin:4px 0 4px}
+  .qblock{border-top:1px solid var(--line-2);padding-top:18px;margin-top:18px}.qblock:first-of-type{border-top:none;padding-top:14px}
+  .qnum{font-family:var(--mono);font-size:11px;color:var(--brass-deep);font-weight:600;margin-bottom:6px}
+  .q{font-family:var(--display);font-weight:600;font-size:15.5px;margin-bottom:13px;line-height:1.4}
+  .opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:11px 14px;border:1.5px solid var(--line);border-radius:10px;margin-bottom:8px;transition:.13s;font-size:14px;font-weight:500;background:var(--surf-2)}
+  .opt:hover:not(.lk){border-color:var(--brass);background:var(--surf)}
+  .opt .k{font-family:var(--mono);font-weight:600;width:23px;height:23px;border-radius:6px;background:var(--surf-3);display:grid;place-items:center;font-size:11px;flex:none;color:var(--ink-2)}
+  .opt.correct{border-color:var(--pass);background:var(--pass-soft)}.opt.correct .k{background:var(--pass);color:#fff}
+  .opt.wrong{border-color:var(--fail);background:var(--fail-soft)}.opt.wrong .k{background:var(--fail);color:#fff}
+  .opt .mk{margin-left:auto}.opt .mk svg{width:16px;height:16px}.opt.lk{cursor:default}
+  .exp{font-size:13px;color:var(--ink-2);line-height:1.62;padding:11px 13px;background:var(--surf-2);border-left:3px solid var(--brass);border-radius:0 9px 9px 0;margin-top:4px}.exp b{color:var(--ink)}
+  .qscore{margin-top:20px;padding-top:18px;border-top:1px solid var(--line-2);font-family:var(--mono);font-size:13px;color:var(--ink-2);display:flex;align-items:center;gap:10px}.qscore svg{width:18px;height:18px;flex:none}.qscore b{font-size:15px}
+
+  .foot{display:flex;align-items:center;gap:12px;margin:30px 0 10px;padding-top:22px;border-top:1px solid var(--line)}.foot .sp{flex:1}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:14px;padding:12px 18px;border-radius:11px;transition:.15s;font-family:var(--body)}.btn svg{width:16px;height:16px}
+  .btn.brass{background:linear-gradient(150deg,var(--brass-2),var(--brass));color:#fff;box-shadow:0 5px 14px rgba(168,109,16,.28)}.btn.brass:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(168,109,16,.36)}
+  .btn.brass:disabled{opacity:.5;filter:grayscale(.3);cursor:not-allowed;transform:none;box-shadow:none}
+  .btn.ghost{background:var(--surf);border:1px solid var(--line);color:var(--ink-2)}.btn.ghost:hover{color:var(--ink);border-color:var(--ink-3)}
+  .btn.slate{background:var(--slate);color:#fff}.btn.slate:hover{background:var(--slate-deep)}
+
+  /* ---- WIDGETS ---- */
+  .wlabel{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:var(--brass);padding:4px 9px;border-radius:20px;display:inline-block;margin-bottom:6px}
+  .wtitle{font-family:var(--display);font-weight:700;font-size:16px;margin-bottom:3px}
+  .wsub{font-size:13.5px;color:var(--ink-2);margin-bottom:14px}
+  .widget{background:var(--surf-2);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;margin:24px 0;box-shadow:var(--sh-1)}
+
+  .sd-wrap{display:grid;grid-template-columns:1fr 260px;gap:16px}@media(max-width:760px){.sd-wrap{grid-template-columns:1fr}}
+  .sd-stage{background:#bdb8a8;border:1px solid var(--line);border-radius:13px;padding:8px;position:relative;overflow:hidden}
+  .sd-stage::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(44,65,83,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(44,65,83,.09) 1px,transparent 1px);background-size:24px 24px;pointer-events:none}
+  .sd-stage svg{display:block;width:100%;height:auto;position:relative}
+  .hot{cursor:pointer}.hot circle.zone{fill:transparent;stroke:transparent}
+  .hot.found circle.zone{fill:rgba(61,125,80,.16);stroke:var(--pass);stroke-width:2.5;stroke-dasharray:4 3}
+  .sd-side{display:flex;flex-direction:column;gap:11px}
+  .sd-count{background:var(--slate-deep);color:#fff;border-radius:12px;padding:13px 15px;text-align:center}
+  .sd-count .big{font-family:var(--mono);font-weight:600;font-size:28px;line-height:1}.sd-count .lbl{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-2);margin-top:5px}
+  .sd-found{display:flex;flex-direction:column;gap:7px;max-height:280px;overflow-y:auto}
+  .fcard{background:var(--surf);border:1px solid var(--line);border-left:3px solid var(--pass);border-radius:9px;padding:9px 11px;animation:pop .3s}@keyframes pop{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:none}}
+  .fcard .fn{font-family:var(--display);font-weight:700;font-size:13px;color:var(--pass)}.fcard .fd{font-size:12px;color:var(--ink-2);margin-top:2px;line-height:1.45}
+  .sd-empty{font-size:12.5px;color:var(--ink-3);font-style:italic;text-align:center;padding:18px 8px}
+  .sd-done{background:var(--pass-soft);border:1px solid var(--pass);border-radius:11px;padding:12px;text-align:center;font-size:13px;color:var(--pass);font-weight:600}
+
+  .gfi-stage{background:var(--slate-deep);border-radius:13px;padding:20px;position:relative;overflow:hidden;height:220px}
+  .lane{position:absolute;left:120px;right:120px;height:3px;background:rgba(255,255,255,.18);border-radius:3px}.lane.hot{top:66px}.lane.neu{top:146px}
+  .lane .lab{position:absolute;top:-19px;left:0;font-family:var(--mono);font-size:10px;color:#9fb0bd}
+  .dot{position:absolute;width:9px;height:9px;border-radius:50%;top:-3px}
+  .dot.h{background:var(--brass-2);animation:flowR 2.4s linear infinite}.dot.n{background:#7fa8c4;animation:flowL 2.4s linear infinite}
+  @keyframes flowR{from{left:0}to{left:100%}}@keyframes flowL{from{left:100%}to{left:0}}
+  .gbox{position:absolute;left:28px;top:66px;width:68px;height:80px;border:2px solid #9fb0bd;border-radius:8px;display:grid;place-items:center;text-align:center}
+  .gbox .gt{font-family:var(--mono);font-size:10px;color:#fff}.gbox .gs{font-family:var(--mono);font-size:8px;color:#7fa8c4;margin-top:3px}
+  .load{position:absolute;right:28px;top:66px;width:68px;height:80px;border:2px solid #9fb0bd;border-radius:8px;display:grid;place-items:center}.load .lt{font-family:var(--mono);font-size:10px;color:#fff}
+  .leak{position:absolute;left:50%;top:69px;width:2px;height:88px;background:repeating-linear-gradient(180deg,var(--fail),var(--fail) 5px,transparent 5px,transparent 10px);opacity:0;transition:.3s}.leak.on{opacity:1}
+  .person{position:absolute;left:calc(50% - 13px);top:160px;font-size:22px;opacity:0;transition:.3s}.person.on{opacity:1}
+  .trip{position:absolute;inset:0;background:rgba(184,84,54,.92);display:grid;place-items:center;opacity:0;pointer-events:none;transition:.3s}.trip.on{opacity:1}
+  .trip .tw{text-align:center;color:#fff}.trip .tw .b{font-family:var(--display);font-weight:800;font-size:25px}.trip .tw .s{font-family:var(--mono);font-size:11px;letter-spacing:.1em;margin-top:6px;opacity:.9}
+  .gfi-status{display:flex;align-items:center;gap:10px;margin-top:14px;font-size:14px;font-weight:600}.gfi-status .pip{width:11px;height:11px;border-radius:50%;background:var(--pass)}.gfi-status.fault .pip{background:var(--fail)}
+  .gfi-controls{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}.gfi-read{font-family:var(--mono);font-size:12px;color:var(--ink-2);margin-top:10px}.gfi-read b{color:var(--brass-deep)}
+
+  .match{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:600px){.match{grid-template-columns:1fr}}
+  .mcol{display:flex;flex-direction:column;gap:9px}.mcol .ch{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);text-align:center;margin-bottom:2px}
+  .chip{padding:13px;border:1.5px solid var(--line);border-radius:11px;background:var(--surf);font-family:var(--mono);font-weight:600;font-size:14px;text-align:center;transition:.13s;color:var(--ink)}
+  .chip:hover:not(.locked){border-color:var(--brass)}.chip.sel{border-color:var(--brass);background:var(--brass-soft);color:var(--brass-deep)}
+  .chip.locked{border-color:var(--pass);background:var(--pass-soft);color:var(--pass);cursor:default;opacity:.85}
+  .chip.miss{border-color:var(--fail);background:var(--fail-soft);animation:shake .3s}@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+  .w-done{margin-top:14px;background:var(--pass-soft);border:1px solid var(--pass);border-radius:11px;padding:12px;text-align:center;font-size:13px;color:var(--pass);font-weight:600}
+
+  .est{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:600px){.est{grid-template-columns:1fr}}
+  .est label{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:6px}
+  .est select{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--surf);font-family:var(--mono);font-size:14px;color:var(--ink);font-weight:600}
+  .est-out{grid-column:1/-1;margin-top:4px;border-radius:12px;padding:15px 17px;border:1px solid var(--line);background:var(--surf);transition:.2s}
+  .est-out.ok{border-color:var(--pass);background:var(--pass-soft)}.est-out.bad{border-color:var(--fail);background:var(--fail-soft)}
+  .est-out .ev{font-family:var(--display);font-weight:800;font-size:19px}.est-out .ed{font-size:13px;color:var(--ink-2);margin-top:5px;line-height:1.5}
+  .est-out.ok .ev{color:var(--pass)}.est-out.bad .ev{color:var(--fail)}
+
+  .sort{display:grid;gap:14px}
+  .sort-items{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;min-height:20px}
+  .sitem{padding:10px 14px;border:1.5px solid var(--line);border-radius:10px;background:var(--surf);font-size:13.5px;font-weight:500;transition:.13s}.sitem:hover:not(.placed){border-color:var(--brass)}.sitem.sel{border-color:var(--brass);background:var(--brass-soft);color:var(--brass-deep)}.sitem.placed{display:none}
+  .bins{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:600px){.bins{grid-template-columns:1fr}}
+  .bin{border:1.5px dashed var(--line);border-radius:12px;padding:14px;min-height:90px;background:var(--surf)}
+  .bin.activeb{border-color:var(--brass);background:var(--brass-soft)}
+  .bin .bt{font-family:var(--display);font-weight:700;font-size:14px;text-align:center;margin-bottom:10px}
+  .bin .drop{font-size:11px;color:var(--ink-3);text-align:center;font-style:italic}
+  .binitem{padding:8px 11px;border-radius:8px;font-size:13px;font-weight:500;margin-bottom:6px;display:flex;align-items:center;gap:7px}.binitem svg{width:13px;height:13px;flex:none}
+  .binitem.right{background:var(--pass-soft);color:var(--pass)}.binitem.wrong{background:var(--fail-soft);color:var(--fail)}
+
+  .era{display:flex;flex-direction:column;gap:0;position:relative;margin:6px 0 4px;padding-left:8px}
+  .era .line{position:absolute;left:14px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .erow{display:flex;align-items:flex-start;gap:14px;padding:9px 0;position:relative;cursor:pointer}
+  .erow .ed{width:12px;height:12px;border-radius:50%;background:var(--surf-3);border:2px solid var(--line);flex:none;margin-top:3px;z-index:1;transition:.15s}
+  .erow:hover .ed,.erow.open .ed{background:var(--brass);border-color:var(--brass)}
+  .erow .et{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--brass-deep);width:130px;flex:none}
+  .erow .en{font-size:14px;color:#33312a;font-weight:600}
+  .erow .ex{font-size:13px;color:var(--ink-2);line-height:1.5;margin-top:4px;display:none}.erow.open .ex{display:block}
+
+  .panelcard{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-2);padding:34px;text-align:center}
+  .panelcard .ic{width:56px;height:56px;border-radius:14px;background:var(--brass-soft);color:var(--brass-deep);display:grid;place-items:center;margin:0 auto 16px}.panelcard .ic svg{width:27px;height:27px}
+  .panelcard h2{margin:0 0 8px}.panelcard p{max-width:48ch;margin:0 auto 22px}
+  .ring{width:150px;height:150px;margin:0 auto 18px;position:relative}.ring .rv{position:absolute;inset:0;display:grid;place-items:center}.ring .rv .n{font-family:var(--mono);font-weight:600;font-size:38px;line-height:1}.ring .rv .p{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-top:4px}
+  .verdict{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;display:inline-block;padding:5px 13px;border-radius:20px;margin-bottom:16px}.verdict.pass{background:var(--pass-soft);color:var(--pass)}.verdict.fail{background:var(--fail-soft);color:var(--fail)}
+
+  .scen{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-2);margin-bottom:16px}
+  .scen .sh{background:linear-gradient(120deg,#1f6f73,#123f43);color:#fff;padding:16px 20px}.scen .sh .t{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-2)}.scen .sh .n{font-family:var(--display);font-weight:700;font-size:17px;margin-top:3px}
+  .scen .body{padding:20px 22px}.scen .situation{font-size:15.5px;color:#33312a;line-height:1.7;margin-bottom:6px}.scen .ask{font-family:var(--display);font-weight:600;font-size:15px;margin:16px 0 14px;color:var(--ink)}
+  .scount{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-bottom:10px}
+
+  .gloss{display:grid;gap:10px}.term{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:13px 16px;box-shadow:var(--sh-1)}
+  .term .tw{font-family:var(--display);font-weight:700;font-size:14.5px;color:var(--brass-deep)}.term .td{font-size:13.5px;color:var(--ink-2);margin-top:3px;line-height:1.55}
+  .srcframe{width:100%;height:78vh;border:1px solid var(--line);border-radius:var(--r);background:var(--surf);box-shadow:var(--sh-1)}
+  .srcnote{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:14px 17px;font-size:13.5px;color:var(--ink-2);margin:14px 0;line-height:1.6}.srcnote a{color:var(--brass-deep);font-weight:600}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--slate-deep);color:#fff;padding:12px 18px;border-radius:11px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;box-shadow:var(--sh-2);z-index:100;opacity:0;transition:.3s}.toast.show{transform:translateX(-50%) translateY(0);opacity:1}.toast svg{width:16px;height:16px;color:var(--brass-2)}
+  @media(max-width:880px){.wrap{grid-template-columns:1fr}.rail{display:none}.top .prog .bar{width:90px}}
+  em{font-style:italic;color:inherit}
+</style>
+
+<div class="top"><div class="row">
+  <a href="index.html" class="mark" style="text-decoration:none" title="Back to Module II"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8c2.2 0 2.2-2 4.5-2S9.7 8 12 8s2.2-2 4.5-2S18.7 8 21 8"/><path d="M3 13c2.2 0 2.2-2 4.5-2S9.7 13 12 13s2.2-2 4.5-2S18.7 13 21 13"/><path d="M3 18c2.2 0 2.2-2 4.5-2S9.7 18 12 18s2.2-2 4.5-2S18.7 18 21 18"/></svg></a>
+  <div><div class="tt">ATI · Module II — <b>Insulation &amp; Ventilation</b></div><span class="sub">System 4 of 5 · interactive</span></div>
+  <div class="prog"><a href="index.html" style="font-family:var(--mono);font-size:11px;font-weight:600;color:var(--brass-deep);text-decoration:none;margin-right:2px" title="All systems">↩ Systems</a><div class="bar"><i id="pbar"></i></div><span class="pc" id="ppc">0%</span></div>
+</div></div>
+<div class="wrap"><aside class="rail"><div class="h">Section contents</div><div id="rail"></div></aside><main class="view" id="view"></main></div>
+<div class="toast" id="toast"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span id="tmsg"></span></div>
+
+<script src="/storage.js"></script>
+<script>
+/* ---- storage adapter: native window.storage in Claude; localStorage when deployed (GitHub Pages); memory as last resort ---- */
+(function(){if(typeof window==='undefined')return;if(window.storage&&window.storage.get)return;var mem={};window.storage={get:function(k){try{var v=window.localStorage.getItem(k);return Promise.resolve(v!=null?{value:v}:null);}catch(e){return Promise.resolve(mem[k]!=null?{value:mem[k]}:null);}},set:function(k,v){try{window.localStorage.setItem(k,v);}catch(e){mem[k]=v;}return Promise.resolve({value:v});},delete:function(k){try{window.localStorage.removeItem(k);}catch(e){delete mem[k];}return Promise.resolve({deleted:true});}};})();
+
+const ic={check:'<path d="M20 6 9 17l-5-5"/>',x:'<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',arrow:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',back:'<path d="M19 12H5"/><path d="m12 19-7-7 7-7"/>',brain:'<path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44A2.5 2.5 0 0 1 4 17.5a2.5 2.5 0 0 1-.5-4.9 2.5 2.5 0 0 1 0-4.2A2.5 2.5 0 0 1 5 3.5 2.5 2.5 0 0 1 9.5 2z"/>',flag:'<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>',alert:'<path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="9"/>',bolt:'<path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/>',book:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',open:'<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/>',award:'<circle cx="12" cy="8" r="6"/><path d="M15.5 12.9 17 22l-5-3-5 3 1.5-9.1"/>',retake:'<path d="M3 12a9 9 0 1 0 9-9 9 9 0 0 0-6.4 2.6L3 8"/><path d="M3 3v5h5"/>',coffee:'<path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/><line x1="6" y1="2" x2="6" y2="5"/><line x1="10" y1="2" x2="10" y2="5"/><line x1="14" y1="2" x2="14" y2="5"/>'};
+const sv=(p,w=2)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+function conds(title,items){return `<h3>${title}</h3><ul class="clean">${items.map(([n,d])=>`<li><b>${n}</b> — ${d}</li>`).join('')}</ul>`;}
+function story(title,text){return `<div class="story"><div class="st">${sv(ic.coffee)} ${title}</div><p>${text}</p></div>`;}
+
+/* ================= WIDGET LIBRARY ================= */
+const SPOT={}, MATCH={}, SORT={}, ERA={};
+const WID={
+  spot(el,k){const c=SPOT[k];let found=new Set();
+    el.innerHTML=`<span class="wlabel">Spot the defect</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div>
+     <div class="sd-wrap"><div class="sd-stage"><svg viewBox="${c.vb}" class="hot">${c.svg}<g class="hsg"></g></svg></div>
+     <div class="sd-side"><div class="sd-count"><div class="big"><span class="sdn">0</span>/${c.defects.length}</div><div class="lbl">defects found</div></div><div class="sd-found"><div class="sd-empty">Click a defect to log it…</div></div></div></div>`;
+    const g=el.querySelector('.hsg'),cnt=el.querySelector('.sdn'),fw=el.querySelector('.sd-found');
+    c.defects.forEach((d,i)=>{const gg=document.createElementNS('http://www.w3.org/2000/svg','g');gg.setAttribute('class','hot');gg.innerHTML=`<circle class="zone" cx="${d.x}" cy="${d.y}" r="${d.r}"/>`;gg.style.cursor='pointer';
+      gg.addEventListener('click',()=>{if(found.has(i))return;found.add(i);gg.classList.add('found');cnt.textContent=found.size;if(fw.querySelector('.sd-empty'))fw.innerHTML='';
+        const card=document.createElement('div');card.className='fcard';card.innerHTML=`<div class="fn">${found.size}. ${d.n}</div><div class="fd">${d.d}</div>`;fw.appendChild(card);
+        if(found.size===c.defects.length){const dn=document.createElement('div');dn.className='sd-done';dn.textContent='All found — that\'s the scan. Nicely done.';fw.appendChild(dn);}});
+      g.appendChild(gg);});},
+  gfi(el){el.innerHTML=`<span class="wlabel">Animated diagram</span><div class="wtitle">Watch the GFI work</div><div class="wsub">Current flows out the hot and back on the neutral — equal. Introduce a leak and see what happens.</div>
+    <div class="gfi-stage"><div class="gbox"><div><div class="gt">GFI</div><div class="gs">in vs out</div></div></div><div class="load"><div class="lt">LOAD</div></div><div class="lane hot"><span class="lab">hot — out</span></div><div class="lane neu"><span class="lab">neutral — back</span></div><div class="leak"></div><div class="person">🧍</div><div class="trip"><div class="tw"><div class="b">⚡ GFI TRIPPED</div><div class="s">imbalance &gt; 5 mA — cut in milliseconds</div></div></div></div>
+    <div class="gfi-status"><span class="pip"></span><span class="gtxt">Balanced — out equals back. Holding.</span></div>
+    <div class="gfi-read">Hot out: <b>15.000 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b>0 mA</b></div>
+    <div class="gfi-controls"><button class="btn brass gflt">Introduce a ground fault</button><button class="btn ghost grst">Reset</button></div>`;
+    const stage=el.querySelector('.gfi-stage'),st=el.querySelector('.gfi-status'),txt=el.querySelector('.gtxt'),read=el.querySelector('.gfi-read'),trip=el.querySelector('.trip'),fbtn=el.querySelector('.gflt');let f=false,to;
+    function dots(){stage.querySelectorAll('.dot').forEach(d=>d.remove());for(let i=0;i<5;i++){const d=document.createElement('span');d.className='dot h';d.style.animationDelay=(-i*0.48)+'s';stage.querySelector('.lane.hot').appendChild(d);}const nc=f?2:5;for(let i=0;i<nc;i++){const d=document.createElement('span');d.className='dot n';d.style.animationDelay=(-i*0.48)+'s';stage.querySelector('.lane.neu').appendChild(d);}}
+    function reset(){f=false;clearTimeout(to);el.querySelector('.leak').classList.remove('on');el.querySelector('.person').classList.remove('on');trip.classList.remove('on');st.classList.remove('fault');txt.textContent='Balanced — out equals back. Holding.';read.innerHTML='Hot out: <b>15.000 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b>0 mA</b>';fbtn.textContent='Introduce a ground fault';dots();}
+    fbtn.onclick=()=>{f=!f;if(f){el.querySelector('.leak').classList.add('on');el.querySelector('.person').classList.add('on');st.classList.add('fault');txt.textContent='Imbalance — current is leaking to ground.';read.innerHTML='Hot out: <b>15.006 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b style="color:var(--fail)">6 mA</b>';fbtn.textContent='Clear the fault';dots();to=setTimeout(()=>trip.classList.add('on'),650);}else reset();};
+    el.querySelector('.grst').onclick=reset;dots();},
+  match(el,k){const c=MATCH[k];const sh=a=>a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v[1]);let sel=null,locked=0;
+    el.innerHTML=`<span class="wlabel">Match drill</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="match"><div class="mcol"><div class="ch">${c.left}</div><div class=" L"></div></div><div class="mcol"><div class="ch">${c.right}</div><div class="R"></div></div></div><div class="md"></div>`;
+    const L=el.querySelector('.L'),R=el.querySelector('.R'),done=el.querySelector('.md');
+    c.pairs.forEach(p=>{const b=document.createElement('button');b.className='chip';b.textContent=p[0];b.dataset.a=p[0];b.dataset.s='L';L.appendChild(b);});
+    sh(c.pairs.map(p=>p[1])).forEach(v=>{const b=document.createElement('button');b.className='chip';b.textContent=v;b.dataset.b=v;b.dataset.s='R';R.appendChild(b);});
+    el.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{if(b.classList.contains('locked'))return;
+      if(!sel){sel=b;b.classList.add('sel');return;}if(sel===b){b.classList.remove('sel');sel=null;return;}if(sel.dataset.s===b.dataset.s){sel.classList.remove('sel');sel=b;b.classList.add('sel');return;}
+      const left=sel.dataset.s==='L'?sel:b,right=sel.dataset.s==='R'?sel:b,ok=c.pairs.find(p=>p[0]===left.dataset.a)[1]===right.dataset.b;
+      if(ok){[left,right].forEach(x=>{x.classList.remove('sel');x.classList.add('locked');});locked++;if(locked===c.pairs.length)done.innerHTML=`<div class="w-done">${c.done}</div>`;}
+      else{[left,right].forEach(x=>{x.classList.add('miss');setTimeout(()=>x.classList.remove('miss','sel'),350);});}sel=null;});},
+  sort(el,k){const c=SORT[k];let sel=null,placed=0;
+    el.innerHTML=`<span class="wlabel">Sort it</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="sort"><div class="sort-items">${c.items.map((it,i)=>`<button class="sitem" data-i="${i}">${it.t}</button>`).join('')}</div><div class="bins">${c.bins.map((b,bi)=>`<div class="bin" data-bin="${bi}"><div class="bt">${b}</div><div class="drop">tap an item, then tap here</div></div>`).join('')}</div></div><div class="md"></div>`;
+    const items=el.querySelectorAll('.sitem'),bins=el.querySelectorAll('.bin'),done=el.querySelector('.md');
+    items.forEach(it=>it.onclick=()=>{if(it.classList.contains('placed'))return;el.querySelectorAll('.sitem').forEach(x=>x.classList.remove('sel'));sel=it;it.classList.add('sel');});
+    bins.forEach(bin=>bin.onclick=()=>{if(!sel)return;const i=+sel.dataset.i,bi=+bin.dataset.bin,ok=c.items[i].bin===bi;
+      const row=document.createElement('div');row.className='binitem '+(ok?'right':'wrong');row.innerHTML=(ok?sv(ic.check,2.6):sv(ic.x,2.6))+' '+c.items[i].t;bin.querySelector('.drop').remove?bin.querySelector('.drop')&&(bin.querySelector('.drop').style.display='none'):0;bin.appendChild(row);
+      sel.classList.add('placed');sel=null;placed++;if(placed===c.items.length)done.innerHTML=`<div class="w-done">${c.done}</div>`;});},
+  est(el){el.innerHTML=`<span class="wlabel">Field tool</span><div class="wtitle">Service-size estimator</div><div class="wsub">Set what you'd read on site; it calls the size and flags an unsafe mismatch — your on-site logic.</div>
+    <div class="est"><div><label>Service-entrance conductor (copper)</label><select class="sew"><option value="6">#6 AWG</option><option value="4">#4 AWG</option><option value="2" selected>2/0 AWG</option><option value="0">4/0 AWG</option></select></div><div><label>Main breaker rating</label><select class="mbk"><option value="60">60 A</option><option value="100">100 A</option><option value="200" selected>200 A</option><option value="400">400 A</option></select></div><div class="est-out"></div></div>`;
+    const WA={'6':60,'4':100,'2':200,'0':400},WL={'6':'#6 AWG','4':'#4 AWG','2':'2/0 AWG','0':'4/0 AWG'},sew=el.querySelector('.sew'),mbk=el.querySelector('.mbk'),out=el.querySelector('.est-out');
+    function go(){const w=sew.value,b=+mbk.value,sup=WA[w];if(b>sup){out.className='est-out bad';out.innerHTML=`<div class="ev">⚠ Overfused — unsafe</div><div class="ed">A ${b} A main on ${WL[w]} copper (good for ~${sup} A) won't shut off before the conductor overheats. Report: overcurrent device oversized for the service-entrance conductor.</div>`;}else{const ap=Math.min(b,sup);out.className='est-out ok';out.innerHTML=`<div class="ev">${ap} A service</div><div class="ed">${WL[w]} copper supports ~${sup} A and the main is ${b} A — conductor protected. Report the service size as ${ap} A${b<sup?' (limited by the main breaker)':''}.</div>`;}}
+    sew.onchange=go;mbk.onchange=go;go();},
+  era(el,k){const c=ERA[k];el.innerHTML=`<span class="wlabel">Explore</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="era"><div class="line"></div>${c.rows.map((r,i)=>`<div class="erow" data-i="${i}"><span class="ed"></span><span class="et">${r.d}</span><div><div class="en">${r.n}</div><div class="ex">${r.x}</div></div></div>`).join('')}</div>`;
+    el.querySelectorAll('.erow').forEach(r=>r.onclick=()=>r.classList.toggle('open'));}
+};
+function wireWidgets(root){root.querySelectorAll('.wmount').forEach(el=>{const w=el.dataset.w,k=el.dataset.k;if(WID[w])WID[w](el,k);});}
+function W(w,k){return `<div class="widget wmount" data-w="${w}" data-k="${k||''}"></div>`;}
+
+/* ================= ENGINE ================= */
+const KEY='ati_insulation_ix_v1';
+let S={done:{},quiz:{},assessBest:0,cur:0};
+async function load(){try{const r=await window.storage.get(KEY,false);if(r&&r.value)S=JSON.parse(r.value);}catch(e){}S.done=S.done||{};S.quiz=S.quiz||{};}
+async function save(){try{await window.storage.set(KEY,JSON.stringify(S),false);}catch(e){}}
+const stepDone=i=>!!S.done[STEPS[i].id];
+const pct=()=>Math.round(Object.keys(S.done).length/STEPS.length*100);
+const unlocked=i=>i===0?true:stepDone(i-1);
+const view=document.getElementById('view');
+function updTop(){const p=pct();document.getElementById('pbar').style.width=p+'%';document.getElementById('ppc').textContent=p+'%';}
+function rail(){document.getElementById('rail').innerHTML=STEPS.map((s,i)=>{const d=stepDone(i),u=unlocked(i),a=i===S.cur;return `<button class="step ${d?'done':''} ${a?'active':''} ${u?'':'locked'}" ${u?`onclick="goStep(${i})"`:''}><span class="dot">${d?sv(ic.check,3):(i+1)}</span><span class="lbl">${s.label}<span class="kind">${s.kind}</span></span></button>`;}).join('');}
+function goStep(i){if(!unlocked(i))return;S.cur=i;save();render();window.scrollTo({top:0,behavior:'smooth'});}
+function markDoneAndNext(){S.done[STEPS[S.cur].id]=true;save();updTop();rail();if(S.cur<STEPS.length-1)goStep(S.cur+1);else render();}
+function render(){updTop();rail();const s=STEPS[S.cur];({lesson:renderLesson,scenario:renderScenarios,assess:renderAssess,glossary:renderGlossary,source:renderSource}[s.type])(s);}
+function navFoot(label,gated){const last=S.cur===STEPS.length-1;return `<div class="foot">${S.cur>0?`<button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button>`:''}<div class="sp"></div><button class="btn brass" id="nextBtn" ${gated?'disabled':''} onclick="markDoneAndNext()">${label||(last?'Finish section':'Mark complete & continue')} ${sv(ic.arrow)}</button></div>`;}
+
+function renderLesson(s){
+  let h=(typeof s.body==='function'?s.body():s.body);
+  if(s.quiz&&s.quiz.length){
+    h+=`<div class="quiz"><div class="qh">${sv(ic.brain)} Check your understanding</div><div class="qt">${s.label}</div><div class="qsub">${s.quiz.length} questions covering the lesson — answer each to see the reasoning.</div><div class="qbody">${
+      s.quiz.map((q,qi)=>`<div class="qblock"><div class="qnum">Question ${qi+1} of ${s.quiz.length}</div><div class="q">${q.q}</div><div class="opts" data-qi="${qi}">${q.o.map((o,k)=>`<button class="opt" onclick="qAns(${qi},${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="qexp" data-qi="${qi}"></div></div>`).join('')
+    }</div><div class="qscore" style="display:none"></div></div>`;
+  }
+  const gated=!!(s.quiz&&s.quiz.length&&!S.quiz[s.id]);
+  view.innerHTML=h+navFoot(null,gated);
+  wireWidgets(view);
+  window._ql={answered:{},total:s.quiz?s.quiz.length:0};
+}
+function qAns(qi,k){const s=STEPS[S.cur],q=s.quiz[qi];if(window._ql.answered[qi]!==undefined)return;window._ql.answered[qi]=k;
+  const opts=view.querySelector('.opts[data-qi="'+qi+'"]');opts.querySelectorAll('.opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===q.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});
+  view.querySelector('.qexp[data-qi="'+qi+'"]').innerHTML=`<div class="exp"><b>${k===q.a?'Correct.':'Review:'}</b> ${q.e}</div>`;
+  if(Object.keys(window._ql.answered).length===window._ql.total){
+    const right=s.quiz.filter((q,i)=>window._ql.answered[i]===q.a).length,sc=view.querySelector('.qscore');sc.style.display='flex';
+    sc.innerHTML=`${sv(ic.check,2.4)}<span>You scored <b style="color:${right>=Math.ceil(s.quiz.length*0.8)?'var(--pass)':'var(--fail)'}">${right}/${s.quiz.length}</b> on this lesson.</span>`;
+    sc.querySelector('svg').style.color=right>=Math.ceil(s.quiz.length*0.8)?'var(--pass)':'var(--fail)';
+    S.quiz[s.id]=true;save();const b=document.getElementById('nextBtn');if(b)b.disabled=false;}
+}
+
+let SC={i:0,answered:false};
+function renderScenarios(){SC={i:0,answered:false};paintScen();}
+function paintScen(){const sc=SCEN[SC.i];view.innerHTML=`<span class="eyebrow">Apply it · Inspector's Call</span><h1>Make the call</h1><p class="lead">The decisions you'll actually make standing in front of the system. Read it, choose, see the reasoning.</p><div class="scount mono">Scenario ${SC.i+1} of ${SCEN.length}</div><div class="scen"><div class="sh"><div class="t">${sc.t}</div><div class="n">${sc.n}</div></div><div class="body"><div class="situation">${sc.s}</div><div class="ask">${sc.ask}</div><div class="scopts">${sc.o.map((o,k)=>`<button class="opt" onclick="scAns(${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="scexp"></div></div></div><div class="foot"><button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button><div class="sp"></div><div class="scnext"></div></div>`;}
+function scAns(k){if(SC.answered)return;SC.answered=true;const sc=SCEN[SC.i];view.querySelectorAll('.scopts .opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===sc.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});view.querySelector('.scexp').innerHTML=`<div class="exp"><b>${k===sc.a?'Right call.':'Here\'s the call:'}</b> ${sc.e}</div>`;const last=SC.i===SCEN.length-1;view.querySelector('.scnext').innerHTML=`<button class="btn brass" onclick="${last?'markDoneAndNext()':'scNext()'}">${last?'Mark complete & continue':'Next scenario'} ${sv(ic.arrow)}</button>`;}
+function scNext(){SC.i++;SC.answered=false;paintScen();window.scrollTo({top:0,behavior:'smooth'});}
+
+let AS=null;
+function renderAssess(){if(!AS||AS.done)AS={i:0,answers:[],done:false};view.innerHTML=`<span class="eyebrow">Assessment</span><h1>Mastery check — Insulation &amp; Ventilation</h1><p class="lead">${ASSESS.length} application questions across the whole chapter. 80% to pass; reasoning shown on every answer.</p><div class="panelcard" style="text-align:left;padding:0;overflow:hidden"><div style="background:linear-gradient(120deg,#1f6f73,#123f43);color:#fff;padding:18px 22px;display:flex;justify-content:space-between;align-items:center"><div><div style="font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-2)">Insulation &amp; Ventilation</div><div style="font-family:var(--display);font-weight:700;font-size:17px;margin-top:3px">${ASSESS.length} questions · 80% to pass</div></div><div style="color:var(--brass-2)">${sv(ic.award)}</div></div><div style="padding:26px 22px;text-align:center">${S.assessBest?`<div class="mono" style="font-size:13px;color:var(--ink-2);margin-bottom:16px">Best score: <b style="color:${S.assessBest>=80?'var(--pass)':'var(--fail)'}">${S.assessBest}%</b></div>`:''}<button class="btn brass" style="margin:0 auto" onclick="asStart()">${S.assessBest?'Retake assessment':'Begin assessment'} ${sv(ic.arrow)}</button></div></div>`;}
+function asStart(){AS={i:0,answers:[],done:false};asPaint();window.scrollTo({top:0,behavior:'smooth'});}
+function asPaint(){const q=ASSESS[AS.i];view.innerHTML=`<span class="eyebrow">Assessment · Insulation &amp; Ventilation</span><h1 style="font-size:24px">Question ${AS.i+1} <span style="color:var(--ink-3)">/ ${ASSESS.length}</span></h1><div style="margin:14px 0 0"><div style="width:100%;height:6px;background:var(--surf-3);border-radius:6px;overflow:hidden;border:1px solid var(--line)"><i style="display:block;height:100%;width:${AS.i/ASSESS.length*100}%;background:var(--brass)"></i></div></div><div class="quiz" style="border-color:var(--line);margin-top:22px"><div class="q">${q.q}</div><div class="opts">${q.o.map((o,k)=>`<button class="opt" onclick="asAns(${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="asexp"></div></div><div class="foot"><div class="sp"></div><div class="asnext"></div></div>`;}
+function asAns(k){if(AS.answers[AS.i]!==undefined)return;AS.answers[AS.i]=k;const q=ASSESS[AS.i];view.querySelectorAll('.opts .opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===q.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});view.querySelector('.asexp').innerHTML=`<div class="exp"><b>${k===q.a?'Correct.':'Review:'}</b> ${q.e}</div>`;const last=AS.i===ASSESS.length-1;view.querySelector('.asnext').innerHTML=`<button class="btn brass" onclick="${last?'asFinish()':'asNext()'}">${last?'See results':'Next'} ${sv(ic.arrow)}</button>`;}
+function asNext(){AS.i++;asPaint();window.scrollTo({top:0,behavior:'smooth'});}
+function asFinish(){const correct=AS.answers.filter((a,i)=>a===ASSESS[i].a).length,p=Math.round(correct/ASSESS.length*100),pass=p>=80;S.assessBest=Math.max(S.assessBest||0,p);AS.done=true;if(pass)S.done['assess']=true;save();updTop();rail();const circ=2*Math.PI*62;
+  view.innerHTML=`<span class="eyebrow">Assessment · Result</span><h1 style="margin-bottom:18px">${pass?'Section mastered':'Not quite there'}</h1><div class="panelcard"><div class="ring"><svg width="150" height="150" viewBox="0 0 150 150" style="transform:rotate(-90deg)"><circle cx="75" cy="75" r="62" fill="none" stroke="var(--surf-3)" stroke-width="11"/><circle cx="75" cy="75" r="62" fill="none" stroke="${pass?'var(--pass)':'var(--fail)'}" stroke-width="11" stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${circ}"><animate attributeName="stroke-dashoffset" from="${circ}" to="${circ-circ*p/100}" dur=".8s" fill="freeze" calcMode="spline" keySplines=".2 .7 .2 1"/></circle></svg><div class="rv"><div><div class="n" style="color:${pass?'var(--pass)':'var(--fail)'}">${p}%</div><div class="p">${correct}/${ASSESS.length} correct</div></div></div></div><span class="verdict ${pass?'pass':'fail'}">${pass?'Passed':'Below 80%'}</span><p>${pass?'You\'ve mastered Insulation &amp; Ventilation — that read of heat, air, and moisture carries into every attic, wall, and crawlspace you\'ll inspect.':'You need 80% to pass. Revisit the lessons and explanations, then retake — your best score counts.'}</p><div style="display:flex;gap:12px;justify-content:center"><button class="btn ghost" onclick="asStart()">${sv(ic.retake)} Retake</button>${pass?`<button class="btn brass" onclick="goStep(${STEPS.length-1})">Continue ${sv(ic.arrow)}</button>`:`<button class="btn brass" onclick="goStep(1)">Review lessons ${sv(ic.arrow)}</button>`}</div></div><div style="height:30px"></div>`;}
+
+function renderGlossary(){view.innerHTML=`<span class="eyebrow">Reference</span><h1>Insulation &amp; Ventilation glossary</h1><p class="lead">Every key term in one place — quick reference for a real inspection.</p><div class="gloss" style="margin-top:20px">${GLOSSARY.map(([w,d])=>`<div class="term"><div class="tw">${w}</div><div class="td">${d}</div></div>`).join('')}</div>${navFoot('Continue')}`;}
+function renderSource(){view.innerHTML=`<span class="eyebrow">Reference · wrap-up</span><h1>Field reference &amp; section recap</h1><p class="lead">Everything required is taught in the lessons above. This is the one-screen recap to carry into the field — the four jobs and the findings that flow from each.</p><div class="srcnote">${sv(ic.book,2)} Built on the Insulation &amp; Ventilation chapters of <i>Principles of Home Inspection: Systems and Standards</i>. There's no separate PDF for this system — the interactive lessons are the complete reference.</div><div class="gloss" style="margin-top:18px"><div class="term"><div class="tw">1 · Insulation — slow the heat</div><div class="td">Enough R, everywhere, uncrushed. Report thin or uneven depth, compression, the bare strip over top plates, and buried non-IC recessed lights.</div></div><div class="term"><div class="tw">2 · Air barrier — stop the air</div><div class="td">Seal the bypasses first — top plates, penetrations, chases, the hatch. Most attic moisture rides on leaking air, not diffusion.</div></div><div class="term"><div class="tw">3 · Moisture — manage the water</div><div class="td">Vapor retarder on the warm side in heating climates; exhaust fans to the exterior; a ground vapor barrier below; rim joists sealed and insulated.</div></div><div class="term"><div class="tw">4 · Ventilation — balance it</div><div class="td">Intake low at the soffits, exhaust high at the ridge, about 1/150 net free area. Don't mix a ridge vent with gable vents or a powered fan.</div></div><div class="term"><div class="tw">Flag, never disturb</div><div class="td">Pour-in vermiculite and chalky pipe or duct wrap may contain asbestos — report them and recommend professional testing.</div></div></div><div class="foot"><button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button><div class="sp"></div><a class="btn slate" href="index.html" style="text-decoration:none;margin-right:10px">${sv(ic.back)} Module II</a><button class="btn brass" onclick="finishAll()">${sv(ic.check)} Complete section</button></div>`;}
+function finishAll(){S.done['source']=true;save();updTop();rail();toast('Insulation & Ventilation section complete');}
+let tT;function toast(m){const t=document.getElementById('toast');document.getElementById('tmsg').textContent=m;t.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('show'),2400);}
+
+/* ================= DATA: scenarios / assessment / glossary ================= */
+const SCEN=[
+ {t:'In the attic',n:'The fan that feeds the attic',s:'A bathroom exhaust fan runs to a flex duct that simply ends in the attic, a few feet from the ridge. The sheathing nearby is stained dark and the nail tips are rusty.',ask:'What do you write up?',o:['Nothing — the fan exhausts, so it\'s working','The fan dumps warm, moist bathroom air into the attic — condensation, staining, and mold risk. Recommend ducting it fully to the exterior.','Recommend a larger fan','Recommend sealing the bathroom door'],a:1,e:'Exhaust fans (bath, kitchen, dryer) must terminate outside the building — never into an attic, soffit, or crawlspace. The moisture you see is the proof. Duct it through the roof or a wall with a proper hooded cap.'},
+ {t:'In the attic',n:'Silvery-grey pebbles',s:'The attic floor is filled with loose, pour-in insulation made of small, accordion-like silvery-brown pellets. The home dates to the 1950s.',ask:'Your call?',o:['Fiberglass — note the depth and move on','Possible vermiculite, which may contain asbestos. Don\'t disturb it; recommend testing by a qualified lab before any work or added insulation.','Cellulose — recommend more on top','Spray foam — note it air-seals'],a:1,e:'Pellet-like, pour-in vermiculite (often "Zonolite") can contain asbestos. Inspectors don\'t test it — you flag it, advise against disturbing it, and recommend professional sampling.'},
+ {t:'In the attic',n:'Cans under the blanket',s:'Recessed ceiling lights poke up into the attic and someone has piled blown insulation right over and around them. The fixtures aren\'t marked "IC."',ask:'The concern?',o:['None — covering them improves efficiency','Non-IC recessed fixtures buried in insulation can overheat — a fire hazard. Recommend IC-rated fixtures or a listed clearance/cover.','They\'ll just trip the breaker','Recommend LED bulbs and leave the insulation'],a:1,e:'Only IC-rated ("Insulation Contact") fixtures may be buried. A non-IC can buried in insulation traps heat and can ignite. Flag the buried non-IC cans and recommend correction.'},
+ {t:'At the eaves',n:'New ridge, stuffed soffits',s:'A contractor added a ridge vent and blew the attic deep with cellulose. From inside you see the insulation is jammed tight into the eaves; there are no baffles and the soffit vents are buried.',ask:'Is the ventilation working?',o:['Yes — the ridge vent handles it','No — with the soffit intakes blocked there\'s no low intake to feed the ridge. Recommend baffles to keep the eaves open.','Yes, but add a gable fan','Only a problem in summer'],a:1,e:'Exhaust at the ridge needs intake at the soffits. Insulation packed into the eaves with no baffles (proper vents/chutes) chokes the intake — the ridge vent can even pull air from the house instead. Recommend baffles and clearing the soffits.'},
+ {t:'On the roof',n:'Two ways out',s:'A home has a continuous ridge vent and, three feet down each gable, a pair of powered attic fans and open gable louvers.',ask:'What do you note?',o:['Good — more exhaust is always better','Mixing exhaust types short-circuits airflow: the ridge/fan can pull from the gable openings instead of the soffits, and a powered fan can backdraft a water heater. Recommend a single balanced strategy.','Nothing — they\'re independent','Recommend a third fan'],a:1,e:'Don\'t mix high exhaust types. A ridge vent plus gable vents or a powered fan lets air short-circuit between the high openings, starving the soffit intake — and a powered fan can depressurize the house and backdraft combustion appliances.'},
+ {t:'In the crawlspace',n:'Bare ground, wet joists',s:'A vented crawlspace has exposed soil, no ground cover, 80% relative humidity on your meter, and the bottoms of the floor joists show grey mold-like staining.',ask:'The primary recommendation?',o:['Add more foundation vents','The exposed earth is driving moisture up; recommend a continuous ground vapor barrier plus moisture control, and evaluation of the staining.','Insulate the floor and close it up','Nothing — crawlspaces are always damp'],a:1,e:'Open soil is a moisture pump. The first, highest-value fix is a continuous sealed ground vapor barrier (and addressing drainage/humidity). More vents in a humid climate can actually make summer condensation worse.'},
+ {t:'Reading the ceiling',n:'Icicles and a stain',s:'In winter, a house grows thick icicles and an ice ridge along the eaves, and there\'s a brown stain on the bedroom ceiling below.',ask:'Explain the mechanism and the fix.',o:['The gutters are too small','Classic ice dam: heat leaking into the attic melts roof snow, which refreezes at the cold eave and backs water under the shingles. Fix with air sealing, insulation, and balanced ventilation.','The shingles are defective — recommend replacement','Add heat tape and call it solved'],a:1,e:'Ice dams come from a warm roof deck. Household heat (air leaks + thin insulation) melts the snow; it refreezes over the cold overhang and dams water back under the shingles. The durable fix is air sealing + insulation + ventilation — not just heat cable.'},
+];
+const ASSESS=[
+ {q:'The home inspector\'s job with insulation and ventilation is to:',o:['Calculate the home\'s energy rating','Observe what\'s accessible, recognize deficiencies, and report the implications','Install the missing insulation','Certify compliance with the energy code'],a:1,e:'You observe and report — comfort, energy, and especially moisture implications — you don\'t rate, install, or certify.'},
+ {q:'R-value measures:',o:['How fast a material burns','A material\'s resistance to heat flow — higher is better','Air leakage in cubic feet per minute','The vapor permeance of a wall'],a:1,e:'R-value is thermal resistance; U-factor is its inverse (conductance). More R = slower conductive heat flow.'},
+ {q:'Per inch, which insulates the MOST?',o:['Fiberglass batt','Blown cellulose','Open-cell spray foam','Closed-cell spray foam'],a:3,e:'Roughly: fiberglass ~R-3.1, cellulose ~R-3.5, open-cell SPF ~R-3.7, XPS ~R-5, closed-cell SPF ~R-6 to 7 per inch.'},
+ {q:'Heat escaping through a wood stud where the insulation stops is an example of:',o:['Convection','Radiation','Thermal bridging','Vapor drive'],a:2,e:'A conductive path (studs, rim joists, steel) that bypasses the insulation is a thermal bridge.'},
+ {q:'For energy work in most homes, the correct order is:',o:['Insulate first, then worry about air leaks','Air-seal the bypasses first, then insulate','Ventilate first, then insulate','They\'re unrelated'],a:1,e:'Insulation slows conduction but doesn\'t stop air movement. Seal the attic bypasses first, then insulate — fiber insulation laid over open holes still leaks air.'},
+ {q:'The "stack effect" is:',o:['How insulation is stacked in the attic','Warm air rising and escaping high while cold air is drawn in low, driving leakage','A type of chimney','A ventilation ratio'],a:1,e:'A house behaves like a chimney: buoyant warm air pushes out through attic bypasses, pulling replacement air in at the bottom. It drives both heat loss and moisture into the attic.'},
+ {q:'Most moisture reaching an attic gets there by:',o:['Diffusing slowly through the drywall','Riding on air leaking up through bypasses','Coming down through the roof','Wicking up the framing'],a:1,e:'Air-transported moisture dwarfs vapor diffusion. That\'s why air sealing — not just a vapor retarder — is the key moisture control.'},
+ {q:'In a cold (heating-dominated) climate, the vapor retarder generally belongs on the:',o:['Cold, outdoor side of the insulation','Warm, interior side of the insulation','Both sides','It doesn\'t matter'],a:1,e:'In heating climates the retarder goes toward the heated interior to keep indoor moisture from reaching the cold surface where it would condense. (Mixed/hot-humid climates differ — when unsure, don\'t add a second retarder.)'},
+ {q:'The main reasons to ventilate an attic are to control:',o:['Only summer heat','Moisture, summer heat, and ice dams','Radon','Sound'],a:1,e:'Ventilation removes moisture that gets past the air barrier, sheds summer heat, and helps keep the roof deck cold to limit ice dams.'},
+ {q:'Balanced attic ventilation pairs:',o:['Two gable vents','Intake low at the soffits with exhaust high at the ridge','A powered fan with a bigger fan','Ridge vents with gable vents'],a:1,e:'Low intake (soffit/eave) plus high exhaust (ridge) sets up a continuous wash of the underside of the deck. Roughly half the net free area at each.'},
+ {q:'A common attic-ventilation rule of thumb is:',o:['1 sq ft of net free vent area per 150 sq ft of attic (or 1/300 with a vapor retarder/balanced venting)','1 vent per room','10% of the floor area','There is no guideline'],a:0,e:'The classic ratio is 1/150 of attic floor area in net free area, relaxed to 1/300 with a ceiling vapor retarder or balanced 50/50 intake-exhaust.'},
+ {q:'You should NOT combine:',o:['Soffit vents with a ridge vent','A ridge vent with gable vents or a powered fan','Baffles with blown insulation','Soffit vents at both eaves'],a:1,e:'Mixing high exhaust types short-circuits the airflow and starves the soffit intake; a powered fan added to a ridge vent can also backdraft combustion appliances.'},
+ {q:'A baffle (proper vent / insulation chute) at the eave is there to:',o:['Add R-value','Keep a clear air channel from the soffit up past the insulation','Stop ice dams by heating the eave','Hold the gutters'],a:1,e:'Baffles keep insulation from packing into the eave so soffit intake air can reach the deck — and they stop wind-washing of the insulation.'},
+ {q:'Bathroom, kitchen, and dryer exhausts must terminate:',o:['In the attic, away from the ridge','Into the soffit','Outside the building envelope','In the crawlspace'],a:2,e:'Always to the exterior with a proper cap. Dumping moist (or lint-laden) air into an attic, soffit, or crawlspace causes condensation, mold, and — for dryers — a fire hazard.'},
+ {q:'Loose, pour-in, silvery-brown pellet insulation in an older attic should be treated as:',o:['Modern cellulose','Possible vermiculite that may contain asbestos — don\'t disturb; recommend testing','Always safe fiberglass','A pest problem'],a:1,e:'Vermiculite ("Zonolite") can contain asbestos. Flag it, advise against disturbance, and recommend lab testing before any work.'},
+ {q:'Bare soil in a vented crawlspace is best addressed first with:',o:['More foundation vents','A continuous ground vapor barrier and moisture control','Floor insulation only','A dehumidifier alone'],a:1,e:'Open earth drives moisture up. A sealed ground cover is the highest-value first step; in humid climates, adding vents can worsen summer condensation.'},
+ {q:'An ice dam forms because:',o:['Gutters freeze first','A warm roof deck melts snow that refreezes over the cold eave and backs water up under the shingles','The shingles are defective','The attic is too cold'],a:1,e:'It\'s a warm-roof problem: heat loss melts the snow, it refreezes at the unheated overhang, and the dam pushes meltwater back under the roofing. Air sealing, insulation, and ventilation are the cure.'},
+];
+const GLOSSARY=[
+ ['R-value','A material\'s resistance to conductive heat flow; higher is better. Adds up through the layers of an assembly.'],
+ ['U-factor','The inverse of R — how readily an assembly conducts heat (used for windows and whole assemblies). Lower is better.'],
+ ['Conduction','Heat moving through a solid material; what R-value resists.'],
+ ['Convection','Heat carried by moving air; why air leakage and air movement through insulation matter.'],
+ ['Radiation','Heat transferred as infrared between surfaces; what radiant barriers target in hot attics.'],
+ ['Thermal bridging','A conductive path (studs, rim joists, steel) that bypasses the insulation and loses heat.'],
+ ['Air barrier','The continuous layer that stops air leakage through the envelope — distinct from the insulation.'],
+ ['Air sealing','Closing the holes and bypasses (top plates, chases, penetrations, hatch) so air can\'t carry heat and moisture.'],
+ ['Bypass','A hidden hole that lets household air leak into the attic — chases, wire/pipe penetrations, dropped soffits, the hatch.'],
+ ['Stack effect','Buoyant warm air escaping high and drawing cold air in low, driving leakage through the envelope.'],
+ ['Vapor retarder / barrier','A material that slows water-vapor diffusion (kraft facing, poly, certain paints), rated by permeance.'],
+ ['Perm rating','A measure of how much water vapor a material lets through; lower perms = better vapor retarder.'],
+ ['Dew point','The temperature at which air becomes saturated and moisture condenses — the plane to keep warm and dry.'],
+ ['Batt / blanket','Pre-cut fiberglass or mineral-wool insulation that fits between framing; may be faced or unfaced.'],
+ ['Loose-fill / blown-in','Fiberglass or cellulose blown to a depth — the usual attic-floor insulation; check depth and coverage.'],
+ ['Rigid foam (EPS / XPS / polyiso)','Foam board for walls, foundations, and roofs; higher R per inch and some air/vapor control.'],
+ ['Spray foam (open / closed cell)','Field-applied polyurethane that insulates and air-seals; closed-cell also slows vapor and adds strength.'],
+ ['IC-rated fixture','A recessed light listed for "Insulation Contact" — the only kind that may be buried in insulation.'],
+ ['Baffle / proper vent / chute','A channel at the eave that keeps insulation out of the soffit so intake air can reach the roof deck.'],
+ ['Soffit / eave vent','Low intake openings under the eaves that feed attic ventilation.'],
+ ['Ridge vent','A continuous exhaust vent along the roof peak; pairs with soffit intake.'],
+ ['Net free area (NFA)','The actual open vent area after subtracting the screen/louver blockage — used to size attic ventilation.'],
+ ['1/150 & 1/300 rule','Net free vent area of 1 sq ft per 150 sq ft of attic (1/300 with a vapor retarder or balanced venting).'],
+ ['Conditioned (unvented) attic','An attic sealed and insulated at the roofline so it\'s inside the envelope — no soffit/ridge ventilation.'],
+ ['Knee wall','A short wall where a ceiling meets a sloped roof; its back side is a common missed air-sealing/insulation spot.'],
+ ['Wind washing','Outside air blowing through the edge of fluffy insulation and degrading its performance — baffles limit it.'],
+ ['Ice dam','A ridge of ice at the eave from a warm roof melting and refreezing snow, backing water under the shingles.'],
+ ['Ground vapor barrier','A sealed poly cover over crawlspace/basement soil that blocks ground moisture from entering the space.'],
+ ['Conditioned crawlspace','A sealed, insulated crawl with a ground barrier and some conditioning — the modern alternative to wet "vented" crawls.'],
+ ['Rim / band joist','The framing at the floor perimeter over the foundation — a major air-leak and heat-loss spot, often left bare.'],
+ ['Vermiculite (Zonolite)','Loose, pebble-like attic fill that may contain asbestos — don\'t disturb; recommend testing.'],
+ ['UFFI','Urea-formaldehyde foam injected into walls in the 1970s; note its presence for off-gassing history.'],
+];
+
+/* ================= WIDGET CONTENT REGISTRIES ================= */
+const _gs='fill="none" stroke="#3c5870" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"';
+const _mono=(x,y,s,t,c='#2c4153',a='middle')=>`<text x="${x}" y="${y}" text-anchor="${a}" font-family="JetBrains Mono" font-size="${s}" fill="${c}">${t}</text>`;
+
+SPOT.attic={title:'Walk the attic',sub:'Six insulation and ventilation problems in this attic cross-section — click each one you spot.',vb:'0 0 540 340',
+ svg:`<g ${_gs}>
+   <path d="M40 176 L270 48 L500 176"/><path d="M52 178 L270 60 L488 178" stroke-width="1"/>
+   <line x1="60" y1="238" x2="480" y2="238"/>${_mono(70,232,9,'ceiling / attic floor','#918c7d','start')}
+   <line x1="70" y1="238" x2="70" y2="300"/><line x1="470" y1="238" x2="470" y2="300"/>
+   <rect x="60" y="238" width="420" height="16" fill="#d8d2c4" opacity="0.5" stroke="none"/>
+   <path d="M60 238 q10 -7 20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0" stroke="#a98f5e" stroke-width="1.2"/>
+   <!-- stored boxes compressing insulation -->
+   <rect x="146" y="208" width="58" height="30" rx="2" stroke="#6a6557"/><line x1="175" y1="208" x2="175" y2="238" stroke="#6a6557" stroke-width="1"/>${_mono(175,202,8,'storage','#918c7d')}
+   <!-- gap over left top plate -->
+   <rect x="62" y="226" width="20" height="12" fill="#bdb8a8" stroke="#b85436" stroke-dasharray="3 2"/>${_mono(96,222,8,'gap','#b85436')}
+   <!-- bath fan duct dumping into attic -->
+   <path d="M360 254 q4 -34 28 -40 q14 -3 8 8" stroke="#6a6557"/><circle cx="390" cy="186" r="3" fill="#5a7b97"/><circle cx="398" cy="194" r="2" fill="#5a7b97"/>${_mono(404,182,8,'bath fan','#b85436','start')}
+   <!-- recessed can buried -->
+   <path d="M292 238 l8 14 h12 l8 -14" stroke="#6a6557"/><path d="M290 232 q12 -8 24 0" stroke="#a98f5e" stroke-width="1.2"/>${_mono(304,226,8,'can','#b85436')}
+   <!-- blocked soffit / no baffle (right eave) -->
+   <path d="M466 238 q18 -2 22 -22" stroke="#b85436" stroke-width="1.4"/>${_mono(470,210,8,'blocked','#b85436','start')}
+   <!-- uninsulated hatch -->
+   <rect x="218" y="238" width="34" height="6" fill="#bdb8a8" stroke="#6a6557"/><line x1="235" y1="244" x2="235" y2="258"/>${_mono(235,272,8,'hatch')}
+ </g>`,
+ defects:[
+  {x:175,y:220,r:24,n:'Insulation crushed by storage',d:'Compressed insulation loses most of its R-value — loft is what makes it work. Note stored loads flattening the blanket; recommend a raised storage platform.'},
+  {x:74,y:230,r:16,n:'Gap over the exterior top plate',d:'The wall top plate at the eave is a prime heat-loss and air-leak spot. A bare gap there short-circuits the whole wall — recommend filling and air-sealing it.'},
+  {x:390,y:188,r:20,n:'Bath fan exhausting into the attic',d:'Warm, moist air dumped in the attic condenses on cold sheathing — staining, rot, and mold. Duct it fully to the exterior with a hooded cap.'},
+  {x:304,y:244,r:18,n:'Non-IC recessed light buried',d:'A recessed can buried in insulation traps heat. Unless it\'s IC-rated, that\'s a fire hazard — recommend IC fixtures or a listed clearance.'},
+  {x:482,y:222,r:18,n:'Blocked soffit / missing baffle',d:'Insulation jammed into the eave kills the soffit intake and gets wind-washed. Install baffles to keep a clear air channel.'},
+  {x:235,y:241,r:16,n:'Uninsulated attic hatch',d:'A bare hatch is a big hole in the thermal and air barrier. Recommend weatherstripping and an insulated cover.'},
+ ]};
+
+SPOT.vent={title:'Read the roof',sub:'Five attic-ventilation problems on this house. Click each one.',vb:'0 0 540 300',
+ svg:`<g ${_gs}>
+   <path d="M40 150 L270 44 L500 150"/><line x1="36" y1="150" x2="504" y2="150"/>
+   <rect x="40" y="150" width="460" height="92"/>${_mono(60,170,9,'attic','#918c7d','start')}
+   <!-- ridge vent -->
+   <path d="M256 48 h28 v-7 h-28 z" stroke="#3d7d50"/>${_mono(270,36,8,'ridge vent','#3d7d50')}
+   <!-- gable vent (high) -->
+   <path d="M470 96 l16 -10 l16 10 v18 h-32 z" stroke="#b85436"/>${_mono(486,128,8,'gable vent','#b85436')}
+   <!-- powered fan on roof -->
+   <circle cx="190" cy="92" r="12" stroke="#b85436"/><path d="M190 84 v16 M182 92 h16" stroke="#b85436"/>${_mono(190,72,8,'power fan','#b85436')}
+   <!-- left soffit blocked -->
+   <path d="M40 150 l-16 8 h26" stroke="#3c5870"/><path d="M44 150 q14 -2 18 -14" stroke="#b85436" stroke-width="1.4"/>${_mono(18,176,8,'blocked','#b85436','start')}
+   <!-- dryer/bath cap dumping at soffit -->
+   <path d="M500 150 l16 8 h-26" stroke="#3c5870"/><circle cx="505" cy="158" r="3" fill="#5a7b97"/><path d="M470 200 q26 -10 33 -40" stroke="#6a6557"/>${_mono(452,210,8,'exhaust','#b85436','start')}
+   <!-- right soffit ok intake arrow -->
+   <path d="M520 158 q-10 -2 -16 -8" stroke="#3d7d50"/>
+ </g>`,
+ defects:[
+  {x:270,y:42,r:18,n:'Ridge vent mixed with other high exhaust',d:'A ridge vent is good — but combined with gable vents and a powered fan, the high openings short-circuit and starve the soffit intake. Pick one balanced strategy.'},
+  {x:486,y:100,r:20,n:'Gable vent left active with a ridge vent',d:'With a ridge vent in play, open gable vents become the path of least resistance and the soffits stop working. Usually block the gables when adding a ridge vent.'},
+  {x:190,y:92,r:18,n:'Powered attic fan',d:'A powered fan paired with a ridge vent pulls air from the nearest openings — and can depressurize the house and backdraft a water heater. Flag the combination.'},
+  {x:40,y:156,r:18,n:'Blocked soffit intake',d:'Insulation or paint sealing the soffit kills the low intake. Without intake, no exhaust works. Recommend clearing and baffling the eave.'},
+  {x:498,y:160,r:18,n:'Exhaust terminating at the soffit',d:'A bath or dryer duct dumping at the soffit just gets sucked back into the attic intake. It must terminate clear of any intake, to open air.'},
+ ]};
+
+SPOT.crawl={title:'Drop into the crawlspace',sub:'Five problems under this floor. Click each one you find.',vb:'0 0 540 300',
+ svg:`<g ${_gs}>
+   <rect x="40" y="60" width="460" height="14" fill="#d8d2c4" opacity="0.5" stroke="none"/>
+   <line x1="40" y1="60" x2="500" y2="60"/><line x1="40" y1="74" x2="500" y2="74"/>
+   <g stroke-width="1.2"><line x1="110" y1="74" x2="110" y2="92"/><line x1="190" y1="74" x2="190" y2="92"/><line x1="270" y1="74" x2="270" y2="92"/><line x1="350" y1="74" x2="350" y2="92"/><line x1="430" y1="74" x2="430" y2="92"/></g>
+   ${_mono(60,54,9,'floor above','#918c7d','start')}
+   <line x1="50" y1="60" x2="50" y2="250"/><line x1="490" y1="60" x2="490" y2="250"/><line x1="40" y1="250" x2="500" y2="250"/>
+   <!-- foundation vent below grade -->
+   <rect x="490" y="150" width="14" height="20"/><path d="M512 145 h-8 M512 175 h-8" stroke="#8a8475"/>${_mono(516,160,8,'grade','#918c7d','start')}
+   <!-- batt falling between joists -->
+   <path d="M120 92 q10 26 0 40 q-12 14 -22 6" stroke="#b85436"/>${_mono(96,150,8,'falling','#b85436','start')}
+   <!-- missing/torn ground barrier -->
+   <path d="M70 246 h120" stroke="#b85436" stroke-dasharray="5 3"/>${_mono(130,240,8,'bare soil','#b85436')}
+   <!-- standing water -->
+   <ellipse cx="320" cy="247" rx="50" ry="7" fill="#5a7b97" opacity="0.45" stroke="none"/><path d="M270 247 h100" stroke="#5a7b97"/>${_mono(320,236,8,'water','#5a7b97')}
+   <!-- uninsulated rim joist -->
+   <rect x="50" y="60" width="6" height="14" fill="#b85436" opacity="0.5" stroke="none"/><path d="M50 67 h-14" stroke="#b85436"/>${_mono(30,67,8,'rim','#b85436','end')}
+ </g>`,
+ defects:[
+  {x:108,y:120,r:22,n:'Floor insulation falling down',d:'Batts sagging out of the joist bays leave the floor uninsulated and, if the facing is wrong-side, can trap moisture. Re-secure with proper supports.'},
+  {x:130,y:246,r:26,n:'Missing / torn ground vapor barrier',d:'Exposed soil pumps moisture into the crawl. A continuous, sealed ground cover is the single highest-value fix.'},
+  {x:320,y:247,r:32,n:'Standing water on the ground',d:'Liquid water means a drainage or plumbing problem — humidity, rot, and mold follow. Find the source and recommend correction.'},
+  {x:497,y:160,r:16,n:'Foundation vent at/below grade',d:'A vent below grade lets in water and soil; it can\'t ventilate. Note it and recommend evaluation of drainage and the venting strategy.'},
+  {x:50,y:67,r:16,n:'Uninsulated rim / band joist',d:'The rim joist is a big, cold, leaky band around the floor. Left bare it loses heat and can condense — a common, high-value air-seal/insulate spot.'},
+ ]};
+
+MATCH.rval={title:'Material ↔ R-value per inch',sub:'Tap a material, then its approximate R per inch. Correct pairs lock green.',left:'Material',right:'R / inch',
+ pairs:[['Fiberglass batt','R-3.1'],['Blown cellulose','R-3.5'],['Open-cell foam','R-3.7'],['XPS board','R-5'],['Closed-cell foam','R-6.5']],done:'That\'s the per-inch pecking order — foam boards and closed-cell foam pack the most R into the least space.'};
+MATCH.target={title:'Assembly ↔ insulation target',sub:'Northern-climate targets. Tap an assembly, then a typical recommended R-value.',left:'Where',right:'Target R',
+ pairs:[['Attic floor','R-49'],['2×6 wood wall','R-21'],['Floor over crawl','R-30'],['Basement / crawl wall','R-15']],done:'Good — attics get the most because heat rises and there\'s room; walls are limited by cavity depth.'};
+
+SORT.airvapor={title:'Air leak, or vapor diffusion?',sub:'Each moisture path is stopped a different way. Tap an item, then the right bin.',bins:['Stop with AIR SEALING','Stop with a VAPOR RETARDER'],
+ items:[{t:'Warm moist air rushing up a plumbing chase',bin:0},{t:'Household air leaking past the attic hatch',bin:0},{t:'Air pouring through gaps at the top plates',bin:0},{t:'A recessed-light bypass venting into the attic',bin:0},{t:'Vapor slowly diffusing through painted drywall',bin:1},{t:'Vapor drive through a damp concrete wall',bin:1}],
+ done:'Right — most attic moisture rides on leaking air, so air sealing does the heavy lifting; a vapor retarder only slows slow diffusion.'};
+SORT.flow={title:'Intake or exhaust?',sub:'Balanced ventilation needs both, low and high. Tap a vent type, then its job.',bins:['INTAKE — low','EXHAUST — high'],
+ items:[{t:'Continuous soffit vents',bin:0},{t:'Under-eave / fascia vents',bin:0},{t:'Drip-edge intake vents',bin:0},{t:'Continuous ridge vent',bin:1},{t:'Roof louvers / box vents',bin:1},{t:'Powered attic fan',bin:1}],
+ done:'Exactly — intake belongs low at the eaves, exhaust high near the ridge, with roughly half the net free area at each.'};
+
+ERA.insul={title:'Insulation through the decades',sub:'Tap each era to see what you\'re looking at — and what it means on an inspection.',
+ rows:[
+  {d:'pre-1950',n:'Little or none',x:'Older homes often have empty wall cavities and a thin attic blanket. A comfort and energy finding — recommend evaluation and upgrades, not an alarm.'},
+  {d:'1920s – 1990',n:'Vermiculite (Zonolite)',x:'Loose, silvery-brown pellets poured into attics and block cores. May contain asbestos — don\'t disturb; recommend testing before any work.'},
+  {d:'1930s – 1970s',n:'Asbestos pipe & duct wrap',x:'White, chalky insulation on old boilers, ducts, and pipes. Assume asbestos until tested; flag it and advise against disturbance.'},
+  {d:'1970s',n:'UFFI wall foam',x:'Urea-formaldehyde foam injected into walls during the energy crisis. Off-gassing gave it a bad name — note its presence and history.'},
+  {d:'1950s – today',n:'Fiberglass & cellulose',x:'The default: pink/yellow batts and blown glass or cellulose. Inspect depth, full coverage, compression, and air-sealing underneath.'},
+  {d:'2000s – today',n:'Spray polyurethane foam',x:'Open- and closed-cell SPF that air-seals and insulates at once — often used to build conditioned attics and sealed crawlspaces.'},
+ ]};
+
+/* ================= STEPS ================= */
+const STEPS=[
+/* ===== ORIENTATION ===== */
+{id:'intro',kind:'Start here',label:'Heat, air & moisture',type:'lesson',
+ body:()=>`<span class="eyebrow">Insulation &amp; Ventilation · Orientation</span><h1>Comfort you can see — and the moisture you can't ignore.</h1>
+ <p class="lead">Insulation and ventilation decide whether a house is comfortable, cheap to run, and — most important to you — <b>dry</b>. Your job isn't to rate the home or install anything. It's to <b>observe what's accessible, recognize what's deficient, and report the implication</b> so your client can decide.</p>
+ <p>Three things move through a building envelope, and every finding in this section is really about one of them:</p>
+ <ul class="num"><li><b>Heat</b> — slowed by <em>insulation</em> (R-value).</li><li><b>Air</b> — stopped by the <em>air barrier</em> (air sealing).</li><li><b>Moisture</b> — managed by <em>vapor control</em> and <em>ventilation</em>.</li></ul>
+ <p>They're easy to confuse, and the confusion causes real damage: insulation laid over open air leaks still lets heat <em>and</em> moisture pour through. Keep the three jobs separate and you'll read any attic, wall, or crawlspace correctly.</p>
+ <p>Every component runs through the same five-step loop you've used in the other systems:</p>
+ <div class="loop"><div class="seg on"><div class="n">01</div><div class="w">Component</div></div><div class="seg"><div class="n">02</div><div class="w">Function</div></div><div class="seg"><div class="n">03</div><div class="w">Common defect</div></div><div class="seg"><div class="n">04</div><div class="w">Implication</div></div><div class="seg"><div class="n">05</div><div class="w">How you report</div></div></div>
+ <h2>What you'll inspect</h2>
+ <ul class="clean"><li><b>Insulation</b> — type, location, depth, coverage, and condition</li><li><b>The air barrier</b> — bypasses at the attic, hatch, and penetrations</li><li><b>Vapor &amp; moisture</b> — retarder placement, condensation, staining</li><li><b>Attic ventilation</b> — balanced intake and exhaust</li><li><b>Crawlspaces, floors &amp; foundations</b> — ground moisture and rim joists</li><li><b>Exhaust &amp; ice dams</b> — where moisture and heat go wrong</li></ul>
+ <div class="field"><div class="ic">${sv(ic.alert)}</div><div><div class="t">Safety &amp; scope</div><p>Attics and crawlspaces are the two most hazardous spaces you'll enter. Watch for <b>old wiring, fragile ceilings, and unknown insulation</b> — pour-in vermiculite and chalky pipe wrap may contain <b>asbestos</b>; don't disturb them. You report what's <em>visible and accessible</em> and note where insulation or framing blocked your view.</p></div></div>`,
+ quiz:[
+  {q:'The inspector\'s role with insulation and ventilation is to:',o:['Calculate the home\'s energy rating and certify it','Observe accessible conditions, recognize deficiencies, and report the implications','Install missing insulation','Seal the house to code'],a:1,e:'Observe and report — especially the comfort, energy, and moisture implications. You don\'t rate, install, or certify.'},
+  {q:'Insulation, the air barrier, and vapor control are:',o:['The same job done three ways','Three different jobs — slowing heat, stopping air, and managing moisture','Only relevant in cold climates','Interchangeable'],a:1,e:'They\'re distinct. Insulation slows conductive heat; the air barrier stops air leakage; vapor control manages diffusion and condensation. Confusing them causes damage.'},
+  {q:'Why does laying insulation over an open air leak fail?',o:['It doesn\'t — insulation stops air too','Fluffy insulation slows conduction but air (and the moisture it carries) blows right through it','It works only with a vapor barrier','Air leaks don\'t matter in attics'],a:1,e:'Most fiber insulation is air-permeable. Air sealing has to happen first; insulation on top of open bypasses still leaks heat and moisture.'},
+  {q:'Loose pour-in vermiculite or chalky pipe wrap in an older home should be:',o:['Removed during the inspection','Left undisturbed and flagged for asbestos testing','Assumed to be safe fiberglass','Sampled by the inspector'],a:1,e:'Both may contain asbestos. Don\'t disturb them; report them and recommend professional testing.'},
+ ]},
+
+/* ===== L1 HEAT FLOW & R-VALUE ===== */
+{id:'l1',kind:'Lesson 1',label:'Heat Flow & R-value',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 1 · How heat moves</span><h1>Heat always heads for cold — your job is to slow it.</h1>
+ <p class="lead">Heat moves three ways, and insulation mainly fights the first. Get the vocabulary straight and the rest of the section falls into place.</p>
+ <h2>The three ways heat moves</h2>
+ ${conds('',[['Conduction','Heat traveling through a solid — through the drywall, studs, and insulation. This is what R-value resists.'],['Convection','Heat carried by moving air — drafts, and air circulating inside a wall or attic. Fought by air sealing, not R-value.'],['Radiation','Infrared heat crossing a gap between surfaces — a hot roof deck radiating to the insulation below. Targeted by radiant barriers.']])}
+ <p>In winter heat flows <b>out</b>; in summer it flows <b>in</b>. Same physics either way — and the same insulation helps in both seasons.</p>
+ <h2>R-value, U-factor, and adding it up</h2>
+ <p><b>R-value</b> is resistance to conductive heat flow — higher is better. <b>U-factor</b> is its inverse (used for windows). R-values of the layers in an assembly add together: drywall + insulation + sheathing + siding. The catch is that the insulation only works where it actually <em>is</em> — a gap, a void, or a compressed spot is a hole in the blanket.</p>
+ <div class="dgm"><svg viewBox="0 0 720 250">
+   <g ${_gs}>
+     <rect x="120" y="40" width="480" height="170"/>
+     <line x1="180" y1="40" x2="180" y2="210"/><line x1="540" y1="40" x2="540" y2="210"/>
+     <line x1="240" y1="40" x2="240" y2="210" stroke-width="1"/><line x1="480" y1="40" x2="480" y2="210" stroke-width="1"/>
+     ${_mono(150,30,11,'INSIDE (warm)','#b85436')}${_mono(570,30,11,'OUTSIDE (cold)','#3c5870')}
+     <g stroke="#a98f5e" stroke-width="1.2">${Array.from({length:7},(_,i)=>`<path d="M250 ${52+i*22} q110 -10 0 -20 q-110 -10 0 -20" transform="translate(0 ${i*0})"/>`).join('')}</g>
+     ${_mono(360,128,11,'insulation (R-value)','#7f520a')}
+   </g>
+   <g stroke="#b85436" stroke-width="2.2" fill="none" stroke-linecap="round">
+     <path d="M150 90 H 250"/><path d="M245 84 l10 6 l-10 6"/>
+     <path d="M150 160 H 250"/><path d="M245 154 l10 6 l-10 6"/>
+   </g>
+   <g stroke="#b85436" stroke-width="2.2" fill="none" stroke-linecap="round" opacity="0.5">
+     <path d="M480 125 H 600"/><path d="M595 119 l10 6 l-10 6"/>
+   </g>
+   <text x="610" y="118" font-family="JetBrains Mono" font-size="10" fill="#b85436">a little still</text>
+   <text x="610" y="130" font-family="JetBrains Mono" font-size="10" fill="#b85436">gets through</text>
+ </svg><div class="cap">Insulation doesn't stop heat — it slows the conductive flow from warm to cold. More R = slower flow.</div></div>
+ <h2>Thermal bridging — the shortcut around the insulation</h2>
+ <p>Wherever a solid conductor crosses the wall, heat takes the shortcut. Wood studs, steel framing, concrete, and the rim joist are all <b>thermal bridges</b> — which is why a "fully insulated" 2×4 wall still loses heat at every stud, and why continuous exterior foam (which covers the studs) outperforms cavity fill alone.</p>
+ ${W('match','rval')}
+ ${story('Inspector in the house',`A homeowner insisted the attic was "packed with insulation" — and it was, except for a two-foot bare strip over every exterior wall where the blanket stopped short of the eaves. **That bare top plate is the worst spot in the house**: it's the coldest, leakiest part of the ceiling. You don't measure R; you report the gaps, the compression, and the bypasses — that's where the heat actually goes.`)}`,
+ quiz:[
+  {q:'R-value is a measure of:',o:['How fast heat radiates','Resistance to conductive heat flow — higher is better','Air leakage rate','Fire resistance'],a:1,e:'R-value is thermal resistance to conduction. U-factor is its inverse, used for windows and whole assemblies.'},
+  {q:'Insulation primarily slows which kind of heat transfer?',o:['Convection','Radiation','Conduction','Evaporation'],a:2,e:'Bulk insulation resists conduction. Air sealing handles convection; radiant barriers handle radiation.'},
+  {q:'Heat flows through a wood stud where the cavity insulation stops. That\'s:',o:['Vapor drive','Thermal bridging','Wind washing','Radiation only'],a:1,e:'A stud is a conductive shortcut around the insulation — a thermal bridge. Continuous exterior foam is the usual remedy.'},
+  {q:'A compressed or gapped section of insulation:',o:['Performs the same — density makes up for it','Is a local hole in the thermal blanket and loses far more heat there','Improves the R-value','Only matters in walls'],a:1,e:'Loft and full coverage are what make insulation work. Compression and gaps create cold, leaky spots — exactly what you report.'},
+  {q:'In summer, the same attic insulation:',o:['Does nothing — it\'s only for winter','Still helps, slowing heat flowing inward from the hot roof','Traps heat in the house','Should be removed'],a:1,e:'Heat moves toward cold either way. Winter: out. Summer: in. The insulation slows the conductive flow in both directions.'},
+ ]},
+
+/* ===== L2 MATERIALS ===== */
+{id:'l2',kind:'Lesson 2',label:'Materials & How Much',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 2 · What it's made of</span><h1>Know the materials, and know how much is enough.</h1>
+ <p class="lead">You won't specify insulation, but you have to recognize what's there, judge whether it's appropriate for the spot, and tell a client when there's simply not enough.</p>
+ <h2>The families you'll see</h2>
+ ${conds('',[['Batts &amp; blankets','Pre-cut fiberglass or mineral wool between framing — faced (kraft/foil vapor retarder) or unfaced. Easy to install badly: gaps, compression, wrong-side facing.'],['Loose-fill / blown-in','Fiberglass or cellulose blown to a depth — the usual attic floor. Cellulose is grey and dense; fiberglass is white and fluffy. Check depth and even coverage.'],['Rigid foam board','EPS, XPS, or polyiso sheets for walls, foundations, and roofs. Higher R per inch; some air and vapor control.'],['Spray polyurethane foam','Field-applied; open-cell (softer, vapor-open) or closed-cell (dense, higher R, slows vapor, adds strength). Air-seals as it insulates.']])}
+ <div class="pills"><span class="pill">Fiberglass ≈ <b>R-3.1/in</b></span><span class="pill">Cellulose ≈ <b>R-3.5/in</b></span><span class="pill">Open-cell foam ≈ <b>R-3.7/in</b></span><span class="pill">EPS ≈ <b>R-4/in</b></span><span class="pill">XPS ≈ <b>R-5/in</b></span><span class="pill">Closed-cell foam ≈ <b>R-6.5/in</b></span></div>
+ <h2>How much is "enough"?</h2>
+ <p>Targets rise with how cold the climate is, but as rough northern-climate numbers: <b>attic ≈ R-49</b> (roughly 14–18 in of blown), <b>walls ≈ R-20</b>, <b>floors over unconditioned space ≈ R-30</b>, <b>foundation/crawl walls ≈ R-15</b>. You're not enforcing a number — you're flagging the obvious shortfalls: a few thin inches in the attic, or empty wall cavities in an older home.</p>
+ ${W('match','target')}
+ <div class="field brass"><div class="ic">${sv(ic.alert)}</div><div><div class="t">Two materials to flag, never disturb</div><p><b>Vermiculite</b> — loose, silvery-brown pellets poured into attics — may contain <b>asbestos</b>. <b>Chalky white wrap</b> on old pipes, ducts, and boilers may, too. You don't sample or move them; you report them and recommend testing.</p></div></div>
+ ${story('Inspector in the house',`An attic had a tidy 4 inches of old fiberglass — maybe R-13 where the region wants R-49. The seller called it "insulated." Your report doesn't argue; it states the observed depth, the rough R, and the implication: **high heating and cooling cost, and cold ceilings prone to condensation.** Let the client decide what it's worth to top up.`)}`,
+ quiz:[
+  {q:'Per inch, closed-cell spray foam vs. fiberglass batt:',o:['They\'re equal','Closed-cell foam has roughly double the R per inch','Fiberglass is higher','Neither has an R-value'],a:1,e:'Closed-cell SPF ≈ R-6 to 7/in vs fiberglass ≈ R-3.1/in — important where space is tight.'},
+  {q:'A rough attic insulation target for a cold climate is about:',o:['R-11','R-19','R-49','R-100'],a:2,e:'Roughly R-49 in northern climates (about 14–18 in of blown insulation); less in milder zones. You flag obvious shortfalls, not exact code.'},
+  {q:'Which material air-seals as it insulates?',o:['Fiberglass batts','Loose-fill cellulose','Spray polyurethane foam','Mineral wool'],a:2,e:'Spray foam adheres and fills gaps, providing both insulation and (especially closed-cell) air sealing.'},
+  {q:'Loose, silvery-brown pellet insulation poured into an older attic is likely:',o:['Cellulose — add more on top','Vermiculite — may contain asbestos; don\'t disturb, recommend testing','Fiberglass — safe to compress','Spray foam'],a:1,e:'Pour-in vermiculite ("Zonolite") can contain asbestos. Flag it, leave it alone, and recommend professional testing.'},
+ ]},
+
+/* ===== L3 ATTIC INSPECTION ===== */
+{id:'l3',kind:'Lesson 3',label:'Inspecting the Attic',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 3 · The attic floor</span><h1>The attic tells the truth the ceiling hides.</h1>
+ <p class="lead">Most of a home's insulation story is written on the attic floor. You're checking three things: <b>is there enough, is it covering everything, and is anything wrecking it?</b></p>
+ <h2>What you're looking for</h2>
+ ${conds('',[['Depth &amp; coverage','Even depth across the whole floor, all the way to the eaves (over a baffle). Watch for thin spots, bare patches, and the bare strip over exterior top plates.'],['Compression','Stored boxes, plywood platforms, or a second layer crushing the first — compressed insulation loses most of its R.'],['Buried hazards','Non-IC recessed lights, old knob-and-tube wiring, and chimneys need clearance. Insulation piled on them is a fire concern.'],['The access hatch','A bare, un-weatherstripped hatch is a big hole in both the thermal and air barriers.']])}
+ ${W('spot','attic')}
+ <h2>The conditions you'll write up</h2>
+ <div class="defect"><div class="dh"><span class="n">1</span><span class="nm">Insufficient or uneven insulation</span></div><p>Thin or patchy coverage — and the classic bare band over the exterior walls.</p><div class="meta"><span class="lab">Implication</span><span class="val">High energy cost; cold ceilings; condensation and possible mold on cold spots.</span><span class="lab">Report</span><span class="val">State the observed depth/type and recommend air sealing and topping up.</span></div></div>
+ <div class="defect"><div class="dh"><span class="n">2</span><span class="nm">Compressed insulation</span></div><p>Storage or a platform flattening the blanket.</p><div class="meta"><span class="lab">Implication</span><span class="val">Local loss of R-value where it's crushed.</span><span class="lab">Report</span><span class="val">Recommend a raised storage platform that doesn't compress the insulation.</span></div></div>
+ <div class="defect"><div class="dh"><span class="n">3</span><span class="nm">Buried non-IC recessed lights</span></div><p>Recessed cans covered by insulation without an IC rating or clearance.</p><div class="meta"><span class="lab">Implication</span><span class="val">Heat build-up and fire risk.</span><span class="lab">Report</span><span class="val">Recommend IC-rated fixtures or a listed clearance/cover.</span></div></div>
+ ${story('Inspector in the house',`A beautifully deep attic — until you looked at the eaves and saw the blown insulation stopping a foot short of the walls, leaving the top plates bare so you "wouldn't block the soffit vents." Both jobs were half-done: no baffles, and no insulation where the house needs it most. **The fix is a baffle plus insulation to the eave — not a choice between them.**`)}`,
+ quiz:[
+  {q:'The single most important thing to report about attic insulation is:',o:['The brand','Depth, full coverage, and anything compressing or bypassing it','The color','The installation date'],a:1,e:'Enough, everywhere, and undamaged. Depth, coverage, compression, and bypasses are the story.'},
+  {q:'Storage boxes sitting on attic insulation are a problem because:',o:['They add weight to the ceiling','They compress the insulation and destroy its R-value there','They\'re a trip hazard only','They block the vents'],a:1,e:'Compression removes the loft that makes insulation work. Recommend a raised platform.'},
+  {q:'A recessed light buried in insulation is acceptable only if it is:',o:['LED','On a dimmer','IC-rated (rated for insulation contact)','GFCI-protected'],a:2,e:'Only IC-rated fixtures may be in direct contact with insulation; others need a listed clearance to shed heat.'},
+  {q:'The bare strip of ceiling over the exterior walls matters because:',o:['It\'s only cosmetic','It\'s the coldest, leakiest part of the ceiling — heat loss and condensation','Vents must go there','It\'s required by code'],a:1,e:'The top plate at the eave is a prime heat-loss and air-leak spot. Insulate it (over a baffle) and air-seal it.'},
+ ]},
+
+/* ===== L4 AIR SEALING ===== */
+{id:'l4',kind:'Lesson 4',label:'Air Sealing & the Air Barrier',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 4 · The air barrier</span><h1>The holes you can't see lose more than the R you can.</h1>
+ <p class="lead">Insulation slows heat; it does almost nothing about <em>air</em> blowing through the envelope. Air leakage is often the bigger energy loss — and it's the main way moisture reaches the attic.</p>
+ <h2>The stack effect</h2>
+ <p>A house acts like a chimney. Warm, buoyant air rises and pushes out through holes high in the building — the attic bypasses — and that suction pulls cold (and humid) air in low. The taller the house and the colder the day, the stronger the draft.</p>
+ <div class="dgm"><svg viewBox="0 0 720 280">
+   <g ${_gs}>
+     <path d="M120 90 L360 30 L600 90"/><line x1="120" y1="90" x2="120" y2="240"/><line x1="600" y1="90" x2="600" y2="240"/><line x1="120" y1="240" x2="600" y2="240"/>
+     <line x1="120" y1="150" x2="600" y2="150" stroke-width="1"/>
+     ${_mono(360,135,10,'ceiling / attic floor','#918c7d')}
+   </g>
+   <g stroke="#b85436" stroke-width="2.4" fill="none" stroke-linecap="round">
+     <path d="M300 200 V 156"/><path d="M294 162 l6 -8 l6 8"/>
+     <path d="M360 200 V 130"/><path d="M354 136 l6 -8 l6 8"/>
+     <path d="M420 200 V 156"/><path d="M414 162 l6 -8 l6 8"/>
+     <path d="M360 120 V 80"/><path d="M354 86 l6 -8 l6 8"/>
+   </g>
+   <g stroke="#3c5870" stroke-width="2.2" fill="none" stroke-linecap="round">
+     <path d="M120 215 H 175"/><path d="M169 209 l8 6 l-8 6"/>
+     <path d="M600 215 H 545"/><path d="M551 209 l-8 6 l8 6"/>
+   </g>
+   ${_mono(360,70,10,'warm air escapes high','#b85436')}${_mono(150,205,9,'cold air drawn in low','#3c5870','start')}
+ </svg><div class="cap">The stack effect: warm air leaks out at the top through attic bypasses, pulling cold air in at the bottom.</div></div>
+ <h2>Where the air actually leaks</h2>
+ <ul class="clean"><li><b>Top plates</b> — the gap where interior walls meet the attic</li><li><b>Penetrations</b> — wires, pipes, flues, and exhaust fans through the ceiling</li><li><b>Chases &amp; dropped soffits</b> — open framing cavities running up into the attic</li><li><b>The attic hatch</b> — and pull-down stairs</li><li><b>Recessed lights</b> — older non-airtight cans</li></ul>
+ <p>That's why the order matters: <b>air-seal the bypasses first, then insulate.</b> Insulation blown over open holes still leaks air — and the moisture that rides with it.</p>
+ ${W('sort','airvapor')}
+ ${story('Inspector in the house',`The telltale on a cold morning is a grey "dirty" shadow in white attic insulation right over the hallway — air filtering up through a bypass has been depositing dust like a furnace filter for years. **Where the insulation is stained, air is moving.** You note the bypass, not just the staining.`)}`,
+ quiz:[
+  {q:'Compared with insulation, air sealing:',o:['Does the same thing','Is a separate job — stopping air leakage, often the bigger energy loss and the main moisture path','Is unnecessary if R-value is high','Only matters in summer'],a:1,e:'Insulation slows conduction; air sealing stops convective leakage. They\'re different jobs, and leakage often loses more.'},
+  {q:'The stack effect describes:',o:['How batts are stacked','Warm air escaping high and pulling cold air in low, like a chimney','Stacked rigid foam boards','A venting ratio'],a:1,e:'Buoyant warm air leaks out the top and draws replacement air in the bottom — driving both heat loss and attic moisture.'},
+  {q:'For most retrofits the correct order is:',o:['Insulate, then maybe air-seal','Air-seal the bypasses first, then insulate','Ventilate, then insulate, never air-seal','Order doesn\'t matter'],a:1,e:'Seal first. Insulation laid over open bypasses still leaks air and the moisture it carries.'},
+  {q:'A grey, dirty shadow in white attic insulation usually means:',o:['The insulation is old','Air has been leaking up through a bypass there','Roof leak','Pest activity'],a:1,e:'The insulation acts like a filter — staining marks the air-leak path. Report the bypass.'},
+  {q:'Which is NOT a typical attic bypass?',o:['Wall top plates','Plumbing and wiring penetrations','The attic access hatch','The middle of a continuous, sealed ceiling'],a:3,e:'Leaks happen at edges, penetrations, chases, and the hatch — not through unbroken, sealed drywall.'},
+ ]},
+
+/* ===== L5 VAPOR & MOISTURE ===== */
+{id:'l5',kind:'Lesson 5',label:'Vapor & Condensation',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 5 · Moisture control</span><h1>Where warm, wet air meets a cold surface, water appears.</h1>
+ <p class="lead">Condensation inside an assembly is what rots sheathing and grows mold. Two mechanisms carry moisture into the structure — and they're stopped two different ways.</p>
+ <h2>Diffusion vs. air transport</h2>
+ ${conds('',[['Vapor diffusion','Water vapor slowly soaking through solid materials from humid to dry. Slowed by a vapor retarder (kraft facing, poly, vapor-retarder paint), rated in "perms."'],['Air transport','Humid air physically leaking through holes — and carrying far more water than diffusion ever could. Stopped by air sealing.']])}
+ <p>This is the key insight for an inspector: <b>most moisture problems are air-transported, not diffusion.</b> A perfect vapor barrier won't help if humid air is pouring through a bypass. Air sealing usually does more for moisture than the vapor retarder does.</p>
+ <h2>The dew point and where the retarder goes</h2>
+ <p>Somewhere in a cold wall, the temperature crosses the <b>dew point</b> — the point where moist air condenses. The goal is to keep that plane <em>dry</em>. In a heating climate, the vapor retarder goes on the <b>warm, interior side</b>, so indoor humidity can't reach the cold sheathing. (Hot-humid climates flip this; when in doubt, you don't recommend adding a <em>second</em> retarder that could trap moisture.)</p>
+ <div class="dgm"><svg viewBox="0 0 720 240">
+   <g ${_gs}>
+     <rect x="120" y="40" width="480" height="150"/>
+     <line x1="180" y1="40" x2="180" y2="190"/><line x1="540" y1="40" x2="540" y2="190"/>
+     ${_mono(150,30,11,'INSIDE (warm, humid)','#b85436')}${_mono(570,30,11,'OUTSIDE (cold)','#3c5870')}
+     <line x1="186" y1="40" x2="186" y2="190" stroke="#7f520a" stroke-width="2.4"/>${_mono(150,210,9,'vapor retarder','#7f520a','start')}
+   </g>
+   <path d="M180 115 Q 360 120 540 175" stroke="#b85436" stroke-width="2.2" fill="none"/>
+   ${_mono(300,100,10,'temperature','#b85436','start')}
+   <circle cx="470" cy="150" r="6" fill="#3c5870"/>${_mono(470,138,9,'dew point','#3c5870')}
+   <text x="486" y="172" font-family="JetBrains Mono" font-size="9" fill="#3c5870">keep humid air away from here</text>
+ </svg><div class="cap">In a heating climate the vapor retarder sits on the warm side, keeping indoor moisture from reaching the cold dew-point plane.</div></div>
+ <h2>What you'll actually see</h2>
+ <ul class="clean"><li>Rusty roofing nails and dark, stained sheathing in the attic — winter condensation</li><li>Mold or "frost" on the cold north slope of the roof deck</li><li>Kraft facing installed toward the cold side (backwards) in a heating climate</li><li>Peeling exterior paint or damp insulation — moisture finding its way out</li></ul>
+ ${story('Inspector in the house',`Rusty nail tips raining down in a cold attic almost always trace back to a bath fan venting into the attic or a missing bypass seal — not a roof leak. **Find the moisture source, not just the symptom.** The report names the source (the fan, the open chase) and the fix (duct it out, seal it), then the ventilation that clears what's left.`)}`,
+ quiz:[
+  {q:'Most moisture that damages an assembly arrives by:',o:['Slow diffusion through solid materials','Humid air leaking through holes (air transport)','Rain only','Plumbing leaks only'],a:1,e:'Air-transported moisture far exceeds diffusion. That\'s why air sealing is the primary moisture control.'},
+  {q:'A vapor retarder\'s job is to:',o:['Stop air leakage','Slow water-vapor diffusion through materials','Add R-value','Ventilate the attic'],a:1,e:'It slows diffusion (measured in perms). It is not an air barrier and doesn\'t replace air sealing.'},
+  {q:'In a cold (heating) climate, the vapor retarder generally goes on the:',o:['Cold, exterior side','Warm, interior side','Both sides for safety','Neither side'],a:1,e:'Toward the heated interior, so indoor humidity can\'t reach the cold surface where it would condense.'},
+  {q:'The "dew point" is:',o:['The wettest day of the year','The temperature at which air becomes saturated and moisture condenses','A type of vapor barrier','The attic\'s coldest corner'],a:1,e:'It\'s where moist air condenses. Keeping that plane warm and free of humid air prevents condensation.'},
+  {q:'Rusty roofing-nail tips in a cold attic most often indicate:',o:['A roof leak','Interior moisture condensing — often a fan or bypass dumping humid air into the attic','Old nails','Normal aging'],a:1,e:'Condensation from a moisture source (bath fan, open bypass) plus poor ventilation. Find the source.'},
+ ]},
+
+/* ===== L6 ATTIC VENTILATION ===== */
+{id:'l6',kind:'Lesson 6',label:'Attic Ventilation',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 6 · Moving the air</span><h1>Cold in low, warm out high — and balance the two.</h1>
+ <p class="lead">A vented attic uses outside air to carry away the moisture that gets past the air barrier, shed summer heat, and keep the roof deck cold enough to limit ice dams. It only works when intake and exhaust are <b>balanced</b>.</p>
+ <h2>Intake low, exhaust high</h2>
+ <p>The system is simple: <b>intake</b> at the soffits/eaves (low), <b>exhaust</b> at the ridge (high). Cool air enters at the bottom, washes up the underside of the deck, and leaves at the top — driven by the same buoyancy as the stack effect, but kept <em>outside</em> the insulated ceiling.</p>
+ <div class="dgm"><svg viewBox="0 0 720 250">
+   <g ${_gs}>
+     <path d="M90 150 L360 40 L630 150"/><line x1="90" y1="150" x2="630" y2="150"/>
+     <path d="M120 150 L360 56 L600 150" stroke-width="1"/>
+     <rect x="90" y="150" width="540" height="14" fill="#d8d2c4" opacity="0.5" stroke="none"/>
+     <path d="M345 44 h30 v-7 h-30 z" stroke="#3d7d50"/>${_mono(360,30,9,'ridge — exhaust','#3d7d50')}
+     ${_mono(100,176,9,'soffit — intake','#3d7d50','start')}${_mono(620,176,9,'intake','#3d7d50','end')}
+   </g>
+   <g stroke="#3c5870" stroke-width="2.2" fill="none" stroke-linecap="round">
+     <path d="M120 175 q30 -10 40 -30"/><path d="M154 142 l6 3 l1 -8"/>
+     <path d="M600 175 q-30 -10 -40 -30"/><path d="M566 142 l-6 3 l-1 -8"/>
+   </g>
+   <g stroke="#b85436" stroke-width="2.2" fill="none" stroke-linecap="round">
+     <path d="M180 120 Q 360 70 540 120"/><path d="M355 64 l8 4 l-6 7"/>
+   </g>
+   ${_mono(360,108,9,'warm, moist air washes up to the ridge','#b85436')}
+ </svg><div class="cap">Balanced ventilation: cool intake at the soffits, exhaust at the ridge, washing the underside of the deck.</div></div>
+ <h2>The sizing rule and the cardinal sins</h2>
+ <p>Rule of thumb: <b>1 sq ft of net free vent area per 150 sq ft</b> of attic floor — relaxed to <b>1/300</b> with a ceiling vapor retarder or balanced 50/50 intake-and-exhaust. "Net free area" is the <em>open</em> area after screens and louvers steal some. Roughly half should be intake, half exhaust.</p>
+ <ul class="clean"><li><b>Don't mix high exhausts</b> — a ridge vent plus gable vents or a powered fan short-circuits the airflow and starves the soffit intake.</li><li><b>Don't let a powered fan</b> depressurize the house and backdraft a combustion appliance.</li><li><b>Don't block the soffits</b> — keep baffles in the eaves.</li><li><b>Don't dump exhaust fans</b> into the attic or soffit.</li></ul>
+ ${W('sort','flow')}
+ ${W('spot','vent')}
+ ${story('Inspector in the house',`A "more is better" roof had a ridge vent, two gable louvers, and a powered fan — and a damp attic. With three high openings competing, the fan and ridge just recirculated air between the gables and never pulled from the soffits. **Balance beats brute force.** The report recommends one strategy, soffit-to-ridge, and closing the redundant high vents.`)}`,
+ quiz:[
+  {q:'Balanced attic ventilation means:',o:['Two ridge vents','Low intake at the soffits paired with high exhaust at the ridge','A powered fan only','Gable vents on both ends'],a:1,e:'Intake low, exhaust high, with roughly half the net free area at each. That sets up a continuous wash of the deck.'},
+  {q:'A common net-free-area rule is:',o:['1/150 of attic floor (or 1/300 with a vapor retarder or balanced venting)','1/10 of the roof','One vent per 100 sq ft','There is no rule'],a:0,e:'1 sq ft NFA per 150 sq ft of attic, relaxed to 1/300 with a vapor retarder or balanced 50/50 venting.'},
+  {q:'You should NOT combine a ridge vent with:',o:['Soffit vents','Gable vents or a powered attic fan','Baffles','Insulation'],a:1,e:'Mixing high exhausts short-circuits airflow and starves the intake; a powered fan can also backdraft combustion appliances.'},
+  {q:'"Net free area" refers to:',o:['The attic floor area','The actual open vent area after screens and louvers reduce it','The R-value of the vents','The roof slope'],a:1,e:'It\'s the effective open area for airflow — always less than the gross opening because of screening and louvers.'},
+  {q:'The purpose of attic ventilation does NOT include:',o:['Removing moisture that gets past the air barrier','Shedding summer heat','Helping keep the deck cold to limit ice dams','Adding R-value to the ceiling'],a:3,e:'Ventilation manages moisture and heat; it doesn\'t insulate. R-value comes from the insulation, not the vents.'},
+ ]},
+
+/* ===== L7 CRAWLSPACES & FLOORS ===== */
+{id:'l7',kind:'Lesson 7',label:'Crawlspaces & Floors',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 7 · Down low</span><h1>The wettest part of the house is usually under it.</h1>
+ <p class="lead">Crawlspaces, floors over unconditioned space, and foundation walls are where ground moisture, cold floors, and the rim joist all meet. The industry has shifted on how to handle them — and you need to read both approaches.</p>
+ <h2>Two philosophies</h2>
+ ${conds('',[['Vented crawlspace','The traditional approach: foundation vents plus a ground vapor barrier and floor insulation. Works if it stays dry — but in humid climates, summer air vented into a cool crawl can condense and make things worse.'],['Conditioned (sealed) crawlspace','The modern approach: seal the vents, lay a continuous ground barrier up the walls, insulate the foundation walls, and add a little conditioning or a dehumidifier. Usually drier and more efficient.']])}
+ <p>Either way, the <b>ground vapor barrier</b> is the foundation of moisture control — open soil is a moisture pump. Where you see bare dirt and high humidity, that's almost always the first recommendation.</p>
+ ${W('spot','crawl')}
+ <h2>The conditions you'll write up</h2>
+ <div class="defect"><div class="dh"><span class="n">1</span><span class="nm">Missing or torn ground vapor barrier</span></div><p>Exposed soil under the floor.</p><div class="meta"><span class="lab">Implication</span><span class="val">Constant moisture load — high humidity, rot, mold, and rusting metal.</span><span class="lab">Report</span><span class="val">Recommend a continuous, sealed ground cover and moisture control.</span></div></div>
+ <div class="defect"><div class="dh"><span class="n">2</span><span class="nm">Floor insulation fallen or backwards</span></div><p>Batts sagging out of the joists, or the vapor facing on the wrong side.</p><div class="meta"><span class="lab">Implication</span><span class="val">Cold floors; wrong-side facing can trap moisture against the subfloor.</span><span class="lab">Report</span><span class="val">Recommend proper support and correct facing orientation.</span></div></div>
+ <div class="defect"><div class="dh"><span class="n">3</span><span class="nm">Uninsulated rim / band joist</span></div><p>The bare wood band around the floor perimeter over the foundation.</p><div class="meta"><span class="lab">Implication</span><span class="val">A cold, leaky ring — major heat loss and a condensation spot.</span><span class="lab">Report</span><span class="val">Recommend air sealing and insulating the rim joist.</span></div></div>
+ ${story('Inspector in the house',`A "musty" listing had a tidy floor and a horror underneath: bare soil, 85% humidity, and fiberglass batts drooping out of the joists like wet laundry. **The smell upstairs started on the ground below.** The report leads with the ground vapor barrier and moisture source — insulation comes after the space is dry.`)}`,
+ quiz:[
+  {q:'The foundation of crawlspace moisture control is:',o:['More foundation vents','A continuous, sealed ground vapor barrier','Floor insulation','A sump pump'],a:1,e:'Open soil pumps moisture upward. A sealed ground cover is the first and highest-value step.'},
+  {q:'In a humid climate, adding more crawlspace vents can:',o:['Always help','Make summer condensation worse by drawing in warm, moist air','Add R-value','Lower the humidity guaranteed'],a:1,e:'Venting humid summer air into a cool crawl can condense it — part of why sealed, conditioned crawls have gained favor.'},
+  {q:'Floor batts hanging out of the joist bays:',o:['Are fine if they\'re still up there partly','Leave the floor uninsulated and, if facing is wrong, can trap moisture — re-secure them','Improve airflow','Should be removed entirely'],a:1,e:'They need proper support and correct facing. Sagging batts don\'t insulate and can hold moisture against the subfloor.'},
+  {q:'The rim (band) joist is worth insulating because it is:',o:['Structural only','A cold, leaky band around the floor — major heat loss and a condensation spot','Already sealed by the subfloor','Not part of the envelope'],a:1,e:'The rim joist is a common bare, leaky perimeter — air-sealing and insulating it is a high-value fix.'},
+ ]},
+
+/* ===== L8 EXHAUST, ICE DAMS & WRAP ===== */
+{id:'l8',kind:'Lesson 8',label:'Exhaust, Ice Dams & Wrap-up',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 8 · Putting it together</span><h1>Where heat, air, and moisture go wrong together.</h1>
+ <p class="lead">Two classic findings tie the whole section together — they're never one problem, but a failure of insulation, air sealing, and ventilation at once.</p>
+ <h2>Exhaust must go outside</h2>
+ <p>Every <b>bath, kitchen, and dryer exhaust</b> must terminate <em>outside</em> the envelope with a proper hooded cap — never into an attic, soffit, or crawlspace. Moist exhaust dumped inside condenses and grows mold; dryer lint dumped inside is also a fire hazard. A duct that ends at the soffit is just feeding the attic intake.</p>
+ <h2>Ice dams — the warm-roof story</h2>
+ <p>An ice dam is a winter diagnosis of a warm roof. Heat leaking into the attic (air leaks + thin insulation) warms the deck and melts the snow; the meltwater runs down to the cold, unheated eave and refreezes, building a dam that backs water <em>under</em> the shingles and into the ceiling.</p>
+ <div class="dgm"><svg viewBox="0 0 720 250">
+   <g ${_gs}>
+     <path d="M120 70 L600 190"/><path d="M120 70 L120 200 L600 200 L600 190"/>
+     <path d="M120 55 L600 175" stroke="#c9d3da" stroke-width="10"/>
+     ${_mono(150,46,9,'snow','#5a7b97','start')}
+   </g>
+   <path d="M150 64 Q 360 120 470 156" stroke="#b85436" stroke-width="2.2" fill="none"/>${_mono(300,96,9,'warm deck melts snow','#b85436','start')}
+   <path d="M540 178 q22 4 30 -2 q12 14 -6 18 q-10 14 -28 -2 z" fill="#9fc0d6" opacity="0.7" stroke="#3c5870" stroke-width="1.4"/>${_mono(560,210,9,'ice dam at cold eave','#3c5870')}
+   <path d="M470 156 q40 8 60 22" stroke="#3c5870" stroke-width="2" fill="none"/><path d="M520 174 l8 0 l-3 7" stroke="#3c5870" stroke-width="2" fill="none"/>
+   <text x="430" y="150" font-family="JetBrains Mono" font-size="9" fill="#3c5870">water backs up under shingles</text>
+ </svg><div class="cap">Ice dam: a warm roof melts snow that refreezes over the cold overhang, damming water back under the shingles.</div></div>
+ <p>The durable cure is the whole section at once: <b>air-seal</b> the attic bypasses, <b>insulate</b> deeply and evenly to the eaves, and <b>ventilate</b> to keep the deck cold. Heat cable treats the symptom; it doesn't fix the warm roof.</p>
+ ${W('era','insul')}
+ <div class="field"><div class="ic">${sv(ic.alert)}</div><div><div class="t">The inspector's summary</div><p>Read every attic, wall, and crawlspace as three jobs: <b>insulation</b> (enough, everywhere, uncrushed), the <b>air barrier</b> (bypasses sealed), and <b>moisture control</b> (vapor retarder placed right, ventilation balanced, exhausts outside, ground covered). Name the deficiency, the implication, and the recommendation — and you've inspected the system.</p></div></div>
+ ${story('Inspector in the house',`The same house had icicles at the eaves, a stained bedroom ceiling, and a warm, stuffy attic. One client saw three problems; you saw one: **a warm, leaky, under-ventilated roof.** Air seal, insulate, ventilate — in that order — and the ice dams, the stain, and the energy bill all go away together.`)}`,
+ quiz:[
+  {q:'A bathroom exhaust fan may terminate:',o:['In the attic, away from the ridge','Into the soffit','Outside the building, with a proper cap','In the crawlspace'],a:2,e:'Always outside the envelope. Dumping moist air into an attic, soffit, or crawl causes condensation and mold.'},
+  {q:'An ice dam is fundamentally caused by:',o:['Undersized gutters','A warm roof deck melting snow that refreezes at the cold eave','Defective shingles','Too much attic ventilation'],a:1,e:'Heat loss warms the deck and melts snow; it refreezes over the unheated overhang and dams water back under the roofing.'},
+  {q:'The durable fix for ice dams is:',o:['Heat cable along the eaves','Air sealing, insulation, and balanced ventilation to keep the deck cold','Bigger gutters','Removing the snow each storm'],a:1,e:'Address the warm roof: seal, insulate, ventilate. Heat cable only manages the symptom.'},
+  {q:'A dryer duct dumping into the attic is a problem because:',o:['It\'s only an efficiency issue','It adds moisture and lint — condensation, mold, and a fire hazard','It\'s fine if the attic is vented','It improves attic humidity'],a:1,e:'Moist, lint-laden exhaust inside the envelope causes condensation, mold, and fire risk. It must vent outside.'},
+  {q:'The inspector\'s through-line for this whole system is:',o:['Pick the best single upgrade','Read every space as insulation, air barrier, and moisture control together','Always recommend spray foam','Measure exact R-values'],a:1,e:'Insulation, air sealing, and moisture control are three jobs working together — name the deficiency, implication, and recommendation for each.'},
+ ]},
+/*LESSONS*/
+ {id:'scenarios',kind:'Apply it',label:'Inspector\'s Call',type:'scenario'},
+ {id:'assess',kind:'Assessment',label:'Mastery check',type:'assess'},
+ {id:'glossary',kind:'Reference',label:'Glossary',type:'glossary'},
+ {id:'source',kind:'Deep reading',label:'Reference & summary',type:'source'},
+];
+(async()=>{await load();render();})();
+</script>

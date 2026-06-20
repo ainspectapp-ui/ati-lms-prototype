@@ -1,0 +1,572 @@
+<!-- ATI · Module VII — Texas Practicum — full interactive section -->
+<title>ATI · Module VII — Texas Practicum</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..900&family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#f4f2ea;--surf:#fffdf8;--surf-2:#faf7ef;--surf-3:#efeae0;
+    --line:#e6e1d4;--line-2:#efeae0;--line-brass:rgba(197,129,42,.32);
+    --ink:#21242b;--ink-2:#5b616b;--ink-3:#8b909a;
+    --brass:#c5812a;--brass-2:#e0a043;--brass-deep:#9a6214;--brass-soft:#f4e7cd;
+    --slate:#1f6f73;--slate-2:#2f8a8d;--slate-soft:#dde9e9;--slate-deep:#123f43;
+    --pass:#2f7a4e;--pass-soft:#e2efe5;--fail:#bd4a31;--fail-soft:#f6e6df;
+    --r:16px;--display:'Fraunces',Georgia,serif;--body:'Hanken Grotesk',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;
+    --sh-1:0 1px 2px rgba(25,28,34,.05),0 1px 3px rgba(25,28,34,.05);--sh-2:0 4px 14px rgba(25,28,34,.06),0 12px 32px rgba(25,28,34,.09);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.55;background-image:radial-gradient(120% 80% at 88% -8%,rgba(197,129,42,.06),transparent 52%),radial-gradient(90% 60% at -8% 108%,rgba(31,111,115,.06),transparent 52%)}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  .mono{font-family:var(--mono)}
+  ::selection{background:var(--brass);color:#fff}
+  ::-webkit-scrollbar{width:11px;height:11px}::-webkit-scrollbar-thumb{background:#d2ccbd;border-radius:11px;border:3px solid var(--bg)}
+
+  .top{position:sticky;top:0;z-index:30;background:rgba(244,242,234,.82);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid var(--line)}
+  .top .row{max-width:1150px;margin:0 auto;padding:13px 24px;display:flex;align-items:center;gap:14px}
+  .mark{width:36px;height:36px;border-radius:10px;flex:none;display:grid;place-items:center;background:linear-gradient(150deg,var(--brass-2),var(--brass-deep));box-shadow:0 3px 12px rgba(168,109,16,.3),inset 0 1px 0 rgba(255,255,255,.35)}
+  .mark svg{width:20px;height:20px;color:#fff}
+  .top .tt{font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:-.01em;line-height:1.1}.top .tt b{color:var(--brass-deep)}
+  .top .sub{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);display:block;margin-top:2px}
+  .top .prog{margin-left:auto;display:flex;align-items:center;gap:12px}
+  .top .prog .bar{width:150px;height:7px;background:var(--surf-3);border-radius:7px;overflow:hidden;border:1px solid var(--line)}
+  .top .prog .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--brass-deep),var(--brass));border-radius:7px;transition:width .5s cubic-bezier(.2,.7,.2,1)}
+  .top .prog .pc{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--brass-deep);min-width:34px;text-align:right}
+
+  .wrap{max-width:1150px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:250px 1fr;gap:32px;align-items:start}
+  .rail{position:sticky;top:88px;margin-top:28px;max-height:calc(100vh - 110px);overflow-y:auto;padding-right:4px}
+  .rail .h{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);padding:0 8px 10px}
+  .step{display:block;padding:9px 10px 9px 43px;border-radius:10px;width:100%;text-align:left;transition:.13s;color:var(--ink-2);font-size:12.5px;font-weight:500;position:relative}
+  .step:hover{background:var(--surf-2)}
+  .step.active{background:var(--surf);box-shadow:var(--sh-1);color:var(--ink)}
+  .step.active::before{content:"";position:absolute;left:-8px;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--brass)}
+  .step .dot{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-family:var(--mono);font-size:10px;color:var(--ink-3);background:var(--bg);transition:.2s}
+  .step.done .dot{background:var(--brass);border-color:var(--brass);color:#fff}.step.done .dot svg{width:11px;height:11px}
+  .step .lbl{flex:1;line-height:1.2}
+  .step .kind{font-family:var(--mono);font-size:8.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);display:block;margin-top:1px}
+  .step.locked{opacity:.42;pointer-events:none}
+
+  .view{min-width:0;margin-top:28px;animation:rise .38s cubic-bezier(.2,.7,.2,1);padding-bottom:40px}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--brass-deep);font-weight:600}
+  h1{font-family:var(--display);font-weight:800;font-size:31px;letter-spacing:-.02em;line-height:1.08;margin:8px 0 0}
+  h2{font-family:var(--display);font-weight:700;font-size:21px;letter-spacing:-.01em;margin:32px 0 10px}
+  h3{font-family:var(--display);font-weight:700;font-size:16px;margin:24px 0 8px}
+  p{font-size:15.5px;color:#33312a;margin-bottom:14px;line-height:1.74}
+  p b,li b{color:var(--ink);font-weight:700}
+  .lead{font-size:16.5px;color:var(--ink-2);margin-top:12px;max-width:64ch}
+  ul.clean{list-style:none;margin:2px 0 16px}
+  ul.clean li{font-size:14.5px;color:#33312a;padding-left:22px;position:relative;margin-bottom:9px;line-height:1.6}
+  ul.clean li::before{content:"";position:absolute;left:2px;top:8px;width:7px;height:7px;border-radius:2px;background:var(--brass);transform:rotate(45deg)}
+  ul.num{margin:0 0 16px 20px}ul.num li{font-size:14.5px;color:#33312a;margin-bottom:7px;line-height:1.6}
+
+  .field{background:var(--slate-deep);color:#e9edf0;border-radius:13px;padding:18px 20px;margin:22px 0;display:flex;gap:14px}
+  .field.brass{background:linear-gradient(135deg,#3a3526,#2c2818)}
+  .field .ic{flex:none;color:var(--brass-2)}.field .ic svg{width:20px;height:20px}
+  .field .t{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-2);margin-bottom:5px}
+  .field p{color:#c4cdd4;font-size:14px;margin:0 0 8px;line-height:1.65}.field p:last-child{margin-bottom:0}.field p b{color:#fff}
+
+  .story{background:var(--surf);border:1px solid var(--line);border-left:4px solid var(--brass);border-radius:0 13px 13px 0;padding:16px 19px;margin:22px 0;box-shadow:var(--sh-1)}
+  .story .st{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-deep);display:flex;align-items:center;gap:8px;margin-bottom:7px}
+  .story .st svg{width:14px;height:14px}
+  .story p{font-size:14.5px;color:#403d33;font-style:italic;margin:0;line-height:1.7}
+  .story p b{font-style:normal}
+
+  .loop{display:flex;align-items:stretch;background:var(--surf);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin:18px 0 8px;box-shadow:var(--sh-1)}
+  .loop .seg{flex:1;padding:13px 10px;text-align:center;border-right:1px solid var(--line-2)}.loop .seg:last-child{border-right:none}
+  .loop .seg .n{font-family:var(--mono);font-size:9px;color:var(--ink-3);letter-spacing:.1em}
+  .loop .seg .w{font-family:var(--display);font-weight:700;font-size:12.5px;margin-top:3px}
+  .loop .seg.on{background:var(--brass-soft)}.loop .seg.on .w{color:var(--brass-deep)}
+
+  .dgm{background:#bdb8a8;border:1px solid var(--line);border-radius:var(--r);padding:8px;margin:20px 0;box-shadow:var(--sh-1);position:relative;overflow:hidden}
+  .dgm::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(44,65,83,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(44,65,83,.1) 1px,transparent 1px);background-size:26px 26px;pointer-events:none}
+  .dgm svg{display:block;width:100%;height:auto;position:relative}
+  .dgm .cap{position:relative;text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:.04em;color:var(--slate-deep);padding:4px 6px 8px}
+
+  .defect{background:var(--surf);border:1px solid var(--line);border-radius:13px;padding:16px 18px;box-shadow:var(--sh-1);margin:12px 0}
+  .defect .dh{display:flex;align-items:center;gap:11px;margin-bottom:8px}
+  .defect .dh .n{width:26px;height:26px;border-radius:8px;background:var(--fail-soft);color:var(--fail);display:grid;place-items:center;flex:none;font-family:var(--mono);font-weight:600;font-size:12px}
+  .defect .dh .nm{font-family:var(--display);font-weight:700;font-size:15px}
+  .defect p{font-size:14px;margin-bottom:9px}
+  .defect .meta{display:grid;grid-template-columns:auto 1fr;gap:5px 12px;font-size:13px;align-items:start}
+  .defect .meta .lab{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);padding-top:3px;white-space:nowrap}
+  .defect .meta .val{color:#33312a;line-height:1.5}
+  .defect .rep{font-family:var(--mono);font-size:11px;background:var(--slate-soft);border-radius:8px;padding:8px 11px;color:var(--slate-deep);line-height:1.5;margin-top:8px}.defect .rep b{color:var(--slate-deep)}
+
+  .pills{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 6px}
+  .pill{font-family:var(--mono);font-size:11.5px;background:var(--surf);border:1px solid var(--line);color:var(--ink-2);padding:6px 12px;border-radius:20px}.pill b{color:var(--brass-deep)}
+  .tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px;background:var(--surf);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .tbl th{background:var(--slate-deep);color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;text-align:left;padding:9px 12px;font-weight:600}
+  .tbl td{padding:9px 12px;border-top:1px solid var(--line-2);color:#33312a}
+  .tbl td:first-child{font-family:var(--mono);font-weight:600;color:var(--brass-deep);white-space:nowrap}
+
+  /* ---- quiz (multi-question) ---- */
+  .quiz{background:var(--surf);border:1.5px solid var(--line-brass);border-radius:var(--r);padding:24px;margin:30px 0 0;box-shadow:var(--sh-1)}
+  .quiz .qh{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-deep);display:flex;align-items:center;gap:8px;margin-bottom:4px}.quiz .qh svg{width:15px;height:15px}
+  .quiz .qt{font-family:var(--display);font-weight:700;font-size:18px}.quiz .qsub{font-size:13.5px;color:var(--ink-2);margin:4px 0 4px}
+  .qblock{border-top:1px solid var(--line-2);padding-top:18px;margin-top:18px}.qblock:first-of-type{border-top:none;padding-top:14px}
+  .qnum{font-family:var(--mono);font-size:11px;color:var(--brass-deep);font-weight:600;margin-bottom:6px}
+  .q{font-family:var(--display);font-weight:600;font-size:15.5px;margin-bottom:13px;line-height:1.4}
+  .opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:11px 14px;border:1.5px solid var(--line);border-radius:10px;margin-bottom:8px;transition:.13s;font-size:14px;font-weight:500;background:var(--surf-2)}
+  .opt:hover:not(.lk){border-color:var(--brass);background:var(--surf)}
+  .opt .k{font-family:var(--mono);font-weight:600;width:23px;height:23px;border-radius:6px;background:var(--surf-3);display:grid;place-items:center;font-size:11px;flex:none;color:var(--ink-2)}
+  .opt.correct{border-color:var(--pass);background:var(--pass-soft)}.opt.correct .k{background:var(--pass);color:#fff}
+  .opt.wrong{border-color:var(--fail);background:var(--fail-soft)}.opt.wrong .k{background:var(--fail);color:#fff}
+  .opt .mk{margin-left:auto}.opt .mk svg{width:16px;height:16px}.opt.lk{cursor:default}
+  .exp{font-size:13px;color:var(--ink-2);line-height:1.62;padding:11px 13px;background:var(--surf-2);border-left:3px solid var(--brass);border-radius:0 9px 9px 0;margin-top:4px}.exp b{color:var(--ink)}
+  .qscore{margin-top:20px;padding-top:18px;border-top:1px solid var(--line-2);font-family:var(--mono);font-size:13px;color:var(--ink-2);display:flex;align-items:center;gap:10px}.qscore svg{width:18px;height:18px;flex:none}.qscore b{font-size:15px}
+
+  .foot{display:flex;align-items:center;gap:12px;margin:30px 0 10px;padding-top:22px;border-top:1px solid var(--line)}.foot .sp{flex:1}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:14px;padding:12px 18px;border-radius:11px;transition:.15s;font-family:var(--body)}.btn svg{width:16px;height:16px}
+  .btn.brass{background:linear-gradient(150deg,var(--brass-2),var(--brass));color:#fff;box-shadow:0 5px 14px rgba(168,109,16,.28)}.btn.brass:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(168,109,16,.36)}
+  .btn.brass:disabled{opacity:.5;filter:grayscale(.3);cursor:not-allowed;transform:none;box-shadow:none}
+  .btn.ghost{background:var(--surf);border:1px solid var(--line);color:var(--ink-2)}.btn.ghost:hover{color:var(--ink);border-color:var(--ink-3)}
+  .btn.slate{background:var(--slate);color:#fff}.btn.slate:hover{background:var(--slate-deep)}
+
+  /* ---- WIDGETS ---- */
+  .wlabel{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:var(--brass);padding:4px 9px;border-radius:20px;display:inline-block;margin-bottom:6px}
+  .wtitle{font-family:var(--display);font-weight:700;font-size:16px;margin-bottom:3px}
+  .wsub{font-size:13.5px;color:var(--ink-2);margin-bottom:14px}
+  .widget{background:var(--surf-2);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;margin:24px 0;box-shadow:var(--sh-1)}
+
+  .sd-wrap{display:grid;grid-template-columns:1fr 260px;gap:16px}@media(max-width:760px){.sd-wrap{grid-template-columns:1fr}}
+  .sd-stage{background:#bdb8a8;border:1px solid var(--line);border-radius:13px;padding:8px;position:relative;overflow:hidden}
+  .sd-stage::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(44,65,83,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(44,65,83,.09) 1px,transparent 1px);background-size:24px 24px;pointer-events:none}
+  .sd-stage svg{display:block;width:100%;height:auto;position:relative}
+  .hot{cursor:pointer}.hot circle.zone{fill:transparent;stroke:transparent}
+  .hot.found circle.zone{fill:rgba(61,125,80,.16);stroke:var(--pass);stroke-width:2.5;stroke-dasharray:4 3}
+  .sd-side{display:flex;flex-direction:column;gap:11px}
+  .sd-count{background:var(--slate-deep);color:#fff;border-radius:12px;padding:13px 15px;text-align:center}
+  .sd-count .big{font-family:var(--mono);font-weight:600;font-size:28px;line-height:1}.sd-count .lbl{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--brass-2);margin-top:5px}
+  .sd-found{display:flex;flex-direction:column;gap:7px;max-height:280px;overflow-y:auto}
+  .fcard{background:var(--surf);border:1px solid var(--line);border-left:3px solid var(--pass);border-radius:9px;padding:9px 11px;animation:pop .3s}@keyframes pop{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:none}}
+  .fcard .fn{font-family:var(--display);font-weight:700;font-size:13px;color:var(--pass)}.fcard .fd{font-size:12px;color:var(--ink-2);margin-top:2px;line-height:1.45}
+  .sd-empty{font-size:12.5px;color:var(--ink-3);font-style:italic;text-align:center;padding:18px 8px}
+  .sd-done{background:var(--pass-soft);border:1px solid var(--pass);border-radius:11px;padding:12px;text-align:center;font-size:13px;color:var(--pass);font-weight:600}
+
+  .gfi-stage{background:var(--slate-deep);border-radius:13px;padding:20px;position:relative;overflow:hidden;height:220px}
+  .lane{position:absolute;left:120px;right:120px;height:3px;background:rgba(255,255,255,.18);border-radius:3px}.lane.hot{top:66px}.lane.neu{top:146px}
+  .lane .lab{position:absolute;top:-19px;left:0;font-family:var(--mono);font-size:10px;color:#9fb0bd}
+  .dot{position:absolute;width:9px;height:9px;border-radius:50%;top:-3px}
+  .dot.h{background:var(--brass-2);animation:flowR 2.4s linear infinite}.dot.n{background:#7fa8c4;animation:flowL 2.4s linear infinite}
+  @keyframes flowR{from{left:0}to{left:100%}}@keyframes flowL{from{left:100%}to{left:0}}
+  .gbox{position:absolute;left:28px;top:66px;width:68px;height:80px;border:2px solid #9fb0bd;border-radius:8px;display:grid;place-items:center;text-align:center}
+  .gbox .gt{font-family:var(--mono);font-size:10px;color:#fff}.gbox .gs{font-family:var(--mono);font-size:8px;color:#7fa8c4;margin-top:3px}
+  .load{position:absolute;right:28px;top:66px;width:68px;height:80px;border:2px solid #9fb0bd;border-radius:8px;display:grid;place-items:center}.load .lt{font-family:var(--mono);font-size:10px;color:#fff}
+  .leak{position:absolute;left:50%;top:69px;width:2px;height:88px;background:repeating-linear-gradient(180deg,var(--fail),var(--fail) 5px,transparent 5px,transparent 10px);opacity:0;transition:.3s}.leak.on{opacity:1}
+  .person{position:absolute;left:calc(50% - 13px);top:160px;font-size:22px;opacity:0;transition:.3s}.person.on{opacity:1}
+  .trip{position:absolute;inset:0;background:rgba(184,84,54,.92);display:grid;place-items:center;opacity:0;pointer-events:none;transition:.3s}.trip.on{opacity:1}
+  .trip .tw{text-align:center;color:#fff}.trip .tw .b{font-family:var(--display);font-weight:800;font-size:25px}.trip .tw .s{font-family:var(--mono);font-size:11px;letter-spacing:.1em;margin-top:6px;opacity:.9}
+  .gfi-status{display:flex;align-items:center;gap:10px;margin-top:14px;font-size:14px;font-weight:600}.gfi-status .pip{width:11px;height:11px;border-radius:50%;background:var(--pass)}.gfi-status.fault .pip{background:var(--fail)}
+  .gfi-controls{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}.gfi-read{font-family:var(--mono);font-size:12px;color:var(--ink-2);margin-top:10px}.gfi-read b{color:var(--brass-deep)}
+
+  .match{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:600px){.match{grid-template-columns:1fr}}
+  .mcol{display:flex;flex-direction:column;gap:9px}.mcol .ch{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);text-align:center;margin-bottom:2px}
+  .chip{padding:13px;border:1.5px solid var(--line);border-radius:11px;background:var(--surf);font-family:var(--mono);font-weight:600;font-size:14px;text-align:center;transition:.13s;color:var(--ink)}
+  .chip:hover:not(.locked){border-color:var(--brass)}.chip.sel{border-color:var(--brass);background:var(--brass-soft);color:var(--brass-deep)}
+  .chip.locked{border-color:var(--pass);background:var(--pass-soft);color:var(--pass);cursor:default;opacity:.85}
+  .chip.miss{border-color:var(--fail);background:var(--fail-soft);animation:shake .3s}@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+  .w-done{margin-top:14px;background:var(--pass-soft);border:1px solid var(--pass);border-radius:11px;padding:12px;text-align:center;font-size:13px;color:var(--pass);font-weight:600}
+
+  .est{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:600px){.est{grid-template-columns:1fr}}
+  .est label{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:6px}
+  .est select{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--surf);font-family:var(--mono);font-size:14px;color:var(--ink);font-weight:600}
+  .est-out{grid-column:1/-1;margin-top:4px;border-radius:12px;padding:15px 17px;border:1px solid var(--line);background:var(--surf);transition:.2s}
+  .est-out.ok{border-color:var(--pass);background:var(--pass-soft)}.est-out.bad{border-color:var(--fail);background:var(--fail-soft)}
+  .est-out .ev{font-family:var(--display);font-weight:800;font-size:19px}.est-out .ed{font-size:13px;color:var(--ink-2);margin-top:5px;line-height:1.5}
+  .est-out.ok .ev{color:var(--pass)}.est-out.bad .ev{color:var(--fail)}
+
+  .sort{display:grid;gap:14px}
+  .sort-items{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;min-height:20px}
+  .sitem{padding:10px 14px;border:1.5px solid var(--line);border-radius:10px;background:var(--surf);font-size:13.5px;font-weight:500;transition:.13s}.sitem:hover:not(.placed){border-color:var(--brass)}.sitem.sel{border-color:var(--brass);background:var(--brass-soft);color:var(--brass-deep)}.sitem.placed{display:none}
+  .bins{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:600px){.bins{grid-template-columns:1fr}}
+  .bin{border:1.5px dashed var(--line);border-radius:12px;padding:14px;min-height:90px;background:var(--surf)}
+  .bin.activeb{border-color:var(--brass);background:var(--brass-soft)}
+  .bin .bt{font-family:var(--display);font-weight:700;font-size:14px;text-align:center;margin-bottom:10px}
+  .bin .drop{font-size:11px;color:var(--ink-3);text-align:center;font-style:italic}
+  .binitem{padding:8px 11px;border-radius:8px;font-size:13px;font-weight:500;margin-bottom:6px;display:flex;align-items:center;gap:7px}.binitem svg{width:13px;height:13px;flex:none}
+  .binitem.right{background:var(--pass-soft);color:var(--pass)}.binitem.wrong{background:var(--fail-soft);color:var(--fail)}
+
+  .era{display:flex;flex-direction:column;gap:0;position:relative;margin:6px 0 4px;padding-left:8px}
+  .era .line{position:absolute;left:14px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .erow{display:flex;align-items:flex-start;gap:14px;padding:9px 0;position:relative;cursor:pointer}
+  .erow .ed{width:12px;height:12px;border-radius:50%;background:var(--surf-3);border:2px solid var(--line);flex:none;margin-top:3px;z-index:1;transition:.15s}
+  .erow:hover .ed,.erow.open .ed{background:var(--brass);border-color:var(--brass)}
+  .erow .et{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--brass-deep);width:130px;flex:none}
+  .erow .en{font-size:14px;color:#33312a;font-weight:600}
+  .erow .ex{font-size:13px;color:var(--ink-2);line-height:1.5;margin-top:4px;display:none}.erow.open .ex{display:block}
+
+  .panelcard{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-2);padding:34px;text-align:center}
+  .panelcard .ic{width:56px;height:56px;border-radius:14px;background:var(--brass-soft);color:var(--brass-deep);display:grid;place-items:center;margin:0 auto 16px}.panelcard .ic svg{width:27px;height:27px}
+  .panelcard h2{margin:0 0 8px}.panelcard p{max-width:48ch;margin:0 auto 22px}
+  .ring{width:150px;height:150px;margin:0 auto 18px;position:relative}.ring .rv{position:absolute;inset:0;display:grid;place-items:center}.ring .rv .n{font-family:var(--mono);font-weight:600;font-size:38px;line-height:1}.ring .rv .p{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-top:4px}
+  .verdict{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;display:inline-block;padding:5px 13px;border-radius:20px;margin-bottom:16px}.verdict.pass{background:var(--pass-soft);color:var(--pass)}.verdict.fail{background:var(--fail-soft);color:var(--fail)}
+
+  .scen{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-2);margin-bottom:16px}
+  .scen .sh{background:linear-gradient(120deg,#1f6f73,#123f43);color:#fff;padding:16px 20px}.scen .sh .t{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-2)}.scen .sh .n{font-family:var(--display);font-weight:700;font-size:17px;margin-top:3px}
+  .scen .body{padding:20px 22px}.scen .situation{font-size:15.5px;color:#33312a;line-height:1.7;margin-bottom:6px}.scen .ask{font-family:var(--display);font-weight:600;font-size:15px;margin:16px 0 14px;color:var(--ink)}
+  .scount{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-bottom:10px}
+
+  .gloss{display:grid;gap:10px}.term{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:13px 16px;box-shadow:var(--sh-1)}
+  .term .tw{font-family:var(--display);font-weight:700;font-size:14.5px;color:var(--brass-deep)}.term .td{font-size:13.5px;color:var(--ink-2);margin-top:3px;line-height:1.55}
+  .srcframe{width:100%;height:78vh;border:1px solid var(--line);border-radius:var(--r);background:var(--surf);box-shadow:var(--sh-1)}
+  .srcnote{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:14px 17px;font-size:13.5px;color:var(--ink-2);margin:14px 0;line-height:1.6}.srcnote a{color:var(--brass-deep);font-weight:600}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--slate-deep);color:#fff;padding:12px 18px;border-radius:11px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;box-shadow:var(--sh-2);z-index:100;opacity:0;transition:.3s}.toast.show{transform:translateX(-50%) translateY(0);opacity:1}.toast svg{width:16px;height:16px;color:var(--brass-2)}
+  @media(max-width:880px){.wrap{grid-template-columns:1fr}.rail{display:none}.top .prog .bar{width:90px}}
+  em{font-style:italic;color:inherit}
+</style>
+
+<div class="top"><div class="row">
+  <a href="index.html" class="mark" style="text-decoration:none" title="Back to Module II"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8c2.2 0 2.2-2 4.5-2S9.7 8 12 8s2.2-2 4.5-2S18.7 8 21 8"/><path d="M3 13c2.2 0 2.2-2 4.5-2S9.7 13 12 13s2.2-2 4.5-2S18.7 13 21 13"/><path d="M3 18c2.2 0 2.2-2 4.5-2S9.7 18 12 18s2.2-2 4.5-2S18.7 18 21 18"/></svg></a>
+  <div><div class="tt">ATI · Module VII — <b>Texas Practicum</b></div><span class="sub">Field training · interactive</span></div>
+  <div class="prog"><a href="index.html" style="font-family:var(--mono);font-size:11px;font-weight:600;color:var(--brass-deep);text-decoration:none;margin-right:2px" title="All systems">↩ Systems</a><div class="bar"><i id="pbar"></i></div><span class="pc" id="ppc">0%</span></div>
+</div></div>
+<div class="wrap"><aside class="rail"><div class="h">Section contents</div><div id="rail"></div></aside><main class="view" id="view"></main></div>
+<div class="toast" id="toast"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span id="tmsg"></span></div>
+
+<script src="/storage.js"></script>
+<script>
+/* ---- storage adapter: native window.storage in Claude; localStorage when deployed (GitHub Pages); memory as last resort ---- */
+(function(){if(typeof window==='undefined')return;if(window.storage&&window.storage.get)return;var mem={};window.storage={get:function(k){try{var v=window.localStorage.getItem(k);return Promise.resolve(v!=null?{value:v}:null);}catch(e){return Promise.resolve(mem[k]!=null?{value:mem[k]}:null);}},set:function(k,v){try{window.localStorage.setItem(k,v);}catch(e){mem[k]=v;}return Promise.resolve({value:v});},delete:function(k){try{window.localStorage.removeItem(k);}catch(e){delete mem[k];}return Promise.resolve({deleted:true});}};})();
+
+const ic={check:'<path d="M20 6 9 17l-5-5"/>',x:'<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',arrow:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',back:'<path d="M19 12H5"/><path d="m12 19-7-7 7-7"/>',brain:'<path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44A2.5 2.5 0 0 1 4 17.5a2.5 2.5 0 0 1-.5-4.9 2.5 2.5 0 0 1 0-4.2A2.5 2.5 0 0 1 5 3.5 2.5 2.5 0 0 1 9.5 2z"/>',flag:'<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>',alert:'<path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="9"/>',bolt:'<path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/>',book:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',open:'<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/>',award:'<circle cx="12" cy="8" r="6"/><path d="M15.5 12.9 17 22l-5-3-5 3 1.5-9.1"/>',retake:'<path d="M3 12a9 9 0 1 0 9-9 9 9 0 0 0-6.4 2.6L3 8"/><path d="M3 3v5h5"/>',coffee:'<path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/><line x1="6" y1="2" x2="6" y2="5"/><line x1="10" y1="2" x2="10" y2="5"/><line x1="14" y1="2" x2="14" y2="5"/>'};
+const sv=(p,w=2)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+function conds(title,items){return `<h3>${title}</h3><ul class="clean">${items.map(([n,d])=>`<li><b>${n}</b> — ${d}</li>`).join('')}</ul>`;}
+function story(title,text){return `<div class="story"><div class="st">${sv(ic.coffee)} ${title}</div><p>${text}</p></div>`;}
+
+/* ================= WIDGET LIBRARY ================= */
+const SPOT={}, MATCH={}, SORT={}, ERA={};
+const WID={
+  spot(el,k){const c=SPOT[k];let found=new Set();
+    el.innerHTML=`<span class="wlabel">Spot the defect</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div>
+     <div class="sd-wrap"><div class="sd-stage"><svg viewBox="${c.vb}" class="hot">${c.svg}<g class="hsg"></g></svg></div>
+     <div class="sd-side"><div class="sd-count"><div class="big"><span class="sdn">0</span>/${c.defects.length}</div><div class="lbl">defects found</div></div><div class="sd-found"><div class="sd-empty">Click a defect to log it…</div></div></div></div>`;
+    const g=el.querySelector('.hsg'),cnt=el.querySelector('.sdn'),fw=el.querySelector('.sd-found');
+    c.defects.forEach((d,i)=>{const gg=document.createElementNS('http://www.w3.org/2000/svg','g');gg.setAttribute('class','hot');gg.innerHTML=`<circle class="zone" cx="${d.x}" cy="${d.y}" r="${d.r}"/>`;gg.style.cursor='pointer';
+      gg.addEventListener('click',()=>{if(found.has(i))return;found.add(i);gg.classList.add('found');cnt.textContent=found.size;if(fw.querySelector('.sd-empty'))fw.innerHTML='';
+        const card=document.createElement('div');card.className='fcard';card.innerHTML=`<div class="fn">${found.size}. ${d.n}</div><div class="fd">${d.d}</div>`;fw.appendChild(card);
+        if(found.size===c.defects.length){const dn=document.createElement('div');dn.className='sd-done';dn.textContent='All found — that\'s the scan. Nicely done.';fw.appendChild(dn);}});
+      g.appendChild(gg);});},
+  gfi(el){el.innerHTML=`<span class="wlabel">Animated diagram</span><div class="wtitle">Watch the GFI work</div><div class="wsub">Current flows out the hot and back on the neutral — equal. Introduce a leak and see what happens.</div>
+    <div class="gfi-stage"><div class="gbox"><div><div class="gt">GFI</div><div class="gs">in vs out</div></div></div><div class="load"><div class="lt">LOAD</div></div><div class="lane hot"><span class="lab">hot — out</span></div><div class="lane neu"><span class="lab">neutral — back</span></div><div class="leak"></div><div class="person">🧍</div><div class="trip"><div class="tw"><div class="b">⚡ GFI TRIPPED</div><div class="s">imbalance &gt; 5 mA — cut in milliseconds</div></div></div></div>
+    <div class="gfi-status"><span class="pip"></span><span class="gtxt">Balanced — out equals back. Holding.</span></div>
+    <div class="gfi-read">Hot out: <b>15.000 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b>0 mA</b></div>
+    <div class="gfi-controls"><button class="btn brass gflt">Introduce a ground fault</button><button class="btn ghost grst">Reset</button></div>`;
+    const stage=el.querySelector('.gfi-stage'),st=el.querySelector('.gfi-status'),txt=el.querySelector('.gtxt'),read=el.querySelector('.gfi-read'),trip=el.querySelector('.trip'),fbtn=el.querySelector('.gflt');let f=false,to;
+    function dots(){stage.querySelectorAll('.dot').forEach(d=>d.remove());for(let i=0;i<5;i++){const d=document.createElement('span');d.className='dot h';d.style.animationDelay=(-i*0.48)+'s';stage.querySelector('.lane.hot').appendChild(d);}const nc=f?2:5;for(let i=0;i<nc;i++){const d=document.createElement('span');d.className='dot n';d.style.animationDelay=(-i*0.48)+'s';stage.querySelector('.lane.neu').appendChild(d);}}
+    function reset(){f=false;clearTimeout(to);el.querySelector('.leak').classList.remove('on');el.querySelector('.person').classList.remove('on');trip.classList.remove('on');st.classList.remove('fault');txt.textContent='Balanced — out equals back. Holding.';read.innerHTML='Hot out: <b>15.000 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b>0 mA</b>';fbtn.textContent='Introduce a ground fault';dots();}
+    fbtn.onclick=()=>{f=!f;if(f){el.querySelector('.leak').classList.add('on');el.querySelector('.person').classList.add('on');st.classList.add('fault');txt.textContent='Imbalance — current is leaking to ground.';read.innerHTML='Hot out: <b>15.006 A</b> · Neutral back: <b>15.000 A</b> · Difference: <b style="color:var(--fail)">6 mA</b>';fbtn.textContent='Clear the fault';dots();to=setTimeout(()=>trip.classList.add('on'),650);}else reset();};
+    el.querySelector('.grst').onclick=reset;dots();},
+  match(el,k){const c=MATCH[k];const sh=a=>a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v[1]);let sel=null,locked=0;
+    el.innerHTML=`<span class="wlabel">Match drill</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="match"><div class="mcol"><div class="ch">${c.left}</div><div class=" L"></div></div><div class="mcol"><div class="ch">${c.right}</div><div class="R"></div></div></div><div class="md"></div>`;
+    const L=el.querySelector('.L'),R=el.querySelector('.R'),done=el.querySelector('.md');
+    c.pairs.forEach(p=>{const b=document.createElement('button');b.className='chip';b.textContent=p[0];b.dataset.a=p[0];b.dataset.s='L';L.appendChild(b);});
+    sh(c.pairs.map(p=>p[1])).forEach(v=>{const b=document.createElement('button');b.className='chip';b.textContent=v;b.dataset.b=v;b.dataset.s='R';R.appendChild(b);});
+    el.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{if(b.classList.contains('locked'))return;
+      if(!sel){sel=b;b.classList.add('sel');return;}if(sel===b){b.classList.remove('sel');sel=null;return;}if(sel.dataset.s===b.dataset.s){sel.classList.remove('sel');sel=b;b.classList.add('sel');return;}
+      const left=sel.dataset.s==='L'?sel:b,right=sel.dataset.s==='R'?sel:b,ok=c.pairs.find(p=>p[0]===left.dataset.a)[1]===right.dataset.b;
+      if(ok){[left,right].forEach(x=>{x.classList.remove('sel');x.classList.add('locked');});locked++;if(locked===c.pairs.length)done.innerHTML=`<div class="w-done">${c.done}</div>`;}
+      else{[left,right].forEach(x=>{x.classList.add('miss');setTimeout(()=>x.classList.remove('miss','sel'),350);});}sel=null;});},
+  sort(el,k){const c=SORT[k];let sel=null,placed=0;
+    el.innerHTML=`<span class="wlabel">Sort it</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="sort"><div class="sort-items">${c.items.map((it,i)=>`<button class="sitem" data-i="${i}">${it.t}</button>`).join('')}</div><div class="bins">${c.bins.map((b,bi)=>`<div class="bin" data-bin="${bi}"><div class="bt">${b}</div><div class="drop">tap an item, then tap here</div></div>`).join('')}</div></div><div class="md"></div>`;
+    const items=el.querySelectorAll('.sitem'),bins=el.querySelectorAll('.bin'),done=el.querySelector('.md');
+    items.forEach(it=>it.onclick=()=>{if(it.classList.contains('placed'))return;el.querySelectorAll('.sitem').forEach(x=>x.classList.remove('sel'));sel=it;it.classList.add('sel');});
+    bins.forEach(bin=>bin.onclick=()=>{if(!sel)return;const i=+sel.dataset.i,bi=+bin.dataset.bin,ok=c.items[i].bin===bi;
+      const row=document.createElement('div');row.className='binitem '+(ok?'right':'wrong');row.innerHTML=(ok?sv(ic.check,2.6):sv(ic.x,2.6))+' '+c.items[i].t;bin.querySelector('.drop').remove?bin.querySelector('.drop')&&(bin.querySelector('.drop').style.display='none'):0;bin.appendChild(row);
+      sel.classList.add('placed');sel=null;placed++;if(placed===c.items.length)done.innerHTML=`<div class="w-done">${c.done}</div>`;});},
+  est(el){el.innerHTML=`<span class="wlabel">Field tool</span><div class="wtitle">Service-size estimator</div><div class="wsub">Set what you'd read on site; it calls the size and flags an unsafe mismatch — your on-site logic.</div>
+    <div class="est"><div><label>Service-entrance conductor (copper)</label><select class="sew"><option value="6">#6 AWG</option><option value="4">#4 AWG</option><option value="2" selected>2/0 AWG</option><option value="0">4/0 AWG</option></select></div><div><label>Main breaker rating</label><select class="mbk"><option value="60">60 A</option><option value="100">100 A</option><option value="200" selected>200 A</option><option value="400">400 A</option></select></div><div class="est-out"></div></div>`;
+    const WA={'6':60,'4':100,'2':200,'0':400},WL={'6':'#6 AWG','4':'#4 AWG','2':'2/0 AWG','0':'4/0 AWG'},sew=el.querySelector('.sew'),mbk=el.querySelector('.mbk'),out=el.querySelector('.est-out');
+    function go(){const w=sew.value,b=+mbk.value,sup=WA[w];if(b>sup){out.className='est-out bad';out.innerHTML=`<div class="ev">⚠ Overfused — unsafe</div><div class="ed">A ${b} A main on ${WL[w]} copper (good for ~${sup} A) won't shut off before the conductor overheats. Report: overcurrent device oversized for the service-entrance conductor.</div>`;}else{const ap=Math.min(b,sup);out.className='est-out ok';out.innerHTML=`<div class="ev">${ap} A service</div><div class="ed">${WL[w]} copper supports ~${sup} A and the main is ${b} A — conductor protected. Report the service size as ${ap} A${b<sup?' (limited by the main breaker)':''}.</div>`;}}
+    sew.onchange=go;mbk.onchange=go;go();},
+  era(el,k){const c=ERA[k];el.innerHTML=`<span class="wlabel">Explore</span><div class="wtitle">${c.title}</div><div class="wsub">${c.sub}</div><div class="era"><div class="line"></div>${c.rows.map((r,i)=>`<div class="erow" data-i="${i}"><span class="ed"></span><span class="et">${r.d}</span><div><div class="en">${r.n}</div><div class="ex">${r.x}</div></div></div>`).join('')}</div>`;
+    el.querySelectorAll('.erow').forEach(r=>r.onclick=()=>r.classList.toggle('open'));}
+};
+function wireWidgets(root){root.querySelectorAll('.wmount').forEach(el=>{const w=el.dataset.w,k=el.dataset.k;if(WID[w])WID[w](el,k);});}
+function W(w,k){return `<div class="widget wmount" data-w="${w}" data-k="${k||''}"></div>`;}
+
+/* ================= ENGINE ================= */
+const KEY='ati_practicum_ix_v1';
+let S={done:{},quiz:{},assessBest:0,cur:0};
+async function load(){try{const r=await window.storage.get(KEY,false);if(r&&r.value)S=JSON.parse(r.value);}catch(e){}S.done=S.done||{};S.quiz=S.quiz||{};}
+async function save(){try{await window.storage.set(KEY,JSON.stringify(S),false);}catch(e){}}
+const stepDone=i=>!!S.done[STEPS[i].id];
+const pct=()=>Math.round(Object.keys(S.done).length/STEPS.length*100);
+const unlocked=i=>i===0?true:stepDone(i-1);
+const view=document.getElementById('view');
+function updTop(){const p=pct();document.getElementById('pbar').style.width=p+'%';document.getElementById('ppc').textContent=p+'%';}
+function rail(){document.getElementById('rail').innerHTML=STEPS.map((s,i)=>{const d=stepDone(i),u=unlocked(i),a=i===S.cur;return `<button class="step ${d?'done':''} ${a?'active':''} ${u?'':'locked'}" ${u?`onclick="goStep(${i})"`:''}><span class="dot">${d?sv(ic.check,3):(i+1)}</span><span class="lbl">${s.label}<span class="kind">${s.kind}</span></span></button>`;}).join('');}
+function goStep(i){if(!unlocked(i))return;S.cur=i;save();render();window.scrollTo({top:0,behavior:'smooth'});}
+function markDoneAndNext(){S.done[STEPS[S.cur].id]=true;save();updTop();rail();if(S.cur<STEPS.length-1)goStep(S.cur+1);else render();}
+function render(){updTop();rail();const s=STEPS[S.cur];({lesson:renderLesson,scenario:renderScenarios,assess:renderAssess,glossary:renderGlossary,source:renderSource}[s.type])(s);}
+function navFoot(label,gated){const last=S.cur===STEPS.length-1;return `<div class="foot">${S.cur>0?`<button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button>`:''}<div class="sp"></div><button class="btn brass" id="nextBtn" ${gated?'disabled':''} onclick="markDoneAndNext()">${label||(last?'Finish section':'Mark complete & continue')} ${sv(ic.arrow)}</button></div>`;}
+
+function renderLesson(s){
+  let h=(typeof s.body==='function'?s.body():s.body);
+  if(s.quiz&&s.quiz.length){
+    h+=`<div class="quiz"><div class="qh">${sv(ic.brain)} Check your understanding</div><div class="qt">${s.label}</div><div class="qsub">${s.quiz.length} questions covering the lesson — answer each to see the reasoning.</div><div class="qbody">${
+      s.quiz.map((q,qi)=>`<div class="qblock"><div class="qnum">Question ${qi+1} of ${s.quiz.length}</div><div class="q">${q.q}</div><div class="opts" data-qi="${qi}">${q.o.map((o,k)=>`<button class="opt" onclick="qAns(${qi},${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="qexp" data-qi="${qi}"></div></div>`).join('')
+    }</div><div class="qscore" style="display:none"></div></div>`;
+  }
+  const gated=!!(s.quiz&&s.quiz.length&&!S.quiz[s.id]);
+  view.innerHTML=h+navFoot(null,gated);
+  wireWidgets(view);
+  window._ql={answered:{},total:s.quiz?s.quiz.length:0};
+}
+function qAns(qi,k){const s=STEPS[S.cur],q=s.quiz[qi];if(window._ql.answered[qi]!==undefined)return;window._ql.answered[qi]=k;
+  const opts=view.querySelector('.opts[data-qi="'+qi+'"]');opts.querySelectorAll('.opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===q.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});
+  view.querySelector('.qexp[data-qi="'+qi+'"]').innerHTML=`<div class="exp"><b>${k===q.a?'Correct.':'Review:'}</b> ${q.e}</div>`;
+  if(Object.keys(window._ql.answered).length===window._ql.total){
+    const right=s.quiz.filter((q,i)=>window._ql.answered[i]===q.a).length,sc=view.querySelector('.qscore');sc.style.display='flex';
+    sc.innerHTML=`${sv(ic.check,2.4)}<span>You scored <b style="color:${right>=Math.ceil(s.quiz.length*0.8)?'var(--pass)':'var(--fail)'}">${right}/${s.quiz.length}</b> on this lesson.</span>`;
+    sc.querySelector('svg').style.color=right>=Math.ceil(s.quiz.length*0.8)?'var(--pass)':'var(--fail)';
+    S.quiz[s.id]=true;save();const b=document.getElementById('nextBtn');if(b)b.disabled=false;}
+}
+
+let SC={i:0,answered:false};
+function renderScenarios(){SC={i:0,answered:false};paintScen();}
+function paintScen(){const sc=SCEN[SC.i];view.innerHTML=`<span class="eyebrow">Apply it · Inspector's Call</span><h1>Make the call</h1><p class="lead">The decisions you'll actually make standing in front of the system. Read it, choose, see the reasoning.</p><div class="scount mono">Scenario ${SC.i+1} of ${SCEN.length}</div><div class="scen"><div class="sh"><div class="t">${sc.t}</div><div class="n">${sc.n}</div></div><div class="body"><div class="situation">${sc.s}</div><div class="ask">${sc.ask}</div><div class="scopts">${sc.o.map((o,k)=>`<button class="opt" onclick="scAns(${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="scexp"></div></div></div><div class="foot"><button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button><div class="sp"></div><div class="scnext"></div></div>`;}
+function scAns(k){if(SC.answered)return;SC.answered=true;const sc=SCEN[SC.i];view.querySelectorAll('.scopts .opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===sc.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});view.querySelector('.scexp').innerHTML=`<div class="exp"><b>${k===sc.a?'Right call.':'Here\'s the call:'}</b> ${sc.e}</div>`;const last=SC.i===SCEN.length-1;view.querySelector('.scnext').innerHTML=`<button class="btn brass" onclick="${last?'markDoneAndNext()':'scNext()'}">${last?'Mark complete & continue':'Next scenario'} ${sv(ic.arrow)}</button>`;}
+function scNext(){SC.i++;SC.answered=false;paintScen();window.scrollTo({top:0,behavior:'smooth'});}
+
+let AS=null;
+function renderAssess(){if(!AS||AS.done)AS={i:0,answers:[],done:false};view.innerHTML=`<span class="eyebrow">Assessment</span><h1>Mastery check — Texas Practicum</h1><p class="lead">${ASSESS.length} application questions across the whole chapter. 80% to pass; reasoning shown on every answer.</p><div class="panelcard" style="text-align:left;padding:0;overflow:hidden"><div style="background:linear-gradient(120deg,#1f6f73,#123f43);color:#fff;padding:18px 22px;display:flex;justify-content:space-between;align-items:center"><div><div style="font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-2)">Texas Practicum</div><div style="font-family:var(--display);font-weight:700;font-size:17px;margin-top:3px">${ASSESS.length} questions · 80% to pass</div></div><div style="color:var(--brass-2)">${sv(ic.award)}</div></div><div style="padding:26px 22px;text-align:center">${S.assessBest?`<div class="mono" style="font-size:13px;color:var(--ink-2);margin-bottom:16px">Best score: <b style="color:${S.assessBest>=80?'var(--pass)':'var(--fail)'}">${S.assessBest}%</b></div>`:''}<button class="btn brass" style="margin:0 auto" onclick="asStart()">${S.assessBest?'Retake assessment':'Begin assessment'} ${sv(ic.arrow)}</button></div></div>`;}
+function asStart(){AS={i:0,answers:[],done:false};asPaint();window.scrollTo({top:0,behavior:'smooth'});}
+function asPaint(){const q=ASSESS[AS.i];view.innerHTML=`<span class="eyebrow">Assessment · Practicum</span><h1 style="font-size:24px">Question ${AS.i+1} <span style="color:var(--ink-3)">/ ${ASSESS.length}</span></h1><div style="margin:14px 0 0"><div style="width:100%;height:6px;background:var(--surf-3);border-radius:6px;overflow:hidden;border:1px solid var(--line)"><i style="display:block;height:100%;width:${AS.i/ASSESS.length*100}%;background:var(--brass)"></i></div></div><div class="quiz" style="border-color:var(--line);margin-top:22px"><div class="q">${q.q}</div><div class="opts">${q.o.map((o,k)=>`<button class="opt" onclick="asAns(${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="asexp"></div></div><div class="foot"><div class="sp"></div><div class="asnext"></div></div>`;}
+function asAns(k){if(AS.answers[AS.i]!==undefined)return;AS.answers[AS.i]=k;const q=ASSESS[AS.i];view.querySelectorAll('.opts .opt').forEach((el,idx)=>{el.classList.add('lk');if(idx===q.a){el.classList.add('correct');el.querySelector('.mk').innerHTML=sv(ic.check,2.6);}else if(idx===k){el.classList.add('wrong');el.querySelector('.mk').innerHTML=sv(ic.x,2.6);}});view.querySelector('.asexp').innerHTML=`<div class="exp"><b>${k===q.a?'Correct.':'Review:'}</b> ${q.e}</div>`;const last=AS.i===ASSESS.length-1;view.querySelector('.asnext').innerHTML=`<button class="btn brass" onclick="${last?'asFinish()':'asNext()'}">${last?'See results':'Next'} ${sv(ic.arrow)}</button>`;}
+function asNext(){AS.i++;asPaint();window.scrollTo({top:0,behavior:'smooth'});}
+function asFinish(){const correct=AS.answers.filter((a,i)=>a===ASSESS[i].a).length,p=Math.round(correct/ASSESS.length*100),pass=p>=80;S.assessBest=Math.max(S.assessBest||0,p);AS.done=true;if(pass)S.done['assess']=true;save();updTop();rail();const circ=2*Math.PI*62;
+  view.innerHTML=`<span class="eyebrow">Assessment · Result</span><h1 style="margin-bottom:18px">${pass?'Section mastered':'Not quite there'}</h1><div class="panelcard"><div class="ring"><svg width="150" height="150" viewBox="0 0 150 150" style="transform:rotate(-90deg)"><circle cx="75" cy="75" r="62" fill="none" stroke="var(--surf-3)" stroke-width="11"/><circle cx="75" cy="75" r="62" fill="none" stroke="${pass?'var(--pass)':'var(--fail)'}" stroke-width="11" stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${circ}"><animate attributeName="stroke-dashoffset" from="${circ}" to="${circ-circ*p/100}" dur=".8s" fill="freeze" calcMode="spline" keySplines=".2 .7 .2 1"/></circle></svg><div class="rv"><div><div class="n" style="color:${pass?'var(--pass)':'var(--fail)'}">${p}%</div><div class="p">${correct}/${ASSESS.length} correct</div></div></div></div><span class="verdict ${pass?'pass':'fail'}">${pass?'Passed':'Below 80%'}</span><p>${pass?'You\'re ready to walk onto the practicum prepared — you know the inspection-day workflow, where the real hazards are, and how to stay in scope. Now log the five supervised inspections with your sponsor and earn the sign-off.':'You need 80% to pass. Revisit the lessons and explanations, then retake — your best score counts.'}</p><div style="display:flex;gap:12px;justify-content:center"><button class="btn ghost" onclick="asStart()">${sv(ic.retake)} Retake</button>${pass?`<button class="btn brass" onclick="goStep(${STEPS.length-1})">Continue ${sv(ic.arrow)}</button>`:`<button class="btn brass" onclick="goStep(1)">Review lessons ${sv(ic.arrow)}</button>`}</div></div><div style="height:30px"></div>`;}
+
+function renderGlossary(){view.innerHTML=`<span class="eyebrow">Reference</span><h1>Practicum glossary</h1><p class="lead">Every key term in one place — quick reference for a real inspection.</p><div class="gloss" style="margin-top:20px">${GLOSSARY.map(([w,d])=>`<div class="term"><div class="tw">${w}</div><div class="td">${d}</div></div>`).join('')}</div>${navFoot('Continue')}`;}
+function renderSource(){view.innerHTML=`<span class="eyebrow">Reference · wrap-up</span><h1>Reference &amp; summary</h1><p class="lead">Everything required is taught in the lessons above. This is the one-screen recap to carry onto your first supervised inspections — what the practicum is, the workflow, the safety calls, and the limits.</p><div class="srcnote">${sv(ic.book,2)} Built on the TREC requirements for the Professional Inspector practicum (40 field hours / five complete inspections under a sponsoring Professional Inspector), the TREC Standards of Practice (§535.227–.233), and report form <b>REI 7-6</b>. This guide <b>prepares</b> you for the practicum — it does not substitute for the actual supervised field hours your sponsor must observe and sign.</div><div class="gloss" style="margin-top:18px"><div class="term"><div class="tw">1 · What the practicum is</div><div class="td">40 hours of field training, including <b>five complete inspections</b> performed under the <b>direct supervision</b> of your sponsoring Professional Inspector. It bridges classroom hours and a working license — you do the inspection, your sponsor observes, coaches, and signs off.</div></div><div class="term"><div class="tw">2 · The inspection-day workflow</div><div class="td">Arrive early, introduce yourself, set client expectations and scope. Walk the home systematically — <b>exterior first, then interior</b> — and make access decisions for the roof, attic, and crawlspace. Carry the core tools and document as you go.</div></div><div class="term"><div class="tw">3 · Safety comes first, always</div><div class="td">Ladders and roofs (angle, footing, weather), attic footing and old wiring, crawlspace hazards, energized electrical panels, and gas. <b>If it isn't safe, you don't do it</b> — you note it as not inspected and why. No finding is worth an injury.</div></div><div class="term"><div class="tw">4 · The report &amp; professionalism</div><div class="td">Complete the TREC report form <b>REI 7-6</b> in the field — every required item marked I/NI/NP/D, deficiencies described with location and implication. Stay calm and neutral with the client; report what you see, don't editorialize or alarm.</div></div><div class="term"><div class="tw">5 · Scope &amp; the sign-off</div><div class="td">Stay <b>within the SOP</b> on site — you observe and report; you don't repair, quote, move personal property, or perform engineering. Your sponsor evaluates your method, safety judgment, report quality, and professionalism, then signs your completed inspections.</div></div><div class="term"><div class="tw">Prepares, not replaces</div><div class="td">This section gets you ready. The actual 40 hours and five supervised inspections must be performed and signed by your sponsoring Professional Inspector — there is no shortcut around the field hours.</div></div></div><div class="foot"><button class="btn ghost" onclick="goStep(${S.cur-1})">${sv(ic.back)} Back</button><div class="sp"></div><a class="btn slate" href="index.html" style="text-decoration:none;margin-right:10px">${sv(ic.back)} Module VII</a><button class="btn brass" onclick="finishAll()">${sv(ic.check)} Complete section</button></div>`;}
+function finishAll(){S.done['source']=true;save();updTop();rail();toast('Texas Practicum section complete');}
+let tT;function toast(m){const t=document.getElementById('toast');document.getElementById('tmsg').textContent=m;t.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('show'),2400);}
+
+
+/* ================= DATA: scenarios / assessment / glossary ================= */
+const SCEN=[
+ {t:'On arrival',n:'Keys, dog, and a hovering buyer',s:'You arrive ten minutes early for your first supervised inspection. The buyer is already there, eager and chatty; a friendly dog is loose in the yard; the seller is still moving boxes out of the garage. Your sponsor is parking behind you.',ask:'How do you start?',o:['Skip the introductions and start the roof so you don\'t fall behind','Introduce yourself, confirm scope and rough timeline with the client, ask that the dog be secured, and agree where you\'ll begin — then start the systematic walk','Tell the seller they have to leave the property','Start writing the report before you\'ve looked at anything'],a:1,e:'A practicum inspection starts with people, not ladders. Introduce yourself, set expectations (what you do and don\'t cover, how long it takes), handle the safety/logistics issues — a loose dog, an occupied space — and agree a starting point. Your sponsor is watching how you manage the client as much as how you inspect.'},
+ {t:'At the ladder',n:'Steep, wet, and second-story',s:'The roof is a 9/12 pitch, two stories up, and there was a light rain an hour ago — the shingles are still damp. You want to walk it to read the field and flashings. Your sponsor says nothing, watching your call.',ask:'What do you do?',o:['Walk it anyway — you need to see the flashings up close','Stay off the wet, steep roof; inspect from the ladder at the eave and the ground with binoculars, and note in the report that the roof was inspected from the ground / eaves due to unsafe conditions','Ask the buyer to hold the ladder and go up','Cancel the whole inspection'],a:1,e:'TREC\'s SOP and basic safety both say you never walk a roof that is unsafe — steep, wet, fragile, or too high. You inspect what you can from the eaves and ground and clearly state the method and limitation. This is exactly the safety judgment your sponsor evaluates: a missed flashing detail is recoverable; a fall is not.'},
+ {t:'In the attic',n:'Soft footing and an open splice',s:'You\'re in the attic on the joists. The insulation hides the framing, and you spot a junction box with its cover off and bare conductors twisted together — an open splice — a few feet ahead, past a section where you can\'t see the ceiling drywall below.',ask:'Your move?',o:['Step across the insulation to get a close photo of the splice','Stay on the framing members you can see, photograph the open splice from where you safely stand, and report it — don\'t step where the ceiling below is hidden, and don\'t touch the wiring','Pull the wires apart to see the conductors','Put the cover back on yourself to fix it'],a:1,e:'Two hazards at once: footing (step only on framing you can see — stepping on hidden drywall puts you through the ceiling) and electrical (don\'t handle wiring; you observe and report). You document the open junction box as a deficiency and recommend correction by a qualified electrician. You never repair on site.'},
+ {t:'At the panel',n:'The cover screw that fights back',s:'You\'re ready to remove the electrical panel\'s dead-front cover. The panel is in a damp garage corner, there\'s a little rust at the bottom, and you\'re standing on a concrete floor. One screw is seized.',ask:'The right approach?',o:['Force every screw and yank the cover, holding the panel for leverage','Stand to the side on a dry surface if you can, remove the cover carefully without forcing a stuck screw, keep one hand clear, and don\'t touch buses or conductors — if it can\'t be removed safely, note it as not fully inspected','Have the buyer remove the cover','Turn off the main and open everything up to test it'],a:1,e:'Panels are one of the most dangerous things you touch. Position yourself to avoid the panel if something arcs, don\'t force a cover (a slipped screwdriver into a live bus is a flash hazard), never contact energized parts, and if it can\'t be opened safely, report it as not removed and why. Safe-and-limited beats thorough-and-injured.'},
+ {t:'In the crawlspace',n:'Tight, dark, and a whiff of gas',s:'The crawlspace access is a small hatch. As you shine your light in before entering, you note standing water in one corner, a strong sewer-and-something smell, and the home is on gas. The space is tight enough that you\'d be on your belly.',ask:'What\'s the right call?',o:['Crawl in fast and get it over with','Do not enter until you\'ve assessed it — a confined, possibly gas/sewer-contaminated space with standing water can be life-threatening; inspect what you can from the access, note conditions, and report it as not fully entered due to unsafe conditions','Light a match to check for gas','Send your sponsor in instead'],a:1,e:'A crawlspace can be a confined space with real atmospheric hazards — gas, sewer gas, low oxygen — on top of water, wiring, and critters. You assess before you enter and you never enter an unsafe one. Inspect from the access opening, document why, and recommend evaluation. Never introduce an ignition source where gas may be present.'},
+ {t:'With the client',n:'“So is this a good house?”',s:'Mid-inspection, the buyer follows you around and asks, “Honestly — should I buy it? Is this a good house?” They seem to want your blessing. Your sponsor is within earshot.',ask:'How do you handle it?',o:['Tell them it\'s a great house so they feel good','Stay neutral and professional: explain that your job is to report the home\'s observable condition — the deficiencies and what they mean — not to make the buying decision for them, and you\'ll walk them through the findings','Tell them to walk away from the deal','Refuse to answer and ignore them'],a:1,e:'Professionalism on the practicum means staying in your lane. You report condition; the client decides. You don\'t cheerlead a sale, kill a deal, or give an opinion you can\'t support. Calm, neutral, factual — and you offer to review the findings. Your sponsor is grading exactly this kind of client interaction.'},
+ {t:'Filling the form',n:'A non-functional outlet you didn’t test all of',s:'You’re completing the REI 7-6 in the field. You tested a representative sample of outlets and one in the garage read open-ground. A locked bonus room blocked access to part of the house, and the gas was shut off so you could not test the furnace.',ask:'How should the report reflect this?',o:['Mark everything “Inspected” and move on','Mark the open-ground receptacle as a Deficiency with its location; mark the inaccessible room and the un-testable furnace as Not Inspected / Not Present-as-applicable with the reason stated — never report on what you couldn’t see or operate','Leave those items blank','Guess at the furnace condition since it “probably works”'],a:1,e:'The REI 7-6 makes you account for every item: Inspected, Not Inspected, Not Present, or Deficient. You describe deficiencies with location and implication, and you clearly state what you could not access or operate and why — a locked room, shut-off gas. You never report a condition you didn’t actually observe. Honest limits protect the client and you.'},
+];
+const ASSESS=[
+ {q:'The TREC Professional Inspector practicum requires:',o:['One inspection of any kind','40 hours of field training including five complete inspections under the direct supervision of a sponsoring Professional Inspector','A written exam only','Twelve months of unsupervised work'],a:1,e:'The practicum is 40 field hours and five complete inspections, each performed under the direct supervision of your sponsoring Professional Inspector.'},
+ {q:'This interactive section’s role relative to the practicum is to:',o:['Replace the supervised field hours','Prepare you for the practicum — it does not substitute for the actual supervised inspections','Certify you as licensed','Count as two of the five inspections'],a:1,e:'It prepares you. The 40 hours and five supervised inspections must still be performed and signed by your sponsor.'},
+ {q:'On the practicum, the five complete inspections are performed under:',o:['No supervision — you’re on your own','The direct supervision of your sponsoring Professional Inspector','A TREC examiner who visits the site','Another apprentice'],a:1,e:'“Direct supervision” by your sponsoring Professional Inspector is the defining feature — they observe, coach, and sign off.'},
+ {q:'A sound systematic inspection sequence is generally:',o:['Whatever order the client prefers','Exterior to interior in a consistent, repeatable walk so nothing is skipped','Interior only, then leave','Roof, then immediately the report'],a:1,e:'A consistent exterior-to-interior route makes the inspection repeatable and complete — you cover every system the same way every time.'},
+ {q:'You should walk a roof only when:',o:['The client asks you to','It is safe — not too steep, wet, fragile, or high; otherwise inspect from the eaves/ground and state the limitation','It looks expensive','You have a tall ladder'],a:1,e:'Roof safety governs the decision. If it isn’t safe to walk, inspect from the ladder/ground/binoculars and document the method and limitation.'},
+ {q:'In an attic, you protect yourself from a fall through the ceiling by:',o:['Walking quickly across the insulation','Stepping only on framing members (joists/trusses) you can see, never on the unsupported ceiling','Crawling on the drywall','Removing the insulation first'],a:1,e:'Insulation hides the ceiling. Step only on the framing you can see; stepping between members puts you through the ceiling.'},
+ {q:'When you find an open junction box with bare spliced conductors, you:',o:['Reconnect and cover it yourself','Photograph and report it as a deficiency for correction by a qualified electrician — you don’t repair or handle the wiring','Ignore it — it’s minor','Cut the wires to make it safe'],a:1,e:'Inspectors observe and report. Document the hazard and recommend correction; you never repair, energize, or handle live wiring on site.'},
+ {q:'Before removing an electrical panel’s dead-front cover, the safest practice is to:',o:['Force any stuck screws for a clean removal','Position to the side on a dry surface, avoid forcing a seized screw, keep clear of buses/conductors — and if it can’t be removed safely, report it as not removed','Have the homeowner do it','Shut off the main and open all breakers'],a:1,e:'Panels carry serious arc-flash and shock risk. Don’t force covers, don’t contact energized parts, and accept a documented limitation over an unsafe removal.'},
+ {q:'Approaching a crawlspace with standing water and a strong gas/sewer odor, you should:',o:['Enter quickly to minimize exposure','Treat it as a possible confined space — do not enter; inspect from the access, document conditions, and report it as not fully entered due to unsafe conditions','Use a lighter to check for gas','Pump the water out first'],a:1,e:'A contaminated, confined crawlspace can be lethal. Assess before entering, never enter an unsafe space, and never introduce an ignition source.'},
+ {q:'A client asks, “Should I buy this house?” The professional response is to:',o:['Tell them yes so the deal closes','Stay neutral — report the home’s observable condition and let the client make the buying decision','Tell them to walk away','Refuse to speak to the client'],a:1,e:'You report condition; the client decides. Cheerleading or killing a deal is outside your role and your sponsor will mark it down.'},
+ {q:'The standardized Texas report form you complete in the field is the:',o:['REI 7-6','HUD-1','TREC 1-4','ACORD 25'],a:0,e:'Texas requires the standardized inspection report form REI 7-6 for one-to-four-family residences.'},
+ {q:'On the REI 7-6, each required item must be marked as:',o:['Pass or Fail only','Inspected, Not Inspected, Not Present, and/or Deficient — with deficiencies described','Excellent, Good, or Fair','A numeric score'],a:1,e:'The form forces you to account for every item: I / NI / NP / D, with deficiencies described by location and implication.'},
+ {q:'A locked room you could not access should be reported as:',o:['Inspected — assume it’s fine','Not Inspected, with the reason stated — you never report on what you couldn’t observe','Deficient','Left blank'],a:1,e:'You document what limited the inspection (a locked or blocked area) and never report a condition you didn’t actually see.'},
+ {q:'“Staying within the Standards of Practice on site” means you do NOT:',o:['Describe deficiencies','Repair, quote prices, perform engineering, or move the owner’s personal property','Use a ladder','Take photographs'],a:1,e:'You observe and report. Repairs, cost estimates, engineering opinions, and moving personal property are all outside the SOP and your role.'},
+ {q:'During the practicum, your sponsoring Professional Inspector primarily evaluates and signs off on:',o:['How fast you finish','Your method, safety judgment, report quality, and professionalism across the completed inspections','How many homes you can do in a day','Your marketing skills'],a:1,e:'Your sponsor observes your systematic method, safety calls, accurate SOP-scoped reporting, and client professionalism — then signs your completed inspections.'},
+];
+const GLOSSARY=[
+ ['Practicum','The TREC Professional Inspector field-training requirement: 40 hours including five complete inspections under direct supervision — the bridge between coursework and a working license.'],
+ ['Sponsoring Professional Inspector','The licensed Professional Inspector who supervises your practicum, observes your inspections, coaches you, and signs off on your completed field work.'],
+ ['Direct supervision','On-site oversight by your sponsor while you perform the inspection — they are present, watching, and responsible for your training.'],
+ ['Professional Inspector','The highest Texas inspector license level; only a Professional Inspector may sponsor an apprentice or real-estate inspector’s practicum.'],
+ ['REI 7-6','The standardized TREC inspection report form for one-to-four-family dwellings; every required item is marked Inspected, Not Inspected, Not Present, or Deficient.'],
+ ['Standards of Practice (SOP)','TREC’s rules defining what an inspection must include, what is excluded, and how to report — the scope you stay within on site.'],
+ ['Scope of inspection','The systems and components you’re required to inspect under the SOP — and, just as important, what you are not required or allowed to do.'],
+ ['Deficiency','A condition that is unsafe or not functioning as intended; on the REI 7-6 you describe it with its location and implication.'],
+ ['Not Inspected (NI)','A report status for an item you were required to inspect but could not — you state the reason (no access, shut-off utility, unsafe).'],
+ ['Not Present (NP)','A report status for a component the home does not have.'],
+ ['Inspection-day workflow','The repeatable routine of an inspection: arrival and client intro, a systematic exterior-to-interior walk, access decisions, documentation, and report completion.'],
+ ['Systematic walk','Inspecting in a consistent, repeatable order (typically exterior then interior) so no system is skipped.'],
+ ['Access decision','The on-site judgment of whether the roof, attic, or crawlspace can be entered/walked safely — and inspecting from outside it when it can’t.'],
+ ['Readily accessible','Able to be reached and inspected without removing obstacles, damaging finishes, or taking on undue risk — the threshold for what you must inspect.'],
+ ['Dead-front cover','The removable panel cover over an electrical panel’s breakers; removed carefully to inspect, never by forcing a seized screw or contacting live parts.'],
+ ['Confined space','A space with limited entry/exit and possible atmospheric hazards — some crawlspaces qualify; assess before entry and never enter an unsafe one.'],
+ ['Arc flash','A sudden electrical discharge in a panel; the reason you stand clear, never force a cover, and don’t contact buses or conductors.'],
+ ['Backdraft / gas hazard','Risks around fuel-gas appliances; you never introduce an ignition source where gas may be present and report suspected leaks for evaluation.'],
+ ['Three points of contact','The ladder rule — keep two hands and a foot (or two feet and a hand) on the ladder, on firm footing, at a safe angle, in safe weather.'],
+ ['Sign-off','Your sponsor’s certification that you completed the supervised inspections to standard — evaluating method, safety, report quality, and professionalism.'],
+];
+
+/* ================= WIDGET CONTENT REGISTRIES ================= */
+const _gs='fill="none" stroke="#3c5870" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"';
+const _mono=(x,y,s,t,c='#2c4153',a='middle')=>`<text x="${x}" y="${y}" text-anchor="${a}" font-family="JetBrains Mono" font-size="${s}" fill="${c}">${t}</text>`;
+
+SPOT.day={title:'Walk the inspection day',sub:'Six safety and procedure problems on this practicum-day scene — click each one you spot.',vb:'0 0 540 340',
+ svg:`<g ${_gs}>
+   <!-- house outline -->
+   <path d="M70 150 L210 70 L350 150"/><line x1="70" y1="150" x2="70" y2="280"/><line x1="350" y1="150" x2="350" y2="280"/><line x1="70" y1="280" x2="350" y2="280"/>
+   ${_mono(120,170,9,'subject home','#918c7d','start')}
+   <!-- steep wet roof, inspector on it -->
+   <circle cx="180" cy="100" r="7" stroke="#b85436"/><path d="M180 107 v14 M173 113 h14 M180 121 l-6 10 M180 121 l6 10" stroke="#b85436"/>${_mono(180,82,8,'on wet roof','#b85436')}
+   <!-- ladder at bad angle -->
+   <line x1="300" y1="280" x2="360" y2="150" stroke="#b85436" stroke-width="1.6"/><line x1="312" y1="280" x2="372" y2="150" stroke="#b85436" stroke-width="1.6"/><g stroke="#b85436" stroke-width="1"><line x1="306" y1="258" x2="318" y2="258"/><line x1="318" y1="216" x2="330" y2="216"/><line x1="330" y1="174" x2="342" y2="174"/></g>${_mono(380,200,8,'bad angle','#b85436','start')}
+   <!-- panel cover off, garage -->
+   <rect x="92" y="206" width="34" height="46" stroke="#b85436"/><line x1="92" y1="229" x2="126" y2="229" stroke="#b85436" stroke-width="1"/><line x1="109" y1="206" x2="109" y2="252" stroke="#b85436" stroke-width="1"/>${_mono(109,266,8,'panel open','#b85436')}
+   <!-- loose dog -->
+   <path d="M250 268 q8 -10 18 -6 q4 2 6 8 l4 6 h-30 z" stroke="#b85436"/><circle cx="252" cy="262" r="3" stroke="#b85436"/>${_mono(266,256,8,'loose dog','#b85436','start')}
+   <!-- crawlspace hatch with water -->
+   <rect x="150" y="262" width="40" height="18" stroke="#5a7b97"/><ellipse cx="170" cy="276" rx="14" ry="3" fill="#5a7b97" opacity="0.5" stroke="none"/>${_mono(170,300,8,'wet crawl','#5a7b97')}
+   <!-- client crowding -->
+   <circle cx="420" cy="240" r="8" stroke="#6a6557"/><path d="M420 248 v18 M412 256 h16 M420 266 l-6 12 M420 266 l6 12" stroke="#6a6557"/>${_mono(420,290,8,'client close','#6a6557')}
+ </g>`,
+ defects:[
+  {x:180,y:108,r:24,n:'Walking a steep, wet roof',d:'A steep, damp roof is a fall hazard. The call is to stay off it and inspect from the eaves and ground, then note the limitation in the report — no finding is worth a fall.'},
+  {x:336,y:200,r:26,n:'Ladder set at an unsafe angle',d:'A ladder pitched too steep or too shallow on poor footing slips. Set it at the right angle on firm ground, secure it, and keep three points of contact.'},
+  {x:109,y:228,r:24,n:'Panel cover removed in a damp spot',d:'An open dead-front in a damp garage is an arc/shock hazard. Stand clear on a dry surface, never force a screw or touch buses; if it can’t come off safely, report it as not removed.'},
+  {x:258,y:262,r:22,n:'Loose dog on site',d:'An uncontrolled animal is a real injury risk and a distraction. Ask the client to secure pets before you work — a bite ends the day and the training.'},
+  {x:170,y:274,r:22,n:'Standing water in the crawlspace',d:'Water plus a tight access can mean a confined-space and electrical hazard. Assess from the opening before entering; don’t enter an unsafe crawl, and document why.'},
+  {x:420,y:248,r:22,n:'Client crowding the work zone',d:'A client underfoot at a ladder or panel is a safety problem. Politely keep them clear of hazardous tasks and offer to review findings afterward.'},
+ ]};
+
+MATCH.tools={title:'Tool ↔ what it’s for',sub:'Tap a tool you carry on the practicum, then its main field use. Correct pairs lock green.',left:'Tool',right:'Field use',
+ pairs:[['Flashlight','See into attics, crawls, panels'],['Voltage tester','Confirm receptacles are energized'],['Moisture meter','Read damp drywall and framing'],['Telescoping ladder','Reach the roof and eaves'],['Combustible-gas detector','Screen for a suspected gas leak'],['Screwdriver','Remove the panel dead-front']],
+ done:'That’s the working kit — you carry these so you can inspect safely and document what you find without improvising.'};
+MATCH.access={title:'Space ↔ main hazard',sub:'Tap a space you’ll enter on an inspection, then the hazard to respect most. Correct pairs lock green.',left:'Space',right:'Watch out for',
+ pairs:[['Roof','Falls — pitch, footing, weather'],['Attic','Stepping through the ceiling / old wiring'],['Crawlspace','Confined space, water, gas'],['Electrical panel','Arc flash and shock'],['Garage / mechanical','Fuel gas and CO']],
+ done:'Right — every space has a signature hazard. Knowing it before you enter is how you stay safe and in scope.'};
+
+SORT.safe={title:'Safe field practice, or unsafe?',sub:'On the practicum, your sponsor watches every call. Tap an action, then the right bin.',bins:['SAFE — do this','UNSAFE — don’t'],
+ items:[{t:'Inspect a wet, steep roof from the ground and note why',bin:0},{t:'Step only on attic framing you can see',bin:0},{t:'Keep three points of contact on the ladder',bin:0},{t:'Walk a frosty 10/12 roof to get a closer look',bin:1},{t:'Force a seized screw on a live panel cover',bin:1},{t:'Enter a gassy, water-filled crawlspace to finish the item',bin:1}],
+ done:'Exactly — when in doubt, choose the safe, documented limitation. A missed detail is recoverable; an injury isn’t.'};
+SORT.scope={title:'Inside SOP scope, or outside it?',sub:'On site you observe and report — nothing more. Tap an action, then the right bin.',bins:['IN SCOPE','OUT OF SCOPE'],
+ items:[{t:'Describe a deficiency with its location',bin:0},{t:'Mark an item Not Inspected and state why',bin:0},{t:'Photograph an open junction box to report it',bin:0},{t:'Repair the open junction box yourself',bin:1},{t:'Quote the buyer a price to fix the roof',bin:1},{t:'Move the owner’s stored boxes to see behind them',bin:1}],
+ done:'Right — you observe and report. Repairs, prices, engineering opinions, and moving personal property all fall outside the inspection.'};
+
+ERA.path={title:'The Texas licensing path',sub:'Tap each stage to see where the practicum fits — and what it leads to.',
+ rows:[
+  {d:'Step 1',n:'Pre-license education',x:'Complete the required TREC-approved coursework for the Professional Inspector level — the classroom and online hours that come before any field work.'},
+  {d:'Step 2',n:'Find a sponsoring Professional Inspector',x:'Line up a licensed Professional Inspector willing to sponsor and directly supervise your field training. No sponsor, no practicum.'},
+  {d:'Step 3',n:'The practicum (you are here)',x:'40 hours of field training including five complete inspections under direct supervision. This section prepares you for it — it doesn’t replace the supervised hours.'},
+  {d:'Step 4',n:'Sponsor sign-off',x:'Your sponsoring Professional Inspector certifies the completed inspections — evaluating method, safety judgment, report quality, and professionalism.'},
+  {d:'Step 5',n:'State examination',x:'Pass the TREC national and state inspector exams covering the SOP, systems, and reporting.'},
+  {d:'Step 6',n:'Licensed Professional Inspector',x:'With education, the practicum, the sign-off, and the exam complete, you can be issued the license and inspect on your own — and one day sponsor others.'},
+ ]};
+
+/* ================= STEPS ================= */
+const STEPS=[
+/* ===== ORIENTATION ===== */
+{id:'intro',kind:'Start here',label:'What the practicum is',type:'lesson',
+ body:()=>`<span class="eyebrow">Texas Practicum &middot; Orientation</span><h1>Five real inspections, watched over your shoulder.</h1>
+ <p class="lead">The practicum is where the classroom becomes the field. In Texas, the Professional Inspector practicum is <b>40 hours of field training that includes five complete inspections</b>, each performed under the <b>direct supervision of your sponsoring Professional Inspector</b>. This section <b>prepares</b> you for those hours — it does not replace them.</p>
+ <p>Read that carefully, because the structure drives everything that follows:</p>
+ <ul class="num"><li><b>40 hours</b> of supervised field training.</li><li><b>Five complete inspections</b> — whole homes, start to finish, not bits and pieces.</li><li><b>Direct supervision</b> by a sponsoring <em>Professional Inspector</em> who observes, coaches, and signs off.</li></ul>
+ <p>Your sponsor isn’t just initialing a sheet. They’re watching how you <b>move through a house</b>, the <b>safety calls</b> you make at the ladder, attic, and panel, the <b>quality of your report</b>, and how you <b>handle the client</b>. Get those four right and the sign-off follows.</p>
+ <div class="loop"><div class="seg on"><div class="n">01</div><div class="w">Arrive &amp; intro</div></div><div class="seg"><div class="n">02</div><div class="w">Systematic walk</div></div><div class="seg"><div class="n">03</div><div class="w">Access &amp; safety</div></div><div class="seg"><div class="n">04</div><div class="w">Report it (REI 7-6)</div></div><div class="seg"><div class="n">05</div><div class="w">Sponsor signs</div></div></div>
+ <h2>Where the practicum sits in the path</h2>
+ <p>The practicum is one stage in a longer licensing journey. Education comes first; the supervised field hours come next; then your sponsor’s sign-off and the state exam. Tap through the path to see exactly where you are.</p>
+ ${W('era','path')}
+ <h2>What this section will get you ready for</h2>
+ <ul class="clean"><li><b>The inspection-day workflow</b> — arrival, client intro, and a repeatable walk</li><li><b>Access &amp; safety decisions</b> — roof, attic, crawlspace, panel, gas</li><li><b>The REI 7-6 report</b> — completing the Texas form in the field</li><li><b>Professionalism &amp; SOP scope</b> — observe and report, stay in your lane</li><li><b>The sign-off</b> — what your sponsor evaluates and certifies</li></ul>
+ <div class="field"><div class="ic">${sv(ic.alert)}</div><div><div class="t">Safety is the whole game</div><p>Roofs, attics, crawlspaces, electrical panels, and gas appliances are where inspectors get hurt. The single rule that runs through this entire section: <b>if it isn’t safe, you don’t do it — you note it as not inspected and why.</b> A missed detail is recoverable; an injury is not. Your sponsor would rather see a smart limitation than a reckless finding.</p></div></div>`,
+ quiz:[
+  {q:'The Texas Professional Inspector practicum consists of:',o:['A single supervised inspection','40 hours of field training including five complete inspections under direct supervision','An online exam','Unsupervised solo inspections'],a:1,e:'It’s 40 field hours and five complete inspections, each under the direct supervision of your sponsoring Professional Inspector.'},
+  {q:'This section’s relationship to the practicum is that it:',o:['Replaces the supervised hours','Prepares you for the practicum but does not substitute for the supervised field hours','Counts as your sign-off','Is optional and unrelated'],a:1,e:'It gets you ready. The actual 40 hours and five supervised inspections must still be performed and signed by your sponsor.'},
+  {q:'The five practicum inspections are supervised by:',o:['A TREC examiner on site','Your sponsoring Professional Inspector','A fellow apprentice','No one'],a:1,e:'Direct supervision by your sponsoring Professional Inspector is the defining requirement.'},
+  {q:'The single safety rule that runs through the whole practicum is:',o:['Always finish every item no matter what','If it isn’t safe, you don’t do it — note it as not inspected and why','Speed matters more than caution','Let the client decide what’s safe'],a:1,e:'Safe-and-limited always beats thorough-and-injured. Document what you couldn’t safely inspect and why.'},
+ ]},
+
+/* ===== L1 INSPECTION-DAY WORKFLOW ===== */
+{id:'l1',kind:'Lesson 1',label:'The Inspection-Day Workflow',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 1 &middot; How a day runs</span><h1>A repeatable walk so nothing gets skipped.</h1>
+ <p class="lead">On the practicum your sponsor wants to see a <b>method</b> — the same dependable sequence every time, so no system is missed and the client knows what to expect. It starts with people, moves through the house in order, and ends with a complete report.</p>
+ <h2>Arrival and the client intro</h2>
+ <p>You arrive early, introduce yourself, and set the frame: what you will and won’t inspect (the SOP scope), roughly how long it takes, and where you’ll begin. You handle logistics — a loose pet secured, occupants out of your work zones — and you keep the tone calm and professional. The first five minutes set the whole inspection.</p>
+ <h2>The systematic walk: exterior to interior</h2>
+ ${conds('',[['Start outside','Grounds, grading and drainage, the building exterior, then up to the roof and its drainage — reading the shell before you go in.'],['Work into the structure','Attic and roof structure from inside, then down through the living spaces — ceilings, walls, floors, windows, and doors, room by room.'],['Then the systems','Electrical, heating and cooling, plumbing, and the water heater — operating what the SOP requires you to operate.'],['End down low','Crawlspace or basement and the foundation — the wettest, tightest, and often last space you enter.']])}
+ <p>The exact route can vary, but the principle doesn’t: a <b>consistent, repeatable order</b> means you cover every required system the same way on every house — which is exactly what makes the five inspections defensible.</p>
+ <h2>The inspection-day workflow at a glance</h2>
+ <div class="dgm"><svg viewBox="0 0 720 150">
+   <g ${_gs}>
+     <rect x="20" y="50" width="110" height="50" rx="6"/><rect x="165" y="50" width="110" height="50" rx="6"/><rect x="310" y="50" width="110" height="50" rx="6"/><rect x="455" y="50" width="110" height="50" rx="6"/><rect x="600" y="50" width="100" height="50" rx="6"/>
+   </g>
+   ${_mono(75,72,10,'Arrive &amp;','#7f520a')}${_mono(75,86,10,'intro','#7f520a')}
+   ${_mono(220,72,10,'Exterior','#7f520a')}${_mono(220,86,10,'walk','#7f520a')}
+   ${_mono(365,72,10,'Interior &amp;','#7f520a')}${_mono(365,86,10,'systems','#7f520a')}
+   ${_mono(510,72,10,'Access calls','#7f520a')}${_mono(510,86,10,'roof/attic/crawl','#7f520a')}
+   ${_mono(650,72,10,'Complete','#7f520a')}${_mono(650,86,10,'REI 7-6','#7f520a')}
+   <g stroke="#b85436" stroke-width="2.2" fill="none" stroke-linecap="round">
+     <path d="M132 75 H 163"/><path d="M158 70 l6 5 l-6 5"/>
+     <path d="M277 75 H 308"/><path d="M303 70 l6 5 l-6 5"/>
+     <path d="M422 75 H 453"/><path d="M448 70 l6 5 l-6 5"/>
+     <path d="M567 75 H 598"/><path d="M593 70 l6 5 l-6 5"/>
+   </g>
+ </svg><div class="cap">The day in five moves: arrive &amp; introduce, walk the exterior, work the interior and systems, make access decisions, and complete the report.</div></div>
+ <h2>The tools you carry</h2>
+ <p>You don’t need a truck of gadgets, but you carry a working kit so you can inspect safely and document on the spot: a bright <b>flashlight</b>, a <b>ladder</b> for the roof and attic, a <b>voltage tester</b> and a <b>GFCI/receptacle tester</b>, a <b>moisture meter</b>, a <b>screwdriver/nut-driver</b> for the panel dead-front, a way to <b>screen for gas</b>, and a <b>camera</b> (your phone) for the report.</p>
+ ${W('match','tools')}
+ ${story('Inspector in the house',`On a trainee’s first ride-along the sponsor said one thing before they got out of the truck: **“Same walk, every house.”** The apprentice who wandered room to room missed the water heater’s missing TPR discharge; the one who ran a fixed route caught it without trying. The method isn’t bureaucracy — it’s how you stop missing things when you’re tired on inspection number five.`)}`,
+ quiz:[
+  {q:'A practicum inspection should begin with:',o:['Climbing straight onto the roof','Arriving early, introducing yourself, and setting scope and expectations with the client','Filling out the report','Testing every outlet'],a:1,e:'It starts with people and a plan — introduce yourself, frame the scope and timeline, handle logistics — then walk the house.'},
+  {q:'The main reason to follow a consistent, repeatable inspection sequence is to:',o:['Look impressive','Cover every required system the same way so nothing is skipped','Finish faster than the SOP allows','Avoid talking to the client'],a:1,e:'A fixed exterior-to-interior route makes the inspection complete and defensible across all five inspections.'},
+  {q:'A typical systematic walk runs:',o:['Interior only','Exterior to interior — grounds and shell, then attic, living spaces, systems, and finally the crawl/foundation','Top to bottom of the report form','In whatever order the client wants'],a:1,e:'Read the shell outside, then work inward and downward through the structure, systems, and the crawl/foundation last.'},
+  {q:'Which belongs in your basic field kit?',o:['Only a clipboard','A flashlight, ladder, voltage/receptacle testers, moisture meter, screwdriver, gas screen, and a camera','A power drill and replacement parts','Cleaning supplies for the home'],a:1,e:'You carry tools to inspect safely and document — not to repair. The dead-front screwdriver and gas screen are for safe access and screening, not fixing.'},
+ ]},
+
+/* ===== L2 FIELD SAFETY ===== */
+{id:'l2',kind:'Lesson 2',label:'Field Safety — the Big One',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 2 &middot; Stay safe, stay licensed</span><h1>The hazards that hurt inspectors — and how you don’t get hurt.</h1>
+ <p class="lead">More than any report detail, your sponsor is watching whether you make <b>good safety calls</b>. Inspectors get injured in five places: ladders and roofs, attics, crawlspaces, electrical panels, and around gas. Know each hazard before you reach the space — and accept a documented limitation over a reckless finding.</p>
+ <h2>Ladders &amp; roofs</h2>
+ <p>Set the ladder at a safe angle on firm, level footing; keep <b>three points of contact</b>; never overreach. Walk a roof <b>only when it’s safe</b> — not steep, wet, frosty, fragile (tile, slate, old wood), or too high. When it isn’t, inspect from the eaves, the ground, or binoculars and <b>state the method and limitation</b> in the report.</p>
+ <h2>Attics</h2>
+ <p>Step <b>only on framing you can see</b> — joists or truss chords — never on the unsupported ceiling, or you go through it. Watch your head on roofing nails and low chords, mind <b>old or open wiring</b> (knob-and-tube, open junction boxes), and don’t disturb unknown insulation. If footing or air quality is bad, inspect from the hatch and note it.</p>
+ <h2>Crawlspaces</h2>
+ <p>Assess <b>before you enter</b>. A tight crawl can be a <b>confined space</b> with standing water, sewer or fuel gas, low oxygen, live wiring, and pests. If it’s unsafe, you don’t enter — you inspect from the access opening and report why. Never bring an ignition source where gas may be present.</p>
+ <h2>Electrical panels &amp; gas</h2>
+ <p>Removing a <b>dead-front cover</b> is one of the most dangerous things you do. Stand to the side on a dry surface, <b>don’t force a seized screw</b>, keep clear of the buses and conductors, and never touch energized parts. If it can’t come off safely, report it as <b>not removed</b>. Around <b>gas</b>, screen for leaks, never create a spark near a suspected leak, and refer anything questionable for evaluation.</p>
+ <div class="field brass"><div class="ic">${sv(ic.alert)}</div><div><div class="t">The rule that overrides every other</div><p><b>If it isn’t safe, you don’t do it.</b> Mark the item Not Inspected, state the reason, and move on. No flashing detail, no panel reading, no crawlspace item is worth a fall, a shock, or a confined-space rescue. Your sponsor grades the call, not the bravado.</p></div></div>
+ ${W('sort','safe')}
+ ${W('spot','day')}
+ ${story('Inspector in the house',`A sponsor tells every apprentice the same story: a seasoned inspector forced a stuck dead-front screw, the driver slipped into the bus, and the arc flash put him in the burn unit. **He got the panel open. It cost him three months and a lot of skin.** The lesson stuck: when a cover fights back, you write “not removed — cover seized” and you keep your face.`)}`,
+ quiz:[
+  {q:'You should walk a roof only when:',o:['The client insists','It is safe — not steep, wet, frosty, fragile, or too high','You brought a ladder','It looks new'],a:1,e:'Roof safety governs. If it isn’t safe to walk, inspect from the eaves/ground and document the limitation.'},
+  {q:'In an attic you avoid falling through the ceiling by:',o:['Moving quickly','Stepping only on framing members you can see','Crawling on the insulation','Removing the drywall'],a:1,e:'Insulation hides the ceiling — step only on visible joists/truss chords; between them you go through.'},
+  {q:'Before entering a tight crawlspace with water and an odor, you:',o:['Enter fast to limit exposure','Treat it as a possible confined space, don’t enter, inspect from the access, and report why','Light a flame to check for gas','Bail water first'],a:1,e:'It can be a lethal confined space. Assess before entry, never enter an unsafe one, and never bring an ignition source.'},
+  {q:'A seized screw on an electrical panel’s dead-front cover means you should:',o:['Force it for a clean removal','Not force it — if the cover can’t come off safely, report it as not removed','Have the client remove it','Cut the cover off'],a:1,e:'Forcing a cover risks a slipped tool into a live bus and an arc flash. Document the limitation instead.'},
+  {q:'The overriding safety rule on the practicum is:',o:['Finish every item no matter the risk','If it isn’t safe, you don’t do it — mark it Not Inspected and state why','Let the homeowner decide','Speed over caution'],a:1,e:'Safe-and-limited beats thorough-and-injured. A documented limitation is always the right call when a space is unsafe.'},
+ ]},
+
+/* ===== L3 REPORT, PROFESSIONALISM & SCOPE ===== */
+{id:'l3',kind:'Lesson 3',label:'Report, Professionalism &amp; Scope',type:'lesson',
+ body:()=>`<span class="eyebrow">Lesson 3 &middot; Finish it right</span><h1>Fill the form, stay in your lane, earn the sign-off.</h1>
+ <p class="lead">An inspection isn’t done when you put the ladder away — it’s done when the <b>REI 7-6</b> is complete and accurate, you’ve stayed <b>within SOP scope</b>, and you’ve handled the client like a professional. This is the half of the practicum your sponsor signs their name to.</p>
+ <h2>Completing the REI 7-6 in the field</h2>
+ <p>Texas requires the standardized report form <b>REI 7-6</b> for one-to-four-family homes. You fill it out <b>as you go</b>, not from memory afterward. Every required item gets a status:</p>
+ ${conds('',[['Inspected (I)','You inspected the item and it functioned as intended — no deficiency noted.'],['Not Inspected (NI)','You were required to inspect it but couldn’t — no access, a shut-off utility, an unsafe space. <b>State the reason.</b>'],['Not Present (NP)','The home doesn’t have that component.'],['Deficient (D)','The item is unsafe or not functioning as intended — <b>describe it</b> with its location and what it means.']])}
+ <p>The golden rule of the form: <b>never report on what you didn’t actually observe.</b> A locked room, a buried cleanout, a gas appliance you couldn’t test — those are Not Inspected with a reason, not a guess.</p>
+ <h2>Staying within SOP scope on site</h2>
+ <p>The Standards of Practice define a clear, narrow job: <b>observe and report</b>. On site that means you do <em>not</em> repair, quote prices, design or perform engineering, predict remaining life, or move the owner’s personal property to gain access. You note what you couldn’t reach — you don’t force it.</p>
+ ${W('sort','scope')}
+ ${W('match','access')}
+ <h2>Professionalism &amp; the client</h2>
+ <p>You’re a guest in someone’s home and a neutral reporter for your client. Stay <b>calm and factual</b>: report condition, don’t editorialize, don’t alarm, and don’t make the buying decision for them. When asked “is this a good house?” the honest answer is that you report what’s there and they decide. Keep clients clear of hazardous tasks, and offer to walk the findings at the end.</p>
+ <h2>What your sponsor evaluates and signs</h2>
+ <div class="defect"><div class="dh"><span class="n">1</span><span class="nm">Method &amp; thoroughness</span></div><p>A consistent, repeatable walk that covers every required system.</p><div class="meta"><span class="lab">They watch</span><span class="val">Do you follow a real sequence, or wander and miss items?</span><span class="lab">Sign-off</span><span class="val">Demonstrated a complete, systematic inspection.</span></div></div>
+ <div class="defect"><div class="dh"><span class="n">2</span><span class="nm">Safety judgment</span></div><p>The calls you make at the ladder, attic, crawl, panel, and gas.</p><div class="meta"><span class="lab">They watch</span><span class="val">Do you stop when it’s unsafe and document it?</span><span class="lab">Sign-off</span><span class="val">Made sound, documented safety decisions.</span></div></div>
+ <div class="defect"><div class="dh"><span class="n">3</span><span class="nm">Report quality &amp; scope</span></div><p>An accurate REI 7-6 that stays inside the SOP.</p><div class="meta"><span class="lab">They watch</span><span class="val">Right statuses, clear deficiencies, honest limitations — nothing out of scope?</span><span class="lab">Sign-off</span><span class="val">Produced a complete, in-scope report.</span></div></div>
+ <div class="field"><div class="ic">${sv(ic.alert)}</div><div><div class="t">Prepares you — doesn’t replace the hours</div><p>Master this and you’ll walk onto the practicum ready. But the <b>40 hours and five supervised inspections are real and required</b> — performed in the field and signed by your sponsoring Professional Inspector. This section is the preparation, not the credit.</p></div></div>
+ ${story('Inspector in the house',`A sharp trainee found and photographed a cracked heat exchanger — great catch — then told the buyer “this furnace is shot, budget six grand.” The sponsor stopped him: report the deficiency and recommend evaluation by a licensed HVAC contractor; **the price and the verdict aren’t yours to give.** Same finding, in scope, signed off. Out of scope, it doesn’t.`)}`,
+ quiz:[
+  {q:'The standardized Texas inspection report form is the:',o:['REI 7-6','HUD-1','ACORD 25','TREC 1-4'],a:0,e:'Texas requires the REI 7-6 report form for one-to-four-family residences.'},
+  {q:'An item you were required to inspect but couldn’t access should be marked:',o:['Inspected','Not Inspected, with the reason stated','Deficient','Not Present'],a:1,e:'NI with a stated reason — you never report a condition you didn’t actually observe.'},
+  {q:'Staying within SOP scope on site means you do NOT:',o:['Describe deficiencies or take photos','Repair, quote prices, perform engineering, or move the owner’s property','Use a ladder','Complete the report'],a:1,e:'You observe and report. Repairs, cost estimates, engineering opinions, and moving personal property are all outside the SOP.'},
+  {q:'When a buyer asks “Should I buy this house?” you should:',o:['Tell them yes to close the deal','Stay neutral — report the observable condition and let them decide','Tell them to walk away','Refuse to answer'],a:1,e:'You report condition; the client makes the decision. Cheerleading or killing a deal is outside your role.'},
+  {q:'During the practicum your sponsor signs off based on:',o:['How quickly you finish','Your method, safety judgment, report quality/scope, and professionalism','The number of homes per day','Your sales ability'],a:1,e:'Those four — systematic method, safety calls, accurate in-scope reporting, and client professionalism — are what your sponsor evaluates and certifies.'},
+ ]},
+/*LESSONS*/
+ {id:'scenarios',kind:'Apply it',label:'Inspector\'s Call',type:'scenario'},
+ {id:'assess',kind:'Assessment',label:'Mastery check',type:'assess'},
+ {id:'glossary',kind:'Reference',label:'Glossary',type:'glossary'},
+ {id:'source',kind:'Reference & summary',label:'Reference & summary',type:'source'},
+];
+(async()=>{await load();render();})();
+</script>

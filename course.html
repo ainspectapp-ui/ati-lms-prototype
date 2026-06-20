@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ATI Academy — My Course</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#f4f2ea;--bg-2:#ece9df;--card:#fffdf8;--ink:#191c22;--ink-2:#222631;--text:#21242b;--text-2:#5b616b;--text-3:#8b909a;
+  --text-inv:#f3f1ea;--text-inv-2:#a8aeb8;--line:#e6e1d4;--line-2:#efeae0;--line-ink:rgba(255,255,255,.10);
+  --brand:#c5812a;--brand-2:#e0a043;--brand-deep:#9a6214;--brand-soft:#f4e7cd;--brand-tint:#faf2e0;
+  --teal:#1f6f73;--teal-2:#2f8a8d;--teal-deep:#123f43;--teal-soft:#dde9e9;
+  --pass:#2f7a4e;--pass-soft:#e2efe5;--fail:#bd4a31;
+  --r:16px;--pill:999px;--display:'Fraunces',Georgia,serif;--body:'Hanken Grotesk',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;
+  --sh-1:0 1px 2px rgba(25,28,34,.05),0 1px 3px rgba(25,28,34,.05);--sh-2:0 4px 14px rgba(25,28,34,.06),0 12px 32px rgba(25,28,34,.09);--sh-3:0 18px 50px rgba(25,28,34,.18);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--body);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.5;
+  background-image:radial-gradient(1100px 500px at 80% -8%,rgba(197,129,42,.06),transparent 60%),radial-gradient(800px 460px at 6% 4%,rgba(31,111,115,.06),transparent 55%)}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+.mono{font-family:var(--mono)}
+.eyebrow{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--brand-deep)}
+
+header.nav{position:sticky;top:0;z-index:50;background:rgba(244,242,234,.85);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:16px;height:64px}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(150deg,var(--ink),var(--teal-deep));display:grid;place-items:center;flex:none}
+.brand b{font-family:var(--display);font-weight:600;font-size:16px;color:var(--ink);line-height:1}
+.brand span{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3);margin-top:3px}
+.navlinks{display:flex;gap:2px;margin-left:10px}
+.navlinks a{font-size:14px;font-weight:600;color:var(--text-2);padding:8px 12px;border-radius:9px}
+.navlinks a:hover{background:var(--bg-2);color:var(--ink)}.navlinks a.on{color:var(--ink)}
+.sp{flex:1}
+.navacct{display:inline-flex;align-items:center;font-size:13.5px;font-weight:700;color:var(--brand-deep);padding:8px 14px;border-radius:10px;border:1px solid var(--brand-soft);background:var(--brand-tint)}
+.navacct button{font:inherit;font-weight:600;border:none;background:none;color:var(--text-3);cursor:pointer;padding:0 0 0 9px;margin-left:9px;border-left:1px solid var(--line)}
+.navacct button:hover{color:var(--fail)}
+
+.hero{margin:28px 0 0;border-radius:22px;overflow:hidden;background:linear-gradient(135deg,#1d2128,#171b22 42%,#123f43 130%);color:var(--text-inv);box-shadow:var(--sh-3);position:relative}
+.hero::before{content:"";position:absolute;inset:0;opacity:.5;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:34px 34px;-webkit-mask:radial-gradient(120% 120% at 85% 0%,#000,transparent 75%);mask:radial-gradient(120% 120% at 85% 0%,#000,transparent 75%)}
+.hero-in{position:relative;padding:38px 40px}
+.hero .badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--brand-2);border:1px solid rgba(224,160,67,.3);border-radius:var(--pill);padding:5px 12px}
+.hero h1{font-family:var(--display);font-weight:600;font-size:clamp(28px,3.6vw,40px);line-height:1.05;letter-spacing:-.02em;margin:14px 0 0}
+.hero p{font-size:15px;color:var(--text-inv-2);max-width:62ch;margin:12px 0 0;line-height:1.6}
+.hero-stats{display:flex;gap:30px;margin-top:24px;padding-top:22px;border-top:1px solid var(--line-ink);flex-wrap:wrap}
+.hero-stats .s b{font-family:var(--display);font-weight:600;font-size:22px;color:#fff;display:block;line-height:1}
+.hero-stats .s span{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-inv-2);margin-top:6px;display:block}
+.hbar{margin-top:20px;height:8px;background:rgba(255,255,255,.12);border-radius:var(--pill);overflow:hidden}
+.hbar i{display:block;height:100%;background:linear-gradient(90deg,var(--brand-deep),var(--brand-2));border-radius:var(--pill);transition:width .9s cubic-bezier(.2,.7,.2,1)}
+
+.gate{display:flex;align-items:center;gap:14px;margin:30px 0 8px}
+.gate .ln{flex:1;height:1px;background:var(--line)}
+.gate .lbl{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--teal-deep);background:var(--teal-soft);border:1px solid #c4dadb;border-radius:var(--pill);padding:6px 14px;display:inline-flex;align-items:center;gap:8px}
+
+.sect-h{margin:34px 0 16px}
+.sect-h h2{font-family:var(--display);font-weight:600;font-size:24px;color:var(--ink);letter-spacing:-.01em}
+.sect-h p{font-size:14px;color:var(--text-2);margin-top:5px}
+
+.mod{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-1);margin-bottom:16px;overflow:hidden}
+.mod-h{display:flex;align-items:flex-start;gap:16px;padding:20px 22px 16px}
+.mcode{width:46px;height:46px;border-radius:12px;background:var(--ink);color:var(--brand-2);font-family:var(--display);font-weight:600;font-size:16px;display:grid;place-items:center;flex:none}
+.mod.field .mcode{background:var(--teal-deep)}
+.mod-t{flex:1;min-width:0}
+.mod-t h3{font-family:var(--display);font-weight:600;font-size:18.5px;color:var(--ink);letter-spacing:-.01em}
+.mod-t p{font-size:13.5px;color:var(--text-2);margin-top:4px;line-height:1.5}
+.mmeta{display:flex;flex-direction:column;align-items:flex-end;gap:7px;flex:none}
+.hrs{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--brand-deep);background:var(--brand-tint);border:1px solid var(--brand-soft);border-radius:var(--pill);padding:4px 11px;white-space:nowrap}
+.gpill{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-3);border:1px solid var(--line);border-radius:var(--pill);padding:3px 9px;white-space:nowrap}
+.mbar{height:5px;background:var(--bg-2);border-radius:var(--pill);margin:0 22px;overflow:hidden}
+.mbar i{display:block;height:100%;border-radius:var(--pill);background:linear-gradient(90deg,#2f7a4e,#46a06a)}
+.lessons{padding:12px 14px 16px}
+.lz{display:flex;align-items:center;gap:13px;padding:11px 12px;border-radius:11px;transition:.13s}
+.lz.ready:hover{background:var(--bg-2)}
+.lz .dot{width:26px;height:26px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;flex:none;font-family:var(--mono);font-size:11px;color:var(--text-3);background:var(--card)}
+.lz.done .dot{background:var(--pass);border-color:var(--pass);color:#fff}
+.lz.inprog .dot{background:var(--brand);border-color:var(--brand);color:#fff}
+.lz .nm{flex:1;font-size:14.5px;font-weight:600;color:var(--ink);min-width:0}
+.lz.pending .nm{color:var(--text-3);font-weight:500}
+.lz .tag{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.04em;padding:3px 9px;border-radius:var(--pill);white-space:nowrap}
+.tag.start{background:var(--ink);color:var(--text-inv)}
+.tag.resume{background:linear-gradient(180deg,var(--brand-2),var(--brand));color:#3a2607}
+.tag.done{background:var(--pass-soft);color:var(--pass)}
+.tag.soon{background:var(--bg-2);color:var(--text-3);border:1px solid var(--line)}
+.foot{color:var(--text-3);font-size:12.5px;text-align:center;padding:40px 0 50px;line-height:1.6}
+.foot b{color:var(--text-2)}
+@media(max-width:640px){.hero-in{padding:28px 22px}.mod-h{flex-wrap:wrap}.mmeta{flex-direction:row;width:100%;justify-content:flex-start;order:3}}
+</style>
+</head>
+<body>
+<header class="nav"><div class="wrap">
+  <a class="brand" href="/"><span class="logo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e0a043" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10.5V20h14v-9.5"/><circle cx="11" cy="14" r="2.4"/><path d="m13 16 2.4 2.4"/></svg></span><span><b>ATI Academy</b><span>Inspector Training</span></span></a>
+  <nav class="navlinks"><a href="/">Dashboard</a><a class="on" href="/course.html">My course</a></nav>
+  <div class="sp"></div>
+  <a id="navAcct" class="navacct" href="/account.html">Sign in</a>
+</div></header>
+
+<div class="wrap">
+  <section class="hero"><div class="hero-in" id="hero">
+    <div class="badge">Loading…</div>
+  </div></section>
+  <div id="curriculum"></div>
+  <div class="foot" id="foot"></div>
+</div>
+
+<script>
+function logout(){fetch('/api/auth/logout',{method:'POST',credentials:'same-origin'}).then(function(){location.href='/account.html';});}
+function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+
+async function main(){
+  let me=null;
+  try{ const r=await fetch('/api/me',{credentials:'same-origin'}); if(r.ok) me=await r.json(); }catch(e){}
+  const acct=document.getElementById('navAcct');
+  if(me&&me.user){ acct.removeAttribute('href'); acct.style.cursor='default'; acct.innerHTML=esc(me.user.fullName.split(' ')[0])+'<button onclick="logout()">Sign out</button>'; }
+
+  const params=new URLSearchParams(location.search);
+  const slug=params.get('c')||(me&&me.enrollment&&me.enrollment.courseSlug)||'home-inspection-prelicensing-tx';
+  let data;
+  try{ const r=await fetch('/api/courses/'+encodeURIComponent(slug),{credentials:'same-origin'}); if(!r.ok) throw 0; data=await r.json(); }
+  catch(e){ document.getElementById('hero').innerHTML='<div class="badge">Course unavailable</div><h1>Couldn’t load your course</h1><p>Try signing in again.</p>'; return; }
+
+  renderHero(data);
+  renderCurriculum(data);
+  const t=data.totals;
+  document.getElementById('foot').innerHTML='<b>'+t.contentReady+'</b> of '+t.lessonsTotal+' lessons are interactive today; the remaining '+t.contentPending+' are mapped to the TREC outline and in development.<br/>⚠ Curriculum structure reflects published TREC requirements — verify against primary TREC sources before use for real licensure.';
+}
+
+function renderHero(d){
+  const t=d.totals, stateName={TX:'Texas',NY:'New York',WA:'Washington'}[d.course.state]||d.course.state||'National';
+  const pct=t.lessonsTotal?Math.round(t.lessonsComplete/t.lessonsTotal*100):0;
+  const exams=d.modules.some(m=>m.examGate==='state')?'National + State exam':'National exam';
+  document.getElementById('hero').innerHTML=
+    '<div class="badge">'+esc(stateName)+' · TREC pathway</div>'+
+    '<h1>'+esc(stateName)+' — Professional Inspector</h1>'+
+    '<p>'+esc(d.course.summary||'')+'</p>'+
+    '<div class="hero-stats">'+
+      '<div class="s"><b>'+(d.course.requiredHours||t.requiredHours)+'</b><span>Required hours</span></div>'+
+      '<div class="s"><b>'+d.modules.length+'</b><span>Modules</span></div>'+
+      '<div class="s"><b>'+t.lessonsComplete+'/'+t.lessonsTotal+'</b><span>Lessons complete</span></div>'+
+      '<div class="s"><b style="font-size:15px;font-family:var(--body);font-weight:700">'+exams+'</b><span>Examination</span></div>'+
+    '</div>'+
+    '<div class="hbar"><i style="width:'+pct+'%"></i></div>';
+}
+
+function renderCurriculum(d){
+  const wrap=document.getElementById('curriculum');
+  let html='', lastGate=null, nationalShown=false;
+  const gateLabel={national:'National Home Inspector Examination · 200 questions',state:'Texas State Exam · 30 questions'};
+  d.modules.forEach(function(m,i){
+    // when the gate changes, drop in the exam marker for the gate we just finished
+    if(lastGate&&m.examGate!==lastGate){ html+=gateMarker(gateLabel[lastGate]); }
+    if(m.examGate==='national'&&!nationalShown){ html+=sectionH('National curriculum','Required before the national portion of the exam.'); nationalShown=true; }
+    if(m.examGate==='state'&&lastGate!=='state'){ html+=sectionH('Texas curriculum','Required before the Texas state portion of the exam.'); }
+    html+=moduleCard(m);
+    lastGate=m.examGate;
+  });
+  if(lastGate) html+=gateMarker(gateLabel[lastGate]);
+  wrap.innerHTML=html;
+}
+function sectionH(t,p){return '<div class="sect-h"><h2>'+t+'</h2><p>'+p+'</p></div>';}
+function gateMarker(label){return '<div class="gate"><div class="ln"></div><div class="lbl"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11V7a3 3 0 0 1 6 0v4"/><rect x="5" y="11" width="14" height="10" rx="2"/></svg>'+label+'</div><div class="ln"></div></div>';}
+
+function moduleCard(m){
+  const pct=m.lessonsTotal?Math.round(m.lessonsDone/m.lessonsTotal*100):0;
+  let rows='';
+  m.lessons.forEach(function(l){
+    const ready=!!l.ready;
+    const done=l.status==='completed', inprog=l.status==='in_progress';
+    const cls=ready?(done?'done':(inprog?'inprog':'')):'pending';
+    const dotInner=done?'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>':'•';
+    let tag;
+    if(!ready) tag='<span class="tag soon">In development</span>';
+    else if(done) tag='<span class="tag done">Complete</span>';
+    else if(inprog) tag='<span class="tag resume">Resume</span>';
+    else tag='<span class="tag start">Start</span>';
+    const inner='<span class="dot">'+dotInner+'</span><span class="nm">'+esc(l.title)+'</span>'+tag;
+    rows+= ready
+      ? '<a class="lz ready '+cls+'" href="/'+l.contentRef+'">'+inner+'</a>'
+      : '<div class="lz '+cls+'">'+inner+'</div>';
+  });
+  return '<div class="mod'+(m.kind==='field'?' field':'')+'">'+
+    '<div class="mod-h"><div class="mcode">'+esc(m.code)+'</div>'+
+      '<div class="mod-t"><h3>'+esc(m.title.replace(/^Module [IVX]+ — /,''))+'</h3><p>'+esc(m.summary||'')+'</p></div>'+
+      '<div class="mmeta"><span class="hrs">'+m.requiredHours+' hours</span><span class="gpill">'+(m.kind==='field'?'Field':(m.examGate==='state'?'State exam':'National exam'))+'</span></div>'+
+    '</div>'+
+    '<div class="mbar"><i style="width:'+pct+'%"></i></div>'+
+    '<div class="lessons">'+rows+'</div>'+
+  '</div>';
+}
+main();
+</script>
+</body>
+</html>

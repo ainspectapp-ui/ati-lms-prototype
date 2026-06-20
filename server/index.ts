@@ -19,6 +19,7 @@ import { authRouter } from './routes/auth.ts';
 import { progressRouter } from './routes/progress.ts';
 import { coursesRouter } from './routes/courses.ts';
 import { certRouter } from './routes/certificates.ts';
+import { adminRouter } from './routes/admin.ts';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
@@ -69,6 +70,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/progress', progressRouter);
 app.use('/api/courses', coursesRouter);
 app.use('/api/certificates', certRouter);
+app.use('/admin/api', adminRouter);
 
 // Public certificate verification — no auth, no gate (anyone can verify a code).
 app.get('/api/verify/:code', (req, res) => {
@@ -89,6 +91,12 @@ app.use((req, res, next) => {
   if (req.session.userId) return next();
   if (PUBLIC_FILES.has(req.path)) return next();
   return res.redirect('/account.html');
+});
+
+// The admin console page is admin-only.
+app.use((req, res, next) => {
+  if ((req.path === '/admin.html' || req.path === '/admin') && req.session.role !== 'admin') return res.redirect('/');
+  next();
 });
 
 app.use(express.static(ROOT, { extensions: ['html'] }));

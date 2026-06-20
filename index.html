@@ -169,6 +169,7 @@ async function main(){
   var acct=document.getElementById('navAcct');
   acct.removeAttribute('href'); acct.style.cursor='default';
   acct.innerHTML=esc(me.user.fullName.split(' ')[0])+'<button onclick="logout()">Sign out</button>';
+  if(me.user.role==='admin'){var nl=document.querySelector('.navlinks');if(nl)nl.insertAdjacentHTML('beforeend','<a href="/admin.html">Admin</a>');}
 
   var slug=(me.enrollment&&me.enrollment.courseSlug)||'home-inspection-prelicensing-tx';
   var d; try{ var c=await fetch('/api/courses/'+encodeURIComponent(slug),{credentials:'same-origin'}); d=await c.json(); }catch(e){ return; }

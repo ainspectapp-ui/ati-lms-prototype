@@ -223,7 +223,7 @@ async function main(){
   // certificate
   document.getElementById('cert').innerHTML='<div class="cm"><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.5 12.9 17 22l-5-3-5 3 1.5-9.1"/></svg></div>'+
     '<div><h3>Certificate of Completion</h3><p>Unlocks when every required section is complete and each mastery check is passed (80%). You’re at <b>'+t.lessonsComplete+' of '+t.lessonsTotal+'</b>.</p></div>'+
-    '<a class="btn ghost" href="/course.html">'+(pct>=100?'Claim →':'View requirements →')+'</a>';
+    '<a class="btn ghost" href="/certificate.html">'+(pct>=100?'Claim →':'View requirements →')+'</a>';
 
   document.getElementById('foot').innerHTML='<b>ATI Academy</b> · Module hours shown are TREC’s required instruction time for licensure; the interactive sections are the high-engagement core. Progress is saved to your account.';
 }

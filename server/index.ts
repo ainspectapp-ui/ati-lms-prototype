@@ -13,11 +13,12 @@ import express from 'express';
 import session from 'express-session';
 import { eq, and } from 'drizzle-orm';
 import { db } from './db.ts';
-import { enrollments, courses } from '../db/schema.ts';
+import { enrollments, courses, certificates, users } from '../db/schema.ts';
 import { currentUser } from './auth.ts';
 import { authRouter } from './routes/auth.ts';
 import { progressRouter } from './routes/progress.ts';
 import { coursesRouter } from './routes/courses.ts';
+import { certRouter } from './routes/certificates.ts';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
@@ -67,14 +68,23 @@ app.get('/api/me', (req, res) => {
 app.use('/api/auth', authRouter);
 app.use('/api/progress', progressRouter);
 app.use('/api/courses', coursesRouter);
-// TODO (next): app.use('/api/certificates', certificateRouter)
+app.use('/api/certificates', certRouter);
+
+// Public certificate verification — no auth, no gate (anyone can verify a code).
+app.get('/api/verify/:code', (req, res) => {
+  const c = db.select().from(certificates).where(eq(certificates.verificationCode, req.params.code)).get();
+  if (!c || c.revokedAt) return res.json({ valid: false });
+  const u = db.select().from(users).where(eq(users.id, c.userId)).get();
+  const course = db.select().from(courses).where(eq(courses.id, c.courseId)).get();
+  res.json({ valid: true, certNumber: c.certNumber, holder: u?.fullName, course: course?.title, state: c.state, issuedAt: c.issuedAt });
+});
 // TODO (next): app.use('/admin', adminRouter)
 
 // Gate the course content behind login. Public surface = the sign-in page +
 // the auth/health API mounted above. Everything else (hub, lessons, PDFs,
 // progress adapter) requires a session; unauthenticated requests are sent to
 // the sign-in page.
-const PUBLIC_FILES = new Set(['/account.html', '/account', '/favicon.ico', '/robots.txt']);
+const PUBLIC_FILES = new Set(['/account.html', '/account', '/verify.html', '/verify', '/favicon.ico', '/robots.txt']);
 app.use((req, res, next) => {
   if (req.session.userId) return next();
   if (PUBLIC_FILES.has(req.path)) return next();

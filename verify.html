@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ATI Academy — Verify a certificate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+:root{--bg:#f4f2ea;--card:#fffdf8;--ink:#191c22;--text:#21242b;--text-2:#5b616b;--text-3:#8b909a;--line:#e6e1d4;
+  --brand-deep:#9a6214;--brand-soft:#f4e7cd;--teal-deep:#123f43;--pass:#2f7a4e;--pass-soft:#e2efe5;--fail:#bd4a31;--fail-soft:#f6e6df;
+  --display:'Fraunces',Georgia,serif;--body:'Hanken Grotesk',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;--sh-2:0 4px 14px rgba(25,28,34,.06),0 12px 32px rgba(25,28,34,.09);}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--body);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;min-height:100vh;display:grid;place-items:center;padding:32px 18px;
+  background-image:radial-gradient(900px 480px at 80% -10%,rgba(197,129,42,.07),transparent 60%)}
+.brand{display:flex;align-items:center;gap:11px;justify-content:center;margin-bottom:20px}
+.logo{width:40px;height:40px;border-radius:11px;background:linear-gradient(150deg,var(--ink),var(--teal-deep));display:grid;place-items:center}
+.brand b{font-family:var(--display);font-weight:600;font-size:18px;color:var(--ink)}
+.brand span{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3);margin-top:2px}
+.card{width:100%;max-width:480px;background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--sh-2);padding:30px;text-align:center}
+.status{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;margin:0 auto 16px}
+.status.ok{background:var(--pass-soft);color:var(--pass)}.status.no{background:var(--fail-soft);color:var(--fail)}
+.status svg{width:32px;height:32px}
+h1{font-family:var(--display);font-weight:600;font-size:22px;color:var(--ink)}
+.sub{font-size:14px;color:var(--text-2);margin-top:6px}
+.rows{margin-top:22px;border-top:1px solid var(--line);padding-top:18px;text-align:left}
+.row{display:flex;justify-content:space-between;gap:14px;padding:7px 0;font-size:14px}
+.row .l{color:var(--text-2)}.row .v{font-weight:600;color:var(--ink);text-align:right}
+.row .v.mono{font-family:var(--mono);font-size:12.5px}
+.form{margin-top:20px;display:flex;gap:8px}
+.form input{flex:1;padding:11px 13px;border:1.5px solid var(--line);border-radius:11px;background:var(--bg);font-family:var(--mono);font-size:13px}
+.form button{padding:11px 16px;border:none;border-radius:11px;background:var(--ink);color:#fff;font-weight:700;font-size:14px;cursor:pointer}
+</style>
+</head>
+<body>
+<div>
+  <div class="brand"><span class="logo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#e0a043" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10.5V20h14v-9.5"/><circle cx="11" cy="14" r="2.4"/><path d="m13 16 2.4 2.4"/></svg></span><span><b>ATI Academy</b><span>Certificate verification</span></span></div>
+  <div class="card" id="card"><div class="sub">Checking…</div></div>
+</div>
+<script>
+function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+function fmtDate(ts){try{var d=(typeof ts==='number')?new Date(ts*1000):new Date(ts);return isNaN(d.getTime())?'':d.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});}catch(e){return '';}}
+function form(){return '<h1>Verify a certificate</h1><div class="sub">Enter a certificate verification code.</div><div class="form"><input id="code" placeholder="verification code" /><button onclick="go()">Verify</button></div>';}
+function go(){var c=document.getElementById('code').value.trim(); if(c) location.href='/verify.html?code='+encodeURIComponent(c);}
+
+async function main(){
+  var code=new URLSearchParams(location.search).get('code');
+  var card=document.getElementById('card');
+  if(!code){ card.innerHTML=form(); return; }
+  var j; try{ j=await (await fetch('/api/verify/'+encodeURIComponent(code))).json(); }catch(e){ j={valid:false}; }
+  if(!j.valid){
+    card.innerHTML='<div class="status no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></div>'+
+      '<h1>Not verified</h1><div class="sub">No active certificate matches this code.</div>'+form();
+    return;
+  }
+  var stateName={TX:'Texas',NY:'New York',WA:'Washington'}[j.state]||'';
+  card.innerHTML='<div class="status ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>'+
+    '<h1>Certificate verified</h1><div class="sub">This is a valid, active ATI Academy certificate.</div>'+
+    '<div class="rows">'+
+      '<div class="row"><span class="l">Holder</span><span class="v">'+esc(j.holder)+'</span></div>'+
+      '<div class="row"><span class="l">Course</span><span class="v">'+esc(j.course)+(stateName?' · '+stateName:'')+'</span></div>'+
+      '<div class="row"><span class="l">Issued</span><span class="v">'+fmtDate(j.issuedAt)+'</span></div>'+
+      '<div class="row"><span class="l">Certificate No.</span><span class="v mono">'+esc(j.certNumber)+'</span></div>'+
+    '</div>';
+}
+main();
+</script>
+</body>
+</html>

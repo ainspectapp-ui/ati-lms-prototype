@@ -30,7 +30,12 @@
   function isAuthed() {
     if (!authed) {
       authed = fetch('/api/me', { credentials: 'same-origin' })
-        .then(function (r) { return r.ok; })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (j) {
+          // admins get full course navigation (preview mode) — no forced step gating
+          if (j && j.user && j.user.role === 'admin') window.__previewAll = true;
+          return !!(j && j.authenticated);
+        })
         .catch(function () { return false; });
     }
     return authed;

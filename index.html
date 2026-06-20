@@ -3,462 +3,234 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>ATI Academy · Module II — Property &amp; Building Inspection</title>
-<meta name="description" content="An interactive, licensure-grade home-inspection course. Five building systems, each taught with diagrams, defect drills, field tools, and gated mastery checks." />
+<title>ATI Academy — Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 <style>
 :root{
-  --bg:#f4f2ea; --bg-2:#ece9df; --card:#fffdf8; --card-2:#faf7ef;
-  --ink:#191c22; --ink-2:#222631; --ink-3:#2c313c;
-  --text:#21242b; --text-2:#5b616b; --text-3:#8b909a;
-  --text-inv:#f3f1ea; --text-inv-2:#a8aeb8;
-  --line:#e6e1d4; --line-2:#efeae0; --line-ink:rgba(255,255,255,.10);
-  --brand:#c5812a; --brand-2:#e0a043; --brand-deep:#9a6214; --brand-soft:#f4e7cd; --brand-tint:#faf2e0;
-  --teal:#1f6f73; --teal-2:#2f8a8d; --teal-deep:#123f43; --teal-soft:#dde9e9;
-  --pass:#2f7a4e; --pass-soft:#e2efe5; --fail:#bd4a31; --fail-soft:#f6e6df;
-  --r:16px; --r-lg:22px; --r-sm:10px; --r-xs:7px; --pill:999px;
-  --display:'Fraunces',Georgia,serif; --body:'Hanken Grotesk',system-ui,sans-serif; --mono:'JetBrains Mono',monospace;
-  --sh-1:0 1px 2px rgba(25,28,34,.05),0 1px 3px rgba(25,28,34,.05);
-  --sh-2:0 4px 14px rgba(25,28,34,.06),0 12px 32px rgba(25,28,34,.09);
-  --sh-3:0 18px 50px rgba(25,28,34,.18);
-  --mx:1120px;
+  --bg:#f4f2ea;--bg-2:#ece9df;--card:#fffdf8;--ink:#191c22;--ink-2:#222631;--text:#21242b;--text-2:#5b616b;--text-3:#8b909a;
+  --text-inv:#f3f1ea;--text-inv-2:#a8aeb8;--line:#e6e1d4;--line-2:#efeae0;--line-ink:rgba(255,255,255,.10);
+  --brand:#c5812a;--brand-2:#e0a043;--brand-deep:#9a6214;--brand-soft:#f4e7cd;--brand-tint:#faf2e0;
+  --teal:#1f6f73;--teal-2:#2f8a8d;--teal-deep:#123f43;--teal-soft:#dde9e9;--pass:#2f7a4e;--pass-soft:#e2efe5;--fail:#bd4a31;
+  --r:16px;--pill:999px;--display:'Fraunces',Georgia,serif;--body:'Hanken Grotesk',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;
+  --sh-1:0 1px 2px rgba(25,28,34,.05),0 1px 3px rgba(25,28,34,.05);--sh-2:0 4px 14px rgba(25,28,34,.06),0 12px 32px rgba(25,28,34,.09);--sh-3:0 18px 50px rgba(25,28,34,.18);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:var(--body);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.5;overflow-x:hidden}
-body::before{content:"";position:fixed;inset:0;z-index:-1;background:
-  radial-gradient(1200px 520px at 78% -8%, rgba(197,129,42,.07), transparent 60%),
-  radial-gradient(900px 500px at 8% 4%, rgba(31,111,115,.06), transparent 55%);}
+body{font-family:var(--body);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.5;
+  background-image:radial-gradient(1100px 520px at 80% -8%,rgba(197,129,42,.06),transparent 60%),radial-gradient(820px 460px at 6% 4%,rgba(31,111,115,.06),transparent 55%)}
 a{color:inherit;text-decoration:none}
-img,svg{display:block}
-.wrap{max-width:var(--mx);margin:0 auto;padding:0 26px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
 .eyebrow{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--brand-deep)}
-.serif{font-family:var(--display)}
 
-/* ---------- top nav ---------- */
-header.nav{position:sticky;top:0;z-index:50;background:rgba(244,242,234,.82);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid var(--line)}
-.nav .wrap{display:flex;align-items:center;gap:18px;height:66px}
-.brand{display:flex;align-items:center;gap:11px}
-.logo{width:38px;height:38px;border-radius:11px;background:linear-gradient(150deg,var(--ink),var(--teal-deep));display:grid;place-items:center;box-shadow:var(--sh-1);flex:none}
-.brand b{font-family:var(--display);font-weight:600;font-size:17px;letter-spacing:-.01em;color:var(--ink);line-height:1}
-.brand span{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3);margin-top:3px}
-.navlinks{display:flex;gap:4px;margin-left:14px}
-.navlinks a{font-size:14px;font-weight:600;color:var(--text-2);padding:8px 13px;border-radius:9px;transition:.15s}
-.navlinks a:hover{background:var(--bg-2);color:var(--ink)}
-.nav-sp{flex:1}
-.navchip{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:var(--pill);padding:7px 8px 7px 15px;box-shadow:var(--sh-1)}
-.navchip .pl{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;color:var(--text-2)}
-.navchip b{font-size:13px;font-weight:700;color:var(--ink)}
-.navchip .mini{width:30px;height:30px;flex:none}
-.navacct{display:inline-flex;align-items:center;font-size:13.5px;font-weight:700;color:var(--brand-deep);padding:8px 14px;border-radius:10px;border:1px solid var(--brand-soft);background:var(--brand-tint);white-space:nowrap;transition:.15s}
-.navacct:hover{background:var(--brand-soft)}
+header.nav{position:sticky;top:0;z-index:50;background:rgba(244,242,234,.85);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:16px;height:64px}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(150deg,var(--ink),var(--teal-deep));display:grid;place-items:center;flex:none}
+.brand b{font-family:var(--display);font-weight:600;font-size:16px;color:var(--ink);line-height:1}
+.brand span{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3);margin-top:3px}
+.navlinks{display:flex;gap:2px;margin-left:10px}
+.navlinks a{font-size:14px;font-weight:600;color:var(--text-2);padding:8px 12px;border-radius:9px}
+.navlinks a:hover{background:var(--bg-2);color:var(--ink)}.navlinks a.on{color:var(--ink)}
+.sp{flex:1}
+.navacct{display:inline-flex;align-items:center;font-size:13.5px;font-weight:700;color:var(--brand-deep);padding:8px 14px;border-radius:10px;border:1px solid var(--brand-soft);background:var(--brand-tint)}
 .navacct button{font:inherit;font-weight:600;border:none;background:none;color:var(--text-3);cursor:pointer;padding:0 0 0 9px;margin-left:9px;border-left:1px solid var(--line)}
 .navacct button:hover{color:var(--fail)}
 
-/* ---------- hero ---------- */
-.hero{position:relative;margin:30px 0 0;border-radius:var(--r-lg);overflow:hidden;background:linear-gradient(135deg,#1d2128 0%,#171b22 42%,#123f43 130%);color:var(--text-inv);box-shadow:var(--sh-3)}
-.hero::before{content:"";position:absolute;inset:0;opacity:.5;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:34px 34px;-webkit-mask:radial-gradient(120% 120% at 80% 0%,#000,transparent 75%);mask:radial-gradient(120% 120% at 80% 0%,#000,transparent 75%)}
-.hero::after{content:"";position:absolute;right:-120px;top:-120px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle at center,rgba(224,160,67,.20),transparent 62%)}
-.hero-in{position:relative;display:grid;grid-template-columns:1.35fr .8fr;gap:30px;align-items:center;padding:54px 50px}
-.hero .eyebrow{color:var(--brand-2)}
-.hero h1{font-family:var(--display);font-weight:600;font-size:clamp(34px,4.6vw,52px);line-height:1.04;letter-spacing:-.02em;margin:16px 0 0}
-.hero h1 em{font-style:italic;color:var(--brand-2)}
-.hero p.sub{font-size:16.5px;color:var(--text-inv-2);max-width:46ch;margin:18px 0 0;line-height:1.6}
-.hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
-.hero-meta{display:flex;gap:26px;margin-top:30px;padding-top:24px;border-top:1px solid var(--line-ink)}
-.hero-meta .m b{font-family:var(--display);font-weight:600;font-size:23px;color:#fff;display:block;line-height:1}
-.hero-meta .m span{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-inv-2);margin-top:6px;display:block}
-.gauge{display:grid;place-items:center;justify-self:center}
-.gauge-wrap{position:relative;width:210px;height:210px}
-.gauge-wrap .lab{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
-.gauge-wrap .lab .pc{font-family:var(--display);font-weight:600;font-size:46px;color:#fff;line-height:1}
-.gauge-wrap .lab .pc sup{font-size:20px;color:var(--brand-2);font-weight:500}
-.gauge-wrap .lab .t{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-inv-2);margin-top:7px}
+.hero{margin:28px 0 0;border-radius:22px;overflow:hidden;background:linear-gradient(135deg,#1d2128,#171b22 42%,#123f43 130%);color:var(--text-inv);box-shadow:var(--sh-3);position:relative}
+.hero::before{content:"";position:absolute;inset:0;opacity:.5;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:34px 34px;-webkit-mask:radial-gradient(120% 120% at 85% 0%,#000,transparent 75%);mask:radial-gradient(120% 120% at 85% 0%,#000,transparent 75%)}
+.hero-in{position:relative;display:grid;grid-template-columns:1.4fr .7fr;gap:28px;align-items:center;padding:40px 42px}
+.hero h1{font-family:var(--display);font-weight:600;font-size:clamp(28px,3.6vw,40px);line-height:1.05;letter-spacing:-.02em;margin:12px 0 0}
+.hero p.sub{font-size:15.5px;color:var(--text-inv-2);max-width:48ch;margin:12px 0 0;line-height:1.6}
+.hero p.sub b{color:#fff;font-weight:600}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+.hero-meta{display:flex;gap:26px;margin-top:26px;padding-top:22px;border-top:1px solid var(--line-ink)}
+.hero-meta .m b{font-family:var(--display);font-weight:600;font-size:22px;color:#fff;display:block;line-height:1}
+.hero-meta .m span{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-inv-2);margin-top:6px;display:block}
+.gauge{justify-self:center;position:relative;width:170px;height:170px}
+.gauge .lab{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.gauge .lab .pc{font-family:var(--display);font-weight:600;font-size:40px;color:#fff;line-height:1}
+.gauge .lab .pc sup{font-size:18px;color:var(--brand-2)}
+.gauge .lab .t{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-inv-2);margin-top:6px}
 
-/* ---------- buttons ---------- */
-.btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--body);font-weight:700;font-size:14.5px;padding:13px 20px;border-radius:12px;border:1px solid transparent;cursor:pointer;transition:.16s;white-space:nowrap}
-.btn svg{width:17px;height:17px}
+.btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--body);font-weight:700;font-size:14.5px;padding:12px 19px;border-radius:12px;border:1px solid transparent;cursor:pointer;transition:.16s;white-space:nowrap}
+.btn svg{width:16px;height:16px}
 .btn.brass{background:linear-gradient(180deg,var(--brand-2),var(--brand));color:#3a2607;box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 6px 18px rgba(154,98,20,.34)}
 .btn.brass:hover{filter:brightness(1.05);transform:translateY(-1px)}
-.btn.light{background:rgba(255,255,255,.10);color:#fff;border-color:rgba(255,255,255,.18)}
-.btn.light:hover{background:rgba(255,255,255,.17)}
-.btn.dark{background:var(--ink);color:var(--text-inv)}
-.btn.dark:hover{background:var(--ink-2);transform:translateY(-1px)}
-.btn.ghost{background:var(--card);color:var(--ink);border-color:var(--line);box-shadow:var(--sh-1)}
-.btn.ghost:hover{border-color:var(--brand);color:var(--brand-deep)}
+.btn.light{background:rgba(255,255,255,.10);color:#fff;border-color:rgba(255,255,255,.18)}.btn.light:hover{background:rgba(255,255,255,.17)}
+.btn.ghost{background:var(--card);color:var(--ink);border-color:var(--line);box-shadow:var(--sh-1)}.btn.ghost:hover{border-color:var(--brand);color:var(--brand-deep)}
 .btn.sm{padding:10px 15px;font-size:13.5px}
 
-/* ---------- section heads ---------- */
-.shead{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin:0 0 22px}
-.shead h2{font-family:var(--display);font-weight:600;font-size:30px;letter-spacing:-.018em;color:var(--ink);line-height:1.1}
-.shead p{font-size:14.5px;color:var(--text-2);margin-top:7px;max-width:54ch}
-section.block{padding:62px 0 0}
-#systems{scroll-margin-top:80px}#resources{scroll-margin-top:80px}#overview{scroll-margin-top:80px}
+section.block{padding:40px 0 0}
+.shead{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin:0 0 16px}
+.shead h2{font-family:var(--display);font-weight:600;font-size:23px;letter-spacing:-.01em;color:var(--ink)}
+.shead a{font-size:13.5px;font-weight:700;color:var(--brand-deep)}
 
-/* ---------- stat tiles ---------- */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px 20px 18px;box-shadow:var(--sh-1)}
-.stat .ic{width:38px;height:38px;border-radius:10px;background:var(--brand-tint);display:grid;place-items:center;color:var(--brand-deep);margin-bottom:14px}
-.stat .ic svg{width:20px;height:20px}
-.stat .big{font-family:var(--display);font-weight:600;font-size:32px;color:var(--ink);line-height:1}
-.stat .big small{font-size:16px;color:var(--text-3);font-weight:500}
-.stat .lab{font-size:13px;color:var(--text-2);margin-top:6px;font-weight:500}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px 18px 16px;box-shadow:var(--sh-1)}
+.stat .ic{width:34px;height:34px;border-radius:9px;background:var(--brand-tint);display:grid;place-items:center;color:var(--brand-deep);margin-bottom:12px}
+.stat .ic svg{width:18px;height:18px}
+.stat .big{font-family:var(--display);font-weight:600;font-size:27px;color:var(--ink);line-height:1}
+.stat .big small{font-size:15px;color:var(--text-3);font-weight:500}
+.stat .lab{font-size:12.5px;color:var(--text-2);margin-top:5px;font-weight:500}
 
-/* ---------- learning path ---------- */
-.path{display:flex;flex-direction:column;gap:0}
-.node{position:relative;display:grid;grid-template-columns:64px 1fr;gap:4px}
-.spine{position:relative;display:flex;flex-direction:column;align-items:center}
-.spine .ln{position:absolute;top:0;bottom:0;width:2px;background:var(--line);left:50%;transform:translateX(-50%)}
-.node:first-child .spine .ln{top:34px}
-.node:last-child .spine .ln{bottom:auto;height:34px}
-.dot{position:relative;z-index:1;width:34px;height:34px;border-radius:50%;background:var(--card);border:2px solid var(--line);display:grid;place-items:center;font-family:var(--mono);font-weight:600;font-size:13px;color:var(--text-3);margin-top:26px;transition:.2s}
-.node.done .dot{background:var(--pass);border-color:var(--pass);color:#fff}
-.node.prog .dot{background:var(--brand);border-color:var(--brand);color:#fff}
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-1);margin:14px 0;transition:.2s;overflow:hidden;display:block}
-.card:hover{box-shadow:var(--sh-2);transform:translateY(-2px);border-color:var(--brand-soft)}
-.card-in{display:grid;grid-template-columns:auto 1fr auto;gap:22px;align-items:center;padding:22px 24px}
-.sysicon{width:58px;height:58px;border-radius:15px;display:grid;place-items:center;flex:none;color:#fff;box-shadow:var(--sh-1)}
-.sysicon svg{width:30px;height:30px}
-.sys-body{min-width:0}
-.sys-kicker{display:flex;align-items:center;gap:10px;margin-bottom:4px}
-.sys-kicker .k{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3)}
-.pill{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:var(--pill);border:1px solid}
-.pill.muted{color:var(--text-2);border-color:var(--line);background:var(--bg-2)}
-.pill.prog{color:var(--brand-deep);border-color:var(--brand-soft);background:var(--brand-tint)}
-.pill.done{color:var(--pass);border-color:#bfe0c9;background:var(--pass-soft)}
-.sys-body h3{font-family:var(--display);font-weight:600;font-size:21px;letter-spacing:-.01em;color:var(--ink);line-height:1.15}
-.sys-body p{font-size:14px;color:var(--text-2);margin-top:5px;line-height:1.5;max-width:60ch}
-.sys-meta{display:flex;gap:16px;margin-top:12px;flex-wrap:wrap}
-.sys-meta span{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--text-2);font-weight:500}
-.sys-meta svg{width:14px;height:14px;color:var(--text-3)}
-.sys-prog{margin-top:14px;display:flex;align-items:center;gap:12px}
-.bar{flex:1;height:7px;background:var(--bg-2);border-radius:var(--pill);overflow:hidden;border:1px solid var(--line-2)}
-.bar i{display:block;height:100%;border-radius:var(--pill);background:linear-gradient(90deg,var(--brand-deep),var(--brand-2));transition:width .9s cubic-bezier(.2,.7,.2,1)}
-.node.done .bar i{background:linear-gradient(90deg,#2f7a4e,#46a06a)}
-.sys-prog .pct{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--text-2);min-width:34px;text-align:right}
-.sys-cta{display:flex;flex-direction:column;align-items:flex-end;gap:9px;flex:none}
-.lock{font-family:var(--mono);font-size:11px;color:var(--text-3);display:flex;align-items:center;gap:6px;font-weight:500}
+.cont{display:flex;align-items:center;gap:18px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh-1);padding:20px 22px}
+.cont .badge{width:52px;height:52px;border-radius:13px;background:linear-gradient(150deg,var(--brand-2),var(--brand-deep));color:#fff;display:grid;place-items:center;font-family:var(--display);font-weight:600;font-size:15px;flex:none}
+.cont .b1{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3)}
+.cont h3{font-family:var(--display);font-weight:600;font-size:18px;color:var(--ink);margin-top:3px}
+.cont .sp{flex:1}
 
-/* ---------- resources ---------- */
-.res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.res{display:flex;gap:14px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;box-shadow:var(--sh-1);transition:.16s}
-.res:hover{border-color:var(--brand-soft);box-shadow:var(--sh-2);transform:translateY(-2px)}
-.res .ri{width:42px;height:42px;border-radius:10px;background:var(--teal-soft);color:var(--teal-deep);display:grid;place-items:center;flex:none}
-.res .ri svg{width:21px;height:21px}
-.res h4{font-size:14.5px;font-weight:700;color:var(--ink);line-height:1.25}
-.res p{font-family:var(--mono);font-size:11px;color:var(--text-3);margin-top:5px;letter-spacing:.02em}
-.res .go{font-size:12.5px;font-weight:700;color:var(--brand-deep);margin-top:9px;display:inline-flex;align-items:center;gap:5px}
+.mods{display:grid;gap:10px}
+.modrow{display:flex;align-items:center;gap:15px;background:var(--card);border:1px solid var(--line);border-radius:13px;padding:14px 16px;box-shadow:var(--sh-1);transition:.14s}
+.modrow:hover{border-color:var(--brand-soft);box-shadow:var(--sh-2)}
+.modrow .mc{width:36px;height:36px;border-radius:10px;background:var(--ink);color:var(--brand-2);font-family:var(--display);font-weight:600;font-size:13px;display:grid;place-items:center;flex:none}
+.modrow .mt{flex:1;min-width:0}
+.modrow .mt .nm{font-weight:700;font-size:14.5px;color:var(--ink)}
+.modrow .mt .hr{font-family:var(--mono);font-size:10.5px;color:var(--text-3);margin-top:2px}
+.modrow .bar{width:160px;height:6px;background:var(--bg-2);border-radius:var(--pill);overflow:hidden;border:1px solid var(--line-2);flex:none}
+.modrow .bar i{display:block;height:100%;border-radius:var(--pill);background:linear-gradient(90deg,#2f7a4e,#46a06a)}
+.modrow .pct{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--text-2);width:34px;text-align:right;flex:none}
 
-/* ---------- callout ---------- */
-.callout{margin-top:18px;display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;background:linear-gradient(120deg,var(--brand-tint),var(--card));border:1px solid var(--brand-soft);border-radius:var(--r-lg);padding:26px 30px}
-.callout .cmark{width:54px;height:54px;border-radius:14px;background:#fff;border:1px solid var(--brand-soft);display:grid;place-items:center;color:var(--brand-deep)}
-.callout .cmark svg{width:27px;height:27px}
-.callout h3{font-family:var(--display);font-weight:600;font-size:20px;color:var(--ink)}
-.callout p{font-size:14px;color:var(--text-2);margin-top:4px;max-width:64ch}
+.cert{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;background:linear-gradient(120deg,var(--brand-tint),var(--card));border:1px solid var(--brand-soft);border-radius:18px;padding:22px 26px;margin-top:16px}
+.cert .cm{width:50px;height:50px;border-radius:13px;background:#fff;border:1px solid var(--brand-soft);display:grid;place-items:center;color:var(--brand-deep)}
+.cert h3{font-family:var(--display);font-weight:600;font-size:18px;color:var(--ink)}
+.cert p{font-size:13.5px;color:var(--text-2);margin-top:3px;max-width:60ch}
 
-/* ---------- footer ---------- */
-footer{margin-top:74px;background:var(--ink);color:var(--text-inv-2)}
-footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:34px 26px;flex-wrap:wrap}
-footer .brand b{color:#fff}footer .brand span{color:var(--text-inv-2)}
-footer .logo{background:linear-gradient(150deg,#2a2f38,var(--teal-deep))}
-footer small{font-size:12.5px;line-height:1.6;max-width:54ch;display:block;margin-top:4px}
-footer .fr{font-family:var(--mono);font-size:11px;letter-spacing:.04em;text-align:right;color:var(--text-3)}
+footer{margin-top:56px;background:var(--ink);color:var(--text-inv-2)}
+footer .wrap{padding:26px 24px;font-size:12.5px;line-height:1.6}
+footer b{color:#fff}
 
-@media(max-width:920px){
-  .hero-in{grid-template-columns:1fr;padding:40px 34px}
-  .gauge{justify-self:start;margin-top:6px}
-  .stats{grid-template-columns:repeat(2,1fr)}
-  .res-grid{grid-template-columns:1fr 1fr}
-  .navlinks{display:none}
-  .callout{grid-template-columns:auto 1fr}
-}
-@media(max-width:680px){
-  .wrap{padding:0 18px}
-  .card-in{grid-template-columns:auto 1fr;gap:16px}
-  .sys-cta{grid-column:1/-1;flex-direction:row;justify-content:space-between;align-items:center;border-top:1px solid var(--line-2);padding-top:14px;margin-top:2px}
-  .node{grid-template-columns:42px 1fr}
-  .stats{grid-template-columns:1fr 1fr}
-  .res-grid{grid-template-columns:1fr}
-  .hero-meta{gap:18px;flex-wrap:wrap}
-  .shead{flex-direction:column;align-items:flex-start}
-  .navchip .pl{display:none}
-  .callout .btn{display:none}
-}
+@media(max-width:760px){.hero-in{grid-template-columns:1fr;padding:30px 26px}.gauge{justify-self:start}.stats{grid-template-columns:1fr 1fr}.modrow .bar{width:90px}.navlinks{display:none}.cert{grid-template-columns:auto 1fr}.cert .btn{display:none}}
 </style>
 </head>
 <body>
-
-<header class="nav">
-  <div class="wrap">
-    <a class="brand" href="index.html" aria-label="ATI Academy home">
-      <span class="logo" aria-hidden="true">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#e0a043" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10.5V20h14v-9.5"/><circle cx="11" cy="14" r="2.4"/><path d="m13 16 2.4 2.4"/></svg>
-      </span>
-      <span><b>ATI Academy</b><span>Inspector Training</span></span>
-    </a>
-    <nav class="navlinks" aria-label="Primary">
-      <a href="/course.html">My course</a>
-      <a href="#overview">Overview</a>
-      <a href="#systems">Systems</a>
-      <a href="#resources">Resources</a>
-    </nav>
-    <div class="nav-sp"></div>
-    <div class="navchip" aria-label="Module progress">
-      <svg class="mini" viewBox="0 0 36 36" aria-hidden="true">
-        <circle cx="18" cy="18" r="15" fill="none" stroke="var(--line)" stroke-width="4"/>
-        <circle id="navRing" cx="18" cy="18" r="15" fill="none" stroke="var(--brand)" stroke-width="4" stroke-linecap="round" stroke-dasharray="94.2" stroke-dashoffset="94.2" transform="rotate(-90 18 18)"/>
-      </svg>
-      <div><span class="pl">Module II</span> <b id="navPct">0%</b></div>
-    </div>
-    <a id="navAcct" class="navacct" href="/account.html">Sign in</a>
-  </div>
-</header>
+<header class="nav"><div class="wrap">
+  <a class="brand" href="/"><span class="logo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e0a043" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10.5V20h14v-9.5"/><circle cx="11" cy="14" r="2.4"/><path d="m13 16 2.4 2.4"/></svg></span><span><b>ATI Academy</b><span>Inspector Training</span></span></a>
+  <nav class="navlinks"><a class="on" href="/">Dashboard</a><a href="/course.html">My course</a></nav>
+  <div class="sp"></div>
+  <a id="navAcct" class="navacct" href="/account.html">Sign in</a>
+</div></header>
 
 <div class="wrap">
-  <!-- HERO -->
-  <section class="hero" aria-label="Module overview">
-    <div class="hero-in">
-      <div>
-        <span class="eyebrow">Module II · Property &amp; Building Inspection</span>
-        <h1>Read every system <em>like an inspector.</em></h1>
-        <p class="sub">Five building systems, taught the way the field actually works — diagrams you can poke, defects you have to spot, field tools, and a mastery check on each. No walls of text.</p>
-        <div class="hero-cta">
-          <a id="continueBtn" class="btn brass" href="#systems">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 4 20 12 6 20 6 4"/></svg>
-            <span id="continueLabel">Start with Electrical</span>
-          </a>
-          <a class="btn light" href="#systems">Browse all systems</a>
-        </div>
-        <div class="hero-meta">
-          <div class="m"><b id="mSystems">0/5</b><span>Systems mastered</span></div>
-          <div class="m"><b id="mLessons">0</b><span>Lessons complete</span></div>
-          <div class="m"><b id="mScore">—</b><span>Avg mastery score</span></div>
-        </div>
+  <section class="hero"><div class="hero-in">
+    <div>
+      <span class="eyebrow">Your dashboard</span>
+      <h1 id="welcome">Welcome back.</h1>
+      <p class="sub" id="enrolled">Loading your course…</p>
+      <div class="hero-cta">
+        <a id="continueBtn" class="btn brass" href="/course.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 4 20 12 6 20 6 4"/></svg><span id="continueLabel">Go to my course</span></a>
+        <a class="btn light" href="/course.html">View full curriculum</a>
       </div>
-      <div class="gauge">
-        <div class="gauge-wrap">
-          <svg width="210" height="210" viewBox="0 0 210 210" aria-hidden="true">
-            <circle cx="105" cy="105" r="92" fill="none" stroke="rgba(255,255,255,.10)" stroke-width="13"/>
-            <circle id="heroRing" cx="105" cy="105" r="92" fill="none" stroke="url(#gg)" stroke-width="13" stroke-linecap="round" stroke-dasharray="578" stroke-dashoffset="578" transform="rotate(-90 105 105)"/>
-            <defs><linearGradient id="gg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e0a043"/><stop offset="1" stop-color="#c5812a"/></linearGradient></defs>
-          </svg>
-          <div class="lab"><div><div class="pc"><span id="heroPct">0</span><sup>%</sup></div><div class="t">Module complete</div></div></div>
-        </div>
+      <div class="hero-meta">
+        <div class="m"><b id="mSections">0/0</b><span>Sections done</span></div>
+        <div class="m"><b id="mModules">0/0</b><span>Modules complete</span></div>
+        <div class="m"><b id="mState">—</b><span>Licensing path</span></div>
       </div>
     </div>
+    <div class="gauge">
+      <svg width="170" height="170" viewBox="0 0 170 170" aria-hidden="true">
+        <circle cx="85" cy="85" r="73" fill="none" stroke="rgba(255,255,255,.10)" stroke-width="12"/>
+        <circle id="ring" cx="85" cy="85" r="73" fill="none" stroke="url(#g)" stroke-width="12" stroke-linecap="round" stroke-dasharray="458.7" stroke-dashoffset="458.7" transform="rotate(-90 85 85)"/>
+        <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e0a043"/><stop offset="1" stop-color="#c5812a"/></linearGradient></defs>
+      </svg>
+      <div class="lab"><div><div class="pc"><span id="pc">0</span><sup>%</sup></div><div class="t">Course complete</div></div></div>
+    </div>
+  </div></section>
+
+  <section class="block">
+    <div class="shead"><h2>Your progress</h2><a href="/course.html">Open my course →</a></div>
+    <div class="stats" id="stats"></div>
   </section>
 
-  <!-- OVERVIEW STATS -->
-  <section class="block" id="overview">
-    <div class="shead">
-      <div><h2>Your progress</h2><p>Tracked automatically on this device as you complete lessons and pass each mastery check.</p></div>
-      <a class="btn ghost sm" href="#systems">Jump back in →</a>
-    </div>
-    <div class="stats">
-      <div class="stat"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 13 9 5 9-5"/></svg></div><div class="big"><span id="sLessons">0</span><small id="sLessonsTot">/57</small></div><div class="lab">Lessons complete</div></div>
-      <div class="stat"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6l-8-4Z"/><path d="m9 12 2 2 4-4"/></svg></div><div class="big"><span id="sMastered">0</span><small>/5</small></div><div class="lab">Systems mastered</div></div>
-      <div class="stat"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".6" fill="currentColor"/></svg></div><div class="big"><span id="sScore">—</span></div><div class="lab">Average mastery score</div></div>
-      <div class="stat"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></div><div class="big"><span id="sTime">0</span><small>h</small></div><div class="lab">Est. time invested</div></div>
-    </div>
+  <section class="block">
+    <div class="shead"><h2>Pick up where you left off</h2></div>
+    <div id="continueCard"></div>
   </section>
 
-  <!-- LEARNING PATH -->
-  <section class="block" id="systems">
-    <div class="shead">
-      <div><h2>The five systems</h2><p>Work top to bottom for the full path, or jump to any system — each one stands on its own and saves your place.</p></div>
-    </div>
-    <div class="path" id="path"></div>
-  </section>
-
-  <!-- RESOURCES -->
-  <section class="block" id="resources">
-    <div class="shead">
-      <div><h2>Reference library</h2><p>The source chapters behind each system, plus the field-ready reference baked into every section.</p></div>
-    </div>
-    <div class="res-grid" id="resGrid"></div>
-    <div class="callout">
-      <div class="cmark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6l-8-4Z"/><path d="m9 12 2 2 4-4"/></svg></div>
-      <div>
-        <h3>Earn the Module II certificate</h3>
-        <p>Pass the mastery check in all five systems — 80% each — and the module certificate unlocks here, ready to add to your inspector training record.</p>
-      </div>
-      <a class="btn ghost" href="#systems" style="align-self:center">View requirements →</a>
-    </div>
+  <section class="block">
+    <div class="shead"><h2>Your modules</h2><a href="/course.html">See all →</a></div>
+    <div class="mods" id="mods"></div>
+    <div class="cert" id="cert"></div>
   </section>
 </div>
 
-<footer>
-  <div class="wrap">
-    <div>
-      <div class="brand">
-        <span class="logo" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#e0a043" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10.5V20h14v-9.5"/><circle cx="11" cy="14" r="2.4"/><path d="m13 16 2.4 2.4"/></svg></span>
-        <span><b>ATI Academy</b><span>Module II · Inspector Training</span></span>
-      </div>
-      <small>Built on the <i>Principles of Home Inspection: Systems &amp; Standards</i> curriculum. Progress is stored privately on this device — nothing is uploaded.</small>
-    </div>
-    <div class="fr">© All American Training Institute<br/>Property &amp; Building Inspection</div>
-  </div>
-</footer>
+<footer><div class="wrap" id="foot"></div></footer>
 
-<script src="/storage.js"></script>
 <script>
-/* ---- storage adapter: Claude window.storage, else localStorage, else memory ---- */
-(function(){
-  if(typeof window==='undefined')return;
-  if(window.storage&&window.storage.get)return;
-  var mem={};
-  window.storage={
-    get:function(k){try{var v=window.localStorage.getItem(k);return Promise.resolve(v!=null?{value:v}:null);}catch(e){return Promise.resolve(mem[k]!=null?{value:mem[k]}:null);}},
-    set:function(k,v){try{window.localStorage.setItem(k,v);}catch(e){mem[k]=v;}return Promise.resolve({value:v});}
-  };
-})();
+function logout(){fetch('/api/auth/logout',{method:'POST',credentials:'same-origin'}).then(function(){location.href='/account.html';});}
+function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+var STATE={TX:'Texas',NY:'New York',WA:'Washington'};
+function setRing(p){var c=458.7;document.getElementById('ring').style.strokeDashoffset=c*(1-p/100);}
 
-/* ---- the five systems ---- */
-const SYSTEMS=[
-  {key:'ati_electrical_ix_v1', file:'electrical.html', n:1, name:'Electrical Systems',
-   blurb:'Service drop to branch circuits — sizing, panels, grounding, and the conditions you write up.',
-   lessons:11, total:15, time:3.0, accent:'linear-gradient(150deg,#caa23a,#a8761a)',
-   icon:'<path d="M13 2 4 14h7l-1 8 10-12h-7l0-8Z"/>'},
-  {key:'ati_cooling_ix_v1', file:'cooling.html', n:2, name:'Cooling & Heat Pumps',
-   blurb:'The refrigeration cycle, condensing and indoor units, lines, ducts, and heat-pump reversal.',
-   lessons:8, total:12, time:2.4, accent:'linear-gradient(150deg,#3f93b6,#1f6f8c)',
-   icon:'<path d="M12 2v20M9 5l3-3 3 3M9 19l3 3 3-3"/><path d="M3.5 7 20.5 17M4 11l-.5-4 4-.3M20 13l.5 4-4 .3"/><path d="M20.5 7 3.5 17M20 11l.5-4-4-.3M4 13l-.5 4 4 .3"/>'},
-  {key:'ati_heating_ix_v1', file:'heating.html', n:3, name:'Heating Systems',
-   blurb:'Furnaces, heat exchangers, venting, oil and boilers — combustion safety and how heat is moved.',
-   lessons:13, total:17, time:3.4, accent:'linear-gradient(150deg,#dd7b3e,#bb4a26)',
-   icon:'<path d="M12 22c4-1 6-4 6-7.5 0-3-2-5-3-6.5-.6 1.4-1.6 2-2.4 2 .3-2.4-.6-5-3.6-7-.2 3-1.7 4.2-3 6-1 1.4-1.6 3-1.6 5C1.8 18 4 21 8 22a3.4 3.4 0 0 1-1.2-2.6c0-1.8 1.5-3 2.2-4.4.5 1 .9 1.3 1.8 1.8.8-1.4 0-2.8.2-4 .9.6 2.4 2.3 2.4 4.2A3.4 3.4 0 0 1 14 22"/>'},
-  {key:'ati_insulation_ix_v1', file:'insulation.html', n:4, name:'Insulation & Ventilation',
-   blurb:'R-value, air sealing, vapor drive, attic and crawlspace ventilation — moisture and comfort.',
-   lessons:9, total:13, time:2.6, accent:'linear-gradient(150deg,#5aa06a,#2f7a4e)',
-   icon:'<path d="M3 8c2.2 0 2.2-2 4.5-2S9.7 8 12 8s2.2-2 4.5-2S18.7 8 21 8"/><path d="M3 13c2.2 0 2.2-2 4.5-2S9.7 13 12 13s2.2-2 4.5-2S18.7 13 21 13"/><path d="M3 18c2.2 0 2.2-2 4.5-2S9.7 18 12 18s2.2-2 4.5-2S18.7 18 21 18"/>'},
-  {key:'ati_plumbing_ix_v1', file:'plumbing.html', n:5, name:'Plumbing Systems',
-   blurb:'Supply and materials, water heaters and safety, drain-waste-vent, traps, and cross-connections.',
-   lessons:9, total:13, time:2.7, accent:'linear-gradient(150deg,#4f7ec2,#2a4f8f)',
-   icon:'<path d="M12 2.5c3.5 4.2 6 7.3 6 10.5a6 6 0 0 1-12 0c0-3.2 2.5-6.3 6-10.5Z"/><path d="M12 18a3 3 0 0 1-3-3"/>'}
-];
-const ICONW='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">';
+async function main(){
+  var me=null; try{var r=await fetch('/api/me',{credentials:'same-origin'}); if(r.ok) me=await r.json();}catch(e){}
+  if(!me||!me.user){ location.href='/account.html'; return; }
+  var acct=document.getElementById('navAcct');
+  acct.removeAttribute('href'); acct.style.cursor='default';
+  acct.innerHTML=esc(me.user.fullName.split(' ')[0])+'<button onclick="logout()">Sign out</button>';
 
-const RESOURCES=[
-  {name:'Electrical — source chapter', meta:'PDF · Chapter 7', href:'electrical-chapter.pdf'},
-  {name:'Cooling & Heat Pumps — source', meta:'PDF · Chapter 12', href:'cooling-chapter.pdf'},
-  {name:'Plumbing — source chapter', meta:'PDF · Chapter 13', href:'ati-plumbing-chapter.pdf'},
-  {name:'Glossaries & field tools', meta:'In every section · interactive', href:'#systems'},
-  {name:'Inspector\'s Call scenarios', meta:'5 systems · applied practice', href:'#systems'},
-  {name:'Mastery checks', meta:'80% to pass · per system', href:'#systems'}
-];
+  var slug=(me.enrollment&&me.enrollment.courseSlug)||'home-inspection-prelicensing-tx';
+  var d; try{ var c=await fetch('/api/courses/'+encodeURIComponent(slug),{credentials:'same-origin'}); d=await c.json(); }catch(e){ return; }
 
-async function readState(key){
-  try{const r=await window.storage.get(key,false);if(r&&r.value)return JSON.parse(r.value);}catch(e){}
-  return null;
-}
-function setRing(el,pct,circ){if(el)el.style.strokeDashoffset=circ*(1-pct/100);}
+  var t=d.totals, pct=t.lessonsTotal?Math.round(t.lessonsComplete/t.lessonsTotal*100):0;
+  var stateName=STATE[d.course.state]||'National';
+  var modsComplete=d.modules.filter(function(m){return m.lessonsTotal>0&&m.lessonsDone===m.lessonsTotal;}).length;
 
-async function init(){
-  let doneSum=0,totalSum=0,mastered=0,scoreSum=0,scoreN=0,firstOpen=null,firstUnstarted=null;
-  const path=document.getElementById('path');
-  const rows=[];
+  // welcome + enrollment
+  document.getElementById('welcome').textContent='Welcome back, '+me.user.fullName.split(' ')[0]+'.';
+  var enrolledLine = me.enrollment
+    ? 'You’re enrolled in <b>'+esc(stateName)+' — Professional Real Estate Inspector</b>. Pick up below, or open your full course.'
+    : 'Previewing <b>'+esc(stateName)+' — Professional Real Estate Inspector</b> (admin). Open the full course to review every module.';
+  document.getElementById('enrolled').innerHTML=enrolledLine;
 
-  for(const s of SYSTEMS){
-    const st=await readState(s.key);
-    const done=st&&st.done?Object.keys(st.done).filter(k=>st.done[k]).length:0;
-    const total=(st&&st.total)||s.total;
-    const pct=Math.min(100,Math.round(done/total*100));
-    const best=st&&typeof st.assessBest==='number'?st.assessBest:0;
-    const isMaster=best>=80||(st&&st.done&&st.done.assess);
-    doneSum+=Math.min(done,total);totalSum+=total;
-    if(isMaster)mastered++;
-    if(best>0){scoreSum+=best;scoreN++;}
-    if(pct>0&&pct<100&&firstOpen===null)firstOpen=s;
-    if(pct===0&&firstUnstarted===null)firstUnstarted=s;
-    rows.push({s,pct,isMaster,done,total,best});
+  // hero ring + meta
+  setRing(pct); animateNum('pc',pct);
+  document.getElementById('mSections').textContent=t.lessonsComplete+'/'+t.lessonsTotal;
+  document.getElementById('mModules').textContent=modsComplete+'/'+d.modules.length;
+  document.getElementById('mState').innerHTML='<span style="font-size:15px;font-family:var(--body);font-weight:700">'+esc(stateName)+' · TREC</span>';
+
+  // find "continue" section
+  var flat=[]; d.modules.forEach(function(m){ m.lessons.forEach(function(l){ flat.push({l:l,m:m}); }); });
+  var next = flat.filter(function(x){return x.l.ready&&x.l.status==='in_progress';})[0]
+          || flat.filter(function(x){return x.l.ready&&x.l.status==='not_started';})[0]
+          || null;
+  var cb=document.getElementById('continueBtn'), cl=document.getElementById('continueLabel');
+  if(next){ cb.href='/'+next.l.contentRef; cl.textContent=(next.l.status==='in_progress'?'Resume: ':'Start: ')+next.l.title; }
+
+  // stat cards
+  document.getElementById('stats').innerHTML=[
+    statCard('m12 3 9 5-9 5-9-5 9-5Z','M3 13l9 5 9-5', t.lessonsComplete+'<small>/'+t.lessonsTotal+'</small>','Sections complete'),
+    statCard('M12 2 4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6l-8-4Z','m9 12 2 2 4-4', modsComplete+'<small>/'+d.modules.length+'</small>','Modules mastered'),
+    statCard2('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/>', pct+'<small>%</small>','Overall progress'),
+    statCard2('<path d="M12 2 4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6l-8-4Z"/><path d="m9 12 2 2 4-4"/>', (pct>=100?'Ready':'Locked'),'Certificate')
+  ].join('');
+
+  // continue card
+  var cc=document.getElementById('continueCard');
+  if(next){
+    cc.innerHTML='<div class="cont"><div class="badge">'+esc(next.m.code)+'</div><div><div class="b1">Module '+esc(next.m.code)+' · '+(next.l.status==='in_progress'?'In progress':'Up next')+'</div><h3>'+esc(next.l.title)+'</h3></div><div class="sp"></div><a class="btn brass" href="/'+next.l.contentRef+'">'+(next.l.status==='in_progress'?'Resume':'Start')+' →</a></div>';
+  } else {
+    cc.innerHTML='<div class="cont"><div class="badge" style="background:linear-gradient(150deg,#46a06a,#2f7a4e)">✓</div><div><div class="b1">All available content complete</div><h3>You’ve finished every live section</h3></div><div class="sp"></div><a class="btn ghost" href="/course.html">Review course →</a></div>';
   }
 
-  const overall=totalSum?Math.round(doneSum/totalSum*100):0;
-  const avg=scoreN?Math.round(scoreSum/scoreN):null;
-
-  /* hero + nav */
-  setRing(document.getElementById('heroRing'),overall,578);
-  setRing(document.getElementById('navRing'),overall,94.2);
-  animateNum('heroPct',overall);
-  document.getElementById('navPct').textContent=overall+'%';
-  document.getElementById('mSystems').textContent=mastered+'/5';
-  document.getElementById('mLessons').textContent=doneSum;
-  document.getElementById('mScore').textContent=avg!=null?avg+'%':'—';
-  document.getElementById('sLessons').textContent=doneSum;
-  document.getElementById('sLessonsTot').textContent='/'+totalSum;
-  document.getElementById('sMastered').textContent=mastered;
-  document.getElementById('sScore').textContent=avg!=null?avg+'%':'—';
-  document.getElementById('sTime').textContent=(Math.round(doneSum*0.22*10)/10);
-
-  /* continue CTA */
-  const target=firstOpen||firstUnstarted||SYSTEMS[0];
-  const cb=document.getElementById('continueBtn'),cl=document.getElementById('continueLabel');
-  cb.href=target.file;
-  cl.textContent=firstOpen?('Continue '+firstOpen.name):('Start with '+target.name.replace(/ Systems| & Heat Pumps/,''));
-
-  /* path cards */
-  path.innerHTML=rows.map(({s,pct,isMaster,done,total,best})=>{
-    const state=isMaster?'done':(pct>0?'prog':'');
-    const pill=isMaster?'<span class="pill done">Mastered</span>':(pct>0?'<span class="pill prog">In progress</span>':'<span class="pill muted">Not started</span>');
-    const cta=pct>0&&!isMaster
-      ?`<span class="btn brass sm">Resume →</span>`
-      :(isMaster?`<span class="btn ghost sm">Review →</span>`:`<span class="btn dark sm">Start →</span>`);
-    const score=best>0?`<span>${ICONW}<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg>Best ${best}%</span>`:'';
-    return `<div class="node ${state}">
-      <div class="spine"><div class="ln"></div><div class="dot">${isMaster?'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>':s.n}</div></div>
-      <a class="card" href="${s.file}" aria-label="${s.name}">
-        <div class="card-in">
-          <div class="sysicon" style="background:${s.accent}">${ICONW}${s.icon}</svg></div>
-          <div class="sys-body">
-            <div class="sys-kicker"><span class="k">System ${s.n} of 5</span>${pill}</div>
-            <h3>${s.name}</h3>
-            <p>${s.blurb}</p>
-            <div class="sys-meta">
-              <span>${ICONW}<path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 13 9 5 9-5"/></svg>${s.lessons} lessons</span>
-              <span>${ICONW}<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>~${s.time} hrs</span>
-              ${score}
-            </div>
-            <div class="sys-prog"><div class="bar"><i style="width:${pct}%"></i></div><span class="pct">${pct}%</span></div>
-          </div>
-          <div class="sys-cta">${cta}<span class="lock">${done}/${total} steps</span></div>
-        </div>
-      </a>
-    </div>`;
+  // module rows
+  document.getElementById('mods').innerHTML=d.modules.map(function(m){
+    var mp=m.lessonsTotal?Math.round(m.lessonsDone/m.lessonsTotal*100):0;
+    return '<a class="modrow" href="/course.html"><div class="mc">'+esc(m.code)+'</div><div class="mt"><div class="nm">'+esc(m.title.replace(/^Module [IVX]+ — /,''))+'</div><div class="hr">'+m.requiredHours+' TREC hrs · '+m.lessonsDone+'/'+m.lessonsTotal+' sections</div></div><div class="bar"><i style="width:'+mp+'%"></i></div><div class="pct">'+mp+'%</div></a>';
   }).join('');
 
-  /* resources */
-  document.getElementById('resGrid').innerHTML=RESOURCES.map(r=>`
-    <a class="res" href="${r.href}"${r.href.endsWith('.pdf')?' target="_blank" rel="noopener"':''}>
-      <div class="ri">${ICONW}${r.href.endsWith('.pdf')?'<path d="M8 2h6l4 4v14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z"/><path d="M14 2v4h4"/><path d="M9 13h6M9 17h4"/>':'<path d="M4 19.5V6a2 2 0 0 1 2-2h9l5 5v10.5"/><path d="M9 4v6l2.5-1.6L14 10V4"/>'}</svg></div>
-      <div><h4>${r.name}</h4><p>${r.meta}</p><span class="go">${r.href.endsWith('.pdf')?'Open PDF':'Explore'} <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
-    </a>`).join('');
+  // certificate
+  document.getElementById('cert').innerHTML='<div class="cm"><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.5 12.9 17 22l-5-3-5 3 1.5-9.1"/></svg></div>'+
+    '<div><h3>Certificate of Completion</h3><p>Unlocks when every required section is complete and each mastery check is passed (80%). You’re at <b>'+t.lessonsComplete+' of '+t.lessonsTotal+'</b>.</p></div>'+
+    '<a class="btn ghost" href="/course.html">'+(pct>=100?'Claim →':'View requirements →')+'</a>';
+
+  document.getElementById('foot').innerHTML='<b>ATI Academy</b> · Module hours shown are TREC’s required instruction time for licensure; the interactive sections are the high-engagement core. Progress is saved to your account.';
 }
-
-function animateNum(id,to){
-  const el=document.getElementById(id);if(!el)return;
-  const dur=900,t0=performance.now();
-  function step(t){const p=Math.min(1,(t-t0)/dur);const e=1-Math.pow(1-p,3);el.textContent=Math.round(to*e);if(p<1)requestAnimationFrame(step);}
-  requestAnimationFrame(step);
-}
-
-init();
-
-/* account chip: show the signed-in learner + sign-out, or a sign-in link */
-function logout(){fetch('/api/auth/logout',{method:'POST',credentials:'same-origin'}).then(function(){location.reload();});}
-(async function(){
-  const el=document.getElementById('navAcct');if(!el)return;
-  try{
-    const r=await fetch('/api/me',{credentials:'same-origin'});
-    if(!r.ok)return;
-    const j=await r.json();
-    const first=((j.user&&j.user.fullName)||'Account').split(' ')[0];
-    el.removeAttribute('href');
-    el.style.cursor='default';
-    el.innerHTML=first+'<button onclick="logout()" title="Sign out">Sign out</button>';
-  }catch(e){}
-})();
+function statCard(p1,p2,big,lab){return '<div class="stat"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="'+p1+'"/><path d="'+p2+'"/></svg></div><div class="big">'+big+'</div><div class="lab">'+lab+'</div></div>';}
+function statCard2(paths,big,lab){return '<div class="stat"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+paths+'</svg></div><div class="big">'+big+'</div><div class="lab">'+lab+'</div></div>';}
+function animateNum(id,to){var el=document.getElementById(id);if(!el)return;var t0=performance.now();function s(t){var p=Math.min(1,(t-t0)/800),e=1-Math.pow(1-p,3);el.textContent=Math.round(to*e);if(p<1)requestAnimationFrame(s);}requestAnimationFrame(s);}
+main();
 </script>
 </body>
 </html>

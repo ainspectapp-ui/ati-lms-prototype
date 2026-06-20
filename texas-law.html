@@ -294,7 +294,7 @@ async function load(){try{const r=await window.storage.get(KEY,false);if(r&&r.va
 async function save(){try{await window.storage.set(KEY,JSON.stringify(S),false);}catch(e){}}
 const stepDone=i=>!!S.done[STEPS[i].id];
 const pct=()=>Math.round(Object.keys(S.done).length/STEPS.length*100);
-const unlocked=i=>i===0?true:stepDone(i-1);
+const unlocked=i=>window.__previewAll||i===0||stepDone(i-1);
 const view=document.getElementById('view');
 function updTop(){const p=pct();document.getElementById('pbar').style.width=p+'%';document.getElementById('ppc').textContent=p+'%';}
 function rail(){document.getElementById('rail').innerHTML=STEPS.map((s,i)=>{const d=stepDone(i),u=unlocked(i),a=i===S.cur;return `<button class="step ${d?'done':''} ${a?'active':''} ${u?'':'locked'}" ${u?`onclick="goStep(${i})"`:''}><span class="dot">${d?sv(ic.check,3):(i+1)}</span><span class="lbl">${s.label}<span class="kind">${s.kind}</span></span></button>`;}).join('');}
@@ -310,7 +310,7 @@ function renderLesson(s){
       s.quiz.map((q,qi)=>`<div class="qblock"><div class="qnum">Question ${qi+1} of ${s.quiz.length}</div><div class="q">${q.q}</div><div class="opts" data-qi="${qi}">${q.o.map((o,k)=>`<button class="opt" onclick="qAns(${qi},${k})"><span class="k">${'ABCD'[k]}</span>${o}<span class="mk"></span></button>`).join('')}</div><div class="qexp" data-qi="${qi}"></div></div>`).join('')
     }</div><div class="qscore" style="display:none"></div></div>`;
   }
-  const gated=!!(s.quiz&&s.quiz.length&&!S.quiz[s.id]);
+  const gated=!window.__previewAll&&!!(s.quiz&&s.quiz.length&&!S.quiz[s.id]);
   view.innerHTML=h+navFoot(null,gated);
   wireWidgets(view);
   window._ql={answered:{},total:s.quiz?s.quiz.length:0};

@@ -124,7 +124,7 @@ async function main(){
   renderHero(data);
   renderCurriculum(data);
   const t=data.totals;
-  document.getElementById('foot').innerHTML='<b>'+t.contentReady+'</b> of '+t.lessonsTotal+' lessons are interactive today; the remaining '+t.contentPending+' are mapped to the TREC outline and in development.<br/>⚠ Curriculum structure reflects published TREC requirements — verify against primary TREC sources before use for real licensure.';
+  document.getElementById('foot').innerHTML='<b>'+t.contentReady+'</b> of '+t.lessonsTotal+' sections are interactive today; the rest are mapped to the TREC outline and in development.<br/>Hours shown are the TREC-required instruction time for licensure — the interactive sections are the high-engagement core, not the full seat-time; readings, video, and timed activities to fill each module to its hours are still to be built.<br/>⚠ Structure reflects published TREC requirements — verify against primary TREC sources before use for real licensure.';
 }
 
 function renderHero(d){
@@ -136,7 +136,7 @@ function renderHero(d){
     '<h1>'+esc(stateName)+' — Professional Inspector</h1>'+
     '<p>'+esc(d.course.summary||'')+'</p>'+
     '<div class="hero-stats">'+
-      '<div class="s"><b>'+(d.course.requiredHours||t.requiredHours)+'</b><span>Required hours</span></div>'+
+      '<div class="s"><b>'+(d.course.requiredHours||t.requiredHours)+'</b><span>TREC hours required</span></div>'+
       '<div class="s"><b>'+d.modules.length+'</b><span>Modules</span></div>'+
       '<div class="s"><b>'+t.lessonsComplete+'/'+t.lessonsTotal+'</b><span>Lessons complete</span></div>'+
       '<div class="s"><b style="font-size:15px;font-family:var(--body);font-weight:700">'+exams+'</b><span>Examination</span></div>'+
@@ -183,7 +183,7 @@ function moduleCard(m){
   return '<div class="mod'+(m.kind==='field'?' field':'')+'">'+
     '<div class="mod-h"><div class="mcode">'+esc(m.code)+'</div>'+
       '<div class="mod-t"><h3>'+esc(m.title.replace(/^Module [IVX]+ — /,''))+'</h3><p>'+esc(m.summary||'')+'</p></div>'+
-      '<div class="mmeta"><span class="hrs">'+m.requiredHours+' hours</span><span class="gpill">'+(m.kind==='field'?'Field':(m.examGate==='state'?'State exam':'National exam'))+'</span></div>'+
+      '<div class="mmeta"><span class="hrs">'+m.requiredHours+' TREC hrs</span><span class="gpill">'+(m.kind==='field'?'Field':(m.examGate==='state'?'State exam':'National exam'))+'</span></div>'+
     '</div>'+
     '<div class="mbar"><i style="width:'+pct+'%"></i></div>'+
     '<div class="lessons">'+rows+'</div>'+
